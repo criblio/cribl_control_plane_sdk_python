@@ -22,6 +22,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RunnableJobExecutorRunTypedDict(TypedDict):
+    r"""Run settings that control how and when the Executor job runs."""
+
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
@@ -33,6 +35,8 @@ class RunnableJobExecutorRunTypedDict(TypedDict):
 
 
 class RunnableJobExecutorRun(BaseModel):
+    r"""Run settings that control how and when the Executor job runs."""
+
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
     ] = None
@@ -81,12 +85,18 @@ class RunnableJobExecutorRun(BaseModel):
 
 
 class RunnableJobExecutorTypedDict(TypedDict):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     executor: ExecutorTypeRunnableJobExecutorTypedDict
+    r"""Executor configuration, including the executor type and its settings."""
     run: RunnableJobExecutorRunTypedDict
+    r"""Run settings that control how and when the Executor job runs."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
+    r"""Job type"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -100,22 +110,28 @@ class RunnableJobExecutorTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeRunnableJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class RunnableJobExecutor(BaseModel):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     executor: ExecutorTypeRunnableJobExecutor
+    r"""Executor configuration, including the executor type and its settings."""
 
     run: RunnableJobExecutorRun
+    r"""Run settings that control how and when the Executor job runs."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     type: Optional[JobTypeOptionsRunnableJobCollection] = None
+    r"""Job type"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -142,7 +158,7 @@ class RunnableJobExecutor(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

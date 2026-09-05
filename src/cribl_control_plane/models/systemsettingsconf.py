@@ -56,39 +56,52 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class SystemSettingsConfTypedDict(TypedDict):
     api: APITypeSystemSettingsConfTypedDict
+    r"""API server configuration for the Cribl instance."""
     backups: BackupsSettingsUnionTypedDict
     pii: PiiSettingsUnionTypedDict
     proxy: ProxyTypeSystemSettingsConfTypedDict
+    r"""HTTP proxy configuration for outbound connections."""
     rollback: RollbackSettingsUnionTypedDict
     shutdown: ShutdownTypeSystemSettingsConfTypedDict
+    r"""Graceful shutdown configuration."""
     sni: SniSettingsUnionTypedDict
     system: SystemTypeSystemSettingsConfTypedDict
+    r"""System-level operational settings for the Cribl instance."""
     tls: TLSSettingsUnionTypedDict
     upgrade_group_settings: UpgradeGroupSettingsTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
     workers: WorkersTypeSystemSettingsConfTypedDict
+    r"""Worker Process configuration."""
     apps: NotRequired[AppsTypeSystemSettingsConfTypedDict]
+    r"""App configuration."""
     custom_logo: NotRequired[CustomLogoTypeSystemSettingsConfTypedDict]
+    r"""Custom logo configuration for the Cribl UI login page and navigation bar."""
     sockets: NotRequired[SocketsTypeSystemSettingsConfTypedDict]
+    r"""Unix domain socket configuration."""
     support: NotRequired[SupportTypeSystemSettingsConfTypedDict]
+    r"""Support and diagnostics settings."""
 
 
 class SystemSettingsConf(BaseModel):
     api: APITypeSystemSettingsConf
+    r"""API server configuration for the Cribl instance."""
 
     backups: BackupsSettingsUnion
 
     pii: PiiSettingsUnion
 
     proxy: ProxyTypeSystemSettingsConf
+    r"""HTTP proxy configuration for outbound connections."""
 
     rollback: RollbackSettingsUnion
 
     shutdown: ShutdownTypeSystemSettingsConf
+    r"""Graceful shutdown configuration."""
 
     sni: SniSettingsUnion
 
     system: SystemTypeSystemSettingsConf
+    r"""System-level operational settings for the Cribl instance."""
 
     tls: TLSSettingsUnion
 
@@ -101,16 +114,21 @@ class SystemSettingsConf(BaseModel):
     ]
 
     workers: WorkersTypeSystemSettingsConf
+    r"""Worker Process configuration."""
 
     apps: Optional[AppsTypeSystemSettingsConf] = None
+    r"""App configuration."""
 
     custom_logo: Annotated[
         Optional[CustomLogoTypeSystemSettingsConf], pydantic.Field(alias="customLogo")
     ] = None
+    r"""Custom logo configuration for the Cribl UI login page and navigation bar."""
 
     sockets: Optional[SocketsTypeSystemSettingsConf] = None
+    r"""Unix domain socket configuration."""
 
     support: Optional[SupportTypeSystemSettingsConf] = None
+    r"""Support and diagnostics settings."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

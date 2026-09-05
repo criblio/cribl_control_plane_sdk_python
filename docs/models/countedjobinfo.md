@@ -5,5 +5,5 @@
 
 | Field                                        | Type                                         | Required                                     | Description                                  |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| `count`                                      | *Optional[int]*                              | :heavy_minus_sign:                           | number of items present in the items array   |
-| `items`                                      | List[[models.JobInfo](../models/jobinfo.md)] | :heavy_minus_sign:                           | List of items in this response.              |
+| `count`                                      | *int*                                        | :heavy_check_mark:                           | Number of items returned in the items array. |
+| `items`                                      | List[[models.JobInfo](../models/jobinfo.md)] | :heavy_check_mark:                           | The list of items returned in this response. |

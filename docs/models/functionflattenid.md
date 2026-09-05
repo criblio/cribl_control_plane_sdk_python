@@ -1,5 +1,7 @@
 # FunctionFlattenID
 
+Identifier of the Function. Always <code>flatten</code>
+
 ## Example Usage
 
 ```python

@@ -18,7 +18,7 @@ Get a list of all Collectors.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" -->
+<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" example="CollectorListResponseExamplesListed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -33,8 +33,10 @@ with CriblControlPlane(
 
     res = ccp_client.collectors.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -42,17 +44,20 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
+| `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type.                                           |
+| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
+| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
+**[models.GetSavedJobResponse](../../models/getsavedjobresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -76,49 +81,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         "executor": {
             "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
         },
     })
 
@@ -142,45 +107,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "resume_on_boot": True,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
+        "executor": {
+            "type": "<value>",
         },
-        "streamtags": [
-            "<value 1>",
-        ],
-        "saved_query_id": "<id>",
     })
 
     # Handle response
@@ -202,52 +132,25 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    })
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        collector=models.CollectorDatabase(
+            type=models.CollectorDatabaseType.DATABASE,
+            conf=models.DatabaseCollectorConf(
+                connection_id="<id>",
+                query="<value>",
+                query_validation_enabled=True,
+                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
+                scheduling=models.DatabaseCollectorConfScheduling(
+                    state_tracking=models.DatabaseCollectorConfStateTracking(
+                        enabled=False,
+                    ),
+                ),
+            ),
+            destructive=True,
+            encoding="<value>",
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -269,45 +172,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "resume_on_boot": True,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
+        "executor": {
+            "type": "<value>",
         },
-        "streamtags": [
-            "<value 1>",
-        ],
-        "saved_query_id": "<id>",
     })
 
     # Handle response
@@ -330,45 +198,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "resume_on_boot": True,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
+        "executor": {
+            "type": "<value>",
         },
-        "streamtags": [
-            "<value 1>",
-        ],
-        "saved_query_id": "<id>",
     })
 
     # Handle response
@@ -391,45 +224,7 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request=models.SavedJobCollection(
-        id="<id>",
-        description="pomelo outside offensively ew",
         type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        resume_on_boot=True,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=True,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=True,
-                max_task_reschedule=1211.14,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=4847.66,
-                latest=3337.75,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=True,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
             conf=models.DatabaseCollectorConf(
@@ -445,33 +240,6 @@ with CriblControlPlane(
             ),
             destructive=True,
             encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            stale_channel_flush_ms=9538.43,
-            send_to_routes=True,
-            preprocess=models.PreprocessType(
-                disabled=True,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                    "<value 2>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
         ),
     ))
 
@@ -494,90 +262,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(request=models.SavedJobCollection(
-        id="<id>",
-        description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        resume_on_boot=True,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=True,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=True,
-                max_task_reschedule=1211.14,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=4847.66,
-                latest=3337.75,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=True,
-        collector=models.CollectorDatabase(
-            type=models.CollectorDatabaseType.DATABASE,
-            conf=models.DatabaseCollectorConf(
-                connection_id="<id>",
-                query="<value>",
-                query_validation_enabled=True,
-                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
-                scheduling=models.DatabaseCollectorConfScheduling(
-                    state_tracking=models.DatabaseCollectorConfStateTracking(
-                        enabled=False,
-                    ),
-                ),
-            ),
-            destructive=True,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            stale_channel_flush_ms=9538.43,
-            send_to_routes=True,
-            preprocess=models.PreprocessType(
-                disabled=True,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                    "<value 2>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ))
+    res = ccp_client.collectors.create(request={
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "saved_query_id": "<id>",
+    })
 
     # Handle response
     print(res)
@@ -599,45 +287,7 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request=models.SavedJobCollection(
-        id="<id>",
-        description="pomelo outside offensively ew",
         type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        resume_on_boot=True,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=True,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=True,
-                max_task_reschedule=1211.14,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=4847.66,
-                latest=3337.75,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=True,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
             conf=models.DatabaseCollectorConf(
@@ -653,33 +303,6 @@ with CriblControlPlane(
             ),
             destructive=True,
             encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            stale_channel_flush_ms=9538.43,
-            send_to_routes=True,
-            preprocess=models.PreprocessType(
-                disabled=True,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                    "<value 2>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
         ),
     ))
 
@@ -703,50 +326,71 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.create(request={
-        "id": "<id>",
-        "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 3006.78,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1211.14,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 4847.66,
-                "latest": 3337.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "saved_query_id": "<id>",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorResponseExamplesRestCollector
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorResponseExamplesRestCollector" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        collector=models.CollectorDatabase(
+            type=models.CollectorDatabaseType.DATABASE,
+            conf=models.DatabaseCollectorConf(
+                connection_id="<id>",
+                query="<value>",
+                query_validation_enabled=True,
+                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
+                scheduling=models.DatabaseCollectorConfScheduling(
+                    state_tracking=models.DatabaseCollectorConfStateTracking(
+                        enabled=False,
+                    ),
+                ),
+            ),
+            destructive=True,
+            encoding="<value>",
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request={
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "saved_query_id": "<id>",
     })
 
     # Handle response
@@ -769,6 +413,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -778,7 +423,7 @@ Get the specified Collector.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSavedJobById" method="get" path="/lib/jobs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getSavedJobById" method="get" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -813,6 +458,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -835,47 +481,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": False,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 1498.35,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": False,
-                "max_task_reschedule": 9677.47,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 8882.78,
-                "latest": 6778.74,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "saved_query_id": "<id>",
-    })
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -897,45 +516,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": False,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 1498.35,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": False,
-                "max_task_reschedule": 9677.47,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 8882.78,
-                "latest": 6778.74,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "executor": {
+            "type": "<value>",
         },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "saved_query_id": "<id>",
     })
 
     # Handle response
@@ -957,47 +541,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "<value>",
-        "ignore_group_jobs_limit": True,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": False,
-            "resume_missed": False,
-            "cron_schedule": "<value>",
-            "max_concurrent_runs": 1498.35,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": False,
-                "max_task_reschedule": 9677.47,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                "job_timeout": "<value>",
-                "mode": "<value>",
-                "time_range_type": "<value>",
-                "earliest": 8882.78,
-                "latest": 6778.74,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
-                "expression": "<value>",
-                "min_task_size": "<value>",
-                "max_task_size": "<value>",
-            },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "saved_query_id": "<id>",
-    })
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -1018,102 +575,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
-                endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
-            ),
-            destructive=False,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ))
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "saved_query_id": "<id>",
+    })
 
     # Handle response
     print(res)
@@ -1134,102 +599,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
-                endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
-            ),
-            destructive=False,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ))
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "executor": {
+            "type": "<value>",
+        },
+    })
 
     # Handle response
     print(res)
@@ -1250,102 +625,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
-                endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
-            ),
-            destructive=True,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ))
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "saved_query_id": "<id>",
+    })
 
     # Handle response
     print(res)
@@ -1367,99 +650,17 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
                 endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
             ),
-            destructive=True,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
         ),
     ))
 
@@ -1483,99 +684,17 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
                 endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
             ),
-            destructive=False,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
         ),
     ))
 
@@ -1599,101 +718,359 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="<value>",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobResponseCollection(
-            enabled=True,
-            skippable=False,
-            resume_missed=False,
-            cron_schedule="<value>",
-            max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=False,
-                max_task_reschedule=9677.47,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
-                job_timeout="<value>",
-                mode="<value>",
-                time_range_type="<value>",
-                earliest=8882.78,
-                latest=6778.74,
-                timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
-                expression="<value>",
-                min_task_size="<value>",
-                max_task_size="<value>",
-            ),
-        ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorS3(
-            type=models.CollectorS3Type.S3,
-            conf=models.S3AwsAuthenticationMethodAuto(
-                aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
-                output_name="<value>",
-                bucket="<value>",
-                parquet_chunk_size_mb=2532.22,
-                parquet_chunk_download_timeout=6271.26,
-                region="<value>",
-                path="/selinux",
-                partitioning_scheme=models.S3AwsAuthenticationMethodAutoPartitioningScheme.NONE,
-                extractors=[
-                    models.S3AwsAuthenticationMethodAutoExtractor(
-                        key="<key>",
-                        expression="<value>",
-                    ),
-                ],
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
                 endpoint="<value>",
-                enable_assume_role=True,
-                assume_role_arn="<value>",
-                assume_role_external_id="<id>",
-                duration_seconds=2075.63,
-                max_batch_size=968.91,
-                reuse_connections=True,
-                reject_unauthorized=False,
-                verify_permissions=True,
-                disable_time_filter=True,
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
             ),
-            destructive=False,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-            ],
-            stale_channel_flush_ms=2918.22,
-            send_to_routes=False,
-            preprocess=models.PreprocessType(
-                disabled=False,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="<value>",
-            metadata=[
-                models.MetadataConfInputCollection(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
         ),
     ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorResponseExamplesRestCollector
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesAzureBlob
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesAzureBlob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "executor": {
+            "type": "<value>",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesCriblLake
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesCriblLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesDatabase
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesDatabase" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesFilesystem
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesFilesystem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "saved_query_id": "<id>",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesGoogleCloudStorage
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesGoogleCloudStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesRest
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesRest" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesS3
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesScript
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesScript" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "executor": {
+            "type": "<value>",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesSplunk
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "executor": {
+            "type": "<value>",
+        },
+    })
 
     # Handle response
     print(res)
@@ -1716,6 +1093,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -1725,7 +1103,7 @@ Delete the specified Collector.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1760,5 +1138,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

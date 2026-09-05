@@ -22,21 +22,18 @@ from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
 from .storageclassoptions import StorageClassOptions
+from .typeoptionssecuritylake import TypeOptionsSecuritylake
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputSecurityLakeType(str, Enum):
-    SECURITY_LAKE = "security_lake"
-
-
 class OutputSecurityLakeTypedDict(TypedDict):
-    type: OutputSecurityLakeType
+    type: TypeOptionsSecuritylake
+    r"""Connector type identifier."""
     assume_role_arn: str
     r"""Amazon Resource Name (ARN) of the role to assume"""
     bucket: str
@@ -58,7 +55,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     endpoint: NotRequired[str]
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
     enable_assume_role: NotRequired[bool]
@@ -107,7 +104,9 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -137,6 +136,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     enable_page_checksum: NotRequired[bool]
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -188,7 +188,8 @@ class OutputSecurityLakeTypedDict(TypedDict):
 
 
 class OutputSecurityLake(BaseModel):
-    type: OutputSecurityLakeType
+    type: TypeOptionsSecuritylake
+    r"""Connector type identifier."""
 
     assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
     r"""Amazon Resource Name (ARN) of the role to assume"""
@@ -223,7 +224,7 @@ class OutputSecurityLake(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     endpoint: Optional[str] = None
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
@@ -344,10 +345,12 @@ class OutputSecurityLake(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -420,6 +423,7 @@ class OutputSecurityLake(BaseModel):
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""

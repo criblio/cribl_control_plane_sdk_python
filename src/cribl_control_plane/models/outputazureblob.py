@@ -3,10 +3,7 @@
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
 from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .compressionleveloptions import CompressionLevelOptions
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
@@ -22,6 +19,7 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .typeoptionsazureblob import TypeOptionsAzureblob
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -31,11 +29,9 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputAzureBlobType(str, Enum):
-    AZURE_BLOB = "azure_blob"
+class BlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Blob access tier"""
 
-
-class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
     # Default account access tier
     INFERRED = "Inferred"
     # Hot tier
@@ -49,7 +45,8 @@ class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputAzureBlobTypedDict(TypedDict):
-    type: OutputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     container_name: str
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
     stage_path: str
@@ -63,7 +60,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     create_container: NotRequired[bool]
     r"""Create the configured container in Azure Blob Storage if it does not already exist"""
     dest_path: NotRequired[str]
@@ -104,9 +101,13 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     auth_type: NotRequired[AuthenticationMethodOptions]
-    storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
+    r"""Authentication method"""
+    storage_class: NotRequired[BlobAccessTier]
+    r"""Blob access tier"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -157,7 +158,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_container_name: NotRequired[str]
@@ -191,7 +192,8 @@ class OutputAzureBlobTypedDict(TypedDict):
 
 
 class OutputAzureBlob(BaseModel):
-    type: OutputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
@@ -214,7 +216,7 @@ class OutputAzureBlob(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     create_container: Annotated[
         Optional[bool], pydantic.Field(alias="createContainer")
@@ -314,16 +316,20 @@ class OutputAzureBlob(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
 
     storage_class: Annotated[
-        Optional[OutputAzureBlobBlobAccessTier], pydantic.Field(alias="storageClass")
+        Optional[BlobAccessTier], pydantic.Field(alias="storageClass")
     ] = None
+    r"""Blob access tier"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -441,7 +447,7 @@ class OutputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -558,7 +564,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureBlobBlobAccessTier(value)
+                return models.BlobAccessTier(value)
             except ValueError:
                 return value
         return value

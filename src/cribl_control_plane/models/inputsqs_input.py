@@ -13,6 +13,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionssqs import TypeOptionsSqs
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -20,10 +21,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class InputSqsType(str, Enum):
-    SQS = "sqs"
 
 
 class InputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -36,7 +33,8 @@ class InputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSqsInputTypedDict(TypedDict):
-    type: InputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     queue_type: InputSqsQueueType
@@ -44,6 +42,7 @@ class InputSqsInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -53,7 +52,7 @@ class InputSqsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -64,6 +63,7 @@ class InputSqsInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -88,8 +88,12 @@ class InputSqsInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     num_receivers: NotRequired[float]
@@ -119,7 +123,8 @@ class InputSqsInputTypedDict(TypedDict):
 
 
 class InputSqsInput(BaseModel):
-    type: InputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -131,6 +136,7 @@ class InputSqsInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -147,7 +153,7 @@ class InputSqsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -171,6 +177,7 @@ class InputSqsInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -222,9 +229,14 @@ class InputSqsInput(BaseModel):
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -336,6 +348,7 @@ class InputSqsInput(BaseModel):
                 "visibilityTimeout",
                 "metadata",
                 "pollTimeout",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

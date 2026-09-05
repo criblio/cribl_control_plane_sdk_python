@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class OwnerTypeHeartbeatMetadataKubeTypedDict(TypedDict):
     kind: str
+    r"""Kubernetes owner resource kind."""
     name: str
+    r"""Kubernetes owner resource name."""
 
 
 class OwnerTypeHeartbeatMetadataKube(BaseModel):
     kind: str
+    r"""Kubernetes owner resource kind."""
 
     name: str
+    r"""Kubernetes owner resource name."""

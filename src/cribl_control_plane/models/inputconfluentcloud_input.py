@@ -19,20 +19,17 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputConfluentCloudType(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class InputConfluentCloudInputTypedDict(TypedDict):
-    type: InputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
@@ -40,6 +37,7 @@ class InputConfluentCloudInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -49,16 +47,18 @@ class InputConfluentCloudInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -105,7 +105,10 @@ class InputConfluentCloudInputTypedDict(TypedDict):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -119,7 +122,8 @@ class InputConfluentCloudInputTypedDict(TypedDict):
 
 
 class InputConfluentCloudInput(BaseModel):
-    type: InputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
@@ -131,6 +135,7 @@ class InputConfluentCloudInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -147,7 +152,7 @@ class InputConfluentCloudInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -155,6 +160,7 @@ class InputConfluentCloudInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -168,6 +174,7 @@ class InputConfluentCloudInput(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -257,7 +264,11 @@ class InputConfluentCloudInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -319,6 +330,7 @@ class InputConfluentCloudInput(BaseModel):
                 "maxBytes",
                 "maxSocketErrors",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

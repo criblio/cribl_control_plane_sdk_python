@@ -18,22 +18,28 @@ class PipelineFunctionMetricsExportID(str, Enum):
 
 
 class PipelineFunctionMetricsExportMode2(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>list</code>."""
 
     LIST = "list"
 
 
 class LabelFields2TypedDict(TypedDict):
+    r"""Label configuration that reads values from a list of fields."""
+
     mode: PipelineFunctionMetricsExportMode2
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>list</code>."""
     fields: List[NameFieldTypeTypedDict]
+    r"""Field references to attach as labels to each exported metric."""
 
 
 class LabelFields2(BaseModel):
+    r"""Label configuration that reads values from a list of fields."""
+
     mode: PipelineFunctionMetricsExportMode2
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>list</code>."""
 
     fields: List[NameFieldType]
+    r"""Field references to attach as labels to each exported metric."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -46,22 +52,28 @@ class LabelFields2(BaseModel):
 
 
 class PipelineFunctionMetricsExportMode1(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>object</code>."""
 
     OBJECT = "object"
 
 
 class LabelFields1TypedDict(TypedDict):
+    r"""Label configuration that reads key-value pairs from one object field."""
+
     mode: PipelineFunctionMetricsExportMode1
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>object</code>."""
     field: NameFieldTypeTypedDict
+    r"""Reference to a field by its original text and parsed path segments."""
 
 
 class LabelFields1(BaseModel):
+    r"""Label configuration that reads key-value pairs from one object field."""
+
     mode: PipelineFunctionMetricsExportMode1
-    r"""Discriminator value."""
+    r"""Type of label configuration. Always <code>object</code>."""
 
     field: NameFieldType
+    r"""Reference to a field by its original text and parsed path segments."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -76,29 +88,36 @@ class LabelFields1(BaseModel):
 LabelFieldsUnionTypedDict = TypeAliasType(
     "LabelFieldsUnionTypedDict", Union[LabelFields1TypedDict, LabelFields2TypedDict]
 )
+r"""Field references to attach as labels to each exported metric. Specify one field or a list of fields."""
 
 
 LabelFieldsUnion = TypeAliasType("LabelFieldsUnion", Union[LabelFields1, LabelFields2])
+r"""Field references to attach as labels to each exported metric. Specify one field or a list of fields."""
 
 
 class MetricsExportConfigurationTypedDict(TypedDict):
     r"""Configuration specific to the Pipeline Function."""
 
     search_job_id: str
-    r"""Id of the search job this function is running on."""
+    r"""Unique identifier for the Search Job that runs this Function."""
     dataset: str
-    r"""Id of the metrics dataset"""
+    r"""Unique identifier for the metrics Dataset."""
     name_field: NotRequired[NameFieldTypeTypedDict]
+    r"""Reference to a field by its original text and parsed path segments."""
     time_field: NotRequired[NameFieldTypeTypedDict]
+    r"""Reference to a field by its original text and parsed path segments."""
     value_field: NotRequired[NameFieldTypeTypedDict]
+    r"""Reference to a field by its original text and parsed path segments."""
     type_field: NotRequired[NameFieldTypeTypedDict]
+    r"""Reference to a field by its original text and parsed path segments."""
     label_fields: NotRequired[LabelFieldsUnionTypedDict]
+    r"""Field references to attach as labels to each exported metric. Specify one field or a list of fields."""
     tee: NotRequired[bool]
-    r"""Tee results to search. When set to true results will be shipped instead of stats"""
+    r"""If <code>true</code>, pass processed events to downstream Functions. If <code>false</code>, emit export statistics."""
     flush_ms: NotRequired[float]
-    r"""How often stats are flushed in ms"""
+    r"""Interval, in milliseconds, between export statistics updates."""
     suppress_previews: NotRequired[bool]
-    r"""Disables generation of intermediate stats. When true stats will be emitted only on end"""
+    r"""If <code>true</code>, emit export statistics only when processing completes. If <code>false</code>, emit periodic statistics."""
 
 
 class MetricsExportConfiguration(BaseModel):
@@ -110,41 +129,46 @@ class MetricsExportConfiguration(BaseModel):
     __pydantic_extra__: Dict[str, Any] = pydantic.Field(init=False)
 
     search_job_id: Annotated[str, pydantic.Field(alias="searchJobId")]
-    r"""Id of the search job this function is running on."""
+    r"""Unique identifier for the Search Job that runs this Function."""
 
     dataset: str
-    r"""Id of the metrics dataset"""
+    r"""Unique identifier for the metrics Dataset."""
 
     name_field: Annotated[
         Optional[NameFieldType], pydantic.Field(alias="nameField")
     ] = None
+    r"""Reference to a field by its original text and parsed path segments."""
 
     time_field: Annotated[
         Optional[NameFieldType], pydantic.Field(alias="timeField")
     ] = None
+    r"""Reference to a field by its original text and parsed path segments."""
 
     value_field: Annotated[
         Optional[NameFieldType], pydantic.Field(alias="valueField")
     ] = None
+    r"""Reference to a field by its original text and parsed path segments."""
 
     type_field: Annotated[
         Optional[NameFieldType], pydantic.Field(alias="typeField")
     ] = None
+    r"""Reference to a field by its original text and parsed path segments."""
 
     label_fields: Annotated[
         Optional[LabelFieldsUnion], pydantic.Field(alias="labelFields")
     ] = None
+    r"""Field references to attach as labels to each exported metric. Specify one field or a list of fields."""
 
     tee: Optional[bool] = None
-    r"""Tee results to search. When set to true results will be shipped instead of stats"""
+    r"""If <code>true</code>, pass processed events to downstream Functions. If <code>false</code>, emit export statistics."""
 
     flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None
-    r"""How often stats are flushed in ms"""
+    r"""Interval, in milliseconds, between export statistics updates."""
 
     suppress_previews: Annotated[
         Optional[bool], pydantic.Field(alias="suppressPreviews")
     ] = None
-    r"""Disables generation of intermediate stats. When true stats will be emitted only on end"""
+    r"""If <code>true</code>, emit export statistics only when processing completes. If <code>false</code>, emit periodic statistics."""
 
     @property
     def additional_properties(self):

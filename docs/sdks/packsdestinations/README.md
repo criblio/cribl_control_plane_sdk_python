@@ -647,7 +647,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -707,6 +707,36 @@ with CriblControlPlane(
         "schema_": "external",
         "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesDatabricksZerobus
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesDatabricksZerobus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "databricks-zerobus-output",
+        "type": models.CreateOutputSystemByPackOutputDatabricksZerobusType.DATABRICKS_ZEROBUS,
+        "workspace_url": "https://dbc-1234abcd-5e6f.cloud.databricks.com",
+        "workspace_id": "your-workspace-id",
+        "zerobus_endpoint": "1234567890.zerobus.us-west-2.cloud.databricks.com",
+        "client_id": "your-client-id",
+        "client_text_secret": "your-client-secret",
+        "table_name": "main.external.events",
     })
 
     # Handle response
@@ -945,6 +975,8 @@ with CriblControlPlane(
         "stage_path": "/tmp/staging",
         "endpoint": "https://storage.googleapis.com",
         "collector_instance_id": "11112222-3333-4444-5555-666677778888",
+        "aws_authentication_method": models.CreateOutputSystemByPackOutputExabeamAuthenticationMethod.SECRET,
+        "aws_secret": "my-secret-id",
     })
 
     # Handle response
@@ -1233,7 +1265,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -1745,9 +1777,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.CreateOutputSystemByPackOutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
-        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.CreateOutputSystemByPackEndpointConfiguration.URL,
+        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -2189,6 +2221,32 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesTraversalOtlp
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesTraversalOtlp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "traversal-output",
+        "type": models.CreateOutputSystemByPackOutputTraversalOtlpType.TRAVERSAL_OTLP,
+        "endpoint": "http://traversal-processor:3000",
+        "protocol": models.ProtocolOptions.HTTP,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesWavefront
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesWavefront" -->
@@ -2258,7 +2316,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "wiz-hec-output",
         "type": models.CreateOutputSystemByPackOutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -2287,7 +2345,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "wiz-hec-vpc-flow-logs-output",
         "type": models.CreateOutputSystemByPackOutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -3213,7 +3271,7 @@ with CriblControlPlane(
         "type": models.OutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -3746,7 +3804,7 @@ with CriblControlPlane(
         "type": models.OutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -4258,9 +4316,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.OutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
-        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.EndpointConfiguration.URL,
+        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -4739,7 +4797,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -5517,7 +5575,7 @@ with CriblControlPlane(
         "type": models.OutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -5577,6 +5635,36 @@ with CriblControlPlane(
         "schema_": "external",
         "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDatabricksZerobus
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesDatabricksZerobus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "databricks-zerobus-output",
+        "type": models.OutputDatabricksZerobusType.DATABRICKS_ZEROBUS,
+        "workspace_url": "https://dbc-1234abcd-5e6f.cloud.databricks.com",
+        "workspace_id": "your-workspace-id",
+        "zerobus_endpoint": "1234567890.zerobus.us-west-2.cloud.databricks.com",
+        "client_id": "your-client-id",
+        "client_text_secret": "your-client-secret",
+        "table_name": "main.external.events",
     })
 
     # Handle response
@@ -5840,6 +5928,8 @@ with CriblControlPlane(
         "stage_path": "/tmp/staging",
         "endpoint": "https://storage.googleapis.com",
         "collector_instance_id": "11112222-3333-4444-5555-666677778888",
+        "aws_authentication_method": models.OutputExabeamAuthenticationMethod.SECRET,
+        "aws_secret": "my-secret-id",
     })
 
     # Handle response
@@ -6128,7 +6218,7 @@ with CriblControlPlane(
         "type": models.OutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -6640,9 +6730,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.OutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
-        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.EndpointConfiguration.URL,
+        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -7084,6 +7174,32 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesTraversalOtlp
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesTraversalOtlp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "traversal-output",
+        "type": models.OutputTraversalOtlpType.TRAVERSAL_OTLP,
+        "endpoint": "http://traversal-processor:3000",
+        "protocol": models.ProtocolOptions.HTTP,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesWavefront
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesWavefront" -->
@@ -7153,7 +7269,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -7182,7 +7298,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-vpc-flow-logs-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",

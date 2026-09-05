@@ -39,7 +39,7 @@ class InputMicrosoftGraphAuthenticationMethod(str, Enum, metaclass=utils.OpenEnu
     OAUTH_CERT = "oauthCert"
 
 
-class SubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputMicrosoftGraphSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     # Microsoft 365 Enterprise
@@ -123,7 +123,7 @@ class InputMicrosoftGraphInputTypedDict(TypedDict):
     r"""client_id to pass in the OAuth request parameter."""
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
-    plan_type: NotRequired[SubscriptionPlan]
+    plan_type: NotRequired[InputMicrosoftGraphSubscriptionPlan]
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -274,7 +274,7 @@ class InputMicrosoftGraphInput(BaseModel):
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
-        Optional[SubscriptionPlan], pydantic.Field(alias="planType")
+        Optional[InputMicrosoftGraphSubscriptionPlan], pydantic.Field(alias="planType")
     ] = None
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
@@ -342,7 +342,7 @@ class InputMicrosoftGraphInput(BaseModel):
     def serialize_plan_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SubscriptionPlan(value)
+                return models.InputMicrosoftGraphSubscriptionPlan(value)
             except ValueError:
                 return value
         return value

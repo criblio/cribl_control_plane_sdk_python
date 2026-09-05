@@ -34,6 +34,8 @@ class InputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     CLIENT_CERT = "clientCert"
     # Kerberos
     KERBEROS = "kerberos"
+    # Negotiate (SPNEGO)
+    NEGOTIATE = "negotiate"
 
 
 class MTLSSettingsTypedDict(TypedDict):

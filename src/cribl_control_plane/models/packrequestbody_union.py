@@ -55,7 +55,7 @@ class Tags2(BaseModel):
 
 class PackRequestBody2TypedDict(TypedDict):
     source: str
-    r"""Source of the Pack. Provide a staging source ID from <code>PUT /packs</code>, a direct URL to a <code>.crbl</code> file, or a <code>git+&lt;repo-url&gt;</code> Git repository URL. If omitted, an empty Pack is created."""
+    r"""Where to install the Pack from: an uploaded Pack source, a direct URL to a .crbl file, or a Git repository URL. Leave empty to create an empty Pack."""
     id: NotRequired[str]
     r"""Unique identifier for the Pack."""
     spec: NotRequired[str]
@@ -73,14 +73,14 @@ class PackRequestBody2TypedDict(TypedDict):
     tags: NotRequired[Tags2TypedDict]
     r"""Categorization tags for the Pack."""
     allow_custom_functions: NotRequired[bool]
-    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
+    r"""Allow the Pack to use custom JavaScript functions. When disabled, Packs that use custom JavaScript functions are rejected."""
     force: NotRequired[bool]
-    r"""If <code>true</code>, overwrite an existing Pack with the same ID. Otherwise, <code>false</code>."""
+    r"""Overwrite an existing Pack that has the same ID."""
 
 
 class PackRequestBody2(BaseModel):
     source: str
-    r"""Source of the Pack. Provide a staging source ID from <code>PUT /packs</code>, a direct URL to a <code>.crbl</code> file, or a <code>git+&lt;repo-url&gt;</code> Git repository URL. If omitted, an empty Pack is created."""
+    r"""Where to install the Pack from: an uploaded Pack source, a direct URL to a .crbl file, or a Git repository URL. Leave empty to create an empty Pack."""
 
     id: Optional[str] = None
     r"""Unique identifier for the Pack."""
@@ -111,10 +111,10 @@ class PackRequestBody2(BaseModel):
     allow_custom_functions: Annotated[
         Optional[bool], pydantic.Field(alias="allowCustomFunctions")
     ] = None
-    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
+    r"""Allow the Pack to use custom JavaScript functions. When disabled, Packs that use custom JavaScript functions are rejected."""
 
     force: Optional[bool] = None
-    r"""If <code>true</code>, overwrite an existing Pack with the same ID. Otherwise, <code>false</code>."""
+    r"""Overwrite an existing Pack that has the same ID."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -207,13 +207,13 @@ class PackRequestBody1TypedDict(TypedDict):
     description: NotRequired[str]
     r"""Brief description of the Pack and its purpose."""
     source: NotRequired[str]
-    r"""Source of the Pack. Provide a staging source ID from <code>PUT /packs</code>, a direct URL to a <code>.crbl</code> file, or a <code>git+&lt;repo-url&gt;</code> Git repository URL. If omitted, an empty Pack is created."""
+    r"""Where to install the Pack from: an uploaded Pack source, a direct URL to a .crbl file, or a Git repository URL. Leave empty to create an empty Pack."""
     tags: NotRequired[Tags1TypedDict]
     r"""Categorization tags for the Pack."""
     allow_custom_functions: NotRequired[bool]
-    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
+    r"""Allow the Pack to use custom JavaScript functions. When disabled, Packs that use custom JavaScript functions are rejected."""
     force: NotRequired[bool]
-    r"""If <code>true</code>, overwrite an existing Pack with the same ID. Otherwise, <code>false</code>."""
+    r"""Overwrite an existing Pack that has the same ID."""
 
 
 class PackRequestBody1(BaseModel):
@@ -241,7 +241,7 @@ class PackRequestBody1(BaseModel):
     r"""Brief description of the Pack and its purpose."""
 
     source: Optional[str] = None
-    r"""Source of the Pack. Provide a staging source ID from <code>PUT /packs</code>, a direct URL to a <code>.crbl</code> file, or a <code>git+&lt;repo-url&gt;</code> Git repository URL. If omitted, an empty Pack is created."""
+    r"""Where to install the Pack from: an uploaded Pack source, a direct URL to a .crbl file, or a Git repository URL. Leave empty to create an empty Pack."""
 
     tags: Optional[Tags1] = None
     r"""Categorization tags for the Pack."""
@@ -249,10 +249,10 @@ class PackRequestBody1(BaseModel):
     allow_custom_functions: Annotated[
         Optional[bool], pydantic.Field(alias="allowCustomFunctions")
     ] = None
-    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
+    r"""Allow the Pack to use custom JavaScript functions. When disabled, Packs that use custom JavaScript functions are rejected."""
 
     force: Optional[bool] = None
-    r"""If <code>true</code>, overwrite an existing Pack with the same ID. Otherwise, <code>false</code>."""
+    r"""Overwrite an existing Pack that has the same ID."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

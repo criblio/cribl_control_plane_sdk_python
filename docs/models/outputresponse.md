@@ -425,6 +425,12 @@ value: models.OutputResponseOutputDynatraceHTTP = /* values here */
 value: models.OutputResponseOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.OutputResponseOutputTraversalOtlp`
+
+```python
+value: models.OutputResponseOutputTraversalOtlp = /* values here */
+```
+
 ### `models.OutputResponseOutputSentinelOneAiSiem`
 
 ```python
@@ -507,5 +513,11 @@ value: models.OutputResponseOutputAlibabaCloudS3 = /* values here */
 
 ```python
 value: models.OutputResponseOutputIbmCloudS3 = /* values here */
+```
+
+### `models.OutputResponseOutputDatabricksZerobus`
+
+```python
+value: models.OutputResponseOutputDatabricksZerobus = /* values here */
 ```
 

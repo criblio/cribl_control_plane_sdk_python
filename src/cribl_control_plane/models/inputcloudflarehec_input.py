@@ -38,6 +38,8 @@ class TLSSettingsServerSideTypedDict(TypedDict):
     r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
     request_cert: NotRequired[bool]
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
     common_name_regex: NotRequired[str]
@@ -50,8 +52,6 @@ class TLSSettingsServerSideTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     cert_path: NotRequired[str]
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
-    ca_path: NotRequired[str]
-    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
     r"""Minimum TLS version"""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
@@ -66,6 +66,9 @@ class TLSSettingsServerSide(BaseModel):
 
     request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -90,9 +93,6 @@ class TLSSettingsServerSide(BaseModel):
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
-
-    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
-    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
 
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
@@ -128,13 +128,13 @@ class TLSSettingsServerSide(BaseModel):
             [
                 "disabled",
                 "requestCert",
+                "caPath",
                 "rejectUnauthorized",
                 "commonNameRegex",
                 "certificateName",
                 "privKeyPath",
                 "passphrase",
                 "certPath",
-                "caPath",
                 "minVersion",
                 "maxVersion",
             ]

@@ -22,6 +22,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RunnableJobExecutorRunTypedDict(TypedDict):
+    r"""Run settings that control how and when the Executor job runs."""
+
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
@@ -33,6 +35,8 @@ class RunnableJobExecutorRunTypedDict(TypedDict):
 
 
 class RunnableJobExecutorRun(BaseModel):
+    r"""Run settings that control how and when the Executor job runs."""
+
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
     ] = None
@@ -86,6 +90,7 @@ class RunnableJobExecutorTypedDict(TypedDict):
     executor: ExecutorTypeRunnableJobExecutorTypedDict
     r"""Executor configuration, including the executor type and its settings."""
     run: RunnableJobExecutorRunTypedDict
+    r"""Run settings that control how and when the Executor job runs."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
@@ -117,6 +122,7 @@ class RunnableJobExecutor(BaseModel):
     r"""Executor configuration, including the executor type and its settings."""
 
     run: RunnableJobExecutorRun
+    r"""Run settings that control how and when the Executor job runs."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""

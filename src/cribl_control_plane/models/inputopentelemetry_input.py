@@ -73,6 +73,8 @@ class AuthMethodsExtAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
     BASIC = "basic"
     # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # OAuth
+    OAUTH = "oauth"
 
 
 class AuthMethodsExtTypedDict(TypedDict):
@@ -94,6 +96,14 @@ class AuthMethodsExtTypedDict(TypedDict):
     r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    issuer: NotRequired[str]
+    r"""Expected token issuer (iss claim)"""
+    jwks_uri: NotRequired[str]
+    r"""URL of the JWKS endpoint used to fetch signing keys"""
+    audience: NotRequired[str]
+    r"""Expected token audience (aud claim)"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes the token must grant (optional)"""
 
 
 class AuthMethodsExt(BaseModel):
@@ -128,6 +138,18 @@ class AuthMethodsExt(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    issuer: Optional[str] = None
+    r"""Expected token issuer (iss claim)"""
+
+    jwks_uri: Annotated[Optional[str], pydantic.Field(alias="jwksUri")] = None
+    r"""URL of the JWKS endpoint used to fetch signing keys"""
+
+    audience: Optional[str] = None
+    r"""Expected token audience (aud claim)"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes the token must grant (optional)"""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -149,6 +171,10 @@ class AuthMethodsExt(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "issuer",
+                "jwksUri",
+                "audience",
+                "scopes",
             ]
         )
         serialized = handler(self)
@@ -218,11 +244,15 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     auth_type: NotRequired[InputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
     auth_methods_ext: NotRequired[List[AuthMethodsExtTypedDict]]
-    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens, Basic auth, and OAuth (JWKS-backed JWT) methods. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited. This does not limit concurrent HTTP/2 streams on a connection; use Maximum concurrent streams and Maximum message size for that bound."""
+    max_message_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of a single received gRPC message (OTLP export request). Requests exceeding this limit are rejected before processing. Compressed requests are checked against their decompressed size."""
+    max_concurrent_streams: NotRequired[float]
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -358,7 +388,7 @@ class InputOpenTelemetryInput(BaseModel):
     auth_methods_ext: Annotated[
         Optional[List[AuthMethodsExt]], pydantic.Field(alias="authMethodsExt")
     ] = None
-    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens, Basic auth, and OAuth (JWKS-backed JWT) methods. If empty, unauthenticated access is permitted."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -366,7 +396,17 @@ class InputOpenTelemetryInput(BaseModel):
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         None
     )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited. This does not limit concurrent HTTP/2 streams on a connection; use Maximum concurrent streams and Maximum message size for that bound."""
+
+    max_message_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxMessageSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of a single received gRPC message (OTLP export request). Requests exceeding this limit are rejected before processing. Compressed requests are checked against their decompressed size."""
+
+    max_concurrent_streams: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentStreams")
+    ] = None
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -478,6 +518,8 @@ class InputOpenTelemetryInput(BaseModel):
                 "authMethodsExt",
                 "metadata",
                 "maxActiveCxn",
+                "maxMessageSizeKB",
+                "maxConcurrentStreams",
                 "description",
                 "username",
                 "password",

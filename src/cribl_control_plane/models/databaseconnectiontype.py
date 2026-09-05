@@ -10,3 +10,4 @@ class DatabaseConnectionType(str, Enum, metaclass=utils.OpenEnumMeta):
     ORACLE = "oracle"
     POSTGRES = "postgres"
     SQLSERVER = "sqlserver"
+    TERADATA = "teradata"

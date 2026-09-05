@@ -12,7 +12,7 @@ from .orphanfilerecoverytype import (
 )
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -25,6 +25,15 @@ class OutputExabeamType(str, Enum):
     r"""Connector type identifier."""
 
     EXABEAM = "exabeam"
+
+
+class OutputExabeamAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
+    # Manual
+    MANUAL = "manual"
+    # Secret
+    SECRET = "secret"
 
 
 class OutputExabeamTypedDict(TypedDict):
@@ -83,6 +92,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
     r"""Enter an encoded string containing Exabeam configurations"""
+    aws_authentication_method: NotRequired[OutputExabeamAuthenticationMethod]
+    r"""Authentication method"""
     site_name: NotRequired[str]
     r"""Constant or JavaScript expression to create an Exabeam site name. Values that aren't successfully evaluated will be treated as string constants."""
     site_id: NotRequired[str]
@@ -111,6 +122,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
@@ -244,6 +257,12 @@ class OutputExabeam(BaseModel):
     ] = None
     r"""Enter an encoded string containing Exabeam configurations"""
 
+    aws_authentication_method: Annotated[
+        Optional[OutputExabeamAuthenticationMethod],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""Authentication method"""
+
     site_name: Annotated[Optional[str], pydantic.Field(alias="siteName")] = None
     r"""Constant or JavaScript expression to create an Exabeam site name. Values that aren't successfully evaluated will be treated as string constants."""
 
@@ -297,6 +316,9 @@ class OutputExabeam(BaseModel):
         None
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -366,6 +388,15 @@ class OutputExabeam(BaseModel):
                 return value
         return value
 
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OutputExabeamAuthenticationMethod(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -391,6 +422,7 @@ class OutputExabeam(BaseModel):
                 "orphans",
                 "maxFileSizeMB",
                 "encodedConfiguration",
+                "awsAuthenticationMethod",
                 "siteName",
                 "siteId",
                 "timezoneOffset",
@@ -405,6 +437,7 @@ class OutputExabeam(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "awsSecret",
                 "__template_streamtags",
                 "__template_region",
                 "__template_endpoint",

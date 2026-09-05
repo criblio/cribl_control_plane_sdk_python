@@ -84,6 +84,8 @@ class InputFileInputTypedDict(TypedDict):
     r"""When enabled, no Event Breaker channel flush timeout applies and the timeout below is ignored. Prefer this option when using header-based breakers for file types such as CSV or IIS."""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     path: NotRequired[str]
@@ -98,6 +100,10 @@ class InputFileInputTypedDict(TypedDict):
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
     optimize_leaf_directories: NotRequired[bool]
     r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+    enable_discovery_throttle: NotRequired[bool]
+    r"""When enabled, discovery will throttle CPU usage to the configured target percentage."""
+    discovery_throttle_cpu_percent: NotRequired[float]
+    r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
     include_unidentifiable_binary: NotRequired[bool]
     r"""Stream binary files as Base64-encoded chunks"""
     template_environment: NotRequired[str]
@@ -193,6 +199,9 @@ class InputFileInput(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -217,6 +226,16 @@ class InputFileInput(BaseModel):
         Optional[bool], pydantic.Field(alias="optimizeLeafDirectories")
     ] = None
     r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+
+    enable_discovery_throttle: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoveryThrottle")
+    ] = None
+    r"""When enabled, discovery will throttle CPU usage to the configured target percentage."""
+
+    discovery_throttle_cpu_percent: Annotated[
+        Optional[float], pydantic.Field(alias="discoveryThrottleCpuPercent")
+    ] = None
+    r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
@@ -270,6 +289,7 @@ class InputFileInput(BaseModel):
                 "breakerRulesets",
                 "disableStaleChannelFlush",
                 "staleChannelFlushMs",
+                "autoParse",
                 "description",
                 "path",
                 "depth",
@@ -277,6 +297,8 @@ class InputFileInput(BaseModel):
                 "deleteFiles",
                 "saltHash",
                 "optimizeLeafDirectories",
+                "enableDiscoveryThrottle",
+                "discoveryThrottleCpuPercent",
                 "includeUnidentifiableBinary",
                 "__template_environment",
                 "__template_streamtags",

@@ -1,5 +1,7 @@
 # RestAuthenticationOauthSecretCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

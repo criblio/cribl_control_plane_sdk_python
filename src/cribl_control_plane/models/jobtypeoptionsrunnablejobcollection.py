@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class JobTypeOptionsRunnableJobCollection(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Job type"""
+
     COLLECTION = "collection"
     EXECUTOR = "executor"
     SCHEDULED_SEARCH = "scheduledSearch"

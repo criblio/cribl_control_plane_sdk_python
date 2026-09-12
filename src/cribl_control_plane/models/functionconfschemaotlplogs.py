@@ -4,12 +4,15 @@ from __future__ import annotations
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionConfSchemaOtlpLogsTypedDict(TypedDict):
     drop_non_log_events: NotRequired[bool]
+    r"""Drop events that are not OTLP log records."""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Body and attribute values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are preserved rather than being re-wrapped"""
     batch_otlp_logs: NotRequired[bool]
     r"""Batch OTLP log records by shared top-level `resource` attributes"""
     send_batch_size: NotRequired[float]
@@ -18,7 +21,7 @@ class FunctionConfSchemaOtlpLogsTypedDict(TypedDict):
     r"""Time duration after which a batch will be sent, regardless of size"""
     send_batch_max_size: NotRequired[float]
     r"""Maximum batch size. Enter 0 for no maximum."""
-    metadata_keys: NotRequired[List[Any]]
+    metadata_keys: NotRequired[List[str]]
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
     metadata_cardinality_limit: NotRequired[float]
     r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
@@ -28,6 +31,12 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
     drop_non_log_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonLogEvents")
     ] = None
+    r"""Drop events that are not OTLP log records."""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Body and attribute values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are preserved rather than being re-wrapped"""
 
     batch_otlp_logs: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPLogs")
@@ -48,7 +57,7 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
     r"""Maximum batch size. Enter 0 for no maximum."""
 
     metadata_keys: Annotated[
-        Optional[List[Any]], pydantic.Field(alias="metadataKeys")
+        Optional[List[str]], pydantic.Field(alias="metadataKeys")
     ] = None
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
 
@@ -62,6 +71,7 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
         optional_fields = set(
             [
                 "dropNonLogEvents",
+                "preserveNativeAnyValue",
                 "batchOTLPLogs",
                 "sendBatchSize",
                 "timeout",

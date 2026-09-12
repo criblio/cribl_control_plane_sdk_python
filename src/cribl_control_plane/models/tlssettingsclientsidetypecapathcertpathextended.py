@@ -12,7 +12,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict(TypedDict):
+    r"""TLS settings (client side)"""
+
     disabled: NotRequired[bool]
+    r"""Disabled"""
     servername: NotRequired[str]
     r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
     certificate_name: NotRequired[str]
@@ -26,11 +29,16 @@ class TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict(TypedDict):
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    r"""Minimum TLS version"""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    r"""Maximum TLS version"""
 
 
 class TLSSettingsClientSideTypeCaPathCertPathExtended(BaseModel):
+    r"""TLS settings (client side)"""
+
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     servername: Optional[str] = None
     r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
@@ -55,10 +63,12 @@ class TLSSettingsClientSideTypeCaPathCertPathExtended(BaseModel):
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
+    r"""Minimum TLS version"""
 
     max_version: Annotated[
         Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
+    r"""Maximum TLS version"""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):

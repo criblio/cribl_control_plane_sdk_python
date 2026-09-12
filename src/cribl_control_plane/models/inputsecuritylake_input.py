@@ -15,27 +15,26 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .sqsauthenticationmethodoptions import SqsAuthenticationMethodOptions
 from .tagafterprocessingoptions import TagAfterProcessingOptions
+from .typeoptionssecuritylake import TypeOptionsSecuritylake
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputSecurityLakeType(str, Enum):
-    SECURITY_LAKE = "security_lake"
-
-
 class InputSecurityLakeInputTypedDict(TypedDict):
-    type: InputSecurityLakeType
+    type: TypeOptionsSecuritylake
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -45,7 +44,7 @@ class InputSecurityLakeInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -56,6 +55,7 @@ class InputSecurityLakeInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -90,7 +90,12 @@ class InputSecurityLakeInputTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
+    shared_credentials: NotRequired[bool]
+    r"""Use the same credential settings for S3 and SQS"""
+    shared_assume_role_arn: NotRequired[bool]
+    r"""Use the same settings for S3 and SQS"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
@@ -103,9 +108,23 @@ class InputSecurityLakeInputTypedDict(TypedDict):
     encoding: NotRequired[str]
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    sqs_assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    sqs_duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    sqs_aws_authentication_method: NotRequired[SqsAuthenticationMethodOptions]
+    r"""Choose Auto to use IAM roles"""
+    sqs_aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_aws_secret_key: NotRequired[str]
+    r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
@@ -131,10 +150,17 @@ class InputSecurityLakeInputTypedDict(TypedDict):
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_sqs_assume_role_arn: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+    template_sqs_assume_role_external_id: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+    template_sqs_aws_secret_key: NotRequired[str]
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
 class InputSecurityLakeInput(BaseModel):
-    type: InputSecurityLakeType
+    type: TypeOptionsSecuritylake
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -143,6 +169,7 @@ class InputSecurityLakeInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -159,7 +186,7 @@ class InputSecurityLakeInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -183,6 +210,7 @@ class InputSecurityLakeInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -261,7 +289,18 @@ class InputSecurityLakeInput(BaseModel):
     ] = None
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
+    shared_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedCredentials")
+    ] = None
+    r"""Use the same credential settings for S3 and SQS"""
+
+    shared_assume_role_arn: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedAssumeRoleArn")
+    ] = None
+    r"""Use the same settings for S3 and SQS"""
+
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -285,11 +324,44 @@ class InputSecurityLakeInput(BaseModel):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
+
+    sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleArn")
+    ] = None
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    sqs_duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="SQSDurationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    sqs_aws_authentication_method: Annotated[
+        Optional[SqsAuthenticationMethodOptions],
+        pydantic.Field(alias="SQSAwsAuthenticationMethod"),
+    ] = None
+    r"""Choose Auto to use IAM roles"""
+
+    sqs_aws_secret: Annotated[Optional[str], pydantic.Field(alias="SQSAwsSecret")] = (
+        None
+    )
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAwsSecretKey")
+    ] = None
+    r"""SQS secret key"""
 
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
@@ -355,11 +427,35 @@ class InputSecurityLakeInput(BaseModel):
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
+    template_sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleArn")
+    ] = None
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+
+    template_sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleExternalId")
+    ] = None
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+
+    template_sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAwsSecretKey")
+    ] = None
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("sqs_aws_authentication_method")
+    def serialize_sqs_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SqsAuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -407,6 +503,8 @@ class InputSecurityLakeInput(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "enableSQSAssumeRole",
+                "sharedCredentials",
+                "sharedAssumeRoleArn",
                 "preprocess",
                 "metadata",
                 "parquetChunkSizeMB",
@@ -417,6 +515,12 @@ class InputSecurityLakeInput(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "SQSAssumeRoleArn",
+                "SQSAssumeRoleExternalId",
+                "SQSDurationSeconds",
+                "SQSAwsAuthenticationMethod",
+                "SQSAwsSecret",
+                "SQSAwsSecretKey",
                 "tagAfterProcessing",
                 "processedTagKey",
                 "processedTagValue",
@@ -430,6 +534,9 @@ class InputSecurityLakeInput(BaseModel):
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",
+                "__template_SQSAssumeRoleArn",
+                "__template_SQSAssumeRoleExternalId",
+                "__template_SQSAwsSecretKey",
             ]
         )
         serialized = handler(self)

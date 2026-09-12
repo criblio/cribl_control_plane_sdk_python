@@ -29,19 +29,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputHoneycombType(str, Enum):
+    r"""Connector type identifier."""
+
     HONEYCOMB = "honeycomb"
 
 
 class OutputHoneycombPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputHoneycombPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputHoneycombTypedDict(TypedDict):
     type: OutputHoneycombType
+    r"""Connector type identifier."""
     dataset: str
     r"""Name of the dataset to send events to – e.g., observability"""
     id: NotRequired[str]
@@ -53,7 +56,7 @@ class OutputHoneycombTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -69,6 +72,8 @@ class OutputHoneycombTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -91,6 +96,7 @@ class OutputHoneycombTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -114,6 +120,7 @@ class OutputHoneycombTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputHoneycombPqControlsTypedDict]
+    r"""Persistent queue controls."""
     team: NotRequired[str]
     r"""Team API key where the dataset belongs"""
     text_secret: NotRequired[str]
@@ -128,6 +135,7 @@ class OutputHoneycombTypedDict(TypedDict):
 
 class OutputHoneycomb(BaseModel):
     type: OutputHoneycombType
+    r"""Connector type identifier."""
 
     dataset: str
     r"""Name of the dataset to send events to – e.g., observability"""
@@ -147,7 +155,7 @@ class OutputHoneycomb(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -175,6 +183,11 @@ class OutputHoneycomb(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -229,6 +242,7 @@ class OutputHoneycomb(BaseModel):
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -282,6 +296,7 @@ class OutputHoneycomb(BaseModel):
     pq_controls: Annotated[
         Optional[OutputHoneycombPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     team: Optional[str] = None
     r"""Team API key where the dataset belongs"""
@@ -373,6 +388,7 @@ class OutputHoneycomb(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

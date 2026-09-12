@@ -1,5 +1,7 @@
 # OutputDatadogPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

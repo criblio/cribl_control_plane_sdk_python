@@ -23,19 +23,23 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_STATE = "system_state"
 
 
-class InputSystemStateHostsFileTypedDict(TypedDict):
+class HostsFileTypedDict(TypedDict):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateHostsFile(BaseModel):
+class HostsFile(BaseModel):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -54,16 +58,18 @@ class InputSystemStateHostsFile(BaseModel):
         return m
 
 
-class InputSystemStateInterfacesTypedDict(TypedDict):
+class InterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateInterfaces(BaseModel):
+class Interfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -82,16 +88,18 @@ class InputSystemStateInterfaces(BaseModel):
         return m
 
 
-class InputSystemStateDisksAndFileSystemsTypedDict(TypedDict):
+class DisksAndFileSystemsTypedDict(TypedDict):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateDisksAndFileSystems(BaseModel):
+class DisksAndFileSystems(BaseModel):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -110,16 +118,18 @@ class InputSystemStateDisksAndFileSystems(BaseModel):
         return m
 
 
-class InputSystemStateHostInfoTypedDict(TypedDict):
+class HostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateHostInfo(BaseModel):
+class HostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -142,12 +152,14 @@ class InputSystemStateRoutesTypedDict(TypedDict):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateRoutes(BaseModel):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -166,16 +178,18 @@ class InputSystemStateRoutes(BaseModel):
         return m
 
 
-class InputSystemStateDNSTypedDict(TypedDict):
+class DNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateDNS(BaseModel):
+class DNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -194,16 +208,18 @@ class InputSystemStateDNS(BaseModel):
         return m
 
 
-class InputSystemStateUsersAndGroupsTypedDict(TypedDict):
+class UsersAndGroupsTypedDict(TypedDict):
     r"""Creates events for local users and groups"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateUsersAndGroups(BaseModel):
+class UsersAndGroups(BaseModel):
     r"""Creates events for local users and groups"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -222,16 +238,18 @@ class InputSystemStateUsersAndGroups(BaseModel):
         return m
 
 
-class InputSystemStateFirewallTypedDict(TypedDict):
+class FirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateFirewall(BaseModel):
+class Firewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -250,16 +268,18 @@ class InputSystemStateFirewall(BaseModel):
         return m
 
 
-class InputSystemStateServicesTypedDict(TypedDict):
+class ServicesTypedDict(TypedDict):
     r"""Creates events from the list of services"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateServices(BaseModel):
+class Services(BaseModel):
     r"""Creates events from the list of services"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -278,16 +298,18 @@ class InputSystemStateServices(BaseModel):
         return m
 
 
-class InputSystemStateListeningPortsTypedDict(TypedDict):
+class ListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateListeningPorts(BaseModel):
+class ListeningPorts(BaseModel):
     r"""Creates events from list of listening ports"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -306,16 +328,18 @@ class InputSystemStateListeningPorts(BaseModel):
         return m
 
 
-class InputSystemStateLoggedInUsersTypedDict(TypedDict):
+class LoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputSystemStateLoggedInUsers(BaseModel):
+class LoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -334,64 +358,64 @@ class InputSystemStateLoggedInUsers(BaseModel):
         return m
 
 
-class InputSystemStateCollectorsTypedDict(TypedDict):
-    hostsfile: NotRequired[InputSystemStateHostsFileTypedDict]
+class CollectorsTypedDict(TypedDict):
+    hostsfile: NotRequired[HostsFileTypedDict]
     r"""Creates events based on entries collected from the hosts file"""
-    interfaces: NotRequired[InputSystemStateInterfacesTypedDict]
+    interfaces: NotRequired[InterfacesTypedDict]
     r"""Creates events for each of the host’s network interfaces"""
-    disk: NotRequired[InputSystemStateDisksAndFileSystemsTypedDict]
+    disk: NotRequired[DisksAndFileSystemsTypedDict]
     r"""Creates events for physical disks, partitions, and file systems"""
-    metadata: NotRequired[InputSystemStateHostInfoTypedDict]
+    metadata: NotRequired[HostInfoTypedDict]
     r"""Creates events based on the host system’s current state"""
     routes: NotRequired[InputSystemStateRoutesTypedDict]
     r"""Creates events based on entries collected from the host’s network routes"""
-    dns: NotRequired[InputSystemStateDNSTypedDict]
+    dns: NotRequired[DNSTypedDict]
     r"""Creates events for DNS resolvers and search entries"""
-    user: NotRequired[InputSystemStateUsersAndGroupsTypedDict]
+    user: NotRequired[UsersAndGroupsTypedDict]
     r"""Creates events for local users and groups"""
-    firewall: NotRequired[InputSystemStateFirewallTypedDict]
+    firewall: NotRequired[FirewallTypedDict]
     r"""Creates events for Firewall rules entries"""
-    services: NotRequired[InputSystemStateServicesTypedDict]
+    services: NotRequired[ServicesTypedDict]
     r"""Creates events from the list of services"""
-    ports: NotRequired[InputSystemStateListeningPortsTypedDict]
+    ports: NotRequired[ListeningPortsTypedDict]
     r"""Creates events from list of listening ports"""
-    login_users: NotRequired[InputSystemStateLoggedInUsersTypedDict]
+    login_users: NotRequired[LoggedInUsersTypedDict]
     r"""Creates events from list of logged-in users"""
 
 
-class InputSystemStateCollectors(BaseModel):
-    hostsfile: Optional[InputSystemStateHostsFile] = None
+class Collectors(BaseModel):
+    hostsfile: Optional[HostsFile] = None
     r"""Creates events based on entries collected from the hosts file"""
 
-    interfaces: Optional[InputSystemStateInterfaces] = None
+    interfaces: Optional[Interfaces] = None
     r"""Creates events for each of the host’s network interfaces"""
 
-    disk: Optional[InputSystemStateDisksAndFileSystems] = None
+    disk: Optional[DisksAndFileSystems] = None
     r"""Creates events for physical disks, partitions, and file systems"""
 
-    metadata: Optional[InputSystemStateHostInfo] = None
+    metadata: Optional[HostInfo] = None
     r"""Creates events based on the host system’s current state"""
 
     routes: Optional[InputSystemStateRoutes] = None
     r"""Creates events based on entries collected from the host’s network routes"""
 
-    dns: Optional[InputSystemStateDNS] = None
+    dns: Optional[DNS] = None
     r"""Creates events for DNS resolvers and search entries"""
 
-    user: Optional[InputSystemStateUsersAndGroups] = None
+    user: Optional[UsersAndGroups] = None
     r"""Creates events for local users and groups"""
 
-    firewall: Optional[InputSystemStateFirewall] = None
+    firewall: Optional[Firewall] = None
     r"""Creates events for Firewall rules entries"""
 
-    services: Optional[InputSystemStateServices] = None
+    services: Optional[Services] = None
     r"""Creates events from the list of services"""
 
-    ports: Optional[InputSystemStateListeningPorts] = None
+    ports: Optional[ListeningPorts] = None
     r"""Creates events from list of listening ports"""
 
     login_users: Annotated[
-        Optional[InputSystemStateLoggedInUsers], pydantic.Field(alias="loginUsers")
+        Optional[LoggedInUsers], pydantic.Field(alias="loginUsers")
     ] = None
     r"""Creates events from list of logged-in users"""
 
@@ -436,6 +460,7 @@ class InputSystemStatePersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
@@ -454,6 +479,7 @@ class InputSystemStatePersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -495,9 +521,11 @@ class InputSystemStatePersistence(BaseModel):
 
 class InputSystemStateInputTypedDict(TypedDict):
     type: InputSystemStateType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -507,7 +535,7 @@ class InputSystemStateInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -515,13 +543,14 @@ class InputSystemStateInputTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    collectors: NotRequired[InputSystemStateCollectorsTypedDict]
+    collectors: NotRequired[CollectorsTypedDict]
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -530,11 +559,13 @@ class InputSystemStateInputTypedDict(TypedDict):
 
 class InputSystemStateInput(BaseModel):
     type: InputSystemStateType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -551,7 +582,7 @@ class InputSystemStateInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -564,7 +595,7 @@ class InputSystemStateInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    collectors: Optional[InputSystemStateCollectors] = None
+    collectors: Optional[Collectors] = None
 
     persistence: Optional[InputSystemStatePersistence] = None
 
@@ -579,6 +610,7 @@ class InputSystemStateInput(BaseModel):
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -629,7 +661,7 @@ class InputSystemStateInput(BaseModel):
 
 
 try:
-    InputSystemStateCollectors.model_rebuild()
+    Collectors.model_rebuild()
 except NameError:
     pass
 try:

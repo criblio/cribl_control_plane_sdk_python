@@ -7,6 +7,7 @@ from enum import Enum
 
 class RbacResource(str, Enum, metaclass=utils.OpenEnumMeta):
     GROUPS = "groups"
+    INSIGHTS_APPS = "insights-apps"
     DATASETS = "datasets"
     DATASET_PROVIDERS = "dataset-providers"
     PROJECTS = "projects"
@@ -15,3 +16,4 @@ class RbacResource(str, Enum, metaclass=utils.OpenEnumMeta):
     NOTEBOOKS = "notebooks"
     NOTEBOOK_TEMPLATES = "notebook-templates"
     APPS = "apps"
+    SECRET_FOLDERS = "secret-folders"

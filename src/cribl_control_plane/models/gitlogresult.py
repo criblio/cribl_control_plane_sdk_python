@@ -10,28 +10,42 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GitLogResultTypedDict(TypedDict):
     author_email: NotRequired[str]
+    r"""Email address of the commit author."""
     author_name: NotRequired[str]
+    r"""Display name of the commit author."""
     body: NotRequired[str]
+    r"""Body of the commit message, excluding the subject line."""
     date_: NotRequired[str]
+    r"""Date and time of the commit in ISO 8601 format with timezone offset."""
     hash: NotRequired[str]
+    r"""Full SHA-1 hash of the commit."""
     message: NotRequired[str]
+    r"""First line of the commit message (the subject)."""
     refs: NotRequired[str]
+    r"""Git refs (branches, tags) pointing to this commit."""
 
 
 class GitLogResult(BaseModel):
     author_email: Optional[str] = None
+    r"""Email address of the commit author."""
 
     author_name: Optional[str] = None
+    r"""Display name of the commit author."""
 
     body: Optional[str] = None
+    r"""Body of the commit message, excluding the subject line."""
 
     date_: Annotated[Optional[str], pydantic.Field(alias="date")] = None
+    r"""Date and time of the commit in ISO 8601 format with timezone offset."""
 
     hash: Optional[str] = None
+    r"""Full SHA-1 hash of the commit."""
 
     message: Optional[str] = None
+    r"""First line of the commit message (the subject)."""
 
     refs: Optional[str] = None
+    r"""Git refs (branches, tags) pointing to this commit."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

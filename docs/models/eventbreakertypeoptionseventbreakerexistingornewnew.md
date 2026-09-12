@@ -1,5 +1,7 @@
 # EventBreakerTypeOptionsEventBreakerExistingOrNewNew
 
+Type of event-breaking rule to apply when creating a new inline ruleset.
+
 ## Example Usage
 
 ```python

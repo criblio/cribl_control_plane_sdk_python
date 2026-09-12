@@ -6,29 +6,26 @@ from .compressionoptionspq import CompressionOptionsPq
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputGooglePubsubType(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class OutputGooglePubsubPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGooglePubsubPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGooglePubsubTypedDict(TypedDict):
-    type: OutputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to send events to."""
     id: NotRequired[str]
@@ -40,7 +37,7 @@ class OutputGooglePubsubTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     create_topic: NotRequired[bool]
     r"""If enabled, create topic if it does not exist."""
     ordered_delivery: NotRequired[bool]
@@ -68,6 +65,7 @@ class OutputGooglePubsubTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -91,6 +89,7 @@ class OutputGooglePubsubTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGooglePubsubPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic_name: NotRequired[str]
@@ -102,7 +101,8 @@ class OutputGooglePubsubTypedDict(TypedDict):
 
 
 class OutputGooglePubsub(BaseModel):
-    type: OutputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to send events to."""
@@ -122,7 +122,7 @@ class OutputGooglePubsub(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""If enabled, create topic if it does not exist."""
@@ -181,6 +181,7 @@ class OutputGooglePubsub(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -234,6 +235,7 @@ class OutputGooglePubsub(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGooglePubsubPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

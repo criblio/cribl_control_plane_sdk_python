@@ -1,5 +1,7 @@
 # RestAuthenticationLoginCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

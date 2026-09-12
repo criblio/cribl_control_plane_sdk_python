@@ -1,5 +1,7 @@
 # CreateInputPaginationType
 
+Pagination type
+
 ## Example Usage
 
 ```python

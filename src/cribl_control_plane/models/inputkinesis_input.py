@@ -13,6 +13,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionskinesis import TypeOptionsKinesis
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -22,11 +23,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputKinesisType(str, Enum):
-    KINESIS = "kinesis"
-
-
-class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
+class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Location at which to start reading a shard for the first time"""
 
     # Earliest record
@@ -35,7 +32,7 @@ class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     LATEST = "LATEST"
 
 
-class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class RecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
     # Cribl
@@ -48,7 +45,7 @@ class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     LINE = "line"
 
 
-class InputKinesisShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
+class ShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     # Consistent Hashing
@@ -58,7 +55,8 @@ class InputKinesisShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputKinesisInputTypedDict(TypedDict):
-    type: InputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
     stream_name: str
     r"""Kinesis Data Stream to read data from"""
     region: str
@@ -66,6 +64,7 @@ class InputKinesisInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -75,7 +74,7 @@ class InputKinesisInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -83,19 +82,20 @@ class InputKinesisInputTypedDict(TypedDict):
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[InputKinesisShardIteratorStart]
+    shard_iterator_type: NotRequired[ShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[InputKinesisRecordDataFormat]
+    payload_format: NotRequired[RecordDataFormat]
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
     get_records_limit: NotRequired[float]
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[InputKinesisShardLoadBalancing]
+    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -116,8 +116,12 @@ class InputKinesisInputTypedDict(TypedDict):
     r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -145,7 +149,8 @@ class InputKinesisInputTypedDict(TypedDict):
 
 
 class InputKinesisInput(BaseModel):
-    type: InputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
     r"""Kinesis Data Stream to read data from"""
@@ -157,6 +162,7 @@ class InputKinesisInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -173,7 +179,7 @@ class InputKinesisInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -189,13 +195,12 @@ class InputKinesisInput(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Optional[InputKinesisShardIteratorStart],
-        pydantic.Field(alias="shardIteratorType"),
+        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
     ] = None
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Optional[InputKinesisRecordDataFormat], pydantic.Field(alias="payloadFormat")
+        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = None
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -210,8 +215,7 @@ class InputKinesisInput(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Optional[InputKinesisShardLoadBalancing],
-        pydantic.Field(alias="loadBalancingAlgorithm"),
+        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
     ] = None
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
@@ -224,6 +228,7 @@ class InputKinesisInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
@@ -271,9 +276,14 @@ class InputKinesisInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -337,7 +347,7 @@ class InputKinesisInput(BaseModel):
     def serialize_shard_iterator_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisShardIteratorStart(value)
+                return models.ShardIteratorStart(value)
             except ValueError:
                 return value
         return value
@@ -346,7 +356,7 @@ class InputKinesisInput(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisRecordDataFormat(value)
+                return models.RecordDataFormat(value)
             except ValueError:
                 return value
         return value
@@ -355,7 +365,7 @@ class InputKinesisInput(BaseModel):
     def serialize_load_balancing_algorithm(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisShardLoadBalancing(value)
+                return models.ShardLoadBalancing(value)
             except ValueError:
                 return value
         return value
@@ -401,6 +411,7 @@ class InputKinesisInput(BaseModel):
                 "verifyKPLCheckSums",
                 "avoidDuplicates",
                 "metadata",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

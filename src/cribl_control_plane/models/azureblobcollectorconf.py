@@ -51,6 +51,7 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     client_id: str
     r"""The service principal's client ID"""
     certificate: CertificateTypeAzureBlobAuthTypeClientCertTypedDict
+    r"""Certificate credentials for the service principal."""
     container_name: str
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
     auth_type: NotRequired[AzureBlobAuthTypeClientCertAuthenticationMethod]
@@ -114,6 +115,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     r"""The service principal's client ID"""
 
     certificate: CertificateTypeAzureBlobAuthTypeClientCert
+    r"""Certificate credentials for the service principal."""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
@@ -358,6 +360,7 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -473,6 +476,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     r"""Text secret"""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -617,6 +621,7 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     template_azure_cloud: NotRequired[str]
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -736,6 +741,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -883,6 +889,7 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     template_azure_cloud: NotRequired[str]
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -1000,6 +1007,7 @@ class AzureBlobAuthTypeManual(BaseModel):
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")

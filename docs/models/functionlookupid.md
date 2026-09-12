@@ -1,5 +1,7 @@
 # FunctionLookupID
 
+Identifier of the Function. Always <code>lookup</code>
+
 ## Example Usage
 
 ```python

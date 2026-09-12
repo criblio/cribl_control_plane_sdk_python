@@ -12,7 +12,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TLSSettingsClientSideTypeCaPathCertPathTypedDict(TypedDict):
+    r"""TLS settings (client side)"""
+
     disabled: NotRequired[bool]
+    r"""Disabled"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -30,11 +33,16 @@ class TLSSettingsClientSideTypeCaPathCertPathTypedDict(TypedDict):
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    r"""Minimum TLS version"""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    r"""Maximum TLS version"""
 
 
 class TLSSettingsClientSideTypeCaPathCertPath(BaseModel):
+    r"""TLS settings (client side)"""
+
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -66,10 +74,12 @@ class TLSSettingsClientSideTypeCaPathCertPath(BaseModel):
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
+    r"""Minimum TLS version"""
 
     max_version: Annotated[
         Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
+    r"""Maximum TLS version"""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):

@@ -1,5 +1,7 @@
 # InputCollectionType
 
+Resource type identifier.
+
 ## Example Usage
 
 ```python

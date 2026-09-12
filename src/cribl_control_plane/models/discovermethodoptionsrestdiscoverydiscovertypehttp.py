@@ -8,6 +8,8 @@ from enum import Enum
 class DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Discover method"""
+
     # GET
     GET = "get"
     # POST

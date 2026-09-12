@@ -1,5 +1,7 @@
 # OutputResponseBlobAccessTier
 
+Blob access tier
+
 ## Example Usage
 
 ```python

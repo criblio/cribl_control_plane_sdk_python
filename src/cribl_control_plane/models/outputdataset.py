@@ -29,6 +29,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDatasetType(str, Enum):
+    r"""Connector type identifier."""
+
     DATASET = "dataset"
 
 
@@ -51,7 +53,7 @@ class OutputDatasetSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     FATAL = "fatal"
 
 
-class OutputDatasetDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class DataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -63,15 +65,16 @@ class OutputDatasetDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDatasetPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDatasetPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDatasetTypedDict(TypedDict):
     type: OutputDatasetType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -81,7 +84,7 @@ class OutputDatasetTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     message_field: NotRequired[str]
     r"""Name of the event field that contains the message or attributes to send. If not specified, all of the event's non-internal fields will be sent as attributes."""
     exclude_fields: NotRequired[List[str]]
@@ -99,7 +102,7 @@ class OutputDatasetTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[OutputDatasetDataSetSite]
+    site: NotRequired[DataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -116,6 +119,8 @@ class OutputDatasetTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -133,6 +138,7 @@ class OutputDatasetTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -157,6 +163,7 @@ class OutputDatasetTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputDatasetPqControlsTypedDict]
+    r"""Persistent queue controls."""
     api_key: NotRequired[str]
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
@@ -173,6 +180,7 @@ class OutputDatasetTypedDict(TypedDict):
 
 class OutputDataset(BaseModel):
     type: OutputDatasetType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -189,7 +197,7 @@ class OutputDataset(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of the event field that contains the message or attributes to send. If not specified, all of the event's non-internal fields will be sent as attributes."""
@@ -229,7 +237,7 @@ class OutputDataset(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[OutputDatasetDataSetSite] = None
+    site: Optional[DataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = None
@@ -258,6 +266,11 @@ class OutputDataset(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -302,6 +315,7 @@ class OutputDataset(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -357,6 +371,7 @@ class OutputDataset(BaseModel):
     pq_controls: Annotated[
         Optional[OutputDatasetPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""A 'Log Write Access' API key for the DataSet account"""
@@ -397,7 +412,7 @@ class OutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDatasetDataSetSite(value)
+                return models.DataSetSite(value)
             except ValueError:
                 return value
         return value
@@ -480,6 +495,7 @@ class OutputDataset(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

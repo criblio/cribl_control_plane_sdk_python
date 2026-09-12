@@ -1,5 +1,7 @@
 # InputKubeMetricsType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

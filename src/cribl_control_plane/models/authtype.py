@@ -16,6 +16,7 @@ class AuthTypeTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry"""
 
     disabled: bool
+    r"""Disabled"""
     oauth_enabled: NotRequired[bool]
     r"""Authenticate with the schema registry using OAuth instead of basic HTTP authentication"""
     token_url: NotRequired[str]
@@ -47,6 +48,7 @@ class AuthType(BaseModel):
     r"""Credentials to use when authenticating with the schema registry"""
 
     disabled: bool
+    r"""Disabled"""
 
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
         None

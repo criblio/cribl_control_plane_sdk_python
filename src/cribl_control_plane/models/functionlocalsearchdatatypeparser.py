@@ -10,58 +10,88 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionLocalSearchDatatypeParserID(str, Enum):
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
+
     LOCAL_SEARCH_DATATYPE_PARSER = "local_search_datatype_parser"
 
 
 class FunctionLocalSearchDatatypeParserTypedDict(TypedDict):
     filename: str
+    r"""Path to the JavaScript file that implements the Function."""
     group: str
+    r"""Category group the Function belongs to."""
     id: FunctionLocalSearchDatatypeParserID
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
     load_time: float
+    r"""Time the Function module was loaded, in milliseconds since the Unix epoch."""
     mod_time: float
+    r"""Time the Function module was last modified, in milliseconds since the Unix epoch."""
     name: str
+    r"""Display name of the Function."""
     uischema: Dict[str, Any]
+    r"""UI Schema that controls how the Function's configuration form is rendered."""
     version: str
+    r"""Version string of the Function."""
     async_timeout: NotRequired[float]
+    r"""Maximum time, in milliseconds, that the Function is allowed to run asynchronously before timing out."""
     cribl_version: NotRequired[str]
+    r"""Minimum Cribl version required by the Function, if applicable."""
     disabled: NotRequired[bool]
+    r"""If <code>true</code>, the Function is disabled and will not execute in a Pipeline. Otherwise, <code>false</code>."""
     handle_signals: NotRequired[bool]
+    r"""If <code>true</code>, the Function handles stream signals such as <code>flush</code> and <code>close</code>. Otherwise, <code>false</code>."""
     sync: NotRequired[bool]
+    r"""If <code>true</code>, the Function executes synchronously. Otherwise, <code>false</code>."""
     schema_: NotRequired[Dict[str, Any]]
+    r"""JSON Schema document that describes the Function configuration."""
 
 
 class FunctionLocalSearchDatatypeParser(BaseModel):
     filename: Annotated[str, pydantic.Field(alias="__filename")]
+    r"""Path to the JavaScript file that implements the Function."""
 
     group: str
+    r"""Category group the Function belongs to."""
 
     id: FunctionLocalSearchDatatypeParserID
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
 
     load_time: Annotated[float, pydantic.Field(alias="loadTime")]
+    r"""Time the Function module was loaded, in milliseconds since the Unix epoch."""
 
     mod_time: Annotated[float, pydantic.Field(alias="modTime")]
+    r"""Time the Function module was last modified, in milliseconds since the Unix epoch."""
 
     name: str
+    r"""Display name of the Function."""
 
     uischema: Dict[str, Any]
+    r"""UI Schema that controls how the Function's configuration form is rendered."""
 
     version: str
+    r"""Version string of the Function."""
 
     async_timeout: Annotated[Optional[float], pydantic.Field(alias="asyncTimeout")] = (
         None
     )
+    r"""Maximum time, in milliseconds, that the Function is allowed to run asynchronously before timing out."""
 
     cribl_version: Optional[str] = None
+    r"""Minimum Cribl version required by the Function, if applicable."""
 
     disabled: Optional[bool] = None
+    r"""If <code>true</code>, the Function is disabled and will not execute in a Pipeline. Otherwise, <code>false</code>."""
 
     handle_signals: Annotated[Optional[bool], pydantic.Field(alias="handleSignals")] = (
         None
     )
+    r"""If <code>true</code>, the Function handles stream signals such as <code>flush</code> and <code>close</code>. Otherwise, <code>false</code>."""
 
     sync: Optional[bool] = None
+    r"""If <code>true</code>, the Function executes synchronously. Otherwise, <code>false</code>."""
 
     schema_: Annotated[Optional[Dict[str, Any]], pydantic.Field(alias="schema")] = None
+    r"""JSON Schema document that describes the Function configuration."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

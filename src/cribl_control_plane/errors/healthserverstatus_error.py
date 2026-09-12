@@ -20,6 +20,8 @@ class HealthServerStatusErrorData(BaseModel):
     r"""Timestamp (in Unix time) when the Cribl process started."""
     status: models_healthserverstatus.HealthServerStatusStatus
     r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
+    is_captain: Annotated[Optional[bool], pydantic.Field(alias="isCaptain")] = None
+    r"""Whether this node is currently the captain (job scheduling coordinator) in a Collectors HA deployment."""
     role: Optional[models_healthserverstatus.Role] = None
     r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
 

@@ -1,5 +1,7 @@
 # FunctionSortID
 
+Identifier of the Function. Always <code>sort</code>
+
 ## Example Usage
 
 ```python

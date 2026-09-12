@@ -16,3 +16,4 @@ class RbacResource(str, Enum, metaclass=utils.OpenEnumMeta):
     NOTEBOOKS = "notebooks"
     NOTEBOOK_TEMPLATES = "notebook-templates"
     APPS = "apps"
+    SECRET_FOLDERS = "secret-folders"

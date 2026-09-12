@@ -15,7 +15,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionConfSchemaDetectionRulesSeverity(int, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Severity"""
+    r"""Severity level to assign to the Detection Rule."""
 
     SEVERITY_ID_ONE = 1
     SEVERITY_ID_TWO = 2
@@ -25,7 +25,7 @@ class FunctionConfSchemaDetectionRulesSeverity(int, Enum, metaclass=utils.OpenEn
 
 
 class Confidence(int, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Confidence"""
+    r"""Confidence level to assign to the Detection Rule."""
 
     CONFIDENCE_ID_ONE = 1
     CONFIDENCE_ID_TWO = 2
@@ -33,7 +33,7 @@ class Confidence(int, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class Impact(int, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Impact"""
+    r"""Impact level to assign to the Detection Rule."""
 
     IMPACT_ID_ONE = 1
     IMPACT_ID_TWO = 2
@@ -43,42 +43,42 @@ class Impact(int, Enum, metaclass=utils.OpenEnumMeta):
 
 class FieldOverrideTypedDict(TypedDict):
     id: str
-    r"""Rule ID"""
+    r"""Unique identifier for the Detection Rule to override."""
     severity_id: NotRequired[FunctionConfSchemaDetectionRulesSeverity]
-    r"""Severity"""
+    r"""Severity level to assign to the Detection Rule."""
     confidence_id: NotRequired[Confidence]
-    r"""Confidence"""
+    r"""Confidence level to assign to the Detection Rule."""
     impact_id: NotRequired[Impact]
-    r"""Impact"""
+    r"""Impact level to assign to the Detection Rule."""
     is_alert: NotRequired[bool]
-    r"""Is Alert"""
+    r"""If <code>true</code>, the Detection Rule creates an alert. Otherwise, <code>false</code>."""
     message: NotRequired[str]
-    r"""Message Override"""
+    r"""Replacement alert message for the Detection Rule."""
 
 
 class FieldOverride(BaseModel):
     id: str
-    r"""Rule ID"""
+    r"""Unique identifier for the Detection Rule to override."""
 
     severity_id: Annotated[
         Optional[FunctionConfSchemaDetectionRulesSeverity],
         pydantic.Field(alias="severityId"),
     ] = None
-    r"""Severity"""
+    r"""Severity level to assign to the Detection Rule."""
 
     confidence_id: Annotated[
         Optional[Confidence], pydantic.Field(alias="confidenceId")
     ] = None
-    r"""Confidence"""
+    r"""Confidence level to assign to the Detection Rule."""
 
     impact_id: Annotated[Optional[Impact], pydantic.Field(alias="impactId")] = None
-    r"""Impact"""
+    r"""Impact level to assign to the Detection Rule."""
 
     is_alert: Annotated[Optional[bool], pydantic.Field(alias="isAlert")] = None
-    r"""Is Alert"""
+    r"""If <code>true</code>, the Detection Rule creates an alert. Otherwise, <code>false</code>."""
 
     message: Optional[str] = None
-    r"""Message Override"""
+    r"""Replacement alert message for the Detection Rule."""
 
     @field_serializer("severity_id")
     def serialize_severity_id(self, value):
@@ -128,45 +128,47 @@ class FieldOverride(BaseModel):
 
 class InlineRuleTypedDict(TypedDict):
     id: str
-    r"""Rule ID"""
+    r"""Unique identifier for the Detection Rule."""
     name: str
-    r"""Rule Name"""
+    r"""Display name for the Detection Rule."""
     condition: str
-    r"""Condition Expression"""
+    r"""Expression that determines whether the Detection Rule matches an event."""
     severity_id: NotRequired[int]
-    r"""Severity"""
+    r"""Severity level for the Detection Rule."""
     confidence_id: NotRequired[int]
-    r"""Confidence"""
+    r"""Confidence level for the Detection Rule."""
     is_alert: NotRequired[bool]
-    r"""Is Alert"""
+    r"""If <code>true</code>, the Detection Rule creates an alert. Otherwise, <code>false</code>."""
     message: NotRequired[str]
-    r"""Message"""
+    r"""Alert message emitted when the Detection Rule matches."""
     tags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping detection rules."""
 
 
 class InlineRule(BaseModel):
     id: str
-    r"""Rule ID"""
+    r"""Unique identifier for the Detection Rule."""
 
     name: str
-    r"""Rule Name"""
+    r"""Display name for the Detection Rule."""
 
     condition: str
-    r"""Condition Expression"""
+    r"""Expression that determines whether the Detection Rule matches an event."""
 
     severity_id: Annotated[Optional[int], pydantic.Field(alias="severityId")] = None
-    r"""Severity"""
+    r"""Severity level for the Detection Rule."""
 
     confidence_id: Annotated[Optional[int], pydantic.Field(alias="confidenceId")] = None
-    r"""Confidence"""
+    r"""Confidence level for the Detection Rule."""
 
     is_alert: Annotated[Optional[bool], pydantic.Field(alias="isAlert")] = None
-    r"""Is Alert"""
+    r"""If <code>true</code>, the Detection Rule creates an alert. Otherwise, <code>false</code>."""
 
     message: Optional[str] = None
-    r"""Message"""
+    r"""Alert message emitted when the Detection Rule matches."""
 
     tags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping detection rules."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

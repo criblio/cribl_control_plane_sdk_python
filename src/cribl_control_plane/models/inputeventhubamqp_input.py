@@ -426,6 +426,8 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     r"""Maximum time to wait for a connection to complete"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -530,6 +532,9 @@ class InputEventhubAmqpInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -570,6 +575,7 @@ class InputEventhubAmqpInput(BaseModel):
                 "connectionMaxBackoff",
                 "connectionTimeoutInMs",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

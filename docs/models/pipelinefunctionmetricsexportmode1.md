@@ -1,6 +1,6 @@
 # PipelineFunctionMetricsExportMode1
 
-Discriminator value.
+Type of label configuration. Always <code>object</code>.
 
 ## Example Usage
 

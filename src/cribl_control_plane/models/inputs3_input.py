@@ -108,6 +108,8 @@ class InputS3InputTypedDict(TypedDict):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
     tag_after_processing: NotRequired[bool]
     r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
@@ -328,6 +330,9 @@ class InputS3Input(BaseModel):
     ] = None
     r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -505,6 +510,7 @@ class InputS3Input(BaseModel):
                 "pollTimeout",
                 "encoding",
                 "tagAfterProcessing",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

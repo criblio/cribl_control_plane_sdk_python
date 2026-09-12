@@ -59,6 +59,8 @@ class InputAzureVnetFlowLogInputTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
     max_messages: NotRequired[float]
     r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    max_dequeue_count: NotRequired[float]
+    r"""Number of times a non-matching message can be dequeued before it is permanently deleted. At the default of 1, non-matching messages are deleted immediately (same as standard Azure Blob source behavior). Set higher to leave messages in the queue for other consumers."""
     service_period_secs: NotRequired[float]
     r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -152,6 +154,11 @@ class InputAzureVnetFlowLogInput(BaseModel):
 
     max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = None
     r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    max_dequeue_count: Annotated[
+        Optional[float], pydantic.Field(alias="maxDequeueCount")
+    ] = None
+    r"""Number of times a non-matching message can be dequeued before it is permanently deleted. At the default of 1, non-matching messages are deleted immediately (same as standard Azure Blob source behavior). Set higher to leave messages in the queue for other consumers."""
 
     service_period_secs: Annotated[
         Optional[float], pydantic.Field(alias="servicePeriodSecs")
@@ -274,6 +281,7 @@ class InputAzureVnetFlowLogInput(BaseModel):
                 "visibilityTimeout",
                 "numReceivers",
                 "maxMessages",
+                "maxDequeueCount",
                 "servicePeriodSecs",
                 "metadata",
                 "breakerRulesets",

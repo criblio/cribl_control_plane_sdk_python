@@ -304,8 +304,12 @@ class DatabaseConnections(BaseSDK):
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
@@ -330,8 +334,12 @@ class DatabaseConnections(BaseSDK):
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
@@ -358,11 +366,15 @@ class DatabaseConnections(BaseSDK):
             connection_timeout=connection_timeout,
             credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
+            database=database,
             database_type=database_type,
             description=description,
+            host=host,
             id=id,
+            log_on_mechanism=log_on_mechanism,
             password=password,
             request_timeout=request_timeout,
+            sslmode=sslmode,
             tags=tags,
             text_secret=text_secret,
             tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
@@ -459,8 +471,12 @@ class DatabaseConnections(BaseSDK):
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
@@ -485,8 +501,12 @@ class DatabaseConnections(BaseSDK):
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
@@ -513,11 +533,15 @@ class DatabaseConnections(BaseSDK):
             connection_timeout=connection_timeout,
             credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
+            database=database,
             database_type=database_type,
             description=description,
+            host=host,
             id=id,
+            log_on_mechanism=log_on_mechanism,
             password=password,
             request_timeout=request_timeout,
+            sslmode=sslmode,
             tags=tags,
             text_secret=text_secret,
             tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
@@ -831,8 +855,12 @@ class DatabaseConnections(BaseSDK):
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
@@ -858,8 +886,12 @@ class DatabaseConnections(BaseSDK):
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
@@ -888,11 +920,15 @@ class DatabaseConnections(BaseSDK):
                 connection_timeout=connection_timeout,
                 credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
+                database=database,
                 database_type=database_type,
                 description=description,
+                host=host,
                 id=id,
+                log_on_mechanism=log_on_mechanism,
                 password=password,
                 request_timeout=request_timeout,
+                sslmode=sslmode,
                 tags=tags,
                 text_secret=text_secret,
                 tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
@@ -995,8 +1031,12 @@ class DatabaseConnections(BaseSDK):
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
@@ -1022,8 +1062,12 @@ class DatabaseConnections(BaseSDK):
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
@@ -1052,11 +1096,15 @@ class DatabaseConnections(BaseSDK):
                 connection_timeout=connection_timeout,
                 credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
+                database=database,
                 database_type=database_type,
                 description=description,
+                host=host,
                 id=id,
+                log_on_mechanism=log_on_mechanism,
                 password=password,
                 request_timeout=request_timeout,
+                sslmode=sslmode,
                 tags=tags,
                 text_secret=text_secret,
                 tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),

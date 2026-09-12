@@ -60,6 +60,8 @@ class InputRawUDPInputTypedDict(TypedDict):
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -138,6 +140,9 @@ class InputRawUDPInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -180,6 +185,7 @@ class InputRawUDPInput(BaseModel):
                 "ingestRawBytes",
                 "udpSocketRxBufSize",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

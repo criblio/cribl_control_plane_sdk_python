@@ -43,6 +43,13 @@ class AuthTypeEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTH = "oauth"
 
 
+class OAuthSecretSource(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
+
+    INLINE = "inline"
+    SECRET = "secret"
+
+
 class EndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
@@ -72,8 +79,6 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Connector type identifier."""
     login_url: str
     r"""URL for OAuth"""
-    secret: str
-    r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
     endpoint_url_configuration: EndpointConfiguration
@@ -138,6 +143,8 @@ class OutputSentinelTypedDict(TypedDict):
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+    oauth_secret_source: NotRequired[OAuthSecretSource]
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request"""
     total_memory_limit_kb: NotRequired[float]
@@ -185,6 +192,10 @@ class OutputSentinelTypedDict(TypedDict):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSentinelPqControlsTypedDict]
     r"""Persistent queue controls."""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    oauth_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth secret value"""
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
     dcr_id: NotRequired[str]
@@ -201,14 +212,14 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_login_url: NotRequired[str]
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
     template_refresh_url: NotRequired[str]
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'client_id' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'client_id' at runtime."""
     template_scope: NotRequired[str]
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_dcr_id: NotRequired[str]
@@ -225,9 +236,6 @@ class OutputSentinel(BaseModel):
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL for OAuth"""
-
-    secret: str
-    r"""Secret parameter value to pass in request body"""
 
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
@@ -360,6 +368,11 @@ class OutputSentinel(BaseModel):
     ] = None
     r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
 
+    oauth_secret_source: Annotated[
+        Optional[OAuthSecretSource], pydantic.Field(alias="oauthSecretSource")
+    ] = None
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
+
     scope: Optional[str] = None
     r"""Scope to pass in the OAuth request"""
 
@@ -469,6 +482,14 @@ class OutputSentinel(BaseModel):
     ] = None
     r"""Persistent queue controls."""
 
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    oauth_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="oauthTextSecret")
+    ] = None
+    r"""Select or create a stored text secret for the OAuth secret value"""
+
     url: Optional[str] = None
     r"""URL to send events to. Can be overwritten by an event's __url field."""
 
@@ -501,11 +522,6 @@ class OutputSentinel(BaseModel):
     ] = None
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     template_refresh_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_refreshUrl")
     ] = None
@@ -520,6 +536,11 @@ class OutputSentinel(BaseModel):
         Optional[str], pydantic.Field(alias="__template_scope")
     ] = None
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -564,6 +585,15 @@ class OutputSentinel(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthTypeEnum(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("oauth_secret_source")
+    def serialize_oauth_secret_source(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OAuthSecretSource(value)
             except ValueError:
                 return value
         return value
@@ -644,6 +674,7 @@ class OutputSentinel(BaseModel):
                 "rotateRefreshToken",
                 "refreshUrl",
                 "refreshRequestParams",
+                "oauthSecretSource",
                 "scope",
                 "totalMemoryLimitKB",
                 "description",
@@ -668,6 +699,8 @@ class OutputSentinel(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "secret",
+                "oauthTextSecret",
                 "url",
                 "dcrID",
                 "dceEndpoint",
@@ -676,10 +709,10 @@ class OutputSentinel(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
-                "__template_secret",
                 "__template_refreshUrl",
                 "__template_client_id",
                 "__template_scope",
+                "__template_secret",
                 "__template_url",
                 "__template_dcrID",
                 "__template_dceEndpoint",

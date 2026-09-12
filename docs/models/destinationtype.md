@@ -99,3 +99,5 @@ value = DestinationType.DEFAULT
 | `ALIBABA_CLOUD_S3`           | alibaba_cloud_s3             |
 | `SNOWFLAKE_STREAMING`        | snowflake_streaming          |
 | `IBM_CLOUD_S3`               | ibm_cloud_s3                 |
+| `DATABRICKS_ZEROBUS`         | databricks_zerobus           |
+| `TRAVERSAL_OTLP`             | traversal_otlp               |

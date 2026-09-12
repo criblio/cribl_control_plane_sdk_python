@@ -27,8 +27,8 @@ class PacksPipelines(BaseSDK):
         Get a list of all Pipelines within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -162,8 +162,8 @@ class PacksPipelines(BaseSDK):
         Get a list of all Pipelines within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

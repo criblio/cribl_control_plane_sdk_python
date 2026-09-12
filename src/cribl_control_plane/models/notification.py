@@ -43,6 +43,10 @@ class NotificationTypedDict(TypedDict):
     r"""Unique identifier."""
     targets: List[str]
     r"""List of the <code>id</code> values for the Notification targets to send the Notification to."""
+    src_group: NotRequired[str]
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+    src_overridden: NotRequired[bool]
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
     disabled: NotRequired[bool]
     r"""If <code>true</code>, the Notification is disabled and the specified condition will not trigger it."""
     group: NotRequired[str]
@@ -72,6 +76,14 @@ class Notification(BaseModel):
 
     targets: List[str]
     r"""List of the <code>id</code> values for the Notification targets to send the Notification to."""
+
+    src_group: Annotated[Optional[str], pydantic.Field(alias="__srcGroup")] = None
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+
+    src_overridden: Annotated[
+        Optional[bool], pydantic.Field(alias="__srcOverridden")
+    ] = None
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
 
     disabled: Optional[bool] = None
     r"""If <code>true</code>, the Notification is disabled and the specified condition will not trigger it."""
@@ -116,6 +128,8 @@ class Notification(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__srcGroup",
+                "__srcOverridden",
                 "disabled",
                 "group",
                 "metadata",

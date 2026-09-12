@@ -68,6 +68,10 @@ from .functionlocalsearchtransformer import (
 from .functionlookup import FunctionLookup, FunctionLookupTypedDict
 from .functionmask import FunctionMask, FunctionMaskTypedDict
 from .functionmetricsexport import FunctionMetricsExport, FunctionMetricsExportTypedDict
+from .functionmetricstimerangegate import (
+    FunctionMetricsTimeRangeGate,
+    FunctionMetricsTimeRangeGateTypedDict,
+)
 from .functionmvexpand import FunctionMvExpand, FunctionMvExpandTypedDict
 from .functionmvpull import FunctionMvPull, FunctionMvPullTypedDict
 from .functionnotificationpolicies import (
@@ -166,6 +170,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLookupTypedDict,
         FunctionMaskTypedDict,
         FunctionMetricsExportTypedDict,
+        FunctionMetricsTimeRangeGateTypedDict,
         FunctionMvExpandTypedDict,
         FunctionMvPullTypedDict,
         FunctionNotificationPoliciesTypedDict,
@@ -252,6 +257,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "lookup": FunctionLookup,
     "mask": FunctionMask,
     "metrics_export": FunctionMetricsExport,
+    "metrics_time_range_gate": FunctionMetricsTimeRangeGate,
     "mv_expand": FunctionMvExpand,
     "mv_pull": FunctionMvPull,
     "notification_policies": FunctionNotificationPolicies,
@@ -328,6 +334,7 @@ FunctionResponse = Annotated[
         FunctionLookup,
         FunctionMask,
         FunctionMetricsExport,
+        FunctionMetricsTimeRangeGate,
         FunctionMvExpand,
         FunctionMvPull,
         FunctionNotificationPolicies,

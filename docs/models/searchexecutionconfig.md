@@ -1,0 +1,9 @@
+# SearchExecutionConfig
+
+
+## Fields
+
+| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `backend_id`                                                                                             | [models.BackendID](../models/backendid.md)                                                               | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
+| `pool_routing_key`                                                                                       | *Optional[str]*                                                                                          | :heavy_minus_sign:                                                                                       | Selects the ordinary BYO executor pool. Required only when backendId is byo; not used for Lake datasets. |

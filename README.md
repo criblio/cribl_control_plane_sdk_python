@@ -275,11 +275,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Groups.Acl](docs/sdks/acl/README.md)
 
-* [get](docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+* [get](docs/sdks/acl/README.md#get) - Get the user access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ##### [Groups.Acl.Teams](docs/sdks/teams/README.md)
 
-* [get](docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](docs/sdks/teams/README.md#get) - Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Configs.Versions](docs/sdks/configsversions/README.md)
 
@@ -741,6 +741,20 @@ class CustomClient(AsyncHttpClient):
 
 s = CriblControlPlane(async_client=CustomClient(httpx.AsyncClient()))
 ```
+### httpx2 (Pydantic's httpx fork)
+
+[httpx2](https://httpx2.pydantic.dev/) is Pydantic's maintained fork of `httpx`. To run this SDK on httpx2, call `alias_httpx()` at your program's entry point, before importing the SDK, so every `import httpx` — including the ones inside the SDK — resolves to `httpx2`:
+```python
+import httpx2
+
+httpx2.alias_httpx()
+
+from cribl_control_plane import CriblControlPlane
+
+s = CriblControlPlane()
+```
+
+An SDK can also be generated against httpx2 directly, so it depends on the fork instead of `httpx`, by setting `python.httpClientLibrary: httpx2` in `gen.yaml`.
 <!-- End Custom HTTP Client [http-client] -->
 
 <!-- Start Resource Management [resource-management] -->

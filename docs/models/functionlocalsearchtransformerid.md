@@ -1,5 +1,7 @@
 # FunctionLocalSearchTransformerID
 
+Identifier of the Function. Always <code>local_search_transformer</code>
+
 ## Example Usage
 
 ```python

@@ -1,6 +1,6 @@
 # PipelineFunctionDistinctID
 
-Function ID
+Identifier of the Function. Always <code>distinct</code>
 
 ## Example Usage
 

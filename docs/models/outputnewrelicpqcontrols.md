@@ -1,5 +1,7 @@
 # OutputNewrelicPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

@@ -9,18 +9,24 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class WorkerPQStatusTypedDict(TypedDict):
-    health: float
+    health: int
+    r"""Persistent queue health status for the Worker Process, as a numeric code.<br/> <br><code>0</code> == Healthy (green; normal operation)<br/> <br><code>1</code> == Degraded (yellow; potential issues)<br/> <br><code>2</code> == Critical (red; problem or error that affects operation)."""
     metrics: Dict[str, Any]
-    timestamp: float
+    r"""Persistent-queue metrics reported for the Worker Process."""
+    timestamp: int
+    r"""Timestamp (in Unix time) when the persistent queue status was last reported for the Worker Process, in milliseconds."""
     error: NotRequired[StatusErrorTypedDict]
 
 
 class WorkerPQStatus(BaseModel):
-    health: float
+    health: int
+    r"""Persistent queue health status for the Worker Process, as a numeric code.<br/> <br><code>0</code> == Healthy (green; normal operation)<br/> <br><code>1</code> == Degraded (yellow; potential issues)<br/> <br><code>2</code> == Critical (red; problem or error that affects operation)."""
 
     metrics: Dict[str, Any]
+    r"""Persistent-queue metrics reported for the Worker Process."""
 
-    timestamp: float
+    timestamp: int
+    r"""Timestamp (in Unix time) when the persistent queue status was last reported for the Worker Process, in milliseconds."""
 
     error: Optional[StatusError] = None
 

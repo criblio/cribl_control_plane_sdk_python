@@ -7,4 +7,4 @@ Creates events based on the host system’s current state
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `enable`           | *Optional[bool]*   | :heavy_minus_sign: | N/A                |
+| `enable`           | *Optional[bool]*   | :heavy_minus_sign: | Enabled            |

@@ -1,5 +1,7 @@
 # FunctionGrokID
 
+Identifier of the Function. Always <code>grok</code>
+
 ## Example Usage
 
 ```python

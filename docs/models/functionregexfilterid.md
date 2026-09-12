@@ -1,5 +1,7 @@
 # FunctionRegexFilterID
 
+Identifier of the Function. Always <code>regex_filter</code>
+
 ## Example Usage
 
 ```python

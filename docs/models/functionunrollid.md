@@ -1,5 +1,7 @@
 # FunctionUnrollID
 
+Identifier of the Function. Always <code>unroll</code>
+
 ## Example Usage
 
 ```python

@@ -9,13 +9,19 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TLSSettingsClientSideTypeTypedDict(TypedDict):
+    r"""TLS settings (client side)"""
+
     disabled: bool
+    r"""Disabled"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's)"""
 
 
 class TLSSettingsClientSideType(BaseModel):
+    r"""TLS settings (client side)"""
+
     disabled: bool
+    r"""Disabled"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")

@@ -1,6 +1,6 @@
 # PipelineFunctionCefID
 
-Function ID
+Identifier of the Function. Always <code>cef</code>
 
 ## Example Usage
 

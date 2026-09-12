@@ -1,5 +1,7 @@
 # OutputHoneycombType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

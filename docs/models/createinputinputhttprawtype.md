@@ -1,0 +1,18 @@
+# CreateInputInputHTTPRawType
+
+Source type identifier.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputInputHTTPRawType
+
+value = CreateInputInputHTTPRawType.HTTP_RAW
+```
+
+
+## Values
+
+| Name       | Value      |
+| ---------- | ---------- |
+| `HTTP_RAW` | http_raw   |

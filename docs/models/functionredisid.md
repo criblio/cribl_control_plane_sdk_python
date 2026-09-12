@@ -1,5 +1,7 @@
 # FunctionRedisID
 
+Identifier of the Function. Always <code>redis</code>
+
 ## Example Usage
 
 ```python

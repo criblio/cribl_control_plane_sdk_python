@@ -10,15 +10,19 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpgradePackageUrlsTypedDict(TypedDict):
     package_url: str
+    r"""URL of the upgrade package file."""
     package_hash_url: NotRequired[str]
+    r"""URL of the hash file used to verify the package download."""
 
 
 class UpgradePackageUrls(BaseModel):
     package_url: Annotated[str, pydantic.Field(alias="packageUrl")]
+    r"""URL of the upgrade package file."""
 
     package_hash_url: Annotated[
         Optional[str], pydantic.Field(alias="packageHashUrl")
     ] = None
+    r"""URL of the hash file used to verify the package download."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

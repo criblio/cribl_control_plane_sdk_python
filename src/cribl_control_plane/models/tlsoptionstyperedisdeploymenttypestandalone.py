@@ -16,6 +16,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict(TypedDict):
+    r"""TLS settings for encrypting the connection to Redis."""
+
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)"""
     servername: NotRequired[str]
@@ -41,6 +43,8 @@ class TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict(TypedDict):
 
 
 class TLSOptionsTypeRedisDeploymentTypeStandalone(BaseModel):
+    r"""TLS settings for encrypting the connection to Redis."""
+
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None

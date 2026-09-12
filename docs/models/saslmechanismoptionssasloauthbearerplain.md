@@ -1,5 +1,7 @@
 # SaslMechanismOptionsSaslOauthbearerPlain
 
+SASL mechanism
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # FunctionCloneID
 
+Identifier of the Function. Always <code>clone</code>
+
 ## Example Usage
 
 ```python

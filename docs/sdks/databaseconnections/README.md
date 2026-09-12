@@ -6,8 +6,8 @@ Actions related to DatabaseConnections
 
 ### Available Operations
 
-* [list](#list) - List Database Connections
-* [create](#create) - Create Database Connection
+* [list](#list) - List all Database Connections
+* [create](#create) - Create a Database Connection
 * [get](#get) - Get a Database Connection
 * [update](#update) - Update a Database Connection
 * [delete](#delete) - Delete a Database Connection
@@ -18,7 +18,7 @@ Get a list of all Database Connections.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getDatabaseConnectionConfig" method="get" path="/lib/database-connections" -->
+<!-- UsageSnippet language="python" operationID="getDatabaseConnectionConfig" method="get" path="/lib/database-connections" example="DatabaseConnectionListResponseExamplesDatabaseConnectionList" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -33,26 +33,31 @@ with CriblControlPlane(
 
     res = ccp_client.database_connections.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
 ### Parameters
 
-| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `database_type`                                                                   | [Optional[models.DatabaseConnectionType]](../../models/databaseconnectiontype.md) | :heavy_minus_sign:                                                                | Type of Database Connections to include in the results.                           |
-| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
+| Parameter                                                                                                                                                         | Type                                                                                                                                                              | Required                                                                                                                                                          | Description                                                                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `database_type`                                                                                                                                                   | [Optional[models.DatabaseConnectionType]](../../models/databaseconnectiontype.md)                                                                                 | :heavy_minus_sign:                                                                                                                                                | Filter results by database engine type. Use this parameter to return only Database Connections for the specified engine.                                          |
+| `limit`                                                                                                                                                           | *Optional[int]*                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                | Maximum number of Database Connections to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. |
+| `offset`                                                                                                                                                          | *Optional[int]*                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                | Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.                     |
+| `retries`                                                                                                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                  | :heavy_minus_sign:                                                                                                                                                | Configuration to override the default retry behavior of the client.                                                                                               |
 
 ### Response
 
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+**[models.GetDatabaseConnectionConfigResponse](../../models/getdatabaseconnectionconfigresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -60,6 +65,27 @@ with CriblControlPlane(
 
 Create a new Database Connection.
 
+### Example Usage: DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest
+
+<!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: DatabaseConnectionExamplesMySQLWithConnectionString
 
 <!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="DatabaseConnectionExamplesMySQLWithConnectionString" -->
@@ -75,7 +101,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -96,7 +122,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="analytics,mysql", text_secret="mysql-analytics-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -117,7 +143,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,oracle,finance", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -138,7 +164,32 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRETS, database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-secure-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: DatabaseConnectionExamplesOracleWithMutualTLS
+
+<!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="DatabaseConnectionExamplesOracleWithMutualTLS" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle database reached over TCPS with mutual TLS", id="oracle-mtls-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="tcps://oracle.example.com:2484/ORCL", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="Oracle_Pass456!", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,oracle,mtls,production", text_secret="mysql-production-connection", tls=models.TLSClientParams(
+        certificate_name="oracle-client-cert",
+        disabled=False,
+        reject_unauthorized=True,
+    ), user="erp_user")
 
     # Handle response
     print(res)
@@ -159,7 +210,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=20000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -180,7 +231,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="postgresql://yourUsername:yourPassword@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,postgres,reporting", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -201,7 +252,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="logs,postgres", text_secret="postgres-logs-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -222,7 +273,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=60000, sslmode="VERIFY-FULL", tags="reporting,sqlserver,analytics", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -243,7 +294,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=yourUsername;Password=yourPassword;Encrypt=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,sqlserver,finance", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -264,7 +315,49 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=15000, sslmode="VERIFY-FULL", tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: DatabaseConnectionResponseExamplesMySQLDatabaseConnection
+
+<!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="DatabaseConnectionResponseExamplesMySQLDatabaseConnection" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -273,33 +366,41 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
-| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `auth_type`                                                             | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `database_type`                                                         | [models.DatabaseConnectionType](../../models/databaseconnectiontype.md) | :heavy_check_mark:                                                      | N/A                                                                     |
-| `description`                                                           | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `id`                                                                    | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `config_obj`                                                            | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `connection_string`                                                     | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `connection_timeout`                                                    | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `creds_secrets`                                                         | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `password`                                                              | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `request_timeout`                                                       | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `tags`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `text_secret`                                                           | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `user`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
+| Parameter                                                                                                                                                  | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                | Example                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `auth_type`                                                                                                                                                | [models.DatabaseConnectionAuthType](../../models/databaseconnectionauthtype.md)                                                                            | :heavy_check_mark:                                                                                                                                         | N/A                                                                                                                                                        |                                                                                                                                                            |
+| `database_type`                                                                                                                                            | [models.DatabaseConnectionType](../../models/databaseconnectiontype.md)                                                                                    | :heavy_check_mark:                                                                                                                                         | N/A                                                                                                                                                        |                                                                                                                                                            |
+| `description`                                                                                                                                              | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | Brief description of the Database Connection.                                                                                                              | Production MySQL database for customer data                                                                                                                |
+| `id`                                                                                                                                                       | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | Unique identifier for the Database Connection.                                                                                                             | mysql-prod-db                                                                                                                                              |
+| `config_obj`                                                                                                                                               | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | JSON configuration object for advanced SQL Server connection settings.                                                                                     | {<br/>"server": "sqlserver.example.com",<br/>"database": "Reporting",<br/>"user": "yourUsername",<br/>"password": "yourPassword",<br/>"options": {<br/>"connectTimeout": 20000<br/>}<br/>} |
+| `connection_string`                                                                                                                                        | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database connection string with embedded credentials or server information.                                                                                | mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true                                                                               |
+| `connection_timeout`                                                                                                                                       | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum time (in milliseconds) to wait when establishing the database connection.                                                                          | 10000                                                                                                                                                      |
+| `credentials_secret`                                                                                                                                       | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored credentials secret containing username and password for SQL Server configObj authentication.                                            | mssql-production-credentials                                                                                                                               |
+| `creds_secrets`                                                                                                                                            | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored credentials secret containing username and password. Used with Oracle connections.                                                      | oracle-production-credentials                                                                                                                              |
+| `database`                                                                                                                                                 | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database to connect to instead of the server default.                                                                                                      |                                                                                                                                                            |
+| `host`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Hostname of the server to connect to.                                                                                                                      | 'myId-dt5egqq7iq1hj6kh.env.trial.example.com'<br/>Hostname, currently intended for Teradata                                                                |
+| `log_on_mechanism`                                                                                                                                         | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Log On Mechanism for databases that support multiple, like Teradata.                                                                                       |                                                                                                                                                            |
+| `password`                                                                                                                                                 | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database password for authentication. Used with Oracle connections.                                                                                        | yourPassword                                                                                                                                               |
+| `request_timeout`                                                                                                                                          | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.                                           | 30000                                                                                                                                                      |
+| `sslmode`                                                                                                                                                  | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.                                                                        | VERIFY-FULL                                                                                                                                                |
+| `tags`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Comma-separated list of tags for categorizing and filtering Database Connections.                                                                          | production,mysql,customer-data                                                                                                                             |
+| `text_secret`                                                                                                                                              | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored text secret containing the connection string.                                                                                           | mysql-production-connection                                                                                                                                |
+| `tls`                                                                                                                                                      | [Optional[models.TLSClientParams]](../../models/tlsclientparams.md)                                                                                        | :heavy_minus_sign:                                                                                                                                         | TLS client connection settings.                                                                                                                            |                                                                                                                                                            |
+| `user`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database username for authentication. Used with Oracle connections.                                                                                        | yourUsername                                                                                                                                               |
+| `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |                                                                                                                                                            |
 
 ### Response
 
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+**[models.DatabaseConnectionResponseEnvelope](../../models/databaseconnectionresponseenvelope.md)**
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.RestAPIJSONError | 400                     | application/json        |
+| errors.Error            | 401                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## get
 
@@ -307,7 +408,7 @@ Get the specified Database Connection.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getDatabaseConnectionConfigById" method="get" path="/lib/database-connections/{id}" -->
+<!-- UsageSnippet language="python" operationID="getDatabaseConnectionConfigById" method="get" path="/lib/database-connections/{id}" example="DatabaseConnectionResponseExamplesMySQLDatabaseConnection" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -336,19 +437,42 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+**[models.DatabaseConnectionResponseEnvelope](../../models/databaseconnectionresponseenvelope.md)**
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 404                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## update
 
 Update the specified Database Connection.<br/><br/>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
 
+### Example Usage: DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.TERADATA, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: DatabaseConnectionExamplesMySQLWithConnectionString
 
 <!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="DatabaseConnectionExamplesMySQLWithConnectionString" -->
@@ -364,7 +488,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -385,7 +509,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="analytics,mysql", text_secret="mysql-analytics-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -406,7 +530,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="Oracle_Pass456!", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,oracle,finance", text_secret="mysql-production-connection", user="erp_user")
 
     # Handle response
     print(res)
@@ -427,7 +551,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRETS, database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-secure-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -448,7 +572,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=20000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="Warehouse_Pass789!", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -469,7 +593,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,postgres,reporting", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -490,7 +614,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="logs,postgres", text_secret="postgres-logs-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -511,7 +635,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=60000, sslmode="VERIFY-FULL", tags="reporting,sqlserver,analytics", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -532,7 +656,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,sqlserver,finance", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -553,7 +677,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=15000, sslmode="VERIFY-FULL", tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: DatabaseConnectionResponseExamplesMySQLDatabaseConnection
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="DatabaseConnectionResponseExamplesMySQLDatabaseConnection" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.TERADATA, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -574,7 +719,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -595,7 +740,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="analytics,mysql", text_secret="mysql-analytics-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -616,7 +761,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="Oracle_Pass456!", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,oracle,finance", text_secret="mysql-production-connection", user="erp_user")
 
     # Handle response
     print(res)
@@ -637,7 +782,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRETS, database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-secure-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -658,7 +803,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=20000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="Warehouse_Pass789!", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -679,7 +824,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,postgres,reporting", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -700,7 +845,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="logs,postgres", text_secret="postgres-logs-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -721,7 +866,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=60000, sslmode="VERIFY-FULL", tags="reporting,sqlserver,analytics", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -742,7 +887,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,sqlserver,finance", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -763,7 +908,238 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=15000, sslmode="VERIFY-FULL", tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="analytics,mysql", text_secret="mysql-analytics-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,oracle,finance", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithCredentialsSecrets
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithCredentialsSecrets" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRETS, database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-secure-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=20000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="postgresql://yourUsername:yourPassword@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="warehouse,postgres,reporting", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="logs,postgres", text_secret="postgres-logs-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConfigObject
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConfigObject" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=60000, sslmode="VERIFY-FULL", tags="reporting,sqlserver,analytics", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=yourUsername;Password=yourPassword;Encrypt=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="erp,sqlserver,finance", text_secret="mysql-production-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.SECRET, database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=15000, sslmode="VERIFY-FULL", tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type=models.DatabaseConnectionAuthType.CONFIG_OBJ, database_type=models.DatabaseConnectionType.TERADATA, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, credentials_secret="mssql-production-credentials", creds_secrets="oracle-production-credentials", host="'myId-dt5egqq7iq1hj6kh.env.trial.example.com'\nHostname, currently intended for Teradata", password="yourPassword", request_timeout=30000, sslmode="VERIFY-FULL", tags="production,mysql,customer-data", text_secret="mysql-production-connection", user="yourUsername")
 
     # Handle response
     print(res)
@@ -772,34 +1148,42 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
-| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `id_param`                                                              | *str*                                                                   | :heavy_check_mark:                                                      | The <code>id</code> of the Database Connection to update.               |
-| `auth_type`                                                             | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `database_type`                                                         | [models.DatabaseConnectionType](../../models/databaseconnectiontype.md) | :heavy_check_mark:                                                      | N/A                                                                     |
-| `description`                                                           | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `id`                                                                    | *str*                                                                   | :heavy_check_mark:                                                      | N/A                                                                     |
-| `config_obj`                                                            | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `connection_string`                                                     | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `connection_timeout`                                                    | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `creds_secrets`                                                         | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `password`                                                              | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `request_timeout`                                                       | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `tags`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `text_secret`                                                           | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `user`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
-| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
+| Parameter                                                                                                                                                  | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                | Example                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id_param`                                                                                                                                                 | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | The <code>id</code> of the Database Connection to update.                                                                                                  |                                                                                                                                                            |
+| `auth_type`                                                                                                                                                | [models.DatabaseConnectionAuthType](../../models/databaseconnectionauthtype.md)                                                                            | :heavy_check_mark:                                                                                                                                         | N/A                                                                                                                                                        |                                                                                                                                                            |
+| `database_type`                                                                                                                                            | [models.DatabaseConnectionType](../../models/databaseconnectiontype.md)                                                                                    | :heavy_check_mark:                                                                                                                                         | N/A                                                                                                                                                        |                                                                                                                                                            |
+| `description`                                                                                                                                              | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | Brief description of the Database Connection.                                                                                                              | Production MySQL database for customer data                                                                                                                |
+| `id`                                                                                                                                                       | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | Unique identifier for the Database Connection.                                                                                                             | mysql-prod-db                                                                                                                                              |
+| `config_obj`                                                                                                                                               | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | JSON configuration object for advanced SQL Server connection settings.                                                                                     | {<br/>"server": "sqlserver.example.com",<br/>"database": "Reporting",<br/>"user": "yourUsername",<br/>"password": "yourPassword",<br/>"options": {<br/>"connectTimeout": 20000<br/>}<br/>} |
+| `connection_string`                                                                                                                                        | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database connection string with embedded credentials or server information.                                                                                | mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true                                                                               |
+| `connection_timeout`                                                                                                                                       | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum time (in milliseconds) to wait when establishing the database connection.                                                                          | 10000                                                                                                                                                      |
+| `credentials_secret`                                                                                                                                       | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored credentials secret containing username and password for SQL Server configObj authentication.                                            | mssql-production-credentials                                                                                                                               |
+| `creds_secrets`                                                                                                                                            | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored credentials secret containing username and password. Used with Oracle connections.                                                      | oracle-production-credentials                                                                                                                              |
+| `database`                                                                                                                                                 | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database to connect to instead of the server default.                                                                                                      |                                                                                                                                                            |
+| `host`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Hostname of the server to connect to.                                                                                                                      | 'myId-dt5egqq7iq1hj6kh.env.trial.example.com'<br/>Hostname, currently intended for Teradata                                                                |
+| `log_on_mechanism`                                                                                                                                         | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Log On Mechanism for databases that support multiple, like Teradata.                                                                                       |                                                                                                                                                            |
+| `password`                                                                                                                                                 | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database password for authentication. Used with Oracle connections.                                                                                        | yourPassword                                                                                                                                               |
+| `request_timeout`                                                                                                                                          | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.                                           | 30000                                                                                                                                                      |
+| `sslmode`                                                                                                                                                  | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.                                                                        | VERIFY-FULL                                                                                                                                                |
+| `tags`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Comma-separated list of tags for categorizing and filtering Database Connections.                                                                          | production,mysql,customer-data                                                                                                                             |
+| `text_secret`                                                                                                                                              | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Name of the stored text secret containing the connection string.                                                                                           | mysql-production-connection                                                                                                                                |
+| `tls`                                                                                                                                                      | [Optional[models.TLSClientParams]](../../models/tlsclientparams.md)                                                                                        | :heavy_minus_sign:                                                                                                                                         | TLS client connection settings.                                                                                                                            |                                                                                                                                                            |
+| `user`                                                                                                                                                     | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Database username for authentication. Used with Oracle connections.                                                                                        | yourUsername                                                                                                                                               |
+| `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |                                                                                                                                                            |
 
 ### Response
 
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+**[models.DatabaseConnectionResponseEnvelope](../../models/databaseconnectionresponseenvelope.md)**
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 400, 404                | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## delete
 
@@ -807,7 +1191,7 @@ Delete the specified Database Connection.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteDatabaseConnectionConfigById" method="delete" path="/lib/database-connections/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteDatabaseConnectionConfigById" method="delete" path="/lib/database-connections/{id}" example="DatabaseConnectionResponseExamplesMySQLDatabaseConnection" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -836,11 +1220,13 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+**[models.DatabaseConnectionResponseEnvelope](../../models/databaseconnectionresponseenvelope.md)**
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 404                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |

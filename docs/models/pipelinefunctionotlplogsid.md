@@ -1,6 +1,6 @@
 # PipelineFunctionOtlpLogsID
 
-Function ID
+Identifier of the Function. Always <code>otlp_logs</code>
 
 ## Example Usage
 

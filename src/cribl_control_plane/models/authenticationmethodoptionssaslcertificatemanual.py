@@ -8,6 +8,8 @@ from enum import Enum
 class AuthenticationMethodOptionsSaslCertificateManual(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     MANUAL = "manual"
     SECRET = "secret"
     CERTIFICATE = "certificate"

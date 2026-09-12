@@ -1,5 +1,7 @@
 # OutputDynatraceHTTPEndpoint
 
+Endpoint
+
 ## Example Usage
 
 ```python

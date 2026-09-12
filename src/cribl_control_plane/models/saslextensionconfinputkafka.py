@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class SaslExtensionConfInputKafkaTypedDict(TypedDict):
     name: str
+    r"""Field Name"""
     value: str
+    r"""Field Value"""
 
 
 class SaslExtensionConfInputKafka(BaseModel):
     name: str
+    r"""Field Name"""
 
     value: str
+    r"""Field Value"""

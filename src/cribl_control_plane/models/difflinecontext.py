@@ -8,24 +8,38 @@ from typing_extensions import Annotated, TypedDict
 
 
 class DiffLineContextType(str, Enum):
+    r"""Line change type. Always <code>context</code> for unchanged lines."""
+
     CONTEXT = "context"
 
 
 class DiffLineContextTypedDict(TypedDict):
+    r"""Unchanged context line in a Git diff hunk."""
+
     type: DiffLineContextType
-    new_number: float
-    old_number: float
+    r"""Line change type. Always <code>context</code> for unchanged lines."""
+    new_number: int
+    r"""Line number in the new file."""
+    old_number: int
+    r"""Line number in the original file."""
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 class DiffLineContext(BaseModel):
+    r"""Unchanged context line in a Git diff hunk."""
+
     type: DiffLineContextType
+    r"""Line change type. Always <code>context</code> for unchanged lines."""
 
-    new_number: Annotated[float, pydantic.Field(alias="newNumber")]
+    new_number: Annotated[int, pydantic.Field(alias="newNumber")]
+    r"""Line number in the new file."""
 
-    old_number: Annotated[float, pydantic.Field(alias="oldNumber")]
+    old_number: Annotated[int, pydantic.Field(alias="oldNumber")]
+    r"""Line number in the original file."""
 
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 try:

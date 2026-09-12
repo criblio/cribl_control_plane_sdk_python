@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.destinations import Destinations
     from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
-    from cribl_control_plane.health import Health
+    from cribl_control_plane.health_sdk import HealthSDK
     from cribl_control_plane.lakes import Lakes
     from cribl_control_plane.nodes import Nodes
     from cribl_control_plane.packs import Packs
@@ -45,7 +45,7 @@ class CriblControlPlane(BaseSDK):
     auth: "AuthSDK"
     functions: "Functions"
     r"""Actions related to functions"""
-    health: "Health"
+    health: "HealthSDK"
     r"""Actions related to REST server health"""
     database_connections: "DatabaseConnections"
     r"""Actions related to DatabaseConnections"""
@@ -70,7 +70,7 @@ class CriblControlPlane(BaseSDK):
     _sub_sdk_map = {
         "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
         "functions": ("cribl_control_plane.functions", "Functions"),
-        "health": ("cribl_control_plane.health", "Health"),
+        "health": ("cribl_control_plane.health_sdk", "HealthSDK"),
         "database_connections": (
             "cribl_control_plane.databaseconnections",
             "DatabaseConnections",

@@ -10,11 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDefaultType(str, Enum):
+    r"""Connector type identifier."""
+
     DEFAULT = "default"
 
 
 class OutputDefaultTypedDict(TypedDict):
     type: OutputDefaultType
+    r"""Connector type identifier."""
     default_id: Nullable[str]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
     id: NotRequired[str]
@@ -26,13 +29,14 @@ class OutputDefaultTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputDefault(BaseModel):
     type: OutputDefaultType
+    r"""Connector type identifier."""
 
     default_id: Annotated[Nullable[str], pydantic.Field(alias="defaultId")]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
@@ -52,7 +56,7 @@ class OutputDefault(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

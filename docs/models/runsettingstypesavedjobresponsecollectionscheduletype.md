@@ -1,5 +1,7 @@
 # RunSettingsTypeSavedJobResponseCollectionScheduleType
 
+Resource type identifier.
+
 ## Example Usage
 
 ```python

@@ -1,6 +1,6 @@
 # PipelineFunctionPivotID
 
-Function ID
+Identifier of the Function. Always <code>pivot</code>
 
 ## Example Usage
 

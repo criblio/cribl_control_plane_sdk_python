@@ -1,5 +1,7 @@
 # RulesetType
 
+Type of ruleset to apply: dataset or datatype.
+
 ## Example Usage
 
 ```python

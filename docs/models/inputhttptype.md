@@ -1,5 +1,7 @@
 # InputHTTPType
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

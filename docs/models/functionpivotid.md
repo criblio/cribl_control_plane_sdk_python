@@ -1,5 +1,7 @@
 # FunctionPivotID
 
+Identifier of the Function. Always <code>pivot</code>
+
 ## Example Usage
 
 ```python

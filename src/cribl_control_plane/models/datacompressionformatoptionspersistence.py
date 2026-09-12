@@ -6,5 +6,7 @@ from enum import Enum
 
 
 class DataCompressionFormatOptionsPersistence(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data compression format"""
+
     NONE = "none"
     GZIP = "gzip"

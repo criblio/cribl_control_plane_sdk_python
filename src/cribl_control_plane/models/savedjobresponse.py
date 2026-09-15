@@ -15,7 +15,7 @@ from .inputtyperunnablejobcollection import (
     InputTypeRunnableJobCollectionTypedDict,
 )
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .notification_union import NotificationUnion, NotificationUnionTypedDict
+from .notification import Notification, NotificationTypedDict
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
@@ -59,7 +59,7 @@ class SavedJobResponseScheduledSearchTypedDict(TypedDict):
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
     r"""Runtime collection state."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    notifications: NotRequired[List[NotificationTypedDict]]
     r"""Notification targets."""
 
 
@@ -116,7 +116,7 @@ class SavedJobResponseScheduledSearch(BaseModel):
     ] = None
     r"""Runtime collection state."""
 
-    notifications: Optional[List[NotificationUnion]] = None
+    notifications: Optional[List[Notification]] = None
     r"""Notification targets."""
 
     @field_serializer("type")
@@ -191,7 +191,7 @@ class SavedJobResponseExecutorTypedDict(TypedDict):
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
     r"""Runtime collection state."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    notifications: NotRequired[List[NotificationTypedDict]]
     r"""Notification targets."""
 
 
@@ -248,7 +248,7 @@ class SavedJobResponseExecutor(BaseModel):
     ] = None
     r"""Runtime collection state."""
 
-    notifications: Optional[List[NotificationUnion]] = None
+    notifications: Optional[List[Notification]] = None
     r"""Notification targets."""
 
     @field_serializer("type")
@@ -327,7 +327,7 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
     r"""Runtime collection state."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    notifications: NotRequired[List[NotificationTypedDict]]
     r"""Notification targets."""
 
 
@@ -392,7 +392,7 @@ class SavedJobResponseCollection(BaseModel):
     ] = None
     r"""Runtime collection state."""
 
-    notifications: Optional[List[NotificationUnion]] = None
+    notifications: Optional[List[Notification]] = None
     r"""Notification targets."""
 
     @field_serializer("type")

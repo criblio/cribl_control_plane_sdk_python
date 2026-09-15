@@ -27,8 +27,8 @@ class PacksPipelines(BaseSDK):
         Get a list of all Pipelines within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -89,7 +89,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -158,8 +162,8 @@ class PacksPipelines(BaseSDK):
         Get a list of all Pipelines within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -220,7 +224,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -359,7 +367,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -467,7 +479,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -567,7 +583,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -667,7 +687,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -778,7 +802,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -889,7 +917,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -989,7 +1021,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1089,7 +1125,11 @@ class PacksPipelines(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["pipelines"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

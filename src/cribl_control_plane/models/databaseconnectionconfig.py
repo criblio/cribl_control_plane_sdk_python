@@ -25,12 +25,22 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Database connection string with embedded credentials or server information."""
     connection_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait when establishing the database connection."""
+    credentials_secret: NotRequired[str]
+    r"""Name of the stored credentials secret containing username and password for SQL Server configObj authentication."""
     creds_secrets: NotRequired[str]
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
+    database: NotRequired[str]
+    r"""Database to connect to instead of the server default."""
+    host: NotRequired[str]
+    r"""Hostname of the server to connect to."""
+    log_on_mechanism: NotRequired[str]
+    r"""Log On Mechanism for databases that support multiple, like Teradata."""
     password: NotRequired[str]
     r"""Database password for authentication. Used with Oracle connections."""
     request_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+    sslmode: NotRequired[str]
+    r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
     tags: NotRequired[str]
     r"""Comma-separated list of tags for categorizing and filtering Database Connections."""
     text_secret: NotRequired[str]
@@ -67,8 +77,24 @@ class DatabaseConnectionConfig(BaseModel):
     ] = None
     r"""Maximum time (in milliseconds) to wait when establishing the database connection."""
 
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Name of the stored credentials secret containing username and password for SQL Server configObj authentication."""
+
     creds_secrets: Annotated[Optional[str], pydantic.Field(alias="credsSecrets")] = None
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
+
+    database: Optional[str] = None
+    r"""Database to connect to instead of the server default."""
+
+    host: Optional[str] = None
+    r"""Hostname of the server to connect to."""
+
+    log_on_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="logOnMechanism")
+    ] = None
+    r"""Log On Mechanism for databases that support multiple, like Teradata."""
 
     password: Optional[str] = None
     r"""Database password for authentication. Used with Oracle connections."""
@@ -77,6 +103,9 @@ class DatabaseConnectionConfig(BaseModel):
         Optional[int], pydantic.Field(alias="requestTimeout")
     ] = None
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+
+    sslmode: Optional[str] = None
+    r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
 
     tags: Optional[str] = None
     r"""Comma-separated list of tags for categorizing and filtering Database Connections."""
@@ -115,9 +144,14 @@ class DatabaseConnectionConfig(BaseModel):
                 "configObj",
                 "connectionString",
                 "connectionTimeout",
+                "credentialsSecret",
                 "credsSecrets",
+                "database",
+                "host",
+                "logOnMechanism",
                 "password",
                 "requestTimeout",
+                "sslmode",
                 "tags",
                 "textSecret",
                 "tls",

@@ -51,6 +51,12 @@ value: models.FunctionCode = /* values here */
 value: models.FunctionComment = /* values here */
 ```
 
+### `models.FunctionDetectionRules`
+
+```python
+value: models.FunctionDetectionRules = /* values here */
+```
+
 ### `models.FunctionDistinct`
 
 ```python
@@ -159,6 +165,12 @@ value: models.FunctionJSONUnroll = /* values here */
 value: models.FunctionLakeExport = /* values here */
 ```
 
+### `models.FunctionLakehouseEngineMetricsNormalizer`
+
+```python
+value: models.FunctionLakehouseEngineMetricsNormalizer = /* values here */
+```
+
 ### `models.FunctionLimit`
 
 ```python
@@ -211,6 +223,12 @@ value: models.FunctionMask = /* values here */
 
 ```python
 value: models.FunctionMetricsExport = /* values here */
+```
+
+### `models.FunctionMetricsTimeRangeGate`
+
+```python
+value: models.FunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.FunctionMvExpand`

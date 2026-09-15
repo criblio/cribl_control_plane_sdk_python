@@ -3,7 +3,7 @@
 
 ## Fields
 
-| Field                                      | Type                                       | Required                                   | Description                                |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| `count`                                    | *int*                                      | :heavy_check_mark:                         | number of items present in the items array |
-| `items`                                    | List[*str*]                                | :heavy_check_mark:                         | List of items in this response.            |
+| Field                                        | Type                                         | Required                                     | Description                                  |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| `count`                                      | *int*                                        | :heavy_check_mark:                           | Number of items returned in the items array. |
+| `items`                                      | List[*str*]                                  | :heavy_check_mark:                           | The list of items returned in this response. |

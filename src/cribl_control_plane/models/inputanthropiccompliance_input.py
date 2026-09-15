@@ -49,9 +49,9 @@ class ActivitiesTypedDict(TypedDict):
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ActivitiesManageStateTypedDict]
 
 
@@ -81,12 +81,12 @@ class Activities(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ActivitiesManageState], pydantic.Field(alias="manageState")
@@ -145,9 +145,9 @@ class ChatsTypedDict(TypedDict):
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ChatsManageStateTypedDict]
 
 
@@ -177,12 +177,12 @@ class Chats(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ChatsManageState], pydantic.Field(alias="manageState")
@@ -241,9 +241,9 @@ class ProjectsTypedDict(TypedDict):
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ProjectsManageStateTypedDict]
 
 
@@ -273,12 +273,12 @@ class Projects(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ProjectsManageState], pydantic.Field(alias="manageState")
@@ -337,9 +337,9 @@ class ChatMessagesTypedDict(TypedDict):
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ChatMessagesManageStateTypedDict]
 
 
@@ -369,12 +369,12 @@ class ChatMessages(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ChatMessagesManageState], pydantic.Field(alias="manageState")
@@ -433,9 +433,9 @@ class ProjectDetailsTypedDict(TypedDict):
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ProjectDetailsManageStateTypedDict]
 
 
@@ -465,12 +465,12 @@ class ProjectDetails(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ProjectDetailsManageState], pydantic.Field(alias="manageState")

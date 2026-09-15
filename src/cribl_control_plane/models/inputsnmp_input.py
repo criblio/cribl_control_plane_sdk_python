@@ -39,6 +39,15 @@ class InputSnmpAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     SHA512 = "sha512"
 
 
+class V3AuthenticationKeyType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
+
+    # Manual
+    MANUAL = "manual"
+    # Secret
+    SECRET = "secret"
+
+
 class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Privacy protocol"""
 
@@ -54,17 +63,34 @@ class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     AES256R = "aes256r"
 
 
+class V3PrivacyKeyType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
+
+    # Manual
+    MANUAL = "manual"
+    # Secret
+    SECRET = "secret"
+
+
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
     r"""V3 name"""
     auth_protocol: NotRequired[InputSnmpAuthenticationProtocol]
     r"""Authentication protocol"""
+    auth_key_type: NotRequired[V3AuthenticationKeyType]
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
     auth_key: NotRequired[str]
     r"""V3 authentication key"""
+    auth_key_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
     priv_protocol: NotRequired[PrivacyProtocol]
     r"""Privacy protocol"""
+    priv_key_type: NotRequired[V3PrivacyKeyType]
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
     priv_key: NotRequired[str]
     r"""V3 privacy key"""
+    priv_key_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class InputSnmpV3User(BaseModel):
@@ -76,22 +102,51 @@ class InputSnmpV3User(BaseModel):
     ] = None
     r"""Authentication protocol"""
 
+    auth_key_type: Annotated[
+        Optional[V3AuthenticationKeyType], pydantic.Field(alias="authKeyType")
+    ] = None
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
+
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
     r"""V3 authentication key"""
+
+    auth_key_secret: Annotated[Optional[str], pydantic.Field(alias="authKeySecret")] = (
+        None
+    )
+    r"""Select or create a stored text secret"""
 
     priv_protocol: Annotated[
         Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
     ] = None
     r"""Privacy protocol"""
 
+    priv_key_type: Annotated[
+        Optional[V3PrivacyKeyType], pydantic.Field(alias="privKeyType")
+    ] = None
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
+
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
     r"""V3 privacy key"""
+
+    priv_key_secret: Annotated[Optional[str], pydantic.Field(alias="privKeySecret")] = (
+        None
+    )
+    r"""Select or create a stored text secret"""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
         if isinstance(value, str):
             try:
                 return models.InputSnmpAuthenticationProtocol(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_key_type")
+    def serialize_auth_key_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.V3AuthenticationKeyType(value)
             except ValueError:
                 return value
         return value
@@ -105,9 +160,29 @@ class InputSnmpV3User(BaseModel):
                 return value
         return value
 
+    @field_serializer("priv_key_type")
+    def serialize_priv_key_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.V3PrivacyKeyType(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["authProtocol", "authKey", "privProtocol", "privKey"])
+        optional_fields = set(
+            [
+                "authProtocol",
+                "authKeyType",
+                "authKey",
+                "authKeySecret",
+                "privProtocol",
+                "privKeyType",
+                "privKey",
+                "privKeySecret",
+            ]
+        )
         serialized = handler(self)
         m = {}
 

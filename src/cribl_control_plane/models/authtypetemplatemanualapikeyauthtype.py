@@ -14,8 +14,11 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict(TypedDict):
     disabled: bool
+    r"""Authentication Disabled"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthManualManualAPIKey]
     r"""Enter credentials directly, or select a stored secret"""
     credentials_secret: NotRequired[str]
@@ -30,10 +33,13 @@ class AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict(TypedDict):
 
 class AuthTypeTemplatemanualAPIKeyAuthType(BaseModel):
     disabled: bool
+    r"""Authentication Disabled"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthManualManualAPIKey],

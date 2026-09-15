@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWinEventLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     WIN_EVENT_LOGS = "win_event_logs"
 
 
@@ -43,11 +45,13 @@ class InputWinEventLogsEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputWinEventLogsInputTypedDict(TypedDict):
     type: InputWinEventLogsType
+    r"""Connector type identifier."""
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -57,10 +61,12 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    suppress_missing_log_errors: NotRequired[bool]
+    r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
     event_format: NotRequired[InputWinEventLogsEventFormat]
@@ -73,11 +79,14 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    max_event_bytes: NotRequired[float]
+    max_event_bytes: NotRequired[int]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     disable_json_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    include_empty_json_fields: NotRequired[bool]
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
     disable_xml_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     template_environment: NotRequired[str]
@@ -88,6 +97,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
 
 class InputWinEventLogsInput(BaseModel):
     type: InputWinEventLogsType
+    r"""Connector type identifier."""
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
@@ -96,6 +106,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -112,12 +123,17 @@ class InputWinEventLogsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    suppress_missing_log_errors: Annotated[
+        Optional[bool], pydantic.Field(alias="suppressMissingLogErrors")
+    ] = None
+    r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
 
     read_mode: Annotated[
         Optional[InputWinEventLogsReadMode], pydantic.Field(alias="readMode")
@@ -143,17 +159,23 @@ class InputWinEventLogsInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    max_event_bytes: Annotated[
-        Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = None
+    max_event_bytes: Annotated[Optional[int], pydantic.Field(alias="maxEventBytes")] = (
+        None
+    )
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
     ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+
+    include_empty_json_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="includeEmptyJsonFields")
+    ] = None
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
@@ -201,6 +223,7 @@ class InputWinEventLogsInput(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "suppressMissingLogErrors",
                 "readMode",
                 "eventFormat",
                 "disableNativeModule",
@@ -210,6 +233,7 @@ class InputWinEventLogsInput(BaseModel):
                 "maxEventBytes",
                 "description",
                 "disableJsonRendering",
+                "includeEmptyJsonFields",
                 "disableXmlRendering",
                 "__template_environment",
                 "__template_streamtags",

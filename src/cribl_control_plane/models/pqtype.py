@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptionspq import ModeOptionsPq
+from .queuefullbehavioroptionspq import QueueFullBehaviorOptionsPq
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
@@ -12,22 +13,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PqTypePqControlsTypedDict(TypedDict):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypePqControls(BaseModel):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypeTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsPq]
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode (deprecated), PQ will write events to the filesystem only when it detects backpressure from the processing engine. Smart mode will have no new development starting July 2026, followed by End of Support and feature removal (auto-migrating to Always On) in January 2027. We recommend using Always On mode instead. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead."""
     commit_frequency: NotRequired[float]
-    r"""The number of events to send downstream before committing that Stream has read them"""
+    r"""The number of events to send downstream before committing that Stream has read them. Lower values increase cursor-write IOPS and can add disk pressure, including on shared storage."""
     max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
     max_size: NotRequired[str]
@@ -36,12 +37,15 @@ class PqTypeTypedDict(TypedDict):
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>"""
     compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
+    on_backpressure: NotRequired[QueueFullBehaviorOptionsPq]
+    r"""Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[PqTypePqControlsTypedDict]
+    r"""Management controls for the persistent queue."""
 
 
 class PqType(BaseModel):
     mode: Optional[ModeOptionsPq] = None
-    r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    r"""With Smart mode (deprecated), PQ will write events to the filesystem only when it detects backpressure from the processing engine. Smart mode will have no new development starting July 2026, followed by End of Support and feature removal (auto-migrating to Always On) in January 2027. We recommend using Always On mode instead. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
     max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="maxBufferSizeBytes")
@@ -56,7 +60,7 @@ class PqType(BaseModel):
     commit_frequency: Annotated[
         Optional[float], pydantic.Field(alias="commitFrequency")
     ] = None
-    r"""The number of events to send downstream before committing that Stream has read them"""
+    r"""The number of events to send downstream before committing that Stream has read them. Lower values increase cursor-write IOPS and can add disk pressure, including on shared storage."""
 
     max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
@@ -70,9 +74,15 @@ class PqType(BaseModel):
     compress: Optional[CompressionOptionsPq] = None
     r"""Codec to use to compress the persisted data"""
 
+    on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptionsPq], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
     pq_controls: Annotated[
         Optional[PqTypePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Management controls for the persistent queue."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -92,6 +102,15 @@ class PqType(BaseModel):
                 return value
         return value
 
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -104,6 +123,7 @@ class PqType(BaseModel):
                 "maxSize",
                 "path",
                 "compress",
+                "onBackpressure",
                 "pqControls",
             ]
         )

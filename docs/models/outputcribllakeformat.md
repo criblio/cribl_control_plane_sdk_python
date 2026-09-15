@@ -13,9 +13,8 @@ value = OutputCriblLakeFormat.JSON
 
 ## Values
 
-| Name       | Value      |
-| ---------- | ---------- |
-| `JSON`     | json       |
-| `PARQUET`  | parquet    |
-| `DDSS`     | ddss       |
-| `NETSKOPE` | netskope   |
+| Name      | Value     |
+| --------- | --------- |
+| `JSON`    | json      |
+| `PARQUET` | parquet   |
+| `RAW`     | raw       |

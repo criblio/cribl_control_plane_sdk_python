@@ -1,5 +1,7 @@
 # RestartResponseStatus
 
+Result of the restart request for this Node (<code>Restarting</code> or <code>Error</code>).
+
 ## Example Usage
 
 ```python

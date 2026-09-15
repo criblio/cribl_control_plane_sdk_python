@@ -3,8 +3,8 @@
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `index`            | *str*              | :heavy_check_mark: | N/A                |
-| `path`             | *str*              | :heavy_check_mark: | N/A                |
-| `working_dir`      | *str*              | :heavy_check_mark: | N/A                |
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `index`                                                                                | *str*                                                                                  | :heavy_check_mark:                                                                     | Status code for the file in the index (staging area), using Git short-format notation. |
+| `path`                                                                                 | *str*                                                                                  | :heavy_check_mark:                                                                     | File path relative to the configuration root.                                          |
+| `working_dir`                                                                          | *str*                                                                                  | :heavy_check_mark:                                                                     | Status code for the file in the working directory, using Git short-format notation.    |

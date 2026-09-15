@@ -40,7 +40,7 @@ class Nodes(BaseSDK):
         Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -99,6 +99,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -108,10 +114,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedNumber, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -135,7 +144,7 @@ class Nodes(BaseSDK):
         Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -194,6 +203,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -203,10 +218,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedNumber, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -235,9 +253,9 @@ class Nodes(BaseSDK):
         Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
-        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
         :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
@@ -304,6 +322,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -343,14 +367,17 @@ class Nodes(BaseSDK):
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetProductsWorkersByProductResponse(
                 result=unmarshal_json_response(
-                    models.CountedMasterWorkerEntry, http_res
+                    models.PaginatedMasterWorkerEntry, http_res
                 ),
                 next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -379,9 +406,9 @@ class Nodes(BaseSDK):
         Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
-        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
         :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
@@ -448,6 +475,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -492,14 +525,17 @@ class Nodes(BaseSDK):
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetProductsWorkersByProductResponse(
                 result=unmarshal_json_response(
-                    models.CountedMasterWorkerEntry, http_res
+                    models.PaginatedMasterWorkerEntry, http_res
                 ),
                 next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -582,6 +618,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -591,10 +633,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -677,6 +722,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -686,10 +737,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -777,6 +831,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -786,10 +846,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedRestartResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -877,6 +940,12 @@ class Nodes(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["workers"],
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -886,10 +955,13 @@ class Nodes(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedRestartResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

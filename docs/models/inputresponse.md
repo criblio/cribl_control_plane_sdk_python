@@ -395,6 +395,12 @@ value: models.InputResponseInputBedrockS3 = /* values here */
 value: models.InputResponseInputServicenowTable = /* values here */
 ```
 
+### `models.InputResponseInputProofpointPod`
+
+```python
+value: models.InputResponseInputProofpointPod = /* values here */
+```
+
 ### `models.InputResponseInputZscalerHec`
 
 ```python
@@ -419,6 +425,30 @@ value: models.InputResponseInputSysdigHec = /* values here */
 value: models.InputResponseInputUpwindHec = /* values here */
 ```
 
+### `models.InputResponseInputTrellixHec`
+
+```python
+value: models.InputResponseInputTrellixHec = /* values here */
+```
+
+### `models.InputResponseInputSailpointHec`
+
+```python
+value: models.InputResponseInputSailpointHec = /* values here */
+```
+
+### `models.InputResponseInputExtrahopRevealx360`
+
+```python
+value: models.InputResponseInputExtrahopRevealx360 = /* values here */
+```
+
+### `models.InputResponseInputAquaSecurityHec`
+
+```python
+value: models.InputResponseInputAquaSecurityHec = /* values here */
+```
+
 ### `models.InputResponseInputOpenaiComplianceLogs`
 
 ```python
@@ -431,9 +461,75 @@ value: models.InputResponseInputOpenaiComplianceLogs = /* values here */
 value: models.InputResponseInputAnthropicCompliance = /* values here */
 ```
 
+### `models.InputResponseInputAnthropicEnterpriseAnalytics`
+
+```python
+value: models.InputResponseInputAnthropicEnterpriseAnalytics = /* values here */
+```
+
+### `models.InputResponseInputMicrosoftCopilot`
+
+```python
+value: models.InputResponseInputMicrosoftCopilot = /* values here */
+```
+
 ### `models.InputResponseInputOkta`
 
 ```python
 value: models.InputResponseInputOkta = /* values here */
+```
+
+### `models.InputResponseInputAkamaiHec`
+
+```python
+value: models.InputResponseInputAkamaiHec = /* values here */
+```
+
+### `models.InputResponseInputPingIdentityPingone`
+
+```python
+value: models.InputResponseInputPingIdentityPingone = /* values here */
+```
+
+### `models.InputResponseInputGigamonHec`
+
+```python
+value: models.InputResponseInputGigamonHec = /* values here */
+```
+
+### `models.InputResponseInputVectraAiHec`
+
+```python
+value: models.InputResponseInputVectraAiHec = /* values here */
+```
+
+### `models.InputResponseInputF5BigIP`
+
+```python
+value: models.InputResponseInputF5BigIP = /* values here */
+```
+
+### `models.InputResponseInputBeyondtrustHec`
+
+```python
+value: models.InputResponseInputBeyondtrustHec = /* values here */
+```
+
+### `models.InputResponseInputHashicorpHcpVaultDedicated`
+
+```python
+value: models.InputResponseInputHashicorpHcpVaultDedicated = /* values here */
+```
+
+### `models.InputResponseInputMimecastHec`
+
+```python
+value: models.InputResponseInputMimecastHec = /* values here */
+```
+
+### `models.InputResponseInputTrendMicroVisionOne`
+
+```python
+value: models.InputResponseInputTrendMicroVisionOne = /* values here */
 ```
 

@@ -7,11 +7,17 @@ from typing_extensions import Annotated, TypedDict
 
 
 class ProxyTypeSystemSettingsConfTypedDict(TypedDict):
+    r"""HTTP proxy configuration for outbound connections."""
+
     use_env_vars: bool
+    r"""If <code>true</code>, use proxy settings from environment variables (<code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>NO_PROXY</code>). Otherwise, <code>false</code>."""
 
 
 class ProxyTypeSystemSettingsConf(BaseModel):
+    r"""HTTP proxy configuration for outbound connections."""
+
     use_env_vars: Annotated[bool, pydantic.Field(alias="useEnvVars")]
+    r"""If <code>true</code>, use proxy settings from environment variables (<code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>NO_PROXY</code>). Otherwise, <code>false</code>."""
 
 
 try:

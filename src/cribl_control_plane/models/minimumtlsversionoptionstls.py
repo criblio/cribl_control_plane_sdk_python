@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class MinimumTLSVersionOptionsTLS(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Minimum TLS version"""
+
     TL_SV1 = "TLSv1"
     TL_SV1_1 = "TLSv1.1"
     TL_SV1_2 = "TLSv1.2"

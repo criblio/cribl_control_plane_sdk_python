@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputKubeLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     KUBE_LOGS = "kube_logs"
 
 
@@ -56,9 +58,11 @@ class InputKubeLogsRule(BaseModel):
 
 class InputKubeLogsInputTypedDict(TypedDict):
     type: InputKubeLogsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -68,7 +72,7 @@ class InputKubeLogsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -85,6 +89,7 @@ class InputKubeLogsInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -92,6 +97,7 @@ class InputKubeLogsInputTypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -100,11 +106,13 @@ class InputKubeLogsInputTypedDict(TypedDict):
 
 class InputKubeLogsInput(BaseModel):
     type: InputKubeLogsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -121,7 +129,7 @@ class InputKubeLogsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -151,6 +159,7 @@ class InputKubeLogsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -168,6 +177,7 @@ class InputKubeLogsInput(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

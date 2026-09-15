@@ -1,5 +1,7 @@
 # PipelineFunctionRedisConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Supported Types
 

@@ -32,10 +32,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleChronicleType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CHRONICLE = "google_chronicle"
 
 
 class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""API version"""
+
     # V1
     V1 = "v1"
     # V2
@@ -45,6 +49,8 @@ class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputGoogleChronicleAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     # API key
     MANUAL = "manual"
     # API key secret
@@ -55,22 +61,28 @@ class OutputGoogleChronicleAuthenticationMethod(
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Send events as"""
+
     # Unstructured
     UNSTRUCTURED = "unstructured"
     # UDM
     UDM = "udm"
 
 
-class OutputGoogleChronicleExtraLogTypeTypedDict(TypedDict):
+class ExtraLogTypeTypedDict(TypedDict):
     log_type: str
+    r"""Log Type"""
     description: NotRequired[str]
+    r"""Description"""
 
 
-class OutputGoogleChronicleExtraLogType(BaseModel):
+class ExtraLogType(BaseModel):
     log_type: Annotated[str, pydantic.Field(alias="logType")]
+    r"""Log Type"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -89,7 +101,7 @@ class OutputGoogleChronicleExtraLogType(BaseModel):
         return m
 
 
-class OutputGoogleChronicleUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
+class UDMType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     ENTITIES = "entities"
@@ -97,16 +109,18 @@ class OutputGoogleChronicleUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputGoogleChroniclePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleChroniclePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleChronicleTypedDict(TypedDict):
     type: OutputGoogleChronicleType
-    log_format_type: OutputGoogleChronicleSendEventsAs
+    r"""Connector type identifier."""
+    log_format_type: SendEventsAs
+    r"""Send events as"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -116,9 +130,11 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     api_version: NotRequired[OutputGoogleChronicleAPIVersion]
+    r"""API version"""
     authentication_method: NotRequired[OutputGoogleChronicleAuthenticationMethod]
+    r"""Authentication method"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
@@ -143,6 +159,8 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -158,7 +176,8 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
-    extra_log_types: NotRequired[List[OutputGoogleChronicleExtraLogTypeTypedDict]]
+    r"""Optional description for this configuration."""
+    extra_log_types: NotRequired[List[ExtraLogTypeTypedDict]]
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
     log_type: NotRequired[str]
     r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
@@ -170,7 +189,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     custom_labels: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""Custom labels to be added to every batch"""
-    udm_type: NotRequired[OutputGoogleChronicleUDMType]
+    udm_type: NotRequired[UDMType]
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
     api_key: NotRequired[str]
     r"""Organization's API key in Google SecOps"""
@@ -203,6 +222,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGoogleChroniclePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_api_version: NotRequired[str]
@@ -219,10 +239,10 @@ class OutputGoogleChronicleTypedDict(TypedDict):
 
 class OutputGoogleChronicle(BaseModel):
     type: OutputGoogleChronicleType
+    r"""Connector type identifier."""
 
-    log_format_type: Annotated[
-        OutputGoogleChronicleSendEventsAs, pydantic.Field(alias="logFormatType")
-    ]
+    log_format_type: Annotated[SendEventsAs, pydantic.Field(alias="logFormatType")]
+    r"""Send events as"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -239,16 +259,18 @@ class OutputGoogleChronicle(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     api_version: Annotated[
         Optional[OutputGoogleChronicleAPIVersion], pydantic.Field(alias="apiVersion")
     ] = None
+    r"""API version"""
 
     authentication_method: Annotated[
         Optional[OutputGoogleChronicleAuthenticationMethod],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
@@ -295,6 +317,11 @@ class OutputGoogleChronicle(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
+
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
     ] = None
@@ -333,10 +360,10 @@ class OutputGoogleChronicle(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     extra_log_types: Annotated[
-        Optional[List[OutputGoogleChronicleExtraLogType]],
-        pydantic.Field(alias="extraLogTypes"),
+        Optional[List[ExtraLogType]], pydantic.Field(alias="extraLogTypes")
     ] = None
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
 
@@ -360,9 +387,7 @@ class OutputGoogleChronicle(BaseModel):
     ] = None
     r"""Custom labels to be added to every batch"""
 
-    udm_type: Annotated[
-        Optional[OutputGoogleChronicleUDMType], pydantic.Field(alias="udmType")
-    ] = None
+    udm_type: Annotated[Optional[UDMType], pydantic.Field(alias="udmType")] = None
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -435,6 +460,7 @@ class OutputGoogleChronicle(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGoogleChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -488,7 +514,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_log_format_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleChronicleSendEventsAs(value)
+                return models.SendEventsAs(value)
             except ValueError:
                 return value
         return value
@@ -515,7 +541,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_udm_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleChronicleUDMType(value)
+                return models.UDMType(value)
             except ValueError:
                 return value
         return value
@@ -568,6 +594,7 @@ class OutputGoogleChronicle(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -622,7 +649,7 @@ class OutputGoogleChronicle(BaseModel):
 
 
 try:
-    OutputGoogleChronicleExtraLogType.model_rebuild()
+    ExtraLogType.model_rebuild()
 except NameError:
     pass
 try:

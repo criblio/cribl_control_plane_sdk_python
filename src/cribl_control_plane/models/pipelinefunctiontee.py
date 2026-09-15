@@ -10,15 +10,18 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionTeeID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>tee</code>"""
 
     TEE = "tee"
 
 
 class PipelineFunctionTeeConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     command: str
     r"""Command to execute and feed events to, via stdin. One JSON-formatted event per line."""
     args: NotRequired[List[str]]
+    r"""Command-line arguments to pass to the command."""
     restart_on_exit: NotRequired[bool]
     r"""Restart the process if it exits and/or we fail to write to it"""
     env: NotRequired[Dict[str, str]]
@@ -26,10 +29,13 @@ class PipelineFunctionTeeConfTypedDict(TypedDict):
 
 
 class PipelineFunctionTeeConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     command: str
     r"""Command to execute and feed events to, via stdin. One JSON-formatted event per line."""
 
     args: Optional[List[str]] = None
+    r"""Command-line arguments to pass to the command."""
 
     restart_on_exit: Annotated[
         Optional[bool], pydantic.Field(alias="restartOnExit")
@@ -58,40 +64,42 @@ class PipelineFunctionTeeConf(BaseModel):
 
 class PipelineFunctionTeeTypedDict(TypedDict):
     id: PipelineFunctionTeeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>tee</code>"""
     conf: PipelineFunctionTeeConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionTee(BaseModel):
     id: PipelineFunctionTeeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>tee</code>"""
 
     conf: PipelineFunctionTeeConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

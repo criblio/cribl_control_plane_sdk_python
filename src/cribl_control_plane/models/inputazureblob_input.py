@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
@@ -15,26 +12,24 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionsazureblob import TypeOptionsAzureblob
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputAzureBlobType(str, Enum):
-    AZURE_BLOB = "azure_blob"
-
-
 class InputAzureBlobInputTypedDict(TypedDict):
-    type: InputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -44,7 +39,7 @@ class InputAzureBlobInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -60,6 +55,8 @@ class InputAzureBlobInputTypedDict(TypedDict):
     r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
     skip_on_error: NotRequired[bool]
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
@@ -71,7 +68,11 @@ class InputAzureBlobInputTypedDict(TypedDict):
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     auth_type: NotRequired[AuthenticationMethodOptions]
+    r"""Authentication method"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
     text_secret: NotRequired[str]
@@ -88,7 +89,7 @@ class InputAzureBlobInputTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -108,7 +109,8 @@ class InputAzureBlobInputTypedDict(TypedDict):
 
 
 class InputAzureBlobInput(BaseModel):
-    type: InputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
@@ -117,6 +119,7 @@ class InputAzureBlobInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -133,7 +136,7 @@ class InputAzureBlobInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -164,6 +167,9 @@ class InputAzureBlobInput(BaseModel):
     skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = None
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
 
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
@@ -190,8 +196,13 @@ class InputAzureBlobInput(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     connection_string: Annotated[
         Optional[str], pydantic.Field(alias="connectionString")
@@ -225,7 +236,7 @@ class InputAzureBlobInput(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -295,12 +306,14 @@ class InputAzureBlobInput(BaseModel):
                 "maxMessages",
                 "servicePeriodSecs",
                 "skipOnError",
+                "encoding",
                 "metadata",
                 "breakerRulesets",
                 "staleChannelFlushMs",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "authType",
+                "autoParse",
                 "description",
                 "connectionString",
                 "textSecret",

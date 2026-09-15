@@ -1,5 +1,7 @@
 # SplunkAuthenticationNoneRetryRules
 
+Settings that control how the Collector retries failed HTTP requests.
+
 
 ## Supported Types
 

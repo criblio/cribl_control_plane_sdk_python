@@ -225,6 +225,12 @@ value: models.PipelineFunctionMask = /* values here */
 value: models.PipelineFunctionMetricsExport = /* values here */
 ```
 
+### `models.PipelineFunctionMetricsTimeRangeGate`
+
+```python
+value: models.PipelineFunctionMetricsTimeRangeGate = /* values here */
+```
+
 ### `models.PipelineFunctionMvExpand`
 
 ```python

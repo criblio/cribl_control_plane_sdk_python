@@ -91,6 +91,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     dynamic_dataset: NotRequired[bool]
     max_closing_files_to_backpressure: NotRequired[float]
     max_concurrent_file_parts: NotRequired[float]
+    freshness_grace_period_sec: NotRequired[float]
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -266,6 +267,10 @@ class OutputCriblLake(BaseModel):
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+
+    freshness_grace_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="freshnessGracePeriodSec")
     ] = None
 
     description: Optional[str] = None
@@ -485,6 +490,7 @@ class OutputCriblLake(BaseModel):
                 "dynamicDataset",
                 "maxClosingFilesToBackpressure",
                 "maxConcurrentFileParts",
+                "freshnessGracePeriodSec",
                 "description",
                 "compress",
                 "compressionLevel",

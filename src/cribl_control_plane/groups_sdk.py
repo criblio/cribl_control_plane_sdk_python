@@ -111,7 +111,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -246,7 +250,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -310,6 +318,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -342,6 +352,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -377,6 +389,8 @@ class GroupsSDK(BaseSDK):
         request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -446,7 +460,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -484,6 +502,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -516,6 +536,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -551,6 +573,8 @@ class GroupsSDK(BaseSDK):
         request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -620,7 +644,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -731,7 +759,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -834,7 +866,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -865,6 +901,8 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id_param: str,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -908,6 +946,8 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -949,6 +989,8 @@ class GroupsSDK(BaseSDK):
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -1021,7 +1063,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1052,6 +1098,8 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id_param: str,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -1095,6 +1143,8 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -1136,6 +1186,8 @@ class GroupsSDK(BaseSDK):
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -1208,7 +1260,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1308,7 +1364,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1408,7 +1468,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1526,7 +1590,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1644,7 +1712,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

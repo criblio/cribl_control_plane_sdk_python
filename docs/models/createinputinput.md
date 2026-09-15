@@ -53,6 +53,12 @@ value: models.CreateInputInputSplunkHec = /* values here */
 value: models.CreateInputInputAzureBlob = /* values here */
 ```
 
+### `models.CreateInputInputAzureVnetFlowLog`
+
+```python
+value: models.CreateInputInputAzureVnetFlowLog = /* values here */
+```
+
 ### `models.CreateInputInputElastic`
 
 ```python
@@ -389,6 +395,12 @@ value: models.CreateInputInputBedrockS3 = /* values here */
 value: models.CreateInputInputServicenowTable = /* values here */
 ```
 
+### `models.CreateInputInputProofpointPod`
+
+```python
+value: models.CreateInputInputProofpointPod = /* values here */
+```
+
 ### `models.CreateInputInputZscalerHec`
 
 ```python
@@ -413,6 +425,30 @@ value: models.CreateInputInputSysdigHec = /* values here */
 value: models.CreateInputInputUpwindHec = /* values here */
 ```
 
+### `models.CreateInputInputTrellixHec`
+
+```python
+value: models.CreateInputInputTrellixHec = /* values here */
+```
+
+### `models.CreateInputInputSailpointHec`
+
+```python
+value: models.CreateInputInputSailpointHec = /* values here */
+```
+
+### `models.CreateInputInputExtrahopRevealx360`
+
+```python
+value: models.CreateInputInputExtrahopRevealx360 = /* values here */
+```
+
+### `models.CreateInputInputAquaSecurityHec`
+
+```python
+value: models.CreateInputInputAquaSecurityHec = /* values here */
+```
+
 ### `models.CreateInputInputOpenaiComplianceLogs`
 
 ```python
@@ -425,9 +461,75 @@ value: models.CreateInputInputOpenaiComplianceLogs = /* values here */
 value: models.CreateInputInputAnthropicCompliance = /* values here */
 ```
 
+### `models.CreateInputInputAnthropicEnterpriseAnalytics`
+
+```python
+value: models.CreateInputInputAnthropicEnterpriseAnalytics = /* values here */
+```
+
+### `models.CreateInputInputMicrosoftCopilot`
+
+```python
+value: models.CreateInputInputMicrosoftCopilot = /* values here */
+```
+
 ### `models.CreateInputInputOkta`
 
 ```python
 value: models.CreateInputInputOkta = /* values here */
+```
+
+### `models.CreateInputInputAkamaiHec`
+
+```python
+value: models.CreateInputInputAkamaiHec = /* values here */
+```
+
+### `models.CreateInputInputPingIdentityPingone`
+
+```python
+value: models.CreateInputInputPingIdentityPingone = /* values here */
+```
+
+### `models.CreateInputInputGigamonHec`
+
+```python
+value: models.CreateInputInputGigamonHec = /* values here */
+```
+
+### `models.CreateInputInputVectraAiHec`
+
+```python
+value: models.CreateInputInputVectraAiHec = /* values here */
+```
+
+### `models.CreateInputInputF5BigIP`
+
+```python
+value: models.CreateInputInputF5BigIP = /* values here */
+```
+
+### `models.CreateInputInputBeyondtrustHec`
+
+```python
+value: models.CreateInputInputBeyondtrustHec = /* values here */
+```
+
+### `models.CreateInputInputHashicorpHcpVaultDedicated`
+
+```python
+value: models.CreateInputInputHashicorpHcpVaultDedicated = /* values here */
+```
+
+### `models.CreateInputInputMimecastHec`
+
+```python
+value: models.CreateInputInputMimecastHec = /* values here */
+```
+
+### `models.CreateInputInputTrendMicroVisionOne`
+
+```python
+value: models.CreateInputInputTrendMicroVisionOne = /* values here */
 ```
 

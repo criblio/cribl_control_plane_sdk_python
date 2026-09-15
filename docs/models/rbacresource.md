@@ -16,6 +16,7 @@ value = RbacResource.GROUPS
 | Name                 | Value                |
 | -------------------- | -------------------- |
 | `GROUPS`             | groups               |
+| `INSIGHTS_APPS`      | insights-apps        |
 | `DATASETS`           | datasets             |
 | `DATASET_PROVIDERS`  | dataset-providers    |
 | `PROJECTS`           | projects             |
@@ -24,3 +25,4 @@ value = RbacResource.GROUPS
 | `NOTEBOOKS`          | notebooks            |
 | `NOTEBOOK_TEMPLATES` | notebook-templates   |
 | `APPS`               | apps                 |
+| `SECRET_FOLDERS`     | secret-folders       |

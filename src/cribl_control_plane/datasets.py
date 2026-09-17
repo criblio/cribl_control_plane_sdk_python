@@ -25,6 +25,12 @@ class Datasets(BaseSDK):
         include_metrics: Optional[bool] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        order_by: Optional[str] = None,
+        order_dir: Optional[str] = None,
+        name: Optional[str] = None,
+        name_contains: Optional[str] = None,
+        provider_path_contains: Optional[str] = None,
+        description_contains: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -43,8 +49,14 @@ class Datasets(BaseSDK):
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point for catalog-backed pagination. Requires <code>limit</code>.
+        :param limit: Page size for catalog-backed pagination. Requires <code>offset</code>.
+        :param order_by: Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>.
+        :param order_dir: Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>.
+        :param name: Exact dataset name match (catalog path, with pagination).
+        :param name_contains: Case-insensitive substring match on dataset name (catalog path, with pagination).
+        :param provider_path_contains: Case-insensitive substring match on provider path (catalog path, with pagination).
+        :param description_contains: Case-insensitive substring match on description (catalog path, with pagination).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -72,6 +84,12 @@ class Datasets(BaseSDK):
             include_metrics=include_metrics,
             offset=offset,
             limit=limit,
+            order_by=order_by,
+            order_dir=order_dir,
+            name=name,
+            name_contains=name_contains,
+            provider_path_contains=provider_path_contains,
+            description_contains=description_contains,
         )
 
         req = self._build_request(
@@ -113,7 +131,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -147,6 +169,12 @@ class Datasets(BaseSDK):
                 include_metrics=include_metrics,
                 offset=next_offset,
                 limit=limit,
+                order_by=order_by,
+                order_dir=order_dir,
+                name=name,
+                name_contains=name_contains,
+                provider_path_contains=provider_path_contains,
+                description_contains=description_contains,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,
@@ -167,7 +195,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -190,6 +218,12 @@ class Datasets(BaseSDK):
         include_metrics: Optional[bool] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        order_by: Optional[str] = None,
+        order_dir: Optional[str] = None,
+        name: Optional[str] = None,
+        name_contains: Optional[str] = None,
+        provider_path_contains: Optional[str] = None,
+        description_contains: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -208,8 +242,14 @@ class Datasets(BaseSDK):
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point for catalog-backed pagination. Requires <code>limit</code>.
+        :param limit: Page size for catalog-backed pagination. Requires <code>offset</code>.
+        :param order_by: Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>.
+        :param order_dir: Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>.
+        :param name: Exact dataset name match (catalog path, with pagination).
+        :param name_contains: Case-insensitive substring match on dataset name (catalog path, with pagination).
+        :param provider_path_contains: Case-insensitive substring match on provider path (catalog path, with pagination).
+        :param description_contains: Case-insensitive substring match on description (catalog path, with pagination).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -237,6 +277,12 @@ class Datasets(BaseSDK):
             include_metrics=include_metrics,
             offset=offset,
             limit=limit,
+            order_by=order_by,
+            order_dir=order_dir,
+            name=name,
+            name_contains=name_contains,
+            provider_path_contains=provider_path_contains,
+            description_contains=description_contains,
         )
 
         req = self._build_request_async(
@@ -278,7 +324,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -317,6 +367,12 @@ class Datasets(BaseSDK):
                 include_metrics=include_metrics,
                 offset=next_offset,
                 limit=limit,
+                order_by=order_by,
+                order_dir=order_dir,
+                name=name,
+                name_contains=name_contains,
+                provider_path_contains=provider_path_contains,
+                description_contains=description_contains,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,
@@ -337,7 +393,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -352,6 +408,7 @@ class Datasets(BaseSDK):
         lake_id: str,
         id: str,
         accelerated_fields: Optional[Iterable[str]] = None,
+        allow_record_erasure: Optional[bool] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -363,6 +420,7 @@ class Datasets(BaseSDK):
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
+        provider_path: Optional[str] = None,
         retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
@@ -377,13 +435,14 @@ class Datasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset (Cribl.Cloud only)
+        r"""Create Lake Datasets (Cribl.Cloud only)
 
-        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch.
 
-        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Datasets in.
         :param id: Unique identifier for the Dataset.
         :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param allow_record_erasure: If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled.
         :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
@@ -391,6 +450,7 @@ class Datasets(BaseSDK):
         :param format_: Storage format used for data persisted in the Dataset.
         :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
+        :param provider_path: Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets).
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
@@ -417,6 +477,7 @@ class Datasets(BaseSDK):
                 accelerated_fields=utils.unmarshal(
                     accelerated_fields, Optional[List[str]]
                 ),
+                allow_record_erasure=allow_record_erasure,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -429,6 +490,7 @@ class Datasets(BaseSDK):
                 metrics=utils.get_pydantic_model(
                     metrics, Optional[models.LakeDatasetMetrics]
                 ),
+                provider_path=provider_path,
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -485,7 +547,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -493,7 +559,7 @@ class Datasets(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "201", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -516,6 +582,7 @@ class Datasets(BaseSDK):
         lake_id: str,
         id: str,
         accelerated_fields: Optional[Iterable[str]] = None,
+        allow_record_erasure: Optional[bool] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -527,6 +594,7 @@ class Datasets(BaseSDK):
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
+        provider_path: Optional[str] = None,
         retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
@@ -541,13 +609,14 @@ class Datasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset (Cribl.Cloud only)
+        r"""Create Lake Datasets (Cribl.Cloud only)
 
-        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch.
 
-        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Datasets in.
         :param id: Unique identifier for the Dataset.
         :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param allow_record_erasure: If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled.
         :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
@@ -555,6 +624,7 @@ class Datasets(BaseSDK):
         :param format_: Storage format used for data persisted in the Dataset.
         :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
+        :param provider_path: Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets).
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
@@ -581,6 +651,7 @@ class Datasets(BaseSDK):
                 accelerated_fields=utils.unmarshal(
                     accelerated_fields, Optional[List[str]]
                 ),
+                allow_record_erasure=allow_record_erasure,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -593,6 +664,7 @@ class Datasets(BaseSDK):
                 metrics=utils.get_pydantic_model(
                     metrics, Optional[models.LakeDatasetMetrics]
                 ),
+                provider_path=provider_path,
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -649,7 +721,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -657,7 +733,7 @@ class Datasets(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
+        if utils.match_response(http_res, "201", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -752,7 +828,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -855,7 +935,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -886,6 +970,7 @@ class Datasets(BaseSDK):
         lake_id: str,
         id_param: str,
         accelerated_fields: Optional[Iterable[str]] = None,
+        allow_record_erasure: Optional[bool] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -898,6 +983,7 @@ class Datasets(BaseSDK):
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
+        provider_path: Optional[str] = None,
         retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
@@ -919,6 +1005,7 @@ class Datasets(BaseSDK):
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
         :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param allow_record_erasure: If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled.
         :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
@@ -927,6 +1014,7 @@ class Datasets(BaseSDK):
         :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
+        :param provider_path: Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets).
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
@@ -954,6 +1042,7 @@ class Datasets(BaseSDK):
                 accelerated_fields=utils.unmarshal(
                     accelerated_fields, Optional[List[str]]
                 ),
+                allow_record_erasure=allow_record_erasure,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -966,6 +1055,7 @@ class Datasets(BaseSDK):
                 metrics=utils.get_pydantic_model(
                     metrics, Optional[models.LakeDatasetMetrics]
                 ),
+                provider_path=provider_path,
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -1022,7 +1112,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1038,7 +1132,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1053,6 +1147,7 @@ class Datasets(BaseSDK):
         lake_id: str,
         id_param: str,
         accelerated_fields: Optional[Iterable[str]] = None,
+        allow_record_erasure: Optional[bool] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -1065,6 +1160,7 @@ class Datasets(BaseSDK):
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
+        provider_path: Optional[str] = None,
         retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
@@ -1086,6 +1182,7 @@ class Datasets(BaseSDK):
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
         :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param allow_record_erasure: If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled.
         :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
@@ -1094,6 +1191,7 @@ class Datasets(BaseSDK):
         :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
+        :param provider_path: Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets).
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
@@ -1121,6 +1219,7 @@ class Datasets(BaseSDK):
                 accelerated_fields=utils.unmarshal(
                     accelerated_fields, Optional[List[str]]
                 ),
+                allow_record_erasure=allow_record_erasure,
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -1133,6 +1232,7 @@ class Datasets(BaseSDK):
                 metrics=utils.get_pydantic_model(
                     metrics, Optional[models.LakeDatasetMetrics]
                 ),
+                provider_path=provider_path,
                 retention_period_in_days=retention_period_in_days,
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
@@ -1189,7 +1289,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1205,7 +1309,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1289,7 +1393,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1389,7 +1497,11 @@ class Datasets(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["lake"],
-                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "cloud",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

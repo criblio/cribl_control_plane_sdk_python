@@ -105,6 +105,8 @@ class InputKafkaInputTypedDict(TypedDict):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -262,6 +264,9 @@ class InputKafkaInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -325,6 +330,7 @@ class InputKafkaInput(BaseModel):
                 "maxBytes",
                 "maxSocketErrors",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

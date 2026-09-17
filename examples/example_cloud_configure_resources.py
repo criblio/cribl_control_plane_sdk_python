@@ -236,10 +236,10 @@ async def main():
     # the new Route (based on the Route definition block), saves the updated 
     # Routing table, and prints a confirmation message.
     routes_list_response = cribl.routes.list(server_url=group_url)
-    if not routes_list_response.items or len(routes_list_response.items) == 0:
+    if not routes_list_response or not routes_list_response.result.items:
         raise Exception("No Routes found")
 
-    routes = routes_list_response.items[0]
+    routes = routes_list_response.result.items[0]
     if not routes or not routes.id:
         raise Exception("No Routes found")
 

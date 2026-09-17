@@ -12,7 +12,7 @@ Get the configuration and versioning status for the Git integration for the Crib
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionInfo" method="get" path="/version/info" -->
+<!-- UsageSnippet language="python" operationID="getVersionInfo" method="get" path="/version/info" example="VersionInfoResponseExamplesGitInfo" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -46,5 +46,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

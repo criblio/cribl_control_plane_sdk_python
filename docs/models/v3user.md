@@ -1,5 +1,7 @@
 # V3User
 
+SNMPv3 user configuration, including authentication and privacy protocol settings.
+
 
 ## Supported Types
 

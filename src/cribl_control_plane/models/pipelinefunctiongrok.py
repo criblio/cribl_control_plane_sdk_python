@@ -14,20 +14,25 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionGrokID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
 
     GROK = "grok"
 
 
 class PipelineFunctionGrokConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
     source: NotRequired[str]
     r"""Field on which to perform Grok extractions"""
 
 
 class PipelineFunctionGrokConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -35,6 +40,7 @@ class PipelineFunctionGrokConf(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     source: Optional[str] = None
     r"""Field on which to perform Grok extractions"""
@@ -58,40 +64,42 @@ class PipelineFunctionGrokConf(BaseModel):
 
 class PipelineFunctionGrokTypedDict(TypedDict):
     id: PipelineFunctionGrokID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
     conf: PipelineFunctionGrokConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionGrok(BaseModel):
     id: PipelineFunctionGrokID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
 
     conf: PipelineFunctionGrokConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

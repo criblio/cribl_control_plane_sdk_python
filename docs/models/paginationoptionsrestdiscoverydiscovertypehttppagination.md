@@ -1,5 +1,7 @@
 # PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
+Pagination
+
 ## Example Usage
 
 ```python

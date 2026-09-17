@@ -45,7 +45,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.ListOutputResponse]:
+    ) -> Optional[models.GetOutputResponse]:
         r"""List all Destinations
 
         Get a list of all Destinations.
@@ -68,7 +68,7 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListOutputRequest(
+        request = models.GetOutputRequest(
             type=type_,
             offset=offset,
             limit=limit,
@@ -107,20 +107,24 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listOutput",
+                operation_id="getOutput",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[models.ListOutputResponse]:
+        def next_func() -> Optional[models.GetOutputResponse]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
 
             offset = request.offset if isinstance(request.offset, int) else 0
@@ -147,7 +151,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.ListOutputResponse(
+            return models.GetOutputResponse(
                 result=unmarshal_json_response(
                     models.PaginatedOutputResponse, http_res
                 ),
@@ -178,7 +182,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Optional[models.ListOutputResponse]:
+    ) -> Optional[models.GetOutputResponse]:
         r"""List all Destinations
 
         Get a list of all Destinations.
@@ -201,7 +205,7 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListOutputRequest(
+        request = models.GetOutputRequest(
             type=type_,
             offset=offset,
             limit=limit,
@@ -240,20 +244,24 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listOutput",
+                operation_id="getOutput",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
-        def next_func() -> Awaitable[Optional[models.ListOutputResponse]]:
+        def next_func() -> Awaitable[Optional[models.GetOutputResponse]]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
 
             async def empty_result():
@@ -283,7 +291,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.ListOutputResponse(
+            return models.GetOutputResponse(
                 result=unmarshal_json_response(
                     models.PaginatedOutputResponse, http_res
                 ),
@@ -379,7 +387,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -479,7 +491,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -576,7 +592,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -673,7 +693,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -776,7 +800,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -879,7 +907,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -976,7 +1008,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1073,7 +1109,11 @@ class Destinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

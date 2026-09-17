@@ -9,14 +9,14 @@ from typing_extensions import TypedDict
 
 class CountedBranchInfoTypedDict(TypedDict):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
     items: List[BranchInfoTypedDict]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""
 
 
 class CountedBranchInfo(BaseModel):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
 
     items: List[BranchInfo]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""

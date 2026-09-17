@@ -19,7 +19,7 @@ class PipelineGroupsTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Brief description of the group."""
     disabled: NotRequired[bool]
-    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
+    r"""Disable all items in the group."""
 
 
 class PipelineGroups(BaseModel):
@@ -30,7 +30,7 @@ class PipelineGroups(BaseModel):
     r"""Brief description of the group."""
 
     disabled: Optional[bool] = None
-    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
+    r"""Disable all items in the group."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

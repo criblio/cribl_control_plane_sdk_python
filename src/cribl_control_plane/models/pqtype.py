@@ -28,7 +28,7 @@ class PqTypeTypedDict(TypedDict):
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead."""
     commit_frequency: NotRequired[float]
-    r"""The number of events to send downstream before committing that Stream has read them"""
+    r"""The number of events to send downstream before committing that Stream has read them. Lower values increase cursor-write IOPS and can add disk pressure, including on shared storage."""
     max_file_size: NotRequired[str]
     r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""
     max_size: NotRequired[str]
@@ -60,7 +60,7 @@ class PqType(BaseModel):
     commit_frequency: Annotated[
         Optional[float], pydantic.Field(alias="commitFrequency")
     ] = None
-    r"""The number of events to send downstream before committing that Stream has read them"""
+    r"""The number of events to send downstream before committing that Stream has read them. Lower values increase cursor-write IOPS and can add disk pressure, including on shared storage."""
 
     max_file_size: Annotated[Optional[str], pydantic.Field(alias="maxFileSize")] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc."""

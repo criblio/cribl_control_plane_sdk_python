@@ -21,6 +21,10 @@ from .pipelinefunctioncomment import (
     PipelineFunctionComment,
     PipelineFunctionCommentTypedDict,
 )
+from .pipelinefunctiondetectionrules import (
+    PipelineFunctionDetectionRules,
+    PipelineFunctionDetectionRulesTypedDict,
+)
 from .pipelinefunctiondistinct import (
     PipelineFunctionDistinct,
     PipelineFunctionDistinctTypedDict,
@@ -78,6 +82,10 @@ from .pipelinefunctionlakeexport import (
     PipelineFunctionLakeExport,
     PipelineFunctionLakeExportTypedDict,
 )
+from .pipelinefunctionlakehouseenginemetricsnormalizer import (
+    PipelineFunctionLakehouseEngineMetricsNormalizer,
+    PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
+)
 from .pipelinefunctionlimit import PipelineFunctionLimit, PipelineFunctionLimitTypedDict
 from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
@@ -107,6 +115,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -237,6 +249,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionCloneTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
+        PipelineFunctionDetectionRulesTypedDict,
         PipelineFunctionDistinctTypedDict,
         PipelineFunctionDNSLookupTypedDict,
         PipelineFunctionDropTypedDict,
@@ -255,6 +268,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionJoinTypedDict,
         PipelineFunctionJSONUnrollTypedDict,
         PipelineFunctionLakeExportTypedDict,
+        PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -264,6 +278,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -321,6 +336,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "clone": PipelineFunctionClone,
     "code": PipelineFunctionCode,
     "comment": PipelineFunctionComment,
+    "detection_rules": PipelineFunctionDetectionRules,
     "distinct": PipelineFunctionDistinct,
     "dns_lookup": PipelineFunctionDNSLookup,
     "drop": PipelineFunctionDrop,
@@ -339,6 +355,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "join": PipelineFunctionJoin,
     "json_unroll": PipelineFunctionJSONUnroll,
     "lake_export": PipelineFunctionLakeExport,
+    "lakehouse_engine_metrics_normalizer": PipelineFunctionLakehouseEngineMetricsNormalizer,
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
@@ -348,6 +365,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -395,6 +413,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionClone,
         PipelineFunctionCode,
         PipelineFunctionComment,
+        PipelineFunctionDetectionRules,
         PipelineFunctionDistinct,
         PipelineFunctionDNSLookup,
         PipelineFunctionDrop,
@@ -413,6 +432,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionJoin,
         PipelineFunctionJSONUnroll,
         PipelineFunctionLakeExport,
+        PipelineFunctionLakehouseEngineMetricsNormalizer,
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
         PipelineFunctionLocalSearchRulesetRunner,
@@ -422,6 +442,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

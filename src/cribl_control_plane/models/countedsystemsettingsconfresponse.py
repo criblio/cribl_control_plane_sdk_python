@@ -12,14 +12,14 @@ from typing_extensions import TypedDict
 
 class CountedSystemSettingsConfResponseTypedDict(TypedDict):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
     items: List[SystemSettingsConfResponseTypedDict]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""
 
 
 class CountedSystemSettingsConfResponse(BaseModel):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
 
     items: List[SystemSettingsConfResponse]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""

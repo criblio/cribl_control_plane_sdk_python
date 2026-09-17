@@ -19,6 +19,10 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
+from .tlssettingsclientsidetypecapathcertpathextended import (
+    TLSSettingsClientSideTypeCaPathCertPathExtended,
+    TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
+)
 from .typeoptionsprometheus import TypeOptionsPrometheus
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -105,12 +109,15 @@ class OutputPrometheusTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[OutputPrometheusAuthenticationType]
     r"""Remote Write authentication type"""
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     metrics_flush_period_sec: NotRequired[float]
@@ -287,6 +294,7 @@ class OutputPrometheus(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -302,6 +310,9 @@ class OutputPrometheus(BaseModel):
         Optional[OutputPrometheusAuthenticationType], pydantic.Field(alias="authType")
     ] = None
     r"""Remote Write authentication type"""
+
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -548,6 +559,7 @@ class OutputPrometheus(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "onBackpressure",
                 "authType",
+                "tls",
                 "description",
                 "metricsFlushPeriodSec",
                 "pqStrictOrdering",

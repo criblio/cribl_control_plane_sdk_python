@@ -11,27 +11,13 @@ from .notificationtargetdetails import (
     NotificationTargetDetails,
     NotificationTargetDetailsTypedDict,
 )
+from .templatetargetpair import TemplateTargetPair, TemplateTargetPairTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class NotificationTemplateTargetPairTypedDict(TypedDict):
-    target_id: str
-    r"""The <code>id</code> of the Notification target to send the Notification to."""
-    template_id: str
-    r"""The <code>id</code> of the Notification template to use."""
-
-
-class NotificationTemplateTargetPair(BaseModel):
-    target_id: Annotated[str, pydantic.Field(alias="targetId")]
-    r"""The <code>id</code> of the Notification target to send the Notification to."""
-
-    template_id: Annotated[str, pydantic.Field(alias="templateId")]
-    r"""The <code>id</code> of the Notification template to use."""
 
 
 class NotificationTypedDict(TypedDict):
@@ -43,6 +29,10 @@ class NotificationTypedDict(TypedDict):
     r"""Unique identifier."""
     targets: List[str]
     r"""List of the <code>id</code> values for the Notification targets to send the Notification to."""
+    src_group: NotRequired[str]
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+    src_overridden: NotRequired[bool]
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
     disabled: NotRequired[bool]
     r"""If <code>true</code>, the Notification is disabled and the specified condition will not trigger it."""
     group: NotRequired[str]
@@ -56,7 +46,7 @@ class NotificationTypedDict(TypedDict):
     r"""Override settings to apply for each referenced Notification target."""
     target_details: NotRequired[List[NotificationTargetDetailsTypedDict]]
     r"""Additional details about referenced Notification targets. Optionally populated on request."""
-    template_target_pairs: NotRequired[List[NotificationTemplateTargetPairTypedDict]]
+    template_target_pairs: NotRequired[List[TemplateTargetPairTypedDict]]
     r"""If <code>mode</code> is <code>direct</code>, the key-value pairs that define the Notification templates and targets to use for sending Notifications."""
 
 
@@ -72,6 +62,14 @@ class Notification(BaseModel):
 
     targets: List[str]
     r"""List of the <code>id</code> values for the Notification targets to send the Notification to."""
+
+    src_group: Annotated[Optional[str], pydantic.Field(alias="__srcGroup")] = None
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+
+    src_overridden: Annotated[
+        Optional[bool], pydantic.Field(alias="__srcOverridden")
+    ] = None
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
 
     disabled: Optional[bool] = None
     r"""If <code>true</code>, the Notification is disabled and the specified condition will not trigger it."""
@@ -98,8 +96,7 @@ class Notification(BaseModel):
     r"""Additional details about referenced Notification targets. Optionally populated on request."""
 
     template_target_pairs: Annotated[
-        Optional[List[NotificationTemplateTargetPair]],
-        pydantic.Field(alias="templateTargetPairs"),
+        Optional[List[TemplateTargetPair]], pydantic.Field(alias="templateTargetPairs")
     ] = None
     r"""If <code>mode</code> is <code>direct</code>, the key-value pairs that define the Notification templates and targets to use for sending Notifications."""
 
@@ -116,6 +113,8 @@ class Notification(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__srcGroup",
+                "__srcOverridden",
                 "disabled",
                 "group",
                 "metadata",
@@ -140,10 +139,6 @@ class Notification(BaseModel):
         return m
 
 
-try:
-    NotificationTemplateTargetPair.model_rebuild()
-except NameError:
-    pass
 try:
     Notification.model_rebuild()
 except NameError:

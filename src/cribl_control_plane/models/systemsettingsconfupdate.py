@@ -92,7 +92,7 @@ class Ssl(BaseModel):
         return m
 
 
-class SystemSettingsConfUpdateAPITypedDict(TypedDict):
+class APITypedDict(TypedDict):
     r"""API server configuration for the Cribl instance."""
 
     base_url: NotRequired[str]
@@ -127,7 +127,7 @@ class SystemSettingsConfUpdateAPITypedDict(TypedDict):
     r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
 
-class SystemSettingsConfUpdateAPI(BaseModel):
+class API(BaseModel):
     r"""API server configuration for the Cribl instance."""
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
@@ -235,6 +235,12 @@ class AppsTypedDict(TypedDict):
     r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
     app_backend_max_in_flight: NotRequired[int]
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
+    app_schedule_body_expression_max_length: NotRequired[int]
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+    app_scheduled_concurrent_job_limit: NotRequired[int]
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+    app_schedules_max: NotRequired[int]
+    r"""Maximum number of schedule records a single App may declare."""
     enabled: NotRequired[bool]
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
@@ -262,6 +268,21 @@ class Apps(BaseModel):
     ] = None
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
 
+    app_schedule_body_expression_max_length: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduleBodyExpressionMaxLength")
+    ] = None
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+
+    app_scheduled_concurrent_job_limit: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduledConcurrentJobLimit")
+    ] = None
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+
+    app_schedules_max: Annotated[
+        Optional[int], pydantic.Field(alias="appSchedulesMax")
+    ] = None
+    r"""Maximum number of schedule records a single App may declare."""
+
     enabled: Optional[bool] = None
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
@@ -273,6 +294,9 @@ class Apps(BaseModel):
                 "appBackendMaxCallbacksPerInstallation",
                 "appBackendMaxCallbacksTotal",
                 "appBackendMaxInFlight",
+                "appScheduleBodyExpressionMaxLength",
+                "appScheduledConcurrentJobLimit",
+                "appSchedulesMax",
                 "enabled",
             ]
         )
@@ -635,7 +659,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
 
 
 class SystemSettingsConfUpdateTypedDict(TypedDict):
-    api: NotRequired[SystemSettingsConfUpdateAPITypedDict]
+    api: NotRequired[APITypedDict]
     r"""API server configuration for the Cribl instance."""
     apps: NotRequired[AppsTypedDict]
     r"""App configuration."""
@@ -663,7 +687,7 @@ class SystemSettingsConfUpdateTypedDict(TypedDict):
 
 
 class SystemSettingsConfUpdate(BaseModel):
-    api: Optional[SystemSettingsConfUpdateAPI] = None
+    api: Optional[API] = None
     r"""API server configuration for the Cribl instance."""
 
     apps: Optional[Apps] = None
@@ -751,7 +775,7 @@ try:
 except NameError:
     pass
 try:
-    SystemSettingsConfUpdateAPI.model_rebuild()
+    API.model_rebuild()
 except NameError:
     pass
 try:

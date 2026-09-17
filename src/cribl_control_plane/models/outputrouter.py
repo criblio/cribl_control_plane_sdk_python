@@ -71,6 +71,8 @@ class OutputRouterTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    report_branch_metrics: NotRequired[bool]
+    r"""Report per-rule event counts and percentages as internal metrics (router.out_events, router.out_events_pct, router.in_events, router.unmatched_events, router.unmatched_events_pct). Adds metric series per rule."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
@@ -101,6 +103,11 @@ class OutputRouter(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
 
+    report_branch_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="reportBranchMetrics")
+    ] = None
+    r"""Report per-rule event counts and percentages as internal metrics (router.out_events, router.out_events_pct, router.in_events, router.unmatched_events, router.unmatched_events_pct). Adds metric series per rule."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -118,6 +125,7 @@ class OutputRouter(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "reportBranchMetrics",
                 "description",
                 "__template_streamtags",
             ]

@@ -44,6 +44,7 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -66,6 +67,8 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     r"""Pull request timeout, in milliseconds"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     ordered_delivery: NotRequired[bool]
@@ -119,6 +122,7 @@ class InputGooglePubsubInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")
@@ -163,6 +167,9 @@ class InputGooglePubsubInput(BaseModel):
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -230,6 +237,7 @@ class InputGooglePubsubInput(BaseModel):
                 "concurrency",
                 "requestTimeout",
                 "metadata",
+                "autoParse",
                 "description",
                 "orderedDelivery",
                 "__template_environment",

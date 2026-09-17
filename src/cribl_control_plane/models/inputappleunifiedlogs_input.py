@@ -56,6 +56,7 @@ class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     read_mode: NotRequired[InputAppleUnifiedLogsReadMode]
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -102,6 +103,7 @@ class InputAppleUnifiedLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     read_mode: Annotated[
         Optional[InputAppleUnifiedLogsReadMode], pydantic.Field(alias="readMode")

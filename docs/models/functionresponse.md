@@ -225,6 +225,12 @@ value: models.FunctionMask = /* values here */
 value: models.FunctionMetricsExport = /* values here */
 ```
 
+### `models.FunctionMetricsTimeRangeGate`
+
+```python
+value: models.FunctionMetricsTimeRangeGate = /* values here */
+```
+
 ### `models.FunctionMvExpand`
 
 ```python

@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
+from .authenticationmethodoptionsclientassertionclientassertionrpc import (
+    AuthenticationMethodOptionsClientAssertionClientAssertionrpc,
+)
 from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
@@ -224,22 +227,12 @@ class Auth(BaseModel):
         return m
 
 
-class InputEventhubAmqpAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Authentication method"""
-
-    SECRET = "secret"
-    CLIENT_SECRET = "clientSecret"
-    CLIENT_CERT = "clientCert"
-    CLIENT_ASSERTION = "clientAssertion"
-    CLIENT_ASSERTION_RPC = "clientAssertion_rpc"
-
-
 class AzureBlobStorageTypedDict(TypedDict):
     r"""Azure Blob Storage"""
 
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
-    auth_type: NotRequired[InputEventhubAmqpAuthenticationMethod]
+    auth_type: NotRequired[AuthenticationMethodOptionsClientAssertionClientAssertionrpc]
     r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -273,7 +266,7 @@ class AzureBlobStorage(BaseModel):
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
     auth_type: Annotated[
-        Optional[InputEventhubAmqpAuthenticationMethod],
+        Optional[AuthenticationMethodOptionsClientAssertionClientAssertionrpc],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication method"""
@@ -331,7 +324,11 @@ class AzureBlobStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputEventhubAmqpAuthenticationMethod(value)
+                return (
+                    models.AuthenticationMethodOptionsClientAssertionClientAssertionrpc(
+                        value
+                    )
+                )
             except ValueError:
                 return value
         return value
@@ -429,6 +426,8 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     r"""Maximum time to wait for a connection to complete"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -533,6 +532,9 @@ class InputEventhubAmqpInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -573,6 +575,7 @@ class InputEventhubAmqpInput(BaseModel):
                 "connectionMaxBackoff",
                 "connectionTimeoutInMs",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

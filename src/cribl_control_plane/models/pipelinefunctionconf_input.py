@@ -24,6 +24,10 @@ from .pipelinefunctioncomment import (
     PipelineFunctionComment,
     PipelineFunctionCommentTypedDict,
 )
+from .pipelinefunctiondetectionrules import (
+    PipelineFunctionDetectionRules,
+    PipelineFunctionDetectionRulesTypedDict,
+)
 from .pipelinefunctiondistinct import (
     PipelineFunctionDistinct,
     PipelineFunctionDistinctTypedDict,
@@ -81,6 +85,10 @@ from .pipelinefunctionlakeexport import (
     PipelineFunctionLakeExport,
     PipelineFunctionLakeExportTypedDict,
 )
+from .pipelinefunctionlakehouseenginemetricsnormalizer import (
+    PipelineFunctionLakehouseEngineMetricsNormalizer,
+    PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
+)
 from .pipelinefunctionlimit import PipelineFunctionLimit, PipelineFunctionLimitTypedDict
 from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
@@ -110,6 +118,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -237,6 +249,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionCloneTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
+        PipelineFunctionDetectionRulesTypedDict,
         PipelineFunctionDistinctTypedDict,
         PipelineFunctionDNSLookupTypedDict,
         PipelineFunctionDropTypedDict,
@@ -255,6 +268,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionJoinTypedDict,
         PipelineFunctionJSONUnrollTypedDict,
         PipelineFunctionLakeExportTypedDict,
+        PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -264,6 +278,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -312,6 +327,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionClone, Tag("clone")],
         Annotated[PipelineFunctionCode, Tag("code")],
         Annotated[PipelineFunctionComment, Tag("comment")],
+        Annotated[PipelineFunctionDetectionRules, Tag("detection_rules")],
         Annotated[PipelineFunctionDistinct, Tag("distinct")],
         Annotated[PipelineFunctionDNSLookup, Tag("dns_lookup")],
         Annotated[PipelineFunctionDrop, Tag("drop")],
@@ -330,6 +346,10 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionJoin, Tag("join")],
         Annotated[PipelineFunctionJSONUnroll, Tag("json_unroll")],
         Annotated[PipelineFunctionLakeExport, Tag("lake_export")],
+        Annotated[
+            PipelineFunctionLakehouseEngineMetricsNormalizer,
+            Tag("lakehouse_engine_metrics_normalizer"),
+        ],
         Annotated[PipelineFunctionLimit, Tag("limit")],
         Annotated[
             PipelineFunctionLocalSearchDatatypeParser,
@@ -351,6 +371,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionLookup, Tag("lookup")],
         Annotated[PipelineFunctionMask, Tag("mask")],
         Annotated[PipelineFunctionMetricsExport, Tag("metrics_export")],
+        Annotated[PipelineFunctionMetricsTimeRangeGate, Tag("metrics_time_range_gate")],
         Annotated[PipelineFunctionMvExpand, Tag("mv_expand")],
         Annotated[PipelineFunctionMvPull, Tag("mv_pull")],
         Annotated[PipelineFunctionNotificationPolicies, Tag("notification_policies")],

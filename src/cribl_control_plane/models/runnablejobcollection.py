@@ -14,10 +14,6 @@ from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
     ScheduleTypeRunnableJobCollectionTypedDict,
 )
-from .timewarningtyperunnablejobcollectionschedulerun import (
-    TimeWarningTypeRunnableJobCollectionScheduleRun,
-    TimeWarningTypeRunnableJobCollectionScheduleRunTypedDict,
-)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -129,6 +125,8 @@ class CaptureSettings(BaseModel):
 
 
 class RunnableJobCollectionRunTypedDict(TypedDict):
+    r"""Run settings that control how and when the Collection job runs."""
+
     mode: RunnableJobCollectionMode
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     reschedule_dropped_tasks: NotRequired[bool]
@@ -147,8 +145,6 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     r"""Latest time to collect data for the selected timezone"""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to use for Earliest and Latest times"""
-    time_warning: NotRequired[TimeWarningTypeRunnableJobCollectionScheduleRunTypedDict]
-    r"""Warning state used when the collection time range is unset for time-sensitive Collectors."""
     expression: NotRequired[str]
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
     min_task_size: NotRequired[str]
@@ -168,6 +164,8 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
 
 
 class RunnableJobCollectionRun(BaseModel):
+    r"""Run settings that control how and when the Collection job runs."""
+
     mode: RunnableJobCollectionMode
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
@@ -205,12 +203,6 @@ class RunnableJobCollectionRun(BaseModel):
         Optional[str], pydantic.Field(alias="timestampTimezone")
     ] = None
     r"""Timezone to use for Earliest and Latest times"""
-
-    time_warning: Annotated[
-        Optional[TimeWarningTypeRunnableJobCollectionScheduleRun],
-        pydantic.Field(alias="timeWarning"),
-    ] = None
-    r"""Warning state used when the collection time range is unset for time-sensitive Collectors."""
 
     expression: Optional[str] = None
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
@@ -274,7 +266,6 @@ class RunnableJobCollectionRun(BaseModel):
                 "earliest",
                 "latest",
                 "timestampTimezone",
-                "timeWarning",
                 "expression",
                 "minTaskSize",
                 "maxTaskSize",
@@ -302,6 +293,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     collector: CollectorTypedDict
     r"""Collector configuration"""
     run: RunnableJobCollectionRunTypedDict
+    r"""Run settings that control how and when the Collection job runs."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
@@ -337,6 +329,7 @@ class RunnableJobCollection(BaseModel):
     r"""Collector configuration"""
 
     run: RunnableJobCollectionRun
+    r"""Run settings that control how and when the Collection job runs."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""

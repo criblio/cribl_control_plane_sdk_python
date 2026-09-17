@@ -23,8 +23,8 @@ class Tokens(BaseSDK):
 
         This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
-        :param password:
-        :param username:
+        :param password: Password for the account.
+        :param username: Username of the account to authenticate.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -84,7 +84,11 @@ class Tokens(BaseSDK):
                 oauth2_scopes=None,
                 security_source=None,
                 tags=["auth"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -128,8 +132,8 @@ class Tokens(BaseSDK):
 
         This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
-        :param password:
-        :param username:
+        :param password: Password for the account.
+        :param username: Username of the account to authenticate.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -189,7 +193,11 @@ class Tokens(BaseSDK):
                 oauth2_scopes=None,
                 security_source=None,
                 tags=["auth"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

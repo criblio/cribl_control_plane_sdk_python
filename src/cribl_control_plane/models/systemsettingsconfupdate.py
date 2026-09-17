@@ -33,6 +33,8 @@ class SslTypedDict(TypedDict):
     r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
     cert_path: NotRequired[str]
     r"""Filesystem path to the PEM-encoded TLS certificate."""
+    certificate_name: NotRequired[str]
+    r"""Name of a predefined Certificate stored in Cribl."""
     disabled: NotRequired[bool]
     r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
     passphrase: NotRequired[str]
@@ -50,6 +52,11 @@ class Ssl(BaseModel):
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
     r"""Filesystem path to the PEM-encoded TLS certificate."""
 
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Name of a predefined Certificate stored in Cribl."""
+
     disabled: Optional[bool] = None
     r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
 
@@ -62,7 +69,14 @@ class Ssl(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["caPath", "certPath", "disabled", "passphrase", "privKeyPath"]
+            [
+                "caPath",
+                "certPath",
+                "certificateName",
+                "disabled",
+                "passphrase",
+                "privKeyPath",
+            ]
         )
         serialized = handler(self)
         m = {}
@@ -78,7 +92,7 @@ class Ssl(BaseModel):
         return m
 
 
-class SystemSettingsConfUpdateAPITypedDict(TypedDict):
+class APITypedDict(TypedDict):
     r"""API server configuration for the Cribl instance."""
 
     base_url: NotRequired[str]
@@ -113,7 +127,7 @@ class SystemSettingsConfUpdateAPITypedDict(TypedDict):
     r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
 
-class SystemSettingsConfUpdateAPI(BaseModel):
+class API(BaseModel):
     r"""API server configuration for the Cribl instance."""
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
@@ -213,6 +227,20 @@ class SystemSettingsConfUpdateAPI(BaseModel):
 class AppsTypedDict(TypedDict):
     r"""App configuration."""
 
+    app_backend_broker_origin: NotRequired[str]
+    r"""Public origin for App Platform backend broker callbacks (standalone/on-prem only). Must be an absolute HTTP(S) URL."""
+    app_backend_max_callbacks_per_installation: NotRequired[int]
+    r"""Maximum number of broker callbacks per minute a single app backend installation may make. Over-limit callbacks receive HTTP 429."""
+    app_backend_max_callbacks_total: NotRequired[int]
+    r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
+    app_backend_max_in_flight: NotRequired[int]
+    r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
+    app_schedule_body_expression_max_length: NotRequired[int]
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+    app_scheduled_concurrent_job_limit: NotRequired[int]
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+    app_schedules_max: NotRequired[int]
+    r"""Maximum number of schedule records a single App may declare."""
     enabled: NotRequired[bool]
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
@@ -220,12 +248,58 @@ class AppsTypedDict(TypedDict):
 class Apps(BaseModel):
     r"""App configuration."""
 
+    app_backend_broker_origin: Annotated[
+        Optional[str], pydantic.Field(alias="appBackendBrokerOrigin")
+    ] = None
+    r"""Public origin for App Platform backend broker callbacks (standalone/on-prem only). Must be an absolute HTTP(S) URL."""
+
+    app_backend_max_callbacks_per_installation: Annotated[
+        Optional[int], pydantic.Field(alias="appBackendMaxCallbacksPerInstallation")
+    ] = None
+    r"""Maximum number of broker callbacks per minute a single app backend installation may make. Over-limit callbacks receive HTTP 429."""
+
+    app_backend_max_callbacks_total: Annotated[
+        Optional[int], pydantic.Field(alias="appBackendMaxCallbacksTotal")
+    ] = None
+    r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
+
+    app_backend_max_in_flight: Annotated[
+        Optional[int], pydantic.Field(alias="appBackendMaxInFlight")
+    ] = None
+    r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
+
+    app_schedule_body_expression_max_length: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduleBodyExpressionMaxLength")
+    ] = None
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+
+    app_scheduled_concurrent_job_limit: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduledConcurrentJobLimit")
+    ] = None
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+
+    app_schedules_max: Annotated[
+        Optional[int], pydantic.Field(alias="appSchedulesMax")
+    ] = None
+    r"""Maximum number of schedule records a single App may declare."""
+
     enabled: Optional[bool] = None
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["enabled"])
+        optional_fields = set(
+            [
+                "appBackendBrokerOrigin",
+                "appBackendMaxCallbacksPerInstallation",
+                "appBackendMaxCallbacksTotal",
+                "appBackendMaxInFlight",
+                "appScheduleBodyExpressionMaxLength",
+                "appScheduledConcurrentJobLimit",
+                "appSchedulesMax",
+                "enabled",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -585,7 +659,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
 
 
 class SystemSettingsConfUpdateTypedDict(TypedDict):
-    api: NotRequired[SystemSettingsConfUpdateAPITypedDict]
+    api: NotRequired[APITypedDict]
     r"""API server configuration for the Cribl instance."""
     apps: NotRequired[AppsTypedDict]
     r"""App configuration."""
@@ -613,7 +687,7 @@ class SystemSettingsConfUpdateTypedDict(TypedDict):
 
 
 class SystemSettingsConfUpdate(BaseModel):
-    api: Optional[SystemSettingsConfUpdateAPI] = None
+    api: Optional[API] = None
     r"""API server configuration for the Cribl instance."""
 
     apps: Optional[Apps] = None
@@ -701,7 +775,11 @@ try:
 except NameError:
     pass
 try:
-    SystemSettingsConfUpdateAPI.model_rebuild()
+    API.model_rebuild()
+except NameError:
+    pass
+try:
+    Apps.model_rebuild()
 except NameError:
     pass
 try:

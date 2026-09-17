@@ -34,7 +34,7 @@ class InputWinEventLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     NEWEST = "newest"
 
 
-class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputWinEventLogsEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
     # JSON
@@ -69,7 +69,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
-    event_format: NotRequired[EventFormat]
+    event_format: NotRequired[InputWinEventLogsEventFormat]
     r"""Format of individual events"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
@@ -85,6 +85,8 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""Optional description for this configuration."""
     disable_json_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    include_empty_json_fields: NotRequired[bool]
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
     disable_xml_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     template_environment: NotRequired[str]
@@ -139,7 +141,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Optional[EventFormat], pydantic.Field(alias="eventFormat")
+        Optional[InputWinEventLogsEventFormat], pydantic.Field(alias="eventFormat")
     ] = None
     r"""Format of individual events"""
 
@@ -170,6 +172,11 @@ class InputWinEventLogsInput(BaseModel):
     ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
+    include_empty_json_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="includeEmptyJsonFields")
+    ] = None
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
+
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
     ] = None
@@ -198,7 +205,7 @@ class InputWinEventLogsInput(BaseModel):
     def serialize_event_format(self, value):
         if isinstance(value, str):
             try:
-                return models.EventFormat(value)
+                return models.InputWinEventLogsEventFormat(value)
             except ValueError:
                 return value
         return value
@@ -226,6 +233,7 @@ class InputWinEventLogsInput(BaseModel):
                 "maxEventBytes",
                 "description",
                 "disableJsonRendering",
+                "includeEmptyJsonFields",
                 "disableXmlRendering",
                 "__template_environment",
                 "__template_streamtags",

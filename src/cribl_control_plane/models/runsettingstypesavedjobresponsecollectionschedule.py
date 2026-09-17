@@ -4,10 +4,6 @@ from __future__ import annotations
 from .logleveloptionsrunnablejobcollectionschedulerun import (
     LogLevelOptionsRunnableJobCollectionScheduleRun,
 )
-from .timewarningtyperunnablejobcollectionschedulerun import (
-    TimeWarningTypeRunnableJobCollectionScheduleRun,
-    TimeWarningTypeRunnableJobCollectionScheduleRunTypedDict,
-)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -78,8 +74,6 @@ class RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict(TypedDict):
     r"""Latest time to collect data for the selected timezone"""
     timestamp_timezone: NotRequired[str]
     r"""IANA timezone name for interpreting timestamp values in the collection time range."""
-    time_warning: NotRequired[TimeWarningTypeRunnableJobCollectionScheduleRunTypedDict]
-    r"""Warning state used when the collection time range is unset for time-sensitive Collectors."""
     expression: NotRequired[str]
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
     min_task_size: NotRequired[str]
@@ -138,12 +132,6 @@ class RunSettingsTypeSavedJobResponseCollectionSchedule(BaseModel):
     ] = None
     r"""IANA timezone name for interpreting timestamp values in the collection time range."""
 
-    time_warning: Annotated[
-        Optional[TimeWarningTypeRunnableJobCollectionScheduleRun],
-        pydantic.Field(alias="timeWarning"),
-    ] = None
-    r"""Warning state used when the collection time range is unset for time-sensitive Collectors."""
-
     expression: Optional[str] = None
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
 
@@ -192,7 +180,6 @@ class RunSettingsTypeSavedJobResponseCollectionSchedule(BaseModel):
                 "earliest",
                 "latest",
                 "timestampTimezone",
-                "timeWarning",
                 "expression",
                 "minTaskSize",
                 "maxTaskSize",

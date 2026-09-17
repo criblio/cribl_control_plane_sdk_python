@@ -9,14 +9,14 @@ from typing_extensions import TypedDict
 
 class CountedInputStatusTypedDict(TypedDict):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
     items: List[InputStatusTypedDict]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""
 
 
 class CountedInputStatus(BaseModel):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
 
     items: List[InputStatus]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""

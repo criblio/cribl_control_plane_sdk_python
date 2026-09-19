@@ -26,11 +26,11 @@ class InputOktaType(str, Enum):
 
 
 class InputOktaManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOktaManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOktaInputTypedDict(TypedDict):
@@ -57,6 +57,7 @@ class InputOktaInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     okta_token: NotRequired[str]
     r"""Your Okta API token for authentication"""
     cron_schedule: NotRequired[str]
@@ -66,6 +67,7 @@ class InputOktaInputTypedDict(TypedDict):
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
     manage_state: NotRequired[InputOktaManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     request_timeout: NotRequired[float]
@@ -81,6 +83,7 @@ class InputOktaInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -128,6 +131,7 @@ class InputOktaInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     okta_token: Annotated[Optional[str], pydantic.Field(alias="oktaToken")] = None
     r"""Your Okta API token for authentication"""
@@ -144,6 +148,7 @@ class InputOktaInput(BaseModel):
     manage_state: Annotated[
         Optional[InputOktaManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -177,6 +182,7 @@ class InputOktaInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

@@ -1,5 +1,7 @@
 # CreateInputSystemByPackInputSystemMetricsNetwork
 
+Select the level of detail for network metrics
+
 
 ## Fields
 

@@ -45,6 +45,8 @@ class InputWindowsMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWindowsMetricsSystemTypedDict(TypedDict):
+    r"""Select the level of details for system metrics"""
+
     mode: NotRequired[InputWindowsMetricsSystemMode]
     r"""Select the level of details for system metrics"""
     detail: NotRequired[bool]
@@ -52,6 +54,8 @@ class InputWindowsMetricsSystemTypedDict(TypedDict):
 
 
 class InputWindowsMetricsSystem(BaseModel):
+    r"""Select the level of details for system metrics"""
+
     mode: Optional[InputWindowsMetricsSystemMode] = None
     r"""Select the level of details for system metrics"""
 
@@ -98,6 +102,8 @@ class InputWindowsMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWindowsMetricsCPUTypedDict(TypedDict):
+    r"""Select the level of details for CPU metrics"""
+
     mode: NotRequired[InputWindowsMetricsCPUMode]
     r"""Select the level of details for CPU metrics"""
     per_cpu: NotRequired[bool]
@@ -109,6 +115,8 @@ class InputWindowsMetricsCPUTypedDict(TypedDict):
 
 
 class InputWindowsMetricsCPU(BaseModel):
+    r"""Select the level of details for CPU metrics"""
+
     mode: Optional[InputWindowsMetricsCPUMode] = None
     r"""Select the level of details for CPU metrics"""
 
@@ -161,6 +169,8 @@ class InputWindowsMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWindowsMetricsMemoryTypedDict(TypedDict):
+    r"""Select the level of details for memory metrics"""
+
     mode: NotRequired[InputWindowsMetricsMemoryMode]
     r"""Select the level of details for memory metrics"""
     detail: NotRequired[bool]
@@ -168,6 +178,8 @@ class InputWindowsMetricsMemoryTypedDict(TypedDict):
 
 
 class InputWindowsMetricsMemory(BaseModel):
+    r"""Select the level of details for memory metrics"""
+
     mode: Optional[InputWindowsMetricsMemoryMode] = None
     r"""Select the level of details for memory metrics"""
 
@@ -214,6 +226,8 @@ class InputWindowsMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWindowsMetricsNetworkTypedDict(TypedDict):
+    r"""Select the level of details for network metrics"""
+
     mode: NotRequired[InputWindowsMetricsNetworkMode]
     r"""Select the level of details for network metrics"""
     detail: NotRequired[bool]
@@ -227,6 +241,8 @@ class InputWindowsMetricsNetworkTypedDict(TypedDict):
 
 
 class InputWindowsMetricsNetwork(BaseModel):
+    r"""Select the level of details for network metrics"""
+
     mode: Optional[InputWindowsMetricsNetworkMode] = None
     r"""Select the level of details for network metrics"""
 
@@ -286,6 +302,8 @@ class InputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWindowsMetricsDiskTypedDict(TypedDict):
+    r"""Select the level of details for disk metrics"""
+
     mode: NotRequired[InputWindowsMetricsDiskMode]
     r"""Select the level of details for disk metrics"""
     per_volume: NotRequired[bool]
@@ -297,6 +315,8 @@ class InputWindowsMetricsDiskTypedDict(TypedDict):
 
 
 class InputWindowsMetricsDisk(BaseModel):
+    r"""Select the level of details for disk metrics"""
+
     mode: Optional[InputWindowsMetricsDiskMode] = None
     r"""Select the level of details for disk metrics"""
 
@@ -336,23 +356,37 @@ class InputWindowsMetricsDisk(BaseModel):
 
 
 class InputWindowsMetricsCustomTypedDict(TypedDict):
+    r"""Custom host metric collection settings."""
+
     system: NotRequired[InputWindowsMetricsSystemTypedDict]
+    r"""Select the level of details for system metrics"""
     cpu: NotRequired[InputWindowsMetricsCPUTypedDict]
+    r"""Select the level of details for CPU metrics"""
     memory: NotRequired[InputWindowsMetricsMemoryTypedDict]
+    r"""Select the level of details for memory metrics"""
     network: NotRequired[InputWindowsMetricsNetworkTypedDict]
+    r"""Select the level of details for network metrics"""
     disk: NotRequired[InputWindowsMetricsDiskTypedDict]
+    r"""Select the level of details for disk metrics"""
 
 
 class InputWindowsMetricsCustom(BaseModel):
+    r"""Custom host metric collection settings."""
+
     system: Optional[InputWindowsMetricsSystem] = None
+    r"""Select the level of details for system metrics"""
 
     cpu: Optional[InputWindowsMetricsCPU] = None
+    r"""Select the level of details for CPU metrics"""
 
     memory: Optional[InputWindowsMetricsMemory] = None
+    r"""Select the level of details for memory metrics"""
 
     network: Optional[InputWindowsMetricsNetwork] = None
+    r"""Select the level of details for network metrics"""
 
     disk: Optional[InputWindowsMetricsDisk] = None
+    r"""Select the level of details for disk metrics"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -372,16 +406,22 @@ class InputWindowsMetricsCustom(BaseModel):
 
 
 class InputWindowsMetricsHostTypedDict(TypedDict):
+    r"""Select level of detail for host metrics"""
+
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
     custom: NotRequired[InputWindowsMetricsCustomTypedDict]
+    r"""Custom host metric collection settings."""
 
 
 class InputWindowsMetricsHost(BaseModel):
+    r"""Select level of detail for host metrics"""
+
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputWindowsMetricsCustom] = None
+    r"""Custom host metric collection settings."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -502,11 +542,15 @@ class InputWindowsMetricsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputWindowsMetricsHostTypedDict]
+    r"""Select level of detail for host metrics"""
     process: NotRequired[ProcessTypeTypedDict]
+    r"""Process metric collection settings."""
     gpu: NotRequired[GpuTypeTypedDict]
+    r"""Select the level of detail for GPU metrics"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputWindowsMetricsPersistenceTypedDict]
@@ -552,15 +596,19 @@ class InputWindowsMetricsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputWindowsMetricsHost] = None
+    r"""Select level of detail for host metrics"""
 
     process: Optional[ProcessType] = None
+    r"""Process metric collection settings."""
 
     gpu: Optional[GpuType] = None
+    r"""Select the level of detail for GPU metrics"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

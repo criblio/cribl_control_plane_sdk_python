@@ -31,7 +31,7 @@ from .urlconfoutputcriblhttp import (
     URLConfOutputCriblHTTP,
     URLConfOutputCriblHTTPTypedDict,
 )
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -44,6 +44,17 @@ class OutputCriblSearchEngineType(str, Enum):
     r"""Connector type identifier."""
 
     CRIBL_SEARCH_ENGINE = "cribl_search_engine"
+
+
+class SendAs(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
+
+    # Logs
+    LOGS = "logs"
+    # Metrics
+    METRICS = "metrics"
+    # Logs and Metrics
+    BOTH = "both"
 
 
 class OutputCriblSearchEnginePqControlsTypedDict(TypedDict):
@@ -107,12 +118,15 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[AuthTokenConfOutputCriblHTTPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
+    send_as: NotRequired[SendAs]
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     description: NotRequired[str]
@@ -268,6 +282,7 @@ class OutputCriblSearchEngine(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -283,6 +298,9 @@ class OutputCriblSearchEngine(BaseModel):
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
+
+    send_as: Annotated[Optional[SendAs], pydantic.Field(alias="sendAs")] = None
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -412,6 +430,15 @@ class OutputCriblSearchEngine(BaseModel):
                 return value
         return value
 
+    @field_serializer("send_as")
+    def serialize_send_as(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SendAs(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("pq_mode")
     def serialize_pq_mode(self, value):
         if isinstance(value, str):
@@ -469,6 +496,7 @@ class OutputCriblSearchEngine(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "authTokens",
                 "onBackpressure",
+                "sendAs",
                 "useRoundRobinDns",
                 "description",
                 "url",

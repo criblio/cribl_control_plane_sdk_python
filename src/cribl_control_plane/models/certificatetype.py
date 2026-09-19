@@ -7,11 +7,15 @@ from typing_extensions import Annotated, TypedDict
 
 
 class CertificateTypeTypedDict(TypedDict):
+    r"""Certificate credentials for the Azure service principal."""
+
     certificate_name: str
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
 
 class CertificateType(BaseModel):
+    r"""Certificate credentials for the Azure service principal."""
+
     certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 

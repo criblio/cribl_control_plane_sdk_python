@@ -34,6 +34,8 @@ class InputGrafanaType2(str, Enum):
 
 
 class PrometheusAuth2TypedDict(TypedDict):
+    r"""Authentication settings for Prometheus Remote Write requests."""
+
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
@@ -49,6 +51,8 @@ class PrometheusAuth2TypedDict(TypedDict):
 
 
 class PrometheusAuth2(BaseModel):
+    r"""Authentication settings for Prometheus Remote Write requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
@@ -108,6 +112,8 @@ class PrometheusAuth2(BaseModel):
 
 
 class LokiAuth2TypedDict(TypedDict):
+    r"""Authentication settings for Loki requests."""
+
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
@@ -123,6 +129,8 @@ class LokiAuth2TypedDict(TypedDict):
 
 
 class LokiAuth2(BaseModel):
+    r"""Authentication settings for Loki requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = None
@@ -206,6 +214,7 @@ class InputGrafanaGrafanaInput2TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -233,7 +242,9 @@ class InputGrafanaGrafanaInput2TypedDict(TypedDict):
     prometheus_api: NotRequired[str]
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     prometheus_auth: NotRequired[PrometheusAuth2TypedDict]
+    r"""Authentication settings for Prometheus Remote Write requests."""
     loki_auth: NotRequired[LokiAuth2TypedDict]
+    r"""Authentication settings for Loki requests."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
@@ -292,6 +303,7 @@ class InputGrafanaGrafanaInput2(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -359,8 +371,10 @@ class InputGrafanaGrafanaInput2(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuth2], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Prometheus Remote Write requests."""
 
     loki_auth: Annotated[Optional[LokiAuth2], pydantic.Field(alias="lokiAuth")] = None
+    r"""Authentication settings for Loki requests."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -457,6 +471,8 @@ class InputGrafanaType1(str, Enum):
 
 
 class PrometheusAuth1TypedDict(TypedDict):
+    r"""Authentication settings for Prometheus Remote Write requests."""
+
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
@@ -472,6 +488,8 @@ class PrometheusAuth1TypedDict(TypedDict):
 
 
 class PrometheusAuth1(BaseModel):
+    r"""Authentication settings for Prometheus Remote Write requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
@@ -531,6 +549,8 @@ class PrometheusAuth1(BaseModel):
 
 
 class LokiAuth1TypedDict(TypedDict):
+    r"""Authentication settings for Loki requests."""
+
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
@@ -546,6 +566,8 @@ class LokiAuth1TypedDict(TypedDict):
 
 
 class LokiAuth1(BaseModel):
+    r"""Authentication settings for Loki requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
     ] = None
@@ -629,6 +651,7 @@ class InputGrafanaGrafanaInput1TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -656,7 +679,9 @@ class InputGrafanaGrafanaInput1TypedDict(TypedDict):
     loki_api: NotRequired[str]
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
     prometheus_auth: NotRequired[PrometheusAuth1TypedDict]
+    r"""Authentication settings for Prometheus Remote Write requests."""
     loki_auth: NotRequired[LokiAuth1TypedDict]
+    r"""Authentication settings for Loki requests."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
@@ -715,6 +740,7 @@ class InputGrafanaGrafanaInput1(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -780,8 +806,10 @@ class InputGrafanaGrafanaInput1(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuth1], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Prometheus Remote Write requests."""
 
     loki_auth: Annotated[Optional[LokiAuth1], pydantic.Field(alias="lokiAuth")] = None
+    r"""Authentication settings for Loki requests."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

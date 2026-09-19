@@ -1,5 +1,7 @@
 # CreateInputCertificate
 
+Certificate credentials for OAuth authentication.
+
 
 ## Fields
 

@@ -52,12 +52,17 @@ class InputModelDrivenTelemetryInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    max_message_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of a single received gRPC message. Messages exceeding this limit are rejected before processing. Compressed messages are checked against their decompressed size."""
+    max_concurrent_streams: NotRequired[float]
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds the number of connections, not the streams multiplexed on each."""
     shutdown_timeout_ms: NotRequired[float]
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
     description: NotRequired[str]
@@ -109,6 +114,7 @@ class InputModelDrivenTelemetryInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -120,6 +126,16 @@ class InputModelDrivenTelemetryInput(BaseModel):
         None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    max_message_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxMessageSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of a single received gRPC message. Messages exceeding this limit are rejected before processing. Compressed messages are checked against their decompressed size."""
+
+    max_concurrent_streams: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentStreams")
+    ] = None
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds the number of connections, not the streams multiplexed on each."""
 
     shutdown_timeout_ms: Annotated[
         Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
@@ -165,6 +181,8 @@ class InputModelDrivenTelemetryInput(BaseModel):
                 "tls",
                 "metadata",
                 "maxActiveCxn",
+                "maxMessageSizeKB",
+                "maxConcurrentStreams",
                 "shutdownTimeoutMs",
                 "description",
                 "__template_environment",

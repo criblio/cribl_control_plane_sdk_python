@@ -116,6 +116,10 @@ from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
 )
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -274,6 +278,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -360,6 +365,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -436,6 +442,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

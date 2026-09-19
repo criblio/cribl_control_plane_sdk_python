@@ -1,5 +1,7 @@
 # AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
 
+Authentication type
+
 ## Example Usage
 
 ```python

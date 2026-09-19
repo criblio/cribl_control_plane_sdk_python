@@ -10,44 +10,66 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class AzureTypeHeartbeatMetadataTypedDict(TypedDict):
     enabled: bool
+    r"""If <code>true</code>, the Azure metadata collector is enabled on the node. Otherwise, <code>false</code>."""
     hostname: NotRequired[str]
+    r"""Azure VM hostname."""
     instance_id: NotRequired[str]
+    r"""Azure instance ID."""
     name: NotRequired[str]
+    r"""Azure VM name."""
     region: NotRequired[str]
+    r"""Azure location or region."""
     resource_group: NotRequired[str]
+    r"""Azure resource group name."""
     subscription_id: NotRequired[str]
+    r"""Azure subscription ID."""
     tags: NotRequired[Dict[str, str]]
+    r"""String-keyed tag map. Each property name is a tag key and the corresponding value is the tag's string value."""
     type: NotRequired[str]
+    r"""Azure VM size or instance type."""
     vm_id: NotRequired[str]
+    r"""Azure VM ID."""
     zone: NotRequired[str]
+    r"""Azure availability zone."""
 
 
 class AzureTypeHeartbeatMetadata(BaseModel):
     enabled: bool
+    r"""If <code>true</code>, the Azure metadata collector is enabled on the node. Otherwise, <code>false</code>."""
 
     hostname: Optional[str] = None
+    r"""Azure VM hostname."""
 
     instance_id: Annotated[Optional[str], pydantic.Field(alias="instanceId")] = None
+    r"""Azure instance ID."""
 
     name: Optional[str] = None
+    r"""Azure VM name."""
 
     region: Optional[str] = None
+    r"""Azure location or region."""
 
     resource_group: Annotated[Optional[str], pydantic.Field(alias="resourceGroup")] = (
         None
     )
+    r"""Azure resource group name."""
 
     subscription_id: Annotated[
         Optional[str], pydantic.Field(alias="subscriptionId")
     ] = None
+    r"""Azure subscription ID."""
 
     tags: Optional[Dict[str, str]] = None
+    r"""String-keyed tag map. Each property name is a tag key and the corresponding value is the tag's string value."""
 
     type: Optional[str] = None
+    r"""Azure VM size or instance type."""
 
     vm_id: Annotated[Optional[str], pydantic.Field(alias="vmId")] = None
+    r"""Azure VM ID."""
 
     zone: Optional[str] = None
+    r"""Azure availability zone."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

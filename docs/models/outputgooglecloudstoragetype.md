@@ -1,5 +1,7 @@
 # OutputGoogleCloudStorageType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

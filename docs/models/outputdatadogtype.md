@@ -1,5 +1,7 @@
 # OutputDatadogType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

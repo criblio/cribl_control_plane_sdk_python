@@ -8,13 +8,17 @@ from typing_extensions import Annotated, TypedDict
 
 class AuthTokenTypedDict(TypedDict):
     force_password_change: bool
+    r"""If <code>true</code>, the user must change their password before accessing the API. Otherwise, <code>false</code>."""
     token: str
+    r"""Bearer token to include in the <code>Authorization</code> header for subsequent API requests."""
 
 
 class AuthToken(BaseModel):
     force_password_change: Annotated[bool, pydantic.Field(alias="forcePasswordChange")]
+    r"""If <code>true</code>, the user must change their password before accessing the API. Otherwise, <code>false</code>."""
 
     token: str
+    r"""Bearer token to include in the <code>Authorization</code> header for subsequent API requests."""
 
 
 try:

@@ -1,5 +1,7 @@
 # RedisAuthTypeTextSecretAuthenticationMethod
 
+Authentication method to use when connecting to Redis.
+
 ## Example Usage
 
 ```python

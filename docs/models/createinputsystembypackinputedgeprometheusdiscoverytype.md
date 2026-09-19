@@ -1,0 +1,26 @@
+# CreateInputSystemByPackInputEdgePrometheusDiscoveryType
+
+Target discovery mechanism. Use static to manually enter a list of targets.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackInputEdgePrometheusDiscoveryType
+
+value = CreateInputSystemByPackInputEdgePrometheusDiscoveryType.STATIC
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name                  | Value                 |
+| --------------------- | --------------------- |
+| `STATIC`              | static                |
+| `DNS`                 | dns                   |
+| `EC2`                 | ec2                   |
+| `K8S_NODE`            | k8s-node              |
+| `K8S_PODS`            | k8s-pods              |
+| `K8S_SERVICE_MONITOR` | k8s-service-monitor   |
+| `HTTP_SD`             | http_sd               |

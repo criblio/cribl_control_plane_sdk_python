@@ -1,5 +1,7 @@
 # OutputAzureLogsPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

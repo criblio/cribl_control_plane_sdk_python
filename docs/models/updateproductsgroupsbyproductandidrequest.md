@@ -1,0 +1,10 @@
+# UpdateProductsGroupsByProductAndIDRequest
+
+
+## Fields
+
+| Field                                                                                   | Type                                                                                    | Required                                                                                | Description                                                                             |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `product`                                                                               | [models.ProductsCore](../models/productscore.md)                                        | :heavy_check_mark:                                                                      | Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet. |
+| `id_param`                                                                              | *str*                                                                                   | :heavy_check_mark:                                                                      | The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.        |
+| `config_group`                                                                          | [models.ConfigGroup](../models/configgroup.md)                                          | :heavy_check_mark:                                                                      | ConfigGroup object.                                                                     |

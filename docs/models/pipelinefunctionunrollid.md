@@ -1,6 +1,6 @@
 # PipelineFunctionUnrollID
 
-Function ID
+Identifier of the Function. Always <code>unroll</code>
 
 ## Example Usage
 

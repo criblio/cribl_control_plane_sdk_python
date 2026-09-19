@@ -1,5 +1,7 @@
 # InputSystemMetricsSystem
 
+Select the level of detail for system metrics
+
 
 ## Fields
 

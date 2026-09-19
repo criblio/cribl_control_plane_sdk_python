@@ -1,5 +1,7 @@
 # FunctionAggregateMetricsID
 
+Identifier of the Function. Always <code>aggregate_metrics</code>
+
 ## Example Usage
 
 ```python

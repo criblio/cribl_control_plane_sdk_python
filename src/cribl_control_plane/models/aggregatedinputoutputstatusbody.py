@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .aggregatedpqstatus import AggregatedPQStatus, AggregatedPQStatusTypedDict
 from .healthcounttype import HealthCountType, HealthCountTypeTypedDict
-from .healthstringtype import HealthStringType
+from .healthoptionsstatus import HealthOptionsStatus
 from .statuserror import StatusError, StatusErrorTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -14,9 +14,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AggregatedInputOutputStatusBodyTypedDict(TypedDict):
-    health: HealthStringType
+    health: HealthOptionsStatus
+    r"""Overall health status of the Source or Destination."""
     health_counts: HealthCountTypeTypedDict
-    timestamp: float
+    timestamp: int
     r"""Timestamp (in Unix time) when the status was last updated."""
     error: NotRequired[StatusErrorTypedDict]
     metrics: NotRequired[Dict[str, Any]]
@@ -25,11 +26,12 @@ class AggregatedInputOutputStatusBodyTypedDict(TypedDict):
 
 
 class AggregatedInputOutputStatusBody(BaseModel):
-    health: HealthStringType
+    health: HealthOptionsStatus
+    r"""Overall health status of the Source or Destination."""
 
     health_counts: Annotated[HealthCountType, pydantic.Field(alias="healthCounts")]
 
-    timestamp: float
+    timestamp: int
     r"""Timestamp (in Unix time) when the status was last updated."""
 
     error: Optional[StatusError] = None
@@ -43,7 +45,7 @@ class AggregatedInputOutputStatusBody(BaseModel):
     def serialize_health(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthStringType(value)
+                return models.HealthOptionsStatus(value)
             except ValueError:
                 return value
         return value

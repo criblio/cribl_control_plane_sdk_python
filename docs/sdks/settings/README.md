@@ -8,11 +8,11 @@
 
 ## restart
 
-Restart the Cribl server. Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
+Restart the Cribl server.<br/><br/>This operation requires <code>system.restart</code> to be set to <code>api</code> in <code>cribl.yml</code>. If this setting is not configured, the request returns a <code>403</code> error.<br/><br/>Restarting the server causes a brief period of downtime while the process stops and restarts. All in-flight events are drained before the process exits. Use <code>POST /system/settings/reload</code> to apply configuration changes without a full restart.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="createSystemSettingsRestart" method="post" path="/system/settings/restart" -->
+<!-- UsageSnippet language="python" operationID="createSystemSettingsRestart" method="post" path="/system/settings/restart" example="RestartSystemExamplesDefault" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -46,5 +46,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

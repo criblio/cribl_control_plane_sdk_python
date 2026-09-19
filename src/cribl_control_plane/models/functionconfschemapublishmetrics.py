@@ -13,6 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class FunctionConfSchemaPublishMetricsMetricType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""The type of metric to publish (counter, timer, gauge, distribution, summary, or histogram)."""
+
     # Counter
     COUNTER = "counter"
     # Timer
@@ -31,6 +33,7 @@ class FunctionConfSchemaPublishMetricsFieldTypedDict(TypedDict):
     in_field_name: str
     r"""The name of the field in the event that contains the metric value"""
     metric_type: FunctionConfSchemaPublishMetricsMetricType
+    r"""The type of metric to publish (counter, timer, gauge, distribution, summary, or histogram)."""
     out_field_expr: NotRequired[str]
     r"""JavaScript expression to evaluate the metric field name. Defaults to Event Field Name."""
 
@@ -42,6 +45,7 @@ class FunctionConfSchemaPublishMetricsField(BaseModel):
     metric_type: Annotated[
         FunctionConfSchemaPublishMetricsMetricType, pydantic.Field(alias="metricType")
     ]
+    r"""The type of metric to publish (counter, timer, gauge, distribution, summary, or histogram)."""
 
     out_field_expr: Annotated[Optional[str], pydantic.Field(alias="outFieldExpr")] = (
         None

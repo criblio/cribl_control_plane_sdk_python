@@ -1,6 +1,6 @@
 # PipelineFunctionNotificationsID
 
-Function ID
+Identifier of the Function. Always <code>notifications</code>
 
 ## Example Usage
 

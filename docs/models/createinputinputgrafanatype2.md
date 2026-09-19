@@ -1,5 +1,7 @@
 # CreateInputInputGrafanaType2
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

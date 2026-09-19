@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class LoginInfoTypedDict(TypedDict):
     password: str
+    r"""Password for the account."""
     username: str
+    r"""Username of the account to authenticate."""
 
 
 class LoginInfo(BaseModel):
     password: str
+    r"""Password for the account."""
 
     username: str
+    r"""Username of the account to authenticate."""

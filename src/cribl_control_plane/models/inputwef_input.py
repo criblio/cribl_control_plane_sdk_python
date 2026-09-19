@@ -5,12 +5,10 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
 )
-from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -22,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWefType(str, Enum):
+    r"""Connector type identifier."""
+
     WEF = "wef"
 
 
@@ -32,9 +32,31 @@ class InputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     CLIENT_CERT = "clientCert"
     # Kerberos
     KERBEROS = "kerberos"
+    # Negotiate (SPNEGO)
+    NEGOTIATE = "negotiate"
 
 
-class InputWefMTLSSettingsTypedDict(TypedDict):
+class MinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Minimum TLS version"""
+
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Maximum TLS version"""
+
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MTLSSettingsTypedDict(TypedDict):
+    r"""mTLS settings"""
+
     priv_key_path: str
     r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
     cert_path: str
@@ -53,15 +75,19 @@ class InputWefMTLSSettingsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     common_name_regex: NotRequired[str]
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
-    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
-    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    min_version: NotRequired[MinimumTLSVersion]
+    r"""Minimum TLS version"""
+    max_version: NotRequired[MaximumTLSVersion]
+    r"""Maximum TLS version"""
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
     ocsp_check_fail_close: NotRequired[bool]
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
 
-class InputWefMTLSSettings(BaseModel):
+class MTLSSettings(BaseModel):
+    r"""mTLS settings"""
+
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
     r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
 
@@ -96,12 +122,14 @@ class InputWefMTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
+        Optional[MinimumTLSVersion], pydantic.Field(alias="minVersion")
     ] = None
+    r"""Minimum TLS version"""
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
+        Optional[MaximumTLSVersion], pydantic.Field(alias="maxVersion")
     ] = None
+    r"""Maximum TLS version"""
 
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
     r"""Enable OCSP check of certificate"""
@@ -115,7 +143,7 @@ class InputWefMTLSSettings(BaseModel):
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsTLS(value)
+                return models.MinimumTLSVersion(value)
             except ValueError:
                 return value
         return value
@@ -124,7 +152,7 @@ class InputWefMTLSSettings(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsTLS(value)
+                return models.MaximumTLSVersion(value)
             except ValueError:
                 return value
         return value
@@ -166,19 +194,21 @@ class InputWefFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RENDERED_TEXT = "RenderedText"
 
 
-class InputWefQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class QueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Query builder mode"""
+
     SIMPLE = "simple"
     XML = "xml"
 
 
-class InputWefQueryTypedDict(TypedDict):
+class QueryTypedDict(TypedDict):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
     query_expression: str
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class InputWefQuery(BaseModel):
+class Query(BaseModel):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
 
@@ -186,8 +216,9 @@ class InputWefQuery(BaseModel):
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class InputWefSubscriptionTypedDict(TypedDict):
+class SubscriptionTypedDict(TypedDict):
     subscription_name: str
+    r"""Subscription name"""
     content_format: InputWefFormat
     r"""Content format in which the endpoint should deliver events"""
     heartbeat_interval: float
@@ -206,16 +237,19 @@ class InputWefSubscriptionTypedDict(TypedDict):
     r"""Receive compressed events from the source"""
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
-    query_selector: NotRequired[InputWefQueryBuilderMode]
+    query_selector: NotRequired[QueryBuilderMode]
+    r"""Query builder mode"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
-    queries: NotRequired[List[InputWefQueryTypedDict]]
+    queries: NotRequired[List[QueryTypedDict]]
+    r"""Queries"""
     xml_query: NotRequired[str]
     r"""The XPath query to use for selecting events"""
 
 
-class InputWefSubscription(BaseModel):
+class Subscription(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
+    r"""Subscription name"""
 
     content_format: Annotated[InputWefFormat, pydantic.Field(alias="contentFormat")]
     r"""Content format in which the endpoint should deliver events"""
@@ -249,13 +283,15 @@ class InputWefSubscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Optional[InputWefQueryBuilderMode], pydantic.Field(alias="querySelector")
+        Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = None
+    r"""Query builder mode"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events ingested under this subscription"""
 
-    queries: Optional[List[InputWefQuery]] = None
+    queries: Optional[List[Query]] = None
+    r"""Queries"""
 
     xml_query: Annotated[Optional[str], pydantic.Field(alias="xmlQuery")] = None
     r"""The XPath query to use for selecting events"""
@@ -273,7 +309,7 @@ class InputWefSubscription(BaseModel):
     def serialize_query_selector(self, value):
         if isinstance(value, str):
             try:
-                return models.InputWefQueryBuilderMode(value)
+                return models.QueryBuilderMode(value)
             except ValueError:
                 return value
         return value
@@ -309,15 +345,17 @@ class InputWefSubscription(BaseModel):
 
 class InputWefInputTypedDict(TypedDict):
     type: InputWefType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    subscriptions: List[InputWefSubscriptionTypedDict]
+    subscriptions: List[SubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -327,13 +365,15 @@ class InputWefInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_method: NotRequired[InputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
-    tls: NotRequired[InputWefMTLSSettingsTypedDict]
+    tls: NotRequired[MTLSSettingsTypedDict]
+    r"""mTLS settings"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -363,6 +403,7 @@ class InputWefInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
     template_environment: NotRequired[str]
@@ -381,6 +422,7 @@ class InputWefInputTypedDict(TypedDict):
 
 class InputWefInput(BaseModel):
     type: InputWefType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -388,13 +430,14 @@ class InputWefInput(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    subscriptions: List[InputWefSubscription]
+    subscriptions: List[Subscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -411,19 +454,21 @@ class InputWefInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_method: Annotated[
         Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
     ] = None
     r"""How to authenticate incoming client connections"""
 
-    tls: Optional[InputWefMTLSSettings] = None
+    tls: Optional[MTLSSettings] = None
+    r"""mTLS settings"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -490,6 +535,7 @@ class InputWefInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     log_fingerprint_mismatch: Annotated[
         Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
@@ -589,15 +635,15 @@ class InputWefInput(BaseModel):
 
 
 try:
-    InputWefMTLSSettings.model_rebuild()
+    MTLSSettings.model_rebuild()
 except NameError:
     pass
 try:
-    InputWefQuery.model_rebuild()
+    Query.model_rebuild()
 except NameError:
     pass
 try:
-    InputWefSubscription.model_rebuild()
+    Subscription.model_rebuild()
 except NameError:
     pass
 try:

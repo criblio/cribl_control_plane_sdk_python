@@ -1,5 +1,7 @@
 # OutputFilesystemType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

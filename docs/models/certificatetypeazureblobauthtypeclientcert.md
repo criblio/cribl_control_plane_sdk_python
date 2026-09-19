@@ -1,5 +1,7 @@
 # CertificateTypeAzureBlobAuthTypeClientCert
 
+Certificate credentials for the service principal.
+
 
 ## Fields
 

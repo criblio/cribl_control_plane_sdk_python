@@ -4,15 +4,15 @@
 
 ### Available Operations
 
-* [get](#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](#get) - Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ## get
 
-Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
+Get the Team access control list (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>This endpoint lists Teams with explicit access assignments on the Group or Fleet. The response does not include access granted to individual Team Members through direct user assignments or inherited based on Team Permissions and Roles at the Organization/Global, Workspace, or product level.<br/><br/>To list the user ACL for a Group or Fleet, use <code>GET /products/{product}/groups/{id}/acl</code>.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getConfigGroupAclTeamsByProductAndId" method="get" path="/products/{product}/groups/{id}/acl/teams" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsAclTeamsByProductAndId" method="get" path="/products/{product}/groups/{id}/acl/teams" example="AclGetTeamsResponseGroupExamplesSuccess" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -25,7 +25,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.acl.teams.get(product=models.ProductsCore.EDGE, id="<id>", type_=models.RbacResource.MACROS)
+    res = ccp_client.groups.acl.teams.get(product=models.ProductsCore.STREAM, id="<id>")
 
     # Handle response
     print(res)
@@ -37,7 +37,7 @@ with CriblControlPlane(
 | Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
 | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `product`                                                                                      | [models.ProductsCore](../../models/productscore.md)                                            | :heavy_check_mark:                                                                             | Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.        |
-| `id`                                                                                           | *str*                                                                                          | :heavy_check_mark:                                                                             | The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for. |
+| `id`                                                                                           | *str*                                                                                          | :heavy_check_mark:                                                                             | The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the Team ACL for. |
 | `type`                                                                                         | [Optional[models.RbacResource]](../../models/rbacresource.md)                                  | :heavy_minus_sign:                                                                             | Filter for limiting the response to ACL entries for the specified RBAC resource type.          |
 | `retries`                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                               | :heavy_minus_sign:                                                                             | Configuration to override the default retry behavior of the client.                            |
 
@@ -49,5 +49,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

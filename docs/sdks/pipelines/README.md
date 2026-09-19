@@ -16,9 +16,9 @@ Actions related to Pipelines
 
 Get a list of all Pipelines.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" -->
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -33,25 +33,53 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                              | Type                                                                                                                                                   | Required                                                                                                                                               | Description                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `offset`                                                                                                                                               | *Optional[int]*                                                                                                                                        | :heavy_minus_sign:                                                                                                                                     | Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.          |
+| `limit`                                                                                                                                                | *Optional[int]*                                                                                                                                        | :heavy_minus_sign:                                                                                                                                     | Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. |
+| `retries`                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                       | :heavy_minus_sign:                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                    |
 
 ### Response
 
-**[models.CountedPipeline](../../models/countedpipeline.md)**
+**[models.GetPipelinesResponse](../../models/getpipelinesresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -200,8 +228,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -449,8 +477,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -573,9 +601,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -702,11 +730,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -751,7 +779,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -1013,7 +1041,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -1157,11 +1185,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1209,13 +1237,13 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1254,13 +1282,13 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1294,24 +1322,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 
@@ -1414,7 +1442,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -1455,7 +1483,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -1742,12 +1770,12 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -1885,13 +1913,97 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -1902,6 +2014,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -1909,9 +2022,30 @@ with CriblControlPlane(
 
 Delete the specified Pipeline.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1946,6 +2080,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -1953,9 +2088,30 @@ with CriblControlPlane(
 
 Get the specified Pipeline.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1990,12 +2146,13 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## update
 
-Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
+Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request.<br/><br/>If the configuration is incorrect, the updated Pipeline might not function as expected.
 
 ### Example Usage: PipelineExamplesAggregateMetrics
 
@@ -2138,8 +2295,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -2387,8 +2544,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -2511,9 +2668,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -2640,11 +2797,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -2689,7 +2846,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -2951,7 +3108,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -3095,11 +3252,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3147,13 +3304,13 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3192,13 +3349,13 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3232,24 +3389,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 
@@ -3352,7 +3509,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -3393,7 +3550,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -3680,12 +3837,12 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -3817,6 +3974,62 @@ with CriblControlPlane(
         "groups": {
 
         },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionSidlookupID.SIDLOOKUP,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionSidlookupID.SIDLOOKUP,
+                "conf": {},
+            },
+        ],
     })
 
     # Handle response
@@ -3964,8 +4177,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -4213,8 +4426,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -4337,9 +4550,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -4466,11 +4679,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -4515,7 +4728,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -4777,7 +4990,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -4921,11 +5134,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -4973,13 +5186,13 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -5018,13 +5231,13 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -5058,24 +5271,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 
@@ -5178,7 +5391,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -5219,7 +5432,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -5506,12 +5719,12 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -5649,14 +5862,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionSidlookupID.SIDLOOKUP,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -5667,5 +5908,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

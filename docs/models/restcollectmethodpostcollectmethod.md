@@ -1,5 +1,7 @@
 # RestCollectMethodPostCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

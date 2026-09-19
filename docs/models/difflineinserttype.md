@@ -1,5 +1,7 @@
 # DiffLineInsertType
 
+Line change type. Always <code>insert</code> for inserted lines.
+
 ## Example Usage
 
 ```python

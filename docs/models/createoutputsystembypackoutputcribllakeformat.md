@@ -1,0 +1,22 @@
+# CreateOutputSystemByPackOutputCriblLakeFormat
+
+Data format to use for files written to the Lake Dataset.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackOutputCriblLakeFormat
+
+value = CreateOutputSystemByPackOutputCriblLakeFormat.JSON
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name      | Value     |
+| --------- | --------- |
+| `JSON`    | json      |
+| `PARQUET` | parquet   |
+| `RAW`     | raw       |

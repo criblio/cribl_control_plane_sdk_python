@@ -54,6 +54,7 @@ class FunctionConfSchemaAutoTimestampTypedDict(TypedDict):
     latest_date_allowed: NotRequired[str]
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to the Default time."""
     spacer: NotRequired[str]
+    r"""UI layout spacer; no effect on event processing."""
     earliest_date_allowed: NotRequired[str]
     r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to the Default time."""
     timestamps: NotRequired[List[TimestampTypedDict]]
@@ -94,6 +95,7 @@ class FunctionConfSchemaAutoTimestamp(BaseModel):
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to the Default time."""
 
     spacer: Optional[str] = None
+    r"""UI layout spacer; no effect on event processing."""
 
     earliest_date_allowed: Annotated[
         Optional[str], pydantic.Field(alias="earliestDateAllowed")

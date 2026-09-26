@@ -11,20 +11,26 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 class RollbackSettingsTypedDict(TypedDict):
     rollback_enabled: bool
-    rollback_retries: NotRequired[float]
-    rollback_timeout: NotRequired[float]
+    r"""If <code>true</code>, enable automatic rollback if an upgrade fails. Otherwise, <code>false</code>."""
+    rollback_retries: NotRequired[int]
+    r"""Number of times to retry a rollback before marking it as failed."""
+    rollback_timeout: NotRequired[int]
+    r"""Maximum duration in milliseconds to wait for a rollback to complete before marking it as failed."""
 
 
 class RollbackSettings(BaseModel):
     rollback_enabled: Annotated[bool, pydantic.Field(alias="rollbackEnabled")]
+    r"""If <code>true</code>, enable automatic rollback if an upgrade fails. Otherwise, <code>false</code>."""
 
     rollback_retries: Annotated[
-        Optional[float], pydantic.Field(alias="rollbackRetries")
+        Optional[int], pydantic.Field(alias="rollbackRetries")
     ] = None
+    r"""Number of times to retry a rollback before marking it as failed."""
 
     rollback_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="rollbackTimeout")
+        Optional[int], pydantic.Field(alias="rollbackTimeout")
     ] = None
+    r"""Maximum duration in milliseconds to wait for a rollback to complete before marking it as failed."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -6,8 +6,8 @@ from typing_extensions import TypedDict
 
 
 class EmptyObjectTypedDict(TypedDict):
-    pass
+    r"""An object that must not contain any properties."""
 
 
 class EmptyObject(BaseModel):
-    pass
+    r"""An object that must not contain any properties."""

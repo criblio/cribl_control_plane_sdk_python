@@ -9,42 +9,90 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class WorkersTypeSystemSettingsConfTypedDict(TypedDict):
-    count: float
-    memory: float
-    minimum: float
+    r"""Worker Process configuration."""
+
+    count: int
+    r"""Number of Worker Processes to spawn. Set to <code>0</code> to use the number of available CPU cores."""
+    memory: int
+    r"""Maximum memory (in MB) per Worker Process. Set to <code>0</code> for no limit."""
+    minimum: int
+    r"""Minimum number of Worker Processes to keep running."""
     enable_heap_snapshots: NotRequired[bool]
-    load_throttle_perc: NotRequired[float]
-    startup_max_conns: NotRequired[float]
-    startup_throttle_timeout: NotRequired[float]
+    r"""If <code>true</code>, enable V8 heap snapshot generation on out-of-memory errors. Otherwise, <code>false</code>."""
+    load_throttle_perc: NotRequired[int]
+    r"""CPU load percentage threshold above which new connections are throttled."""
+    restart_unresponsive_processes: NotRequired[bool]
+    r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
+    startup_max_conns: NotRequired[int]
+    r"""Maximum number of connections to accept during Worker Process startup before throttling begins."""
+    startup_throttle_timeout: NotRequired[int]
+    r"""Timeout in milliseconds to wait for Worker Processes to reach idle before ending the startup throttle period."""
     v8_single_thread: NotRequired[bool]
+    r"""If <code>true</code>, run all worker threads in a single V8 isolate. Otherwise, <code>false</code>."""
+    worker_process_config_update_concurrency: NotRequired[int]
+    r"""Maximum number of Worker Processes that can reload configuration concurrently."""
+    worker_process_reload_timeout: NotRequired[int]
+    r"""Timeout in milliseconds to wait for a Worker Process to reload configuration before treating the reload as failed."""
+    worker_thread_pool_size: NotRequired[int]
+    r"""Size of the Worker thread pool used for CPU-bound tasks."""
 
 
 class WorkersTypeSystemSettingsConf(BaseModel):
-    count: float
+    r"""Worker Process configuration."""
 
-    memory: float
+    count: int
+    r"""Number of Worker Processes to spawn. Set to <code>0</code> to use the number of available CPU cores."""
 
-    minimum: float
+    memory: int
+    r"""Maximum memory (in MB) per Worker Process. Set to <code>0</code> for no limit."""
+
+    minimum: int
+    r"""Minimum number of Worker Processes to keep running."""
 
     enable_heap_snapshots: Annotated[
         Optional[bool], pydantic.Field(alias="enableHeapSnapshots")
     ] = None
+    r"""If <code>true</code>, enable V8 heap snapshot generation on out-of-memory errors. Otherwise, <code>false</code>."""
 
     load_throttle_perc: Annotated[
-        Optional[float], pydantic.Field(alias="loadThrottlePerc")
+        Optional[int], pydantic.Field(alias="loadThrottlePerc")
     ] = None
+    r"""CPU load percentage threshold above which new connections are throttled."""
+
+    restart_unresponsive_processes: Annotated[
+        Optional[bool], pydantic.Field(alias="restartUnresponsiveProcesses")
+    ] = None
+    r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
 
     startup_max_conns: Annotated[
-        Optional[float], pydantic.Field(alias="startupMaxConns")
+        Optional[int], pydantic.Field(alias="startupMaxConns")
     ] = None
+    r"""Maximum number of connections to accept during Worker Process startup before throttling begins."""
 
     startup_throttle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="startupThrottleTimeout")
+        Optional[int], pydantic.Field(alias="startupThrottleTimeout")
     ] = None
+    r"""Timeout in milliseconds to wait for Worker Processes to reach idle before ending the startup throttle period."""
 
     v8_single_thread: Annotated[
         Optional[bool], pydantic.Field(alias="v8SingleThread")
     ] = None
+    r"""If <code>true</code>, run all worker threads in a single V8 isolate. Otherwise, <code>false</code>."""
+
+    worker_process_config_update_concurrency: Annotated[
+        Optional[int], pydantic.Field(alias="workerProcessConfigUpdateConcurrency")
+    ] = None
+    r"""Maximum number of Worker Processes that can reload configuration concurrently."""
+
+    worker_process_reload_timeout: Annotated[
+        Optional[int], pydantic.Field(alias="workerProcessReloadTimeout")
+    ] = None
+    r"""Timeout in milliseconds to wait for a Worker Process to reload configuration before treating the reload as failed."""
+
+    worker_thread_pool_size: Annotated[
+        Optional[int], pydantic.Field(alias="workerThreadPoolSize")
+    ] = None
+    r"""Size of the Worker thread pool used for CPU-bound tasks."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -52,9 +100,13 @@ class WorkersTypeSystemSettingsConf(BaseModel):
             [
                 "enableHeapSnapshots",
                 "loadThrottlePerc",
+                "restartUnresponsiveProcesses",
                 "startupMaxConns",
                 "startupThrottleTimeout",
                 "v8SingleThread",
+                "workerProcessConfigUpdateConcurrency",
+                "workerProcessReloadTimeout",
+                "workerThreadPoolSize",
             ]
         )
         serialized = handler(self)

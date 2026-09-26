@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
@@ -43,6 +45,8 @@ class InputSystemMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsSystemTypedDict(TypedDict):
+    r"""Select the level of detail for system metrics"""
+
     mode: NotRequired[InputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
@@ -50,6 +54,8 @@ class InputSystemMetricsSystemTypedDict(TypedDict):
 
 
 class InputSystemMetricsSystem(BaseModel):
+    r"""Select the level of detail for system metrics"""
+
     mode: Optional[InputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
@@ -96,6 +102,8 @@ class InputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsCPUTypedDict(TypedDict):
+    r"""Select the level of detail for CPU metrics"""
+
     mode: NotRequired[InputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
@@ -107,6 +115,8 @@ class InputSystemMetricsCPUTypedDict(TypedDict):
 
 
 class InputSystemMetricsCPU(BaseModel):
+    r"""Select the level of detail for CPU metrics"""
+
     mode: Optional[InputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
@@ -159,6 +169,8 @@ class InputSystemMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsMemoryTypedDict(TypedDict):
+    r"""Select the level of detail for memory metrics"""
+
     mode: NotRequired[InputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
@@ -166,6 +178,8 @@ class InputSystemMetricsMemoryTypedDict(TypedDict):
 
 
 class InputSystemMetricsMemory(BaseModel):
+    r"""Select the level of detail for memory metrics"""
+
     mode: Optional[InputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
@@ -212,6 +226,8 @@ class InputSystemMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsNetworkTypedDict(TypedDict):
+    r"""Select the level of detail for network metrics"""
+
     mode: NotRequired[InputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
@@ -225,6 +241,8 @@ class InputSystemMetricsNetworkTypedDict(TypedDict):
 
 
 class InputSystemMetricsNetwork(BaseModel):
+    r"""Select the level of detail for network metrics"""
+
     mode: Optional[InputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
@@ -284,6 +302,8 @@ class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsDiskTypedDict(TypedDict):
+    r"""Select the level of detail for disk metrics"""
+
     mode: NotRequired[InputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
@@ -301,6 +321,8 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
 
 
 class InputSystemMetricsDisk(BaseModel):
+    r"""Select the level of detail for disk metrics"""
+
     mode: Optional[InputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
@@ -359,23 +381,37 @@ class InputSystemMetricsDisk(BaseModel):
 
 
 class InputSystemMetricsCustomTypedDict(TypedDict):
+    r"""Custom host metric collection settings."""
+
     system: NotRequired[InputSystemMetricsSystemTypedDict]
+    r"""Select the level of detail for system metrics"""
     cpu: NotRequired[InputSystemMetricsCPUTypedDict]
+    r"""Select the level of detail for CPU metrics"""
     memory: NotRequired[InputSystemMetricsMemoryTypedDict]
+    r"""Select the level of detail for memory metrics"""
     network: NotRequired[InputSystemMetricsNetworkTypedDict]
+    r"""Select the level of detail for network metrics"""
     disk: NotRequired[InputSystemMetricsDiskTypedDict]
+    r"""Select the level of detail for disk metrics"""
 
 
 class InputSystemMetricsCustom(BaseModel):
+    r"""Custom host metric collection settings."""
+
     system: Optional[InputSystemMetricsSystem] = None
+    r"""Select the level of detail for system metrics"""
 
     cpu: Optional[InputSystemMetricsCPU] = None
+    r"""Select the level of detail for CPU metrics"""
 
     memory: Optional[InputSystemMetricsMemory] = None
+    r"""Select the level of detail for memory metrics"""
 
     network: Optional[InputSystemMetricsNetwork] = None
+    r"""Select the level of detail for network metrics"""
 
     disk: Optional[InputSystemMetricsDisk] = None
+    r"""Select the level of detail for disk metrics"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -395,16 +431,22 @@ class InputSystemMetricsCustom(BaseModel):
 
 
 class InputSystemMetricsHostTypedDict(TypedDict):
+    r"""Select level of detail for host metrics"""
+
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
     custom: NotRequired[InputSystemMetricsCustomTypedDict]
+    r"""Custom host metric collection settings."""
 
 
 class InputSystemMetricsHost(BaseModel):
+    r"""Select level of detail for host metrics"""
+
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputSystemMetricsCustom] = None
+    r"""Custom host metric collection settings."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -432,7 +474,7 @@ class InputSystemMetricsHost(BaseModel):
         return m
 
 
-class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -447,14 +489,18 @@ class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
 class InputSystemMetricsFilter(BaseModel):
     expr: str
+    r"""Expression"""
 
 
-class InputSystemMetricsContainerTypedDict(TypedDict):
-    mode: NotRequired[InputSystemMetricsContainerMode]
+class ContainerTypedDict(TypedDict):
+    r"""Select the level of detail for container metrics"""
+
+    mode: NotRequired[ContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -470,8 +516,10 @@ class InputSystemMetricsContainerTypedDict(TypedDict):
     r"""Generate full container metrics"""
 
 
-class InputSystemMetricsContainer(BaseModel):
-    mode: Optional[InputSystemMetricsContainerMode] = None
+class Container(BaseModel):
+    r"""Select the level of detail for container metrics"""
+
+    mode: Optional[ContainerMode] = None
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -502,7 +550,7 @@ class InputSystemMetricsContainer(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputSystemMetricsContainerMode(value)
+                return models.ContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -535,6 +583,8 @@ class InputSystemMetricsContainer(BaseModel):
 
 
 class InputSystemMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -544,11 +594,14 @@ class InputSystemMetricsPersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
 class InputSystemMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -562,6 +615,7 @@ class InputSystemMetricsPersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -603,9 +657,11 @@ class InputSystemMetricsPersistence(BaseModel):
 
 class InputSystemMetricsInputTypedDict(TypedDict):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -615,20 +671,27 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputSystemMetricsHostTypedDict]
+    r"""Select level of detail for host metrics"""
     process: NotRequired[ProcessTypeTypedDict]
-    container: NotRequired[InputSystemMetricsContainerTypedDict]
+    r"""Process metric collection settings."""
+    container: NotRequired[ContainerTypedDict]
+    r"""Select the level of detail for container metrics"""
     gpu: NotRequired[GpuTypeTypedDict]
+    r"""Select the level of detail for GPU metrics"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -637,11 +700,13 @@ class InputSystemMetricsInputTypedDict(TypedDict):
 
 class InputSystemMetricsInput(BaseModel):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -658,30 +723,37 @@ class InputSystemMetricsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputSystemMetricsHost] = None
+    r"""Select level of detail for host metrics"""
 
     process: Optional[ProcessType] = None
+    r"""Process metric collection settings."""
 
-    container: Optional[InputSystemMetricsContainer] = None
+    container: Optional[Container] = None
+    r"""Select the level of detail for container metrics"""
 
     gpu: Optional[GpuType] = None
+    r"""Select the level of detail for GPU metrics"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputSystemMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -745,7 +817,7 @@ try:
 except NameError:
     pass
 try:
-    InputSystemMetricsContainer.model_rebuild()
+    Container.model_rebuild()
 except NameError:
     pass
 try:

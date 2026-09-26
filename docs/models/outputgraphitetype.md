@@ -1,5 +1,7 @@
 # OutputGraphiteType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

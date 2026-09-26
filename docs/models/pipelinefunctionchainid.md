@@ -1,6 +1,6 @@
 # PipelineFunctionChainID
 
-Function ID
+Identifier of the Function. Always <code>chain</code>
 
 ## Example Usage
 

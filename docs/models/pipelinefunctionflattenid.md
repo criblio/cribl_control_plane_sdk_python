@@ -1,6 +1,6 @@
 # PipelineFunctionFlattenID
 
-Function ID
+Identifier of the Function. Always <code>flatten</code>
 
 ## Example Usage
 

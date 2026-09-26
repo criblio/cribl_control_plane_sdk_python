@@ -1,5 +1,7 @@
 # InputResponseInputWindowsMetricsCPU
 
+Select the level of details for CPU metrics
+
 
 ## Fields
 

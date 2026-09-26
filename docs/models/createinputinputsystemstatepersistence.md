@@ -1,5 +1,7 @@
 # CreateInputInputSystemStatePersistence
 
+Disk spooling settings for collected system state data.
+
 
 ## Fields
 

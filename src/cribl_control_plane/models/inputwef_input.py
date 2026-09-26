@@ -5,12 +5,10 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
 )
-from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -34,6 +32,26 @@ class InputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     CLIENT_CERT = "clientCert"
     # Kerberos
     KERBEROS = "kerberos"
+    # Negotiate (SPNEGO)
+    NEGOTIATE = "negotiate"
+
+
+class MinimumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Minimum TLS version"""
+
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
+
+
+class MaximumTLSVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Maximum TLS version"""
+
+    TL_SV1 = "TLSv1"
+    TL_SV1_1 = "TLSv1.1"
+    TL_SV1_2 = "TLSv1.2"
+    TL_SV1_3 = "TLSv1.3"
 
 
 class MTLSSettingsTypedDict(TypedDict):
@@ -57,9 +75,9 @@ class MTLSSettingsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     common_name_regex: NotRequired[str]
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
-    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    min_version: NotRequired[MinimumTLSVersion]
     r"""Minimum TLS version"""
-    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    max_version: NotRequired[MaximumTLSVersion]
     r"""Maximum TLS version"""
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
@@ -104,12 +122,12 @@ class MTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
+        Optional[MinimumTLSVersion], pydantic.Field(alias="minVersion")
     ] = None
     r"""Minimum TLS version"""
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
+        Optional[MaximumTLSVersion], pydantic.Field(alias="maxVersion")
     ] = None
     r"""Maximum TLS version"""
 
@@ -125,7 +143,7 @@ class MTLSSettings(BaseModel):
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsTLS(value)
+                return models.MinimumTLSVersion(value)
             except ValueError:
                 return value
         return value
@@ -134,7 +152,7 @@ class MTLSSettings(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsTLS(value)
+                return models.MaximumTLSVersion(value)
             except ValueError:
                 return value
         return value
@@ -351,6 +369,7 @@ class InputWefInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_method: NotRequired[InputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
     tls: NotRequired[MTLSSettingsTypedDict]
@@ -441,6 +460,7 @@ class InputWefInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_method: Annotated[
         Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")

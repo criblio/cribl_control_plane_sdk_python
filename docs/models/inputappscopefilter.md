@@ -1,5 +1,7 @@
 # InputAppscopeFilter
 
+Rules that select processes for AppScope instrumentation.
+
 
 ## Fields
 

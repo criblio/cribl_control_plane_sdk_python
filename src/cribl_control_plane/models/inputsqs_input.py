@@ -56,6 +56,7 @@ class InputSqsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
@@ -88,6 +89,8 @@ class InputSqsInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
@@ -157,6 +160,7 @@ class InputSqsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     aws_account_id: Annotated[Optional[str], pydantic.Field(alias="awsAccountId")] = (
         None
@@ -226,6 +230,9 @@ class InputSqsInput(BaseModel):
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -343,6 +350,7 @@ class InputSqsInput(BaseModel):
                 "visibilityTimeout",
                 "metadata",
                 "pollTimeout",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

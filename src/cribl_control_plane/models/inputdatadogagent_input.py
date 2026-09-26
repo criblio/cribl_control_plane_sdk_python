@@ -49,6 +49,8 @@ class SamplingRule(BaseModel):
 
 
 class InputDatadogAgentProxyModeTypedDict(TypedDict):
+    r"""Proxy mode settings for Datadog Agent requests."""
+
     enabled: bool
     r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
     reject_unauthorized: NotRequired[bool]
@@ -56,6 +58,8 @@ class InputDatadogAgentProxyModeTypedDict(TypedDict):
 
 
 class InputDatadogAgentProxyMode(BaseModel):
+    r"""Proxy mode settings for Datadog Agent requests."""
+
     enabled: bool
     r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
 
@@ -105,6 +109,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -138,6 +143,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[InputDatadogAgentProxyModeTypedDict]
+    r"""Proxy mode settings for Datadog Agent requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -187,6 +193,7 @@ class InputDatadogAgentInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -267,6 +274,7 @@ class InputDatadogAgentInput(BaseModel):
     proxy_mode: Annotated[
         Optional[InputDatadogAgentProxyMode], pydantic.Field(alias="proxyMode")
     ] = None
+    r"""Proxy mode settings for Datadog Agent requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

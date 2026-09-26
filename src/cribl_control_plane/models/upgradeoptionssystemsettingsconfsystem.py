@@ -6,5 +6,7 @@ from enum import Enum
 
 
 class UpgradeOptionsSystemSettingsConfSystem(str, Enum, metaclass=utils.OpenEnumMeta):
-    FALSE = "false"
+    r"""Upgrade permission policy: <code>api</code> to allow upgrades from the UI or API or <code>false</code> to disable."""
+
     API = "api"
+    FALSE = "false"

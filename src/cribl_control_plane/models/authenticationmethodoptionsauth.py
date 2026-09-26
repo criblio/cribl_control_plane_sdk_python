@@ -6,5 +6,7 @@ from enum import Enum
 
 
 class AuthenticationMethodOptionsAuth(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
     SECRET = "secret"
     CERTIFICATE = "certificate"

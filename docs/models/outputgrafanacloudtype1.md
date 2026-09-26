@@ -1,5 +1,7 @@
 # OutputGrafanaCloudType1
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

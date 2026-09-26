@@ -24,10 +24,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenaiComplianceLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     OPENAI_COMPLIANCE_LOGS = "openai_compliance_logs"
 
 
-class InputOpenaiComplianceLogsAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
+class AccountType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Account type"""
+
     # Workspace
     WORKSPACE = "workspace"
     # Organization
@@ -35,22 +39,26 @@ class InputOpenaiComplianceLogsAccountType(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class InputOpenaiComplianceLogsManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOpenaiComplianceLogsManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     type: InputOpenaiComplianceLogsType
+    r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored text secret"""
-    account_type: InputOpenaiComplianceLogsAccountType
+    account_type: AccountType
+    r"""Account type"""
     cron_schedule: str
+    r"""Cron schedule"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -60,11 +68,13 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     api_key: NotRequired[str]
+    r"""API key"""
     earliest: NotRequired[str]
     r"""Relative to the current time. Format: [+|-]<time_integer><time_unit>"""
     latest: NotRequired[str]
@@ -94,7 +104,9 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     workspace_id: NotRequired[str]
     r"""The ID of the ChatGPT workspace to collect logs from (UUID format)"""
     workspace_event_types: NotRequired[List[str]]
@@ -108,6 +120,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputOpenaiComplianceLogsManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -120,20 +133,22 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
 
 class InputOpenaiComplianceLogsInput(BaseModel):
     type: InputOpenaiComplianceLogsType
+    r"""Connector type identifier."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored text secret"""
 
-    account_type: Annotated[
-        InputOpenaiComplianceLogsAccountType, pydantic.Field(alias="accountType")
-    ]
+    account_type: Annotated[AccountType, pydantic.Field(alias="accountType")]
+    r"""Account type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""Cron schedule"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -150,14 +165,16 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+    r"""API key"""
 
     earliest: Optional[str] = None
     r"""Relative to the current time. Format: [+|-]<time_integer><time_unit>"""
@@ -221,8 +238,10 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     workspace_id: Annotated[Optional[str], pydantic.Field(alias="workspaceId")] = None
     r"""The ID of the ChatGPT workspace to collect logs from (UUID format)"""
@@ -256,6 +275,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
         Optional[InputOpenaiComplianceLogsManageState],
         pydantic.Field(alias="manageState"),
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -281,7 +301,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     def serialize_account_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenaiComplianceLogsAccountType(value)
+                return models.AccountType(value)
             except ValueError:
                 return value
         return value

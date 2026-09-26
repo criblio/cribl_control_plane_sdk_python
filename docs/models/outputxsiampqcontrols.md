@@ -1,5 +1,7 @@
 # OutputXsiamPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

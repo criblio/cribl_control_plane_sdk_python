@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionDynamicSamplingID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
 
     DYNAMIC_SAMPLING = "dynamic_sampling"
 
@@ -26,6 +26,8 @@ class SampleMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class PipelineFunctionDynamicSamplingConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     mode: SampleMode
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
     key_expr: str
@@ -39,6 +41,8 @@ class PipelineFunctionDynamicSamplingConfTypedDict(TypedDict):
 
 
 class PipelineFunctionDynamicSamplingConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     mode: SampleMode
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
@@ -86,40 +90,42 @@ class PipelineFunctionDynamicSamplingConf(BaseModel):
 
 class PipelineFunctionDynamicSamplingTypedDict(TypedDict):
     id: PipelineFunctionDynamicSamplingID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
     conf: PipelineFunctionDynamicSamplingConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionDynamicSampling(BaseModel):
     id: PipelineFunctionDynamicSamplingID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
 
     conf: PipelineFunctionDynamicSamplingConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

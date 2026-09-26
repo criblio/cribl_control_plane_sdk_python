@@ -1,5 +1,7 @@
 # FunctionLocalSearchTimeRangeNormalizerID
 
+Identifier of the Function. Always <code>local_search_time_range_normalizer</code>
+
 ## Example Usage
 
 ```python

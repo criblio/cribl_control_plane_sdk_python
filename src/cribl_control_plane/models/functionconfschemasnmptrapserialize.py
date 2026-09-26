@@ -15,25 +15,35 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNoneTypedDict(TypedDict):
     priv_key: str
+    r"""Privacy key for SNMPv3 encryption. Required when a privacy protocol is selected."""
     auth_key: str
+    r"""Authentication key for SNMPv3 user. Required when an authentication protocol is selected."""
     name: str
+    r"""Username for the SNMPv3 user."""
     priv_protocol: NotRequired[str]
+    r"""Privacy protocol for SNMPv3 encryption."""
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+    r"""Authentication protocol for the SNMPv3 user."""
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
     priv_key: Annotated[str, pydantic.Field(alias="privKey")]
+    r"""Privacy key for SNMPv3 encryption. Required when a privacy protocol is selected."""
 
     auth_key: Annotated[str, pydantic.Field(alias="authKey")]
+    r"""Authentication key for SNMPv3 user. Required when an authentication protocol is selected."""
 
     name: str
+    r"""Username for the SNMPv3 user."""
 
     priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
+    r"""Privacy protocol for SNMPv3 encryption."""
 
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
+    r"""Authentication protocol for the SNMPv3 user."""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -63,22 +73,30 @@ class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNoneTypedDict(TypedDict):
     auth_key: str
+    r"""Authentication key for SNMPv3 user. Required when an authentication protocol is selected."""
     name: str
+    r"""Username for the SNMPv3 user."""
     priv_protocol: NotRequired[str]
+    r"""Privacy protocol for SNMPv3 encryption."""
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+    r"""Authentication protocol for the SNMPv3 user."""
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone(BaseModel):
     auth_key: Annotated[str, pydantic.Field(alias="authKey")]
+    r"""Authentication key for SNMPv3 user. Required when an authentication protocol is selected."""
 
     name: str
+    r"""Username for the SNMPv3 user."""
 
     priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
+    r"""Privacy protocol for SNMPv3 encryption."""
 
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
+    r"""Authentication protocol for the SNMPv3 user."""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -157,8 +175,11 @@ SnmpTrapSerializeV3UserAuthProtocolNotNone = Annotated[
 
 class SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict(TypedDict):
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+    r"""Authentication protocol for the SNMPv3 user."""
     name: NotRequired[str]
+    r"""Username for the SNMPv3 user."""
     priv_protocol: NotRequired[str]
+    r"""Privacy protocol for SNMPv3 encryption."""
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
@@ -166,10 +187,13 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
+    r"""Authentication protocol for the SNMPv3 user."""
 
     name: Optional[str] = None
+    r"""Username for the SNMPv3 user."""
 
     priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
+    r"""Privacy protocol for SNMPv3 encryption."""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -204,6 +228,7 @@ V3UserTypedDict = TypeAliasType(
         SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict,
     ],
 )
+r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class UnknownV3User(BaseModel):
@@ -248,6 +273,7 @@ V3User = Annotated[
         )
     ),
 ]
+r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
@@ -256,6 +282,7 @@ class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
     drop_failed_events: NotRequired[bool]
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
     v3_user: NotRequired[V3UserTypedDict]
+    r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
@@ -268,6 +295,7 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
 
     v3_user: Annotated[Optional[V3User], pydantic.Field(alias="v3User")] = None
+    r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -13,7 +13,7 @@ Clear the persistent queue (PQ) for the specified Destination within the specifi
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteOutputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/outputs/{id}/pq" -->
+<!-- UsageSnippet language="python" operationID="deleteOutputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/outputs/{id}/pq" example="OutputClearPQResponseExamplesClearPQJobId" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -49,6 +49,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -58,7 +59,7 @@ Get information about the latest job to clear the persistent queue (PQ) for the 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" -->
+<!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" example="OutputPQStatusResponseExamplesCompletedClearJob" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -94,5 +95,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

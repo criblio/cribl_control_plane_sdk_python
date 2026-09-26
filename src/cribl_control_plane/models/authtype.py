@@ -16,6 +16,7 @@ class AuthTypeTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry"""
 
     disabled: bool
+    r"""Disabled"""
     oauth_enabled: NotRequired[bool]
     r"""Authenticate with the schema registry using OAuth instead of basic HTTP authentication"""
     token_url: NotRequired[str]
@@ -23,6 +24,7 @@ class AuthTypeTypedDict(TypedDict):
     client_id: NotRequired[str]
     r"""Client ID to use for OAuth authentication"""
     oauth_secret_type: NotRequired[str]
+    r"""Source of the OAuth client secret."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     oauth_params: NotRequired[List[OauthParamConfInputKafkaTypedDict]]
@@ -47,6 +49,7 @@ class AuthType(BaseModel):
     r"""Credentials to use when authenticating with the schema registry"""
 
     disabled: bool
+    r"""Disabled"""
 
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
         None
@@ -62,6 +65,7 @@ class AuthType(BaseModel):
     oauth_secret_type: Annotated[
         Optional[str], pydantic.Field(alias="oauthSecretType")
     ] = None
+    r"""Source of the OAuth client secret."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")

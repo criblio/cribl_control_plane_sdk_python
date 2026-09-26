@@ -1,6 +1,6 @@
 # PipelineFunctionSendID
 
-Function ID
+Identifier of the Function. Always <code>send</code>
 
 ## Example Usage
 

@@ -1,5 +1,7 @@
 # CreateInputInputSystemMetricsMemory
 
+Select the level of detail for memory metrics
+
 
 ## Fields
 

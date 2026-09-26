@@ -43,6 +43,8 @@ class AuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputEventhubAmqpCertificateTypedDict(TypedDict):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: str
     r"""The certificate you registered as credentials for your app in the Azure portal"""
     cert_path: str
@@ -54,6 +56,8 @@ class InputEventhubAmqpCertificateTypedDict(TypedDict):
 
 
 class InputEventhubAmqpCertificate(BaseModel):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
@@ -84,6 +88,8 @@ class InputEventhubAmqpCertificate(BaseModel):
 
 
 class AuthTypedDict(TypedDict):
+    r"""Authentication settings for the Event Hubs AMQP connection."""
+
     mechanism: AuthenticationMechanism
     r"""Authentication mechanism"""
     text_secret: NotRequired[str]
@@ -93,6 +99,7 @@ class AuthTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[InputEventhubAmqpCertificateTypedDict]
+    r"""Certificate credentials for OAuth authentication."""
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -112,6 +119,8 @@ class AuthTypedDict(TypedDict):
 
 
 class Auth(BaseModel):
+    r"""Authentication settings for the Event Hubs AMQP connection."""
+
     mechanism: AuthenticationMechanism
     r"""Authentication mechanism"""
 
@@ -130,6 +139,7 @@ class Auth(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[InputEventhubAmqpCertificate] = None
+    r"""Certificate credentials for OAuth authentication."""
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
@@ -249,6 +259,7 @@ class AzureBlobStorageTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeTypedDict]
+    r"""Certificate credentials for the Azure service principal."""
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -299,6 +310,7 @@ class AzureBlobStorage(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[CertificateType] = None
+    r"""Certificate credentials for the Azure service principal."""
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -367,11 +379,15 @@ class AzureBlobStorage(BaseModel):
 
 
 class CheckpointingTypedDict(TypedDict):
+    r"""Azure Blob Storage settings used to persist Event Hubs checkpoints."""
+
     blob_store: AzureBlobStorageTypedDict
     r"""Azure Blob Storage"""
 
 
 class Checkpointing(BaseModel):
+    r"""Azure Blob Storage settings used to persist Event Hubs checkpoints."""
+
     blob_store: Annotated[AzureBlobStorage, pydantic.Field(alias="blobStore")]
     r"""Azure Blob Storage"""
 
@@ -382,6 +398,7 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: CheckpointingTypedDict
+    r"""Azure Blob Storage settings used to persist Event Hubs checkpoints."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -399,9 +416,11 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     event_hub_name: NotRequired[str]
     r"""The name of the Event Hub to consume from"""
     auth: NotRequired[AuthTypedDict]
+    r"""Authentication settings for the Event Hubs AMQP connection."""
     from_beginning: NotRequired[bool]
     r"""Start reading from earliest available data; relevant only during initial subscription"""
     max_batch_size: NotRequired[int]
@@ -426,6 +445,8 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     r"""Maximum time to wait for a connection to complete"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -442,6 +463,7 @@ class InputEventhubAmqpInput(BaseModel):
     r"""The consumer group this instance belongs to. Default is '$Default'."""
 
     checkpointing: Checkpointing
+    r"""Azure Blob Storage settings used to persist Event Hubs checkpoints."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -470,6 +492,7 @@ class InputEventhubAmqpInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     event_hub_name: Annotated[Optional[str], pydantic.Field(alias="eventHubName")] = (
         None
@@ -477,6 +500,7 @@ class InputEventhubAmqpInput(BaseModel):
     r"""The name of the Event Hub to consume from"""
 
     auth: Optional[Auth] = None
+    r"""Authentication settings for the Event Hubs AMQP connection."""
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
         None
@@ -530,6 +554,9 @@ class InputEventhubAmqpInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -570,6 +597,7 @@ class InputEventhubAmqpInput(BaseModel):
                 "connectionMaxBackoff",
                 "connectionTimeoutInMs",
                 "metadata",
+                "autoParse",
                 "description",
                 "__template_environment",
                 "__template_streamtags",

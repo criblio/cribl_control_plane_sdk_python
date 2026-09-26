@@ -13,11 +13,19 @@ Path = TypeAliasType("Path", Union[str, float])
 
 
 class NameFieldTypeTypedDict(TypedDict):
+    r"""Reference to a field by its original text and parsed path segments."""
+
     raw: str
+    r"""Field name or expression before parsing."""
     path: List[PathTypedDict]
+    r"""Path segments for the field name. For example, <code>[\"level1\", \"level2\"]</code> represents <code>level1.level2</code>."""
 
 
 class NameFieldType(BaseModel):
+    r"""Reference to a field by its original text and parsed path segments."""
+
     raw: str
+    r"""Field name or expression before parsing."""
 
     path: List[Path]
+    r"""Path segments for the field name. For example, <code>[\"level1\", \"level2\"]</code> represents <code>level1.level2</code>."""

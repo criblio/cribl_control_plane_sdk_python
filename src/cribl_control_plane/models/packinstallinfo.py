@@ -17,6 +17,10 @@ class PackInstallInfoTypedDict(TypedDict):
     r"""Unique identifier."""
     source: str
     r"""Source of the Pack — a file path, URL, or Git URL from which the Pack was installed."""
+    src_group: NotRequired[str]
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+    src_overridden: NotRequired[bool]
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
     author: NotRequired[str]
     r"""Name or identifier of the Pack author."""
     collectors: NotRequired[float]
@@ -54,6 +58,14 @@ class PackInstallInfo(BaseModel):
 
     source: str
     r"""Source of the Pack — a file path, URL, or Git URL from which the Pack was installed."""
+
+    src_group: Annotated[Optional[str], pydantic.Field(alias="__srcGroup")] = None
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+
+    src_overridden: Annotated[
+        Optional[bool], pydantic.Field(alias="__srcOverridden")
+    ] = None
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
 
     author: Optional[str] = None
     r"""Name or identifier of the Pack author."""
@@ -105,6 +117,8 @@ class PackInstallInfo(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__srcGroup",
+                "__srcOverridden",
                 "author",
                 "collectors",
                 "dependencies",

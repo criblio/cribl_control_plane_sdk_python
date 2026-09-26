@@ -516,76 +516,76 @@ with CriblControlPlane(
         "tls": {
             "disabled": True,
         },
-        "token_ttl_minutes": 60,
+        "token_ttl_minutes": 60.0,
         "exclude_fields": [
             "__kube_*",
             "__metadata",
             "__winEvent",
         ],
         "compression": models.CompressionOptionsGzipNone.GZIP,
-        "concurrency": 5,
-        "max_payload_size_kb": 4096,
-        "max_payload_events": 0,
+        "concurrency": 5.0,
+        "max_payload_size_kb": 4096.0,
+        "max_payload_events": 0.0,
         "reject_unauthorized": True,
-        "timeout_sec": 30,
-        "flush_period_sec": 1,
+        "timeout_sec": 30.0,
+        "flush_period_sec": 1.0,
         "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
         "safe_headers": [],
         "throttle_rate_per_sec": "0",
         "response_retry_settings": [
             {
-                "http_status": 401,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 401.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 403,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 403.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 408,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 408.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 429,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 429.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 500,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 500.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 502,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 502.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 503,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 503.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 504,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 504.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 509,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 509.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
         ],
         "timeout_retry_settings": {
@@ -620,7 +620,7 @@ with CriblControlPlane(
         "id": "cribl-tcp-output",
         "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -647,7 +647,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -707,6 +707,36 @@ with CriblControlPlane(
         "schema_": "external",
         "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesDatabricksZerobus
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesDatabricksZerobus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "databricks-zerobus-output",
+        "type": models.CreateOutputSystemByPackOutputDatabricksZerobusType.DATABRICKS_ZEROBUS,
+        "workspace_url": "https://dbc-1234abcd-5e6f.cloud.databricks.com",
+        "workspace_id": "your-workspace-id",
+        "zerobus_endpoint": "1234567890.zerobus.us-west-2.cloud.databricks.com",
+        "client_id": "your-client-id",
+        "client_text_secret": "your-client-secret",
+        "table_name": "main.external.events",
     })
 
     # Handle response
@@ -945,6 +975,8 @@ with CriblControlPlane(
         "stage_path": "/tmp/staging",
         "endpoint": "https://storage.googleapis.com",
         "collector_instance_id": "11112222-3333-4444-5555-666677778888",
+        "aws_authentication_method": models.CreateOutputSystemByPackOutputExabeamAuthenticationMethod.SECRET,
+        "aws_secret": "my-secret-id",
     })
 
     # Handle response
@@ -1181,7 +1213,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputGraphiteType.GRAPHITE,
         "protocol": models.DestinationProtocolOptions.TCP,
         "host": "localhost",
-        "port": 2003,
+        "port": 2003.0,
     })
 
     # Handle response
@@ -1233,7 +1265,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -1477,7 +1509,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "localhost",
-                "port": 2055,
+                "port": 2055.0,
             },
         ],
     })
@@ -1726,6 +1758,36 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesSecuronix
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesSecuronix" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "securonix-output",
+        "type": models.CreateOutputSystemByPackOutputSecuronixType.SECURONIX,
+        "auth_type": models.CreateOutputSystemByPackOutputSecuronixAuthenticationType.TEXT_SECRET,
+        "tls": {
+            "disabled": False,
+        },
+        "http_receiver_endpoint": "https://acme.securonix.net/http-event-receiver/cribl-stream",
+        "text_secret": "securonix-api-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesSentinel
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesSentinel" -->
@@ -1856,7 +1918,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "192.168.1.1",
-                "port": 161,
+                "port": 161.0,
             },
         ],
     })
@@ -1943,7 +2005,7 @@ with CriblControlPlane(
         "id": "splunk-output",
         "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -1995,7 +2057,7 @@ with CriblControlPlane(
         hosts=[
             models.HostConfOutputSyslog(
                 host="localhost",
-                port=9997,
+                port=9997.0,
             ),
         ],
     ))
@@ -2051,7 +2113,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputStatsdType.STATSD,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -2078,7 +2140,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackOutputStatsdExtType.STATSD_EXT,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -2156,7 +2218,7 @@ with CriblControlPlane(
         "id": "syslog-output",
         "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -2182,7 +2244,33 @@ with CriblControlPlane(
         "id": "tcpjson-output",
         "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesTraversalOtlp
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesTraversalOtlp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "traversal-output",
+        "type": models.CreateOutputSystemByPackOutputTraversalOtlpType.TRAVERSAL_OTLP,
+        "endpoint": "http://traversal-processor:3000",
+        "protocol": models.ProtocolOptions.HTTP,
     })
 
     # Handle response
@@ -2258,7 +2346,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "wiz-hec-output",
         "type": models.CreateOutputSystemByPackOutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -2287,7 +2375,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "wiz-hec-vpc-flow-logs-output",
         "type": models.CreateOutputSystemByPackOutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -3082,76 +3170,76 @@ with CriblControlPlane(
         "tls": {
             "disabled": True,
         },
-        "token_ttl_minutes": 60,
+        "token_ttl_minutes": 60.0,
         "exclude_fields": [
             "__kube_*",
             "__metadata",
             "__winEvent",
         ],
         "compression": models.CompressionOptionsGzipNone.GZIP,
-        "concurrency": 5,
-        "max_payload_size_kb": 4096,
-        "max_payload_events": 0,
+        "concurrency": 5.0,
+        "max_payload_size_kb": 4096.0,
+        "max_payload_events": 0.0,
         "reject_unauthorized": True,
-        "timeout_sec": 30,
-        "flush_period_sec": 1,
+        "timeout_sec": 30.0,
+        "flush_period_sec": 1.0,
         "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
         "safe_headers": [],
         "throttle_rate_per_sec": "0",
         "response_retry_settings": [
             {
-                "http_status": 401,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 401.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 403,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 403.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 408,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 408.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 429,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 429.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 500,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 500.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 502,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 502.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 503,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 503.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 504,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 504.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 509,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 509.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
         ],
         "timeout_retry_settings": {
@@ -3186,7 +3274,7 @@ with CriblControlPlane(
         "id": "cribl-tcp-output",
         "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -3213,7 +3301,7 @@ with CriblControlPlane(
         "type": models.OutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -3694,7 +3782,7 @@ with CriblControlPlane(
         "type": models.OutputGraphiteType.GRAPHITE,
         "protocol": models.DestinationProtocolOptions.TCP,
         "host": "localhost",
-        "port": 2003,
+        "port": 2003.0,
     })
 
     # Handle response
@@ -3746,7 +3834,7 @@ with CriblControlPlane(
         "type": models.OutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -3990,7 +4078,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "localhost",
-                "port": 2055,
+                "port": 2055.0,
             },
         ],
     })
@@ -4369,7 +4457,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "192.168.1.1",
-                "port": 161,
+                "port": 161.0,
             },
         ],
     })
@@ -4424,7 +4512,7 @@ with CriblControlPlane(
         "id": "splunk-output",
         "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -4476,7 +4564,7 @@ with CriblControlPlane(
         hosts=[
             models.HostConfOutputSyslog(
                 host="localhost",
-                port=9997,
+                port=9997.0,
             ),
         ],
     ))
@@ -4532,7 +4620,7 @@ with CriblControlPlane(
         "type": models.OutputStatsdType.STATSD,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -4559,7 +4647,7 @@ with CriblControlPlane(
         "type": models.OutputStatsdExtType.STATSD_EXT,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -4637,7 +4725,7 @@ with CriblControlPlane(
         "id": "syslog-output",
         "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -4663,7 +4751,7 @@ with CriblControlPlane(
         "id": "tcpjson-output",
         "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -4739,7 +4827,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -5386,76 +5474,76 @@ with CriblControlPlane(
         "tls": {
             "disabled": True,
         },
-        "token_ttl_minutes": 60,
+        "token_ttl_minutes": 60.0,
         "exclude_fields": [
             "__kube_*",
             "__metadata",
             "__winEvent",
         ],
         "compression": models.CompressionOptionsGzipNone.GZIP,
-        "concurrency": 5,
-        "max_payload_size_kb": 4096,
-        "max_payload_events": 0,
+        "concurrency": 5.0,
+        "max_payload_size_kb": 4096.0,
+        "max_payload_events": 0.0,
         "reject_unauthorized": True,
-        "timeout_sec": 30,
-        "flush_period_sec": 1,
+        "timeout_sec": 30.0,
+        "flush_period_sec": 1.0,
         "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
         "safe_headers": [],
         "throttle_rate_per_sec": "0",
         "response_retry_settings": [
             {
-                "http_status": 401,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 401.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 403,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 20000,
+                "http_status": 403.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 20000.0,
             },
             {
-                "http_status": 408,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 408.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 429,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 429.0,
+                "initial_backoff": 1000.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 500,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 500.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 502,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 502.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 503,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 503.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 504,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 504.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
             {
-                "http_status": 509,
-                "initial_backoff": 250,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "http_status": 509.0,
+                "initial_backoff": 250.0,
+                "backoff_rate": 2.0,
+                "max_backoff": 10000.0,
             },
         ],
         "timeout_retry_settings": {
@@ -5490,7 +5578,7 @@ with CriblControlPlane(
         "id": "cribl-tcp-output",
         "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -5517,7 +5605,7 @@ with CriblControlPlane(
         "type": models.OutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
         "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -5577,6 +5665,36 @@ with CriblControlPlane(
         "schema_": "external",
         "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDatabricksZerobus
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesDatabricksZerobus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "databricks-zerobus-output",
+        "type": models.OutputDatabricksZerobusType.DATABRICKS_ZEROBUS,
+        "workspace_url": "https://dbc-1234abcd-5e6f.cloud.databricks.com",
+        "workspace_id": "your-workspace-id",
+        "zerobus_endpoint": "1234567890.zerobus.us-west-2.cloud.databricks.com",
+        "client_id": "your-client-id",
+        "client_text_secret": "your-client-secret",
+        "table_name": "main.external.events",
     })
 
     # Handle response
@@ -5840,6 +5958,8 @@ with CriblControlPlane(
         "stage_path": "/tmp/staging",
         "endpoint": "https://storage.googleapis.com",
         "collector_instance_id": "11112222-3333-4444-5555-666677778888",
+        "aws_authentication_method": models.OutputExabeamAuthenticationMethod.SECRET,
+        "aws_secret": "my-secret-id",
     })
 
     # Handle response
@@ -6076,7 +6196,7 @@ with CriblControlPlane(
         "type": models.OutputGraphiteType.GRAPHITE,
         "protocol": models.DestinationProtocolOptions.TCP,
         "host": "localhost",
-        "port": 2003,
+        "port": 2003.0,
     })
 
     # Handle response
@@ -6128,7 +6248,7 @@ with CriblControlPlane(
         "type": models.OutputHumioHecType.HUMIO_HEC,
         "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
         "format_": models.RequestFormatOptions.JSON,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "token": "your-token",
     })
 
@@ -6372,7 +6492,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "localhost",
-                "port": 2055,
+                "port": 2055.0,
             },
         ],
     })
@@ -6621,6 +6741,36 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesSecuronix
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesSecuronix" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "securonix-output",
+        "type": models.OutputSecuronixType.SECURONIX,
+        "auth_type": models.OutputSecuronixAuthenticationType.TEXT_SECRET,
+        "tls": {
+            "disabled": False,
+        },
+        "http_receiver_endpoint": "https://acme.securonix.net/http-event-receiver/cribl-stream",
+        "text_secret": "securonix-api-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesSentinel
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesSentinel" -->
@@ -6751,7 +6901,7 @@ with CriblControlPlane(
         "hosts": [
             {
                 "host": "192.168.1.1",
-                "port": 161,
+                "port": 161.0,
             },
         ],
     })
@@ -6838,7 +6988,7 @@ with CriblControlPlane(
         "id": "splunk-output",
         "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -6890,7 +7040,7 @@ with CriblControlPlane(
         hosts=[
             models.HostConfOutputSyslog(
                 host="localhost",
-                port=9997,
+                port=9997.0,
             ),
         ],
     ))
@@ -6946,7 +7096,7 @@ with CriblControlPlane(
         "type": models.OutputStatsdType.STATSD,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -6973,7 +7123,7 @@ with CriblControlPlane(
         "type": models.OutputStatsdExtType.STATSD_EXT,
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
-        "port": 8125,
+        "port": 8125.0,
     })
 
     # Handle response
@@ -7051,7 +7201,7 @@ with CriblControlPlane(
         "id": "syslog-output",
         "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -7077,7 +7227,33 @@ with CriblControlPlane(
         "id": "tcpjson-output",
         "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
-        "port": 10090,
+        "port": 10090.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesTraversalOtlp
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesTraversalOtlp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "traversal-output",
+        "type": models.OutputTraversalOtlpType.TRAVERSAL_OTLP,
+        "endpoint": "http://traversal-processor:3000",
+        "protocol": models.ProtocolOptions.HTTP,
     })
 
     # Handle response
@@ -7153,7 +7329,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",
@@ -7182,7 +7358,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "wiz-hec-vpc-flow-logs-output",
         "type": models.OutputWizHecType.WIZ_HEC,
-        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensExtItems.MANUAL,
         "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
         "wiz_environment": "test",
         "data_center": "us1",

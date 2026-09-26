@@ -54,6 +54,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -105,6 +106,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     checkpointing: NotRequired[CheckpointingTypeTypedDict]
+    r"""Checkpoint settings used to resume processing after an interruption."""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
@@ -128,6 +130,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     sqs_aws_secret_key: NotRequired[str]
     r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
+    r"""Whether to add a tag to each S3 object after processing."""
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -194,6 +197,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -308,6 +312,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     checkpointing: Optional[CheckpointingType] = None
+    r"""Checkpoint settings used to resume processing after an interruption."""
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -358,6 +363,7 @@ class InputCrowdstrikeInput(BaseModel):
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
+    r"""Whether to add a tag to each S3 object after processing."""
 
     processed_tag_key: Annotated[
         Optional[str], pydantic.Field(alias="processedTagKey")

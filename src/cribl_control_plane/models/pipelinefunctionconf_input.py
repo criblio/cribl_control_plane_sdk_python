@@ -19,6 +19,10 @@ from .pipelinefunctioncef import (
 )
 from .pipelinefunctionchain import PipelineFunctionChain, PipelineFunctionChainTypedDict
 from .pipelinefunctionclone import PipelineFunctionClone, PipelineFunctionCloneTypedDict
+from .pipelinefunctioncloudchangeenricher import (
+    PipelineFunctionCloudChangeEnricher,
+    PipelineFunctionCloudChangeEnricherTypedDict,
+)
 from .pipelinefunctioncode import PipelineFunctionCode, PipelineFunctionCodeTypedDict
 from .pipelinefunctioncomment import (
     PipelineFunctionComment,
@@ -118,6 +122,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -243,6 +251,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionCefInputTypedDict,
         PipelineFunctionChainTypedDict,
         PipelineFunctionCloneTypedDict,
+        PipelineFunctionCloudChangeEnricherTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
         PipelineFunctionDetectionRulesTypedDict,
@@ -274,6 +283,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -320,6 +330,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionCefInput, Tag("cef")],
         Annotated[PipelineFunctionChain, Tag("chain")],
         Annotated[PipelineFunctionClone, Tag("clone")],
+        Annotated[PipelineFunctionCloudChangeEnricher, Tag("cloudChangeEnricher")],
         Annotated[PipelineFunctionCode, Tag("code")],
         Annotated[PipelineFunctionComment, Tag("comment")],
         Annotated[PipelineFunctionDetectionRules, Tag("detection_rules")],
@@ -366,6 +377,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionLookup, Tag("lookup")],
         Annotated[PipelineFunctionMask, Tag("mask")],
         Annotated[PipelineFunctionMetricsExport, Tag("metrics_export")],
+        Annotated[PipelineFunctionMetricsTimeRangeGate, Tag("metrics_time_range_gate")],
         Annotated[PipelineFunctionMvExpand, Tag("mv_expand")],
         Annotated[PipelineFunctionMvPull, Tag("mv_pull")],
         Annotated[PipelineFunctionNotificationPolicies, Tag("notification_policies")],

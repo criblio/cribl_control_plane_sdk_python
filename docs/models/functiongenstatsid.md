@@ -1,5 +1,7 @@
 # FunctionGenStatsID
 
+Identifier of the Function. Always <code>gen_stats</code>
+
 ## Example Usage
 
 ```python

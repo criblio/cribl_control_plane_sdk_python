@@ -11,9 +11,32 @@
 
 List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet.
 
-### Example Usage
+### Example Usage: OutputStatusResponseExamplesGreenDestination
 
-<!-- UsageSnippet language="python" operationID="getOutputStatus" method="get" path="/system/status/outputs" -->
+<!-- UsageSnippet language="python" operationID="getOutputStatus" method="get" path="/system/status/outputs" example="OutputStatusResponseExamplesGreenDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.statuses.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputStatusResponseExamplesYellowDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputStatus" method="get" path="/system/status/outputs" example="OutputStatusResponseExamplesYellowDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -53,6 +76,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -60,9 +84,30 @@ with CriblControlPlane(
 
 Get the status and optional metrics for the specified Destination.
 
-### Example Usage
+### Example Usage: OutputStatusResponseExamplesGreenDestination
 
-<!-- UsageSnippet language="python" operationID="getOutputStatusById" method="get" path="/system/status/outputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getOutputStatusById" method="get" path="/system/status/outputs/{id}" example="OutputStatusResponseExamplesGreenDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.statuses.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputStatusResponseExamplesYellowDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputStatusById" method="get" path="/system/status/outputs/{id}" example="OutputStatusResponseExamplesYellowDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -99,5 +144,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

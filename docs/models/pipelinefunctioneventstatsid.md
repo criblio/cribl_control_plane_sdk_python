@@ -1,6 +1,6 @@
 # PipelineFunctionEventstatsID
 
-Function ID
+Identifier of the Function. Always <code>eventstats</code>
 
 ## Example Usage
 

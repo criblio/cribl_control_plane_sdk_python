@@ -1,5 +1,7 @@
 # InputResponseAccountType
 
+Account type
+
 ## Example Usage
 
 ```python

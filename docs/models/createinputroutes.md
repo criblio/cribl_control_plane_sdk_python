@@ -7,4 +7,4 @@ Creates events based on entries collected from the host’s network routes
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `enable`           | *Optional[bool]*   | :heavy_minus_sign: | N/A                |
+| `enable`           | *Optional[bool]*   | :heavy_minus_sign: | Enabled            |

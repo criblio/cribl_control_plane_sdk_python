@@ -1,5 +1,7 @@
 # FunctionDistinctID
 
+Identifier of the Function. Always <code>distinct</code>
+
 ## Example Usage
 
 ```python

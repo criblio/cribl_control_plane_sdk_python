@@ -1,0 +1,21 @@
+# OutputExabeamAuthenticationMethod
+
+Authentication method
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputExabeamAuthenticationMethod
+
+value = OutputExabeamAuthenticationMethod.MANUAL
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name     | Value    |
+| -------- | -------- |
+| `MANUAL` | manual   |
+| `SECRET` | secret   |

@@ -1,6 +1,6 @@
 # PipelineFunctionSensitiveDataScannerID
 
-Function ID
+Identifier of the Function. Always <code>sensitive_data_scanner</code>
 
 ## Example Usage
 

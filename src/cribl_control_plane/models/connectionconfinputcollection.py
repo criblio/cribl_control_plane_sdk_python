@@ -9,13 +9,17 @@ from typing_extensions import NotRequired, TypedDict
 
 class ConnectionConfInputCollectionTypedDict(TypedDict):
     pipeline: NotRequired[str]
+    r"""Pipeline or Pack to process data before sending to the Destination."""
     output: NotRequired[str]
+    r"""Destination to send data to when not using Routes."""
 
 
 class ConnectionConfInputCollection(BaseModel):
     pipeline: Optional[str] = None
+    r"""Pipeline or Pack to process data before sending to the Destination."""
 
     output: Optional[str] = None
+    r"""Destination to send data to when not using Routes."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

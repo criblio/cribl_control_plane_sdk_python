@@ -10,18 +10,24 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class SetConfInputSystemMetricsTypedDict(TypedDict):
     name: str
+    r"""Set Name"""
     filter_: str
+    r"""Filter Expression"""
     include_children: NotRequired[bool]
+    r"""Include Child Processes"""
 
 
 class SetConfInputSystemMetrics(BaseModel):
     name: str
+    r"""Set Name"""
 
     filter_: Annotated[str, pydantic.Field(alias="filter")]
+    r"""Filter Expression"""
 
     include_children: Annotated[
         Optional[bool], pydantic.Field(alias="includeChildren")
     ] = None
+    r"""Include Child Processes"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

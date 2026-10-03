@@ -1,5 +1,7 @@
 # InputEdgePrometheusType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

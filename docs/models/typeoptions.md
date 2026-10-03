@@ -1,15 +1,13 @@
 # TypeOptions
 
-Parser or formatter type to use
+Connector type identifier.
 
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import TypeOptions
 
-value = TypeOptions.CSV
-
-# Open enum: unrecognized values are captured as UnrecognizedStr
+value = TypeOptions.KAFKA
 ```
 
 
@@ -17,11 +15,4 @@ value = TypeOptions.CSV
 
 | Name    | Value   |
 | ------- | ------- |
-| `CSV`   | csv     |
-| `ELFF`  | elff    |
-| `CLF`   | clf     |
-| `KVP`   | kvp     |
-| `JSON`  | json    |
-| `DELIM` | delim   |
-| `REGEX` | regex   |
-| `GROK`  | grok    |
+| `KAFKA` | kafka   |

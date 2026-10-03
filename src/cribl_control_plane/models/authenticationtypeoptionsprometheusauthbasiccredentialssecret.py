@@ -8,6 +8,8 @@ from enum import Enum
 class AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Auth token

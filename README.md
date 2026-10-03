@@ -230,8 +230,8 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [DatabaseConnections](docs/sdks/databaseconnections/README.md)
 
-* [list](docs/sdks/databaseconnections/README.md#list) - List Database Connections
-* [create](docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [list](docs/sdks/databaseconnections/README.md#list) - List all Database Connections
+* [create](docs/sdks/databaseconnections/README.md#create) - Create a Database Connection
 * [get](docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
 * [update](docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
 * [delete](docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
@@ -266,8 +266,8 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Groups](docs/sdks/groupssdk/README.md)
 
-* [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
-* [create](docs/sdks/groupssdk/README.md#create) - Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [list](docs/sdks/groupssdk/README.md#list) - List all Worker Groups, Outpost Groups, or Edge Fleets
+* [create](docs/sdks/groupssdk/README.md#create) - Create a Worker Group, Outpost Group, or Edge Fleet
 * [get](docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
@@ -275,24 +275,24 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Groups.Acl](docs/sdks/acl/README.md)
 
-* [get](docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+* [get](docs/sdks/acl/README.md#get) - Get the user access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ##### [Groups.Acl.Teams](docs/sdks/teams/README.md)
 
-* [get](docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](docs/sdks/teams/README.md#get) - Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Configs.Versions](docs/sdks/configsversions/README.md)
 
 * [get](docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-### [Health](docs/sdks/health/README.md)
+### [Health](docs/sdks/healthsdk/README.md)
 
-* [get](docs/sdks/health/README.md#get) - Get the health status of the server
+* [get](docs/sdks/healthsdk/README.md#get) - Get the health status of the server
 
 ### [Lakes.Datasets](docs/sdks/datasets/README.md)
 
 * [list](docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [create](docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [create](docs/sdks/datasets/README.md#create) - Create Lake Datasets (Cribl.Cloud only)
 * [get](docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
 * [update](docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 * [delete](docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
@@ -306,7 +306,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
-* [get](docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
+* [get](docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a Cribl product
 
 ### [Packs](docs/sdks/packs/README.md)
 
@@ -352,7 +352,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
 * [get](docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
-* [update](docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [update](docs/sdks/packsroutes/README.md#update) - Update a Routing table within a Pack
 * [append](docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
 
 #### [Packs.Sources](docs/sdks/packssources/README.md)
@@ -390,7 +390,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
-* [update](docs/sdks/routessdk/README.md#update) - Update a Route
+* [update](docs/sdks/routessdk/README.md#update) - Update a Routing table
 * [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](docs/sdks/sources/README.md)
@@ -444,10 +444,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](docs/sdks/files/README.md)
+#### [Versions.Commits.Files](docs/sdks/commitsfiles/README.md)
 
-* [count](docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
-* [list](docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
+* [list](docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](docs/sdks/versionsconfigs/README.md)
 
@@ -518,7 +518,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.statuses.list(pack="<value>")
+    res = ccp_client.functions.list()
 
     while res is not None:
         # Handle items
@@ -741,6 +741,20 @@ class CustomClient(AsyncHttpClient):
 
 s = CriblControlPlane(async_client=CustomClient(httpx.AsyncClient()))
 ```
+### httpx2 (Pydantic's httpx fork)
+
+[httpx2](https://httpx2.pydantic.dev/) is Pydantic's maintained fork of `httpx`. To run this SDK on httpx2, call `alias_httpx()` at your program's entry point, before importing the SDK, so every `import httpx` — including the ones inside the SDK — resolves to `httpx2`:
+```python
+import httpx2
+
+httpx2.alias_httpx()
+
+from cribl_control_plane import CriblControlPlane
+
+s = CriblControlPlane()
+```
+
+An SDK can also be generated against httpx2 directly, so it depends on the fork instead of `httpx`, by setting `python.httpClientLibrary: httpx2` in `gen.yaml`.
 <!-- End Custom HTTP Client [http-client] -->
 
 <!-- Start Resource Management [resource-management] -->

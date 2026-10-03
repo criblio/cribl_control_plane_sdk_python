@@ -5,24 +5,30 @@ from .gitfile import GitFile, GitFileTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GitFilesResponseTypedDict(TypedDict):
-    count: float
+    count: int
+    r"""Number of files returned."""
     items: List[GitFileTypedDict]
-    commit_message: NotRequired[Dict[str, Any]]
+    r"""Array of files that changed since the specified commit."""
+    commit_message: NotRequired[str]
+    r"""Commit message of the specified commit."""
 
 
 class GitFilesResponse(BaseModel):
-    count: float
+    count: int
+    r"""Number of files returned."""
 
     items: List[GitFile]
+    r"""Array of files that changed since the specified commit."""
 
-    commit_message: Annotated[
-        Optional[Dict[str, Any]], pydantic.Field(alias="commitMessage")
-    ] = None
+    commit_message: Annotated[Optional[str], pydantic.Field(alias="commitMessage")] = (
+        None
+    )
+    r"""Commit message of the specified commit."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

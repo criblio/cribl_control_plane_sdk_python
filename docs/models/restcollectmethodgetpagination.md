@@ -1,5 +1,7 @@
 # RestCollectMethodGetPagination
 
+Settings that control how the Collector paginates through Collect results.
+
 
 ## Supported Types
 

@@ -9,24 +9,32 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class HealthCountTypeTypedDict(TypedDict):
-    green: NotRequired[float]
-    yellow: NotRequired[float]
-    red: NotRequired[float]
-    unknown: NotRequired[float]
+    green: NotRequired[int]
+    r"""Number of Worker Processes reporting a healthy (Green) status."""
+    red: NotRequired[int]
+    r"""Number of Worker Processes reporting a critical (Red) status."""
+    unknown: NotRequired[int]
+    r"""Number of Worker Processes reporting an unknown health status."""
+    yellow: NotRequired[int]
+    r"""Number of Worker Processes reporting a degraded (Yellow) status."""
 
 
 class HealthCountType(BaseModel):
-    green: Annotated[Optional[float], pydantic.Field(alias="Green")] = None
+    green: Annotated[Optional[int], pydantic.Field(alias="Green")] = None
+    r"""Number of Worker Processes reporting a healthy (Green) status."""
 
-    yellow: Annotated[Optional[float], pydantic.Field(alias="Yellow")] = None
+    red: Annotated[Optional[int], pydantic.Field(alias="Red")] = None
+    r"""Number of Worker Processes reporting a critical (Red) status."""
 
-    red: Annotated[Optional[float], pydantic.Field(alias="Red")] = None
+    unknown: Annotated[Optional[int], pydantic.Field(alias="Unknown")] = None
+    r"""Number of Worker Processes reporting an unknown health status."""
 
-    unknown: Annotated[Optional[float], pydantic.Field(alias="Unknown")] = None
+    yellow: Annotated[Optional[int], pydantic.Field(alias="Yellow")] = None
+    r"""Number of Worker Processes reporting a degraded (Yellow) status."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["Green", "Yellow", "Red", "Unknown"])
+        optional_fields = set(["Green", "Red", "Unknown", "Yellow"])
         serialized = handler(self)
         m = {}
 

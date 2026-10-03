@@ -51,6 +51,12 @@ value: models.PipelineFunctionCode = /* values here */
 value: models.PipelineFunctionComment = /* values here */
 ```
 
+### `models.PipelineFunctionDetectionRules`
+
+```python
+value: models.PipelineFunctionDetectionRules = /* values here */
+```
+
 ### `models.PipelineFunctionDistinct`
 
 ```python
@@ -159,6 +165,12 @@ value: models.PipelineFunctionJSONUnroll = /* values here */
 value: models.PipelineFunctionLakeExport = /* values here */
 ```
 
+### `models.PipelineFunctionLakehouseEngineMetricsNormalizer`
+
+```python
+value: models.PipelineFunctionLakehouseEngineMetricsNormalizer = /* values here */
+```
+
 ### `models.PipelineFunctionLimit`
 
 ```python
@@ -205,6 +217,18 @@ value: models.PipelineFunctionLookup = /* values here */
 
 ```python
 value: models.PipelineFunctionMask = /* values here */
+```
+
+### `models.PipelineFunctionMetricsExport`
+
+```python
+value: models.PipelineFunctionMetricsExport = /* values here */
+```
+
+### `models.PipelineFunctionMetricsTimeRangeGate`
+
+```python
+value: models.PipelineFunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.PipelineFunctionMvExpand`
@@ -349,12 +373,6 @@ value: models.PipelineFunctionSerialize = /* values here */
 
 ```python
 value: models.PipelineFunctionSidlookup = /* values here */
-```
-
-### `models.PipelineFunctionSignalFilter`
-
-```python
-value: models.PipelineFunctionSignalFilter = /* values here */
 ```
 
 ### `models.PipelineFunctionSnmpTrapSerialize`

@@ -1,0 +1,12 @@
+# Support
+
+Support and diagnostics settings.
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `feature_flag_overrides`                                                               | List[[models.FeatureFlagOverride](../models/featureflagoverride.md)]                   | :heavy_minus_sign:                                                                     | List of feature flag overrides applied to this Cribl instance.                         |
+| `log_file_max_files`                                                                   | *Optional[int]*                                                                        | :heavy_minus_sign:                                                                     | Maximum number of log files to retain before rotating.                                 |
+| `log_file_max_size`                                                                    | *Optional[str]*                                                                        | :heavy_minus_sign:                                                                     | Maximum size of each log file. Value is a numeral and unit such as <code>10 MB</code>. |

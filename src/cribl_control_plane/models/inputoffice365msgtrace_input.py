@@ -12,10 +12,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestypecodesenableheader import (
-    RetryRulesTypeCodesEnableHeader,
-    RetryRulesTypeCodesEnableHeaderTypedDict,
-)
+from .retryrulestypefailed import RetryRulesTypeFailed, RetryRulesTypeFailedTypedDict
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -68,6 +65,7 @@ class InputOffice365MsgTraceInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     start_date: NotRequired[str]
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
@@ -96,7 +94,8 @@ class InputOffice365MsgTraceInputTypedDict(TypedDict):
     r"""Maximum number of times a task can be rescheduled"""
     log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
-    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    retry_rules: NotRequired[RetryRulesTypeFailedTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -118,6 +117,7 @@ class InputOffice365MsgTraceInputTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
+    r"""Certificate credentials for Microsoft OAuth authentication."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -171,6 +171,7 @@ class InputOffice365MsgTraceInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
@@ -232,8 +233,9 @@ class InputOffice365MsgTraceInput(BaseModel):
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeFailed], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -272,6 +274,7 @@ class InputOffice365MsgTraceInput(BaseModel):
     cert_options: Annotated[
         Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
+    r"""Certificate credentials for Microsoft OAuth authentication."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

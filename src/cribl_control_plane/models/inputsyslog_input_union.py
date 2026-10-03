@@ -46,6 +46,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     udp_port: NotRequired[float]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     max_buffer_size: NotRequired[float]
@@ -84,6 +85,8 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
@@ -139,6 +142,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
@@ -229,6 +233,9 @@ class InputSyslogSyslogInput2(BaseModel):
     ] = None
     r"""Load balance traffic across all Worker Processes"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -299,6 +306,7 @@ class InputSyslogSyslogInput2(BaseModel):
                 "metadata",
                 "udpSocketRxBufSize",
                 "enableLoadBalancing",
+                "autoParse",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
                 "__template_environment",
@@ -347,6 +355,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tcp_port: NotRequired[float]
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     max_buffer_size: NotRequired[float]
@@ -385,6 +394,8 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
@@ -440,6 +451,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
@@ -530,6 +542,9 @@ class InputSyslogSyslogInput1(BaseModel):
     ] = None
     r"""Load balance traffic across all Worker Processes"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -600,6 +615,7 @@ class InputSyslogSyslogInput1(BaseModel):
                 "metadata",
                 "udpSocketRxBufSize",
                 "enableLoadBalancing",
+                "autoParse",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
                 "__template_environment",

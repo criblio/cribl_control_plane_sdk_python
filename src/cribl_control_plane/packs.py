@@ -541,7 +541,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body:
+        :param request_body: Binary contents of the <code>.crbl</code> Pack file to stage for installation
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -652,7 +652,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body:
+        :param request_body: Binary contents of the <code>.crbl</code> Pack file to stage for installation
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

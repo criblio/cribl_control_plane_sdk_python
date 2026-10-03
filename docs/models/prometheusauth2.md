@@ -1,5 +1,7 @@
 # PrometheusAuth2
 
+Authentication settings for Prometheus Remote Write requests.
+
 
 ## Fields
 

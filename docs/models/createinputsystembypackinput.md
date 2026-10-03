@@ -149,6 +149,12 @@ value: models.CreateInputSystemByPackInputExec = /* values here */
 value: models.CreateInputSystemByPackInputFirehose = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputCloudChangeFirehose`
+
+```python
+value: models.CreateInputSystemByPackInputCloudChangeFirehose = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputGooglePubsub`
 
 ```python
@@ -389,10 +395,22 @@ value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 value: models.CreateInputSystemByPackInputBedrockS3 = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputCloudChangeEvent`
+
+```python
+value: models.CreateInputSystemByPackInputCloudChangeEvent = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputServicenowTable`
 
 ```python
 value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputProofpointPod`
+
+```python
+value: models.CreateInputSystemByPackInputProofpointPod = /* values here */
 ```
 
 ### `models.CreateInputSystemByPackInputZscalerHec`
@@ -419,6 +437,36 @@ value: models.CreateInputSystemByPackInputSysdigHec = /* values here */
 value: models.CreateInputSystemByPackInputUpwindHec = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputTrellixHec`
+
+```python
+value: models.CreateInputSystemByPackInputTrellixHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSalesforce`
+
+```python
+value: models.CreateInputSystemByPackInputSalesforce = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSailpointHec`
+
+```python
+value: models.CreateInputSystemByPackInputSailpointHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputExtrahopRevealx360`
+
+```python
+value: models.CreateInputSystemByPackInputExtrahopRevealx360 = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAquaSecurityHec`
+
+```python
+value: models.CreateInputSystemByPackInputAquaSecurityHec = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
 
 ```python
@@ -431,9 +479,81 @@ value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here 
 value: models.CreateInputSystemByPackInputAnthropicCompliance = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputAnthropicEnterpriseAnalytics`
+
+```python
+value: models.CreateInputSystemByPackInputAnthropicEnterpriseAnalytics = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputMicrosoftCopilot`
+
+```python
+value: models.CreateInputSystemByPackInputMicrosoftCopilot = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOkta`
 
 ```python
 value: models.CreateInputSystemByPackInputOkta = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAkamaiHec`
+
+```python
+value: models.CreateInputSystemByPackInputAkamaiHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputPingIdentityPingone`
+
+```python
+value: models.CreateInputSystemByPackInputPingIdentityPingone = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputGigamonHec`
+
+```python
+value: models.CreateInputSystemByPackInputGigamonHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputVectraAiHec`
+
+```python
+value: models.CreateInputSystemByPackInputVectraAiHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputF5BigIP`
+
+```python
+value: models.CreateInputSystemByPackInputF5BigIP = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputBeyondtrustHec`
+
+```python
+value: models.CreateInputSystemByPackInputBeyondtrustHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputHashicorpHcpVaultDedicated`
+
+```python
+value: models.CreateInputSystemByPackInputHashicorpHcpVaultDedicated = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputMimecastHec`
+
+```python
+value: models.CreateInputSystemByPackInputMimecastHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputTrendMicroVisionOne`
+
+```python
+value: models.CreateInputSystemByPackInputTrendMicroVisionOne = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputNetskope`
+
+```python
+value: models.CreateInputSystemByPackInputNetskope = /* values here */
 ```
 

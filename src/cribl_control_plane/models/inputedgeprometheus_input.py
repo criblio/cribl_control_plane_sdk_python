@@ -171,6 +171,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
@@ -317,6 +318,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")

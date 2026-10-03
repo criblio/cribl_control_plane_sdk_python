@@ -16,6 +16,10 @@ from .pipelinefunctionautotimestamp import (
 from .pipelinefunctioncef import PipelineFunctionCef, PipelineFunctionCefTypedDict
 from .pipelinefunctionchain import PipelineFunctionChain, PipelineFunctionChainTypedDict
 from .pipelinefunctionclone import PipelineFunctionClone, PipelineFunctionCloneTypedDict
+from .pipelinefunctioncloudchangeenricher import (
+    PipelineFunctionCloudChangeEnricher,
+    PipelineFunctionCloudChangeEnricherTypedDict,
+)
 from .pipelinefunctioncode import PipelineFunctionCode, PipelineFunctionCodeTypedDict
 from .pipelinefunctioncomment import (
     PipelineFunctionComment,
@@ -115,6 +119,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -243,6 +251,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionCefTypedDict,
         PipelineFunctionChainTypedDict,
         PipelineFunctionCloneTypedDict,
+        PipelineFunctionCloudChangeEnricherTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
         PipelineFunctionDetectionRulesTypedDict,
@@ -274,6 +283,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -329,6 +339,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "cef": PipelineFunctionCef,
     "chain": PipelineFunctionChain,
     "clone": PipelineFunctionClone,
+    "cloudChangeEnricher": PipelineFunctionCloudChangeEnricher,
     "code": PipelineFunctionCode,
     "comment": PipelineFunctionComment,
     "detection_rules": PipelineFunctionDetectionRules,
@@ -360,6 +371,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -405,6 +417,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionCef,
         PipelineFunctionChain,
         PipelineFunctionClone,
+        PipelineFunctionCloudChangeEnricher,
         PipelineFunctionCode,
         PipelineFunctionComment,
         PipelineFunctionDetectionRules,
@@ -436,6 +449,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

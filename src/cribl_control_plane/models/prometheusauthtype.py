@@ -13,6 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PrometheusAuthTypeTypedDict(TypedDict):
+    r"""Authentication settings for Grafana Cloud requests."""
+
     auth_type: NotRequired[
         AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
     ]
@@ -30,6 +32,8 @@ class PrometheusAuthTypeTypedDict(TypedDict):
 
 
 class PrometheusAuthType(BaseModel):
+    r"""Authentication settings for Grafana Cloud requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),

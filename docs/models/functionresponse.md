@@ -39,6 +39,12 @@ value: models.FunctionChain = /* values here */
 value: models.FunctionClone = /* values here */
 ```
 
+### `models.FunctionCloudChangeEnricher`
+
+```python
+value: models.FunctionCloudChangeEnricher = /* values here */
+```
+
 ### `models.FunctionCode`
 
 ```python
@@ -223,6 +229,12 @@ value: models.FunctionMask = /* values here */
 
 ```python
 value: models.FunctionMetricsExport = /* values here */
+```
+
+### `models.FunctionMetricsTimeRangeGate`
+
+```python
+value: models.FunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.FunctionMvExpand`

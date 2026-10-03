@@ -19,3 +19,4 @@ value = DatabaseConnectionType.MYSQL
 | `ORACLE`    | oracle      |
 | `POSTGRES`  | postgres    |
 | `SQLSERVER` | sqlserver   |
+| `TERADATA`  | teradata    |

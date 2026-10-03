@@ -31,11 +31,11 @@ class InputOpenaiType(str, Enum):
 
 
 class InputOpenaiManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOpenaiManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class PaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -61,7 +61,7 @@ class InputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class ContentConfigInputTypedDict(TypedDict):
+class InputOpenaiContentConfigInputTypedDict(TypedDict):
     request_params: List[
         RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict
     ]
@@ -83,6 +83,7 @@ class ContentConfigInputTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputOpenaiManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     pagination_attribute: NotRequired[List[str]]
     r"""Pagination attributes"""
     pagination_last_page_expr: NotRequired[str]
@@ -101,7 +102,7 @@ class ContentConfigInputTypedDict(TypedDict):
     r"""Fields automatically added to events from this Content Type"""
 
 
-class ContentConfigInput(BaseModel):
+class InputOpenaiContentConfigInput(BaseModel):
     request_params: Annotated[
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret],
         pydantic.Field(alias="requestParams"),
@@ -141,6 +142,7 @@ class ContentConfigInput(BaseModel):
     manage_state: Annotated[
         Optional[InputOpenaiManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     pagination_attribute: Annotated[
         Optional[List[str]], pydantic.Field(alias="paginationAttribute")
@@ -233,7 +235,7 @@ class ContentConfigInput(BaseModel):
 class InputOpenaiInputTypedDict(TypedDict):
     type: InputOpenaiType
     r"""Connector type identifier."""
-    content_config: List[ContentConfigInputTypedDict]
+    content_config: List[InputOpenaiContentConfigInputTypedDict]
     r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
@@ -254,6 +256,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     openai_organization: NotRequired[str]
     r"""Optional `OpenAI-Organization` request header value, typically `org-xxxxxxxxxxxxxxxxxxxxxxxx`"""
     openai_project: NotRequired[str]
@@ -273,6 +276,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -290,7 +294,7 @@ class InputOpenaiInput(BaseModel):
     r"""Connector type identifier."""
 
     content_config: Annotated[
-        List[ContentConfigInput], pydantic.Field(alias="contentConfig")
+        List[InputOpenaiContentConfigInput], pydantic.Field(alias="contentConfig")
     ]
     r"""Content Types"""
 
@@ -324,6 +328,7 @@ class InputOpenaiInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     openai_organization: Annotated[
         Optional[str], pydantic.Field(alias="openaiOrganization")
@@ -367,6 +372,7 @@ class InputOpenaiInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -436,7 +442,7 @@ class InputOpenaiInput(BaseModel):
 
 
 try:
-    ContentConfigInput.model_rebuild()
+    InputOpenaiContentConfigInput.model_rebuild()
 except NameError:
     pass
 try:

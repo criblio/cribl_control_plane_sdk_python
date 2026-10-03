@@ -44,6 +44,7 @@ class InputCriblmetricsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     prefix: NotRequired[str]
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
     full_fidelity: NotRequired[bool]
@@ -89,6 +90,7 @@ class InputCriblmetricsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     prefix: Optional[str] = None
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""

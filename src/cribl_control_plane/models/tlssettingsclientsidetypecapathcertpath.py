@@ -15,7 +15,7 @@ class TLSSettingsClientSideTypeCaPathCertPathTypedDict(TypedDict):
     r"""TLS settings (client side)"""
 
     disabled: NotRequired[bool]
-    r"""Disabled"""
+    r"""Whether TLS is disabled for this connection."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
@@ -33,16 +33,16 @@ class TLSSettingsClientSideTypeCaPathCertPathTypedDict(TypedDict):
     passphrase: NotRequired[str]
     r"""Passphrase to use to decrypt private key"""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
-    r"""Minimum TLS version"""
+    r"""Minimum TLS version to use for the connection."""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
-    r"""Maximum TLS version"""
+    r"""Maximum TLS version to use for the connection."""
 
 
 class TLSSettingsClientSideTypeCaPathCertPath(BaseModel):
     r"""TLS settings (client side)"""
 
     disabled: Optional[bool] = None
-    r"""Disabled"""
+    r"""Whether TLS is disabled for this connection."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -74,12 +74,12 @@ class TLSSettingsClientSideTypeCaPathCertPath(BaseModel):
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
-    r"""Minimum TLS version"""
+    r"""Minimum TLS version to use for the connection."""
 
     max_version: Annotated[
         Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
-    r"""Maximum TLS version"""
+    r"""Maximum TLS version to use for the connection."""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):

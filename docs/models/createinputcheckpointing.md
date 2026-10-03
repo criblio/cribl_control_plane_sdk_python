@@ -1,5 +1,7 @@
 # CreateInputCheckpointing
 
+Azure Blob Storage settings used to persist Event Hubs checkpoints.
+
 
 ## Fields
 

@@ -47,6 +47,7 @@ class AuthenticationTypeTypedDict(TypedDict):
     client_id: NotRequired[str]
     r"""Client ID to use for OAuth authentication"""
     oauth_secret_type: NotRequired[str]
+    r"""Source of the OAuth client secret."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     oauth_params: NotRequired[List[OauthParamConfInputKafkaTypedDict]]
@@ -119,6 +120,7 @@ class AuthenticationType(BaseModel):
     oauth_secret_type: Annotated[
         Optional[str], pydantic.Field(alias="oauthSecretType")
     ] = None
+    r"""Source of the OAuth client secret."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")

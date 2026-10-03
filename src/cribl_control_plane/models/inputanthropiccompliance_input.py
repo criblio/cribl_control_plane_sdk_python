@@ -26,11 +26,11 @@ class InputAnthropicComplianceType(str, Enum):
 
 
 class ActivitiesManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ActivitiesManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ActivitiesTypedDict(TypedDict):
@@ -53,6 +53,7 @@ class ActivitiesTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ActivitiesManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
 
 
 class Activities(BaseModel):
@@ -91,6 +92,7 @@ class Activities(BaseModel):
     manage_state: Annotated[
         Optional[ActivitiesManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -122,11 +124,11 @@ class Activities(BaseModel):
 
 
 class ChatsManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ChatsManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ChatsTypedDict(TypedDict):
@@ -149,6 +151,7 @@ class ChatsTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ChatsManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
 
 
 class Chats(BaseModel):
@@ -187,6 +190,7 @@ class Chats(BaseModel):
     manage_state: Annotated[
         Optional[ChatsManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -218,11 +222,11 @@ class Chats(BaseModel):
 
 
 class ProjectsManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ProjectsManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ProjectsTypedDict(TypedDict):
@@ -245,6 +249,7 @@ class ProjectsTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ProjectsManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
 
 
 class Projects(BaseModel):
@@ -283,6 +288,7 @@ class Projects(BaseModel):
     manage_state: Annotated[
         Optional[ProjectsManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -314,11 +320,11 @@ class Projects(BaseModel):
 
 
 class ChatMessagesManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ChatMessagesManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ChatMessagesTypedDict(TypedDict):
@@ -341,6 +347,7 @@ class ChatMessagesTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ChatMessagesManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ChatMessages(BaseModel):
@@ -379,6 +386,7 @@ class ChatMessages(BaseModel):
     manage_state: Annotated[
         Optional[ChatMessagesManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -410,11 +418,11 @@ class ChatMessages(BaseModel):
 
 
 class ProjectDetailsManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ProjectDetailsManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ProjectDetailsTypedDict(TypedDict):
@@ -437,6 +445,7 @@ class ProjectDetailsTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ProjectDetailsManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
 
 
 class ProjectDetails(BaseModel):
@@ -475,6 +484,7 @@ class ProjectDetails(BaseModel):
     manage_state: Annotated[
         Optional[ProjectDetailsManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -687,6 +697,7 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     api_key: NotRequired[str]
     r"""API key"""
     activities: NotRequired[ActivitiesTypedDict]
@@ -724,6 +735,7 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -766,6 +778,7 @@ class InputAnthropicComplianceInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""API key"""
@@ -836,6 +849,7 @@ class InputAnthropicComplianceInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

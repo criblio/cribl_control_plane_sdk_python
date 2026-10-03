@@ -39,6 +39,12 @@ value: models.PipelineFunctionChain = /* values here */
 value: models.PipelineFunctionClone = /* values here */
 ```
 
+### `models.PipelineFunctionCloudChangeEnricher`
+
+```python
+value: models.PipelineFunctionCloudChangeEnricher = /* values here */
+```
+
 ### `models.PipelineFunctionCode`
 
 ```python
@@ -223,6 +229,12 @@ value: models.PipelineFunctionMask = /* values here */
 
 ```python
 value: models.PipelineFunctionMetricsExport = /* values here */
+```
+
+### `models.PipelineFunctionMetricsTimeRangeGate`
+
+```python
+value: models.PipelineFunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.PipelineFunctionMvExpand`

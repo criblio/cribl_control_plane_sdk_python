@@ -1,5 +1,7 @@
 # OutputCriblLakeType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

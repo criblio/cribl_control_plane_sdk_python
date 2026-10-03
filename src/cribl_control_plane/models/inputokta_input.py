@@ -20,11 +20,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOktaType(str, Enum):
+    r"""Connector type identifier."""
+
     OKTA = "okta"
+
+
+class InputOktaManageStateTypedDict(TypedDict):
+    r"""Controls for viewing and managing the collector state."""
+
+
+class InputOktaManageState(BaseModel):
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOktaInputTypedDict(TypedDict):
     type: InputOktaType
+    r"""Connector type identifier."""
     okta_domain: str
     r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
     text_secret: str
@@ -32,6 +43,7 @@ class InputOktaInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -41,10 +53,11 @@ class InputOktaInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     okta_token: NotRequired[str]
     r"""Your Okta API token for authentication"""
     cron_schedule: NotRequired[str]
@@ -53,6 +66,8 @@ class InputOktaInputTypedDict(TypedDict):
     r"""Earliest time for data collection, relative to now"""
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
+    manage_state: NotRequired[InputOktaManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     request_timeout: NotRequired[float]
@@ -68,7 +83,9 @@ class InputOktaInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -79,6 +96,7 @@ class InputOktaInputTypedDict(TypedDict):
 
 class InputOktaInput(BaseModel):
     type: InputOktaType
+    r"""Connector type identifier."""
 
     okta_domain: Annotated[str, pydantic.Field(alias="oktaDomain")]
     r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
@@ -90,6 +108,7 @@ class InputOktaInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -106,12 +125,13 @@ class InputOktaInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     okta_token: Annotated[Optional[str], pydantic.Field(alias="oktaToken")] = None
     r"""Your Okta API token for authentication"""
@@ -124,6 +144,11 @@ class InputOktaInput(BaseModel):
 
     latest: Optional[str] = None
     r"""Latest time for data collection, relative to now"""
+
+    manage_state: Annotated[
+        Optional[InputOktaManageState], pydantic.Field(alias="manageState")
+    ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -157,8 +182,10 @@ class InputOktaInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -192,6 +219,7 @@ class InputOktaInput(BaseModel):
                 "cronSchedule",
                 "earliest",
                 "latest",
+                "manageState",
                 "jobTimeout",
                 "requestTimeout",
                 "keepAliveTime",

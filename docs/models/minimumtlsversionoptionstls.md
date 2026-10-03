@@ -1,5 +1,7 @@
 # MinimumTLSVersionOptionsTLS
 
+Minimum TLS version to use for the connection.
+
 ## Example Usage
 
 ```python

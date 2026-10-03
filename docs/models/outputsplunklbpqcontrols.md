@@ -1,5 +1,7 @@
 # OutputSplunkLbPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

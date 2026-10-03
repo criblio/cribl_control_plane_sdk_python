@@ -1,5 +1,7 @@
 # OutputStorjS3Type
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

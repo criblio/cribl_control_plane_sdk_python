@@ -1,5 +1,7 @@
 # CreateInputSystemByPackAuthMethodsExtAuthenticationType
 
+Authentication type
+
 ## Example Usage
 
 ```python
@@ -19,3 +21,4 @@ value = CreateInputSystemByPackAuthMethodsExtAuthenticationType.TOKEN
 | `TOKEN_SECRET` | tokenSecret    |
 | `BASIC`        | basic          |
 | `BASIC_SECRET` | basicSecret    |
+| `OAUTH`        | oauth          |

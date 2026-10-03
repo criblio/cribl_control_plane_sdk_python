@@ -11,9 +11,32 @@
 
 List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
 
-### Example Usage
+### Example Usage: OutputStatusResponseExamplesGreenDestination
 
-<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" -->
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" example="OutputStatusResponseExamplesGreenDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.statuses.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputStatusResponseExamplesYellowDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" example="OutputStatusResponseExamplesYellowDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -54,6 +77,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -61,9 +85,30 @@ with CriblControlPlane(
 
 Get the status and optional metrics for the specified Destination within the specified Pack.
 
-### Example Usage
+### Example Usage: OutputStatusResponseExamplesGreenDestination
 
-<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPackAndId" method="get" path="/p/{pack}/system/status/outputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPackAndId" method="get" path="/p/{pack}/system/status/outputs/{id}" example="OutputStatusResponseExamplesGreenDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.statuses.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputStatusResponseExamplesYellowDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPackAndId" method="get" path="/p/{pack}/system/status/outputs/{id}" example="OutputStatusResponseExamplesYellowDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -101,5 +146,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

@@ -1,6 +1,6 @@
 # PipelineFunctionGeoipID
 
-Function ID
+Identifier of the Function. Always <code>geoip</code>
 
 ## Example Usage
 

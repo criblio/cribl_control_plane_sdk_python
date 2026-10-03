@@ -1,5 +1,7 @@
 # CreateInputSystemByPackInputExecType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

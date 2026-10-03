@@ -1,5 +1,7 @@
 # HealthCheckCollectMethodPostWithBodyDiscovery
 
+Settings that control how the Collector discovers Collect tasks.
+
 
 ## Supported Types
 

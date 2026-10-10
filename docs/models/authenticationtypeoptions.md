@@ -1,5 +1,7 @@
 # AuthenticationTypeOptions
 
+Authentication type
+
 ## Example Usage
 
 ```python

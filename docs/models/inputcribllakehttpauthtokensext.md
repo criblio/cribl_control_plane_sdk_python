@@ -1,12 +1,17 @@
 # InputCriblLakeHTTPAuthTokensExt
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                            | Type                                                                                                             | Required                                                                                                         | Description                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `token`                                                                                                          | *str*                                                                                                            | :heavy_check_mark:                                                                                               | N/A                                                                                                              |
-| `description`                                                                                                    | *Optional[str]*                                                                                                  | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
-| `metadata`                                                                                                       | List[[models.MetadataConfInputCollection](../models/metadataconfinputcollection.md)]                             | :heavy_minus_sign:                                                                                               | Fields to add to events referencing this token                                                                   |
-| `splunk_hec_metadata`                                                                                            | [Optional[models.InputCriblLakeHTTPSplunkHecMetadata]](../models/inputcribllakehttpsplunkhecmetadata.md)         | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
-| `elasticsearch_metadata`                                                                                         | [Optional[models.InputCriblLakeHTTPElasticsearchMetadata]](../models/inputcribllakehttpelasticsearchmetadata.md) | :heavy_minus_sign:                                                                                               | N/A                                                                                                              |
+### `models.InputCriblLakeHTTPInputHTTPAuthTokensExtItemsType`
+
+```python
+value: models.InputCriblLakeHTTPInputHTTPAuthTokensExtItemsType = /* values here */
+```
+
+### `models.InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint`
+
+```python
+value: models.InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint = /* values here */
+```
+

@@ -1,7 +1,15 @@
 # PipelineFunctionSerdeConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Supported Types
+
+### `models.SerdeTypeAuto`
+
+```python
+value: models.SerdeTypeAuto = /* values here */
+```
 
 ### `models.SerdeTypeKvp`
 

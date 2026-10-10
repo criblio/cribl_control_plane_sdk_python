@@ -51,6 +51,7 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     client_id: str
     r"""The service principal's client ID"""
     certificate: CertificateTypeAzureBlobAuthTypeClientCertTypedDict
+    r"""Certificate credentials for the service principal."""
     container_name: str
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
     auth_type: NotRequired[AzureBlobAuthTypeClientCertAuthenticationMethod]
@@ -71,6 +72,8 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
     include_tags: NotRequired[bool]
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    blob_types: NotRequired[List[str]]
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
     disable_time_filter: NotRequired[bool]
@@ -114,6 +117,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     r"""The service principal's client ID"""
 
     certificate: CertificateTypeAzureBlobAuthTypeClientCert
+    r"""Certificate credentials for the service principal."""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
@@ -151,6 +155,9 @@ class AzureBlobAuthTypeClientCert(BaseModel):
 
     include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    blob_types: Annotated[Optional[List[str]], pydantic.Field(alias="blobTypes")] = None
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
         None
@@ -247,6 +254,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "recurse",
                 "includeMetadata",
                 "includeTags",
+                "blobTypes",
                 "maxBatchSize",
                 "disableTimeFilter",
                 "parquetChunkSizeMB",
@@ -343,6 +351,8 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
     include_tags: NotRequired[bool]
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    blob_types: NotRequired[List[str]]
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
     disable_time_filter: NotRequired[bool]
@@ -358,6 +368,7 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -439,6 +450,9 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
 
+    blob_types: Annotated[Optional[List[str]], pydantic.Field(alias="blobTypes")] = None
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
+
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
         None
     )
@@ -473,6 +487,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     r"""Text secret"""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -511,6 +526,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "recurse",
                 "includeMetadata",
                 "includeTags",
+                "blobTypes",
                 "maxBatchSize",
                 "disableTimeFilter",
                 "parquetChunkSizeMB",
@@ -582,6 +598,8 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
     include_tags: NotRequired[bool]
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    blob_types: NotRequired[List[str]]
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
     disable_time_filter: NotRequired[bool]
@@ -617,6 +635,7 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     template_azure_cloud: NotRequired[str]
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -655,6 +674,9 @@ class AzureBlobAuthTypeSecret(BaseModel):
 
     include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    blob_types: Annotated[Optional[List[str]], pydantic.Field(alias="blobTypes")] = None
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
         None
@@ -736,6 +758,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -767,6 +790,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "recurse",
                 "includeMetadata",
                 "includeTags",
+                "blobTypes",
                 "maxBatchSize",
                 "disableTimeFilter",
                 "parquetChunkSizeMB",
@@ -850,6 +874,8 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
     include_tags: NotRequired[bool]
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+    blob_types: NotRequired[List[str]]
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
     disable_time_filter: NotRequired[bool]
@@ -883,6 +909,7 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     template_azure_cloud: NotRequired[str]
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    r"""Certificate credentials for the service principal."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -926,6 +953,9 @@ class AzureBlobAuthTypeManual(BaseModel):
 
     include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
+
+    blob_types: Annotated[Optional[List[str]], pydantic.Field(alias="blobTypes")] = None
+    r"""Azure blob types to include during collection. At least one type must be selected. Append blobs may cause data duplication when collected before they are finalized."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
         None
@@ -1000,6 +1030,7 @@ class AzureBlobAuthTypeManual(BaseModel):
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    r"""Certificate credentials for the service principal."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -1032,6 +1063,7 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "recurse",
                 "includeMetadata",
                 "includeTags",
+                "blobTypes",
                 "maxBatchSize",
                 "disableTimeFilter",
                 "parquetChunkSizeMB",

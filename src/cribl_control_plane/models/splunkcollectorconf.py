@@ -36,12 +36,14 @@ class SplunkAuthenticationTokenSecretAuthentication(
 
 class SplunkAuthenticationTokenSecretCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenSecretCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -49,12 +51,14 @@ class SplunkAuthenticationTokenSecretCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationTokenSecretCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenSecretCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -253,6 +257,7 @@ SplunkAuthenticationTokenSecretRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationTokenSecretRetryRules(BaseModel):
@@ -289,6 +294,7 @@ SplunkAuthenticationTokenSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
@@ -327,6 +333,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -334,6 +341,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     login_url: NotRequired[str]
     r"""URL to use for login API call. This call is expected to be a POST."""
     login_body: NotRequired[str]
@@ -422,6 +430,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
         Optional[SplunkAuthenticationTokenSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -435,6 +444,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
     r"""URL to use for login API call. This call is expected to be a POST."""
@@ -561,12 +571,14 @@ class SplunkAuthenticationTokenAuthentication(str, Enum, metaclass=utils.OpenEnu
 
 class SplunkAuthenticationTokenCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -574,12 +586,14 @@ class SplunkAuthenticationTokenCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationTokenCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -778,6 +792,7 @@ SplunkAuthenticationTokenRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationTokenSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationTokenRetryRules(BaseModel):
@@ -814,12 +829,14 @@ SplunkAuthenticationTokenRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationTokenTypedDict(TypedDict):
     authentication: SplunkAuthenticationTokenAuthentication
     r"""Authentication method for Discover and Collect REST calls"""
     token: str
+    r"""Bearer token"""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
@@ -851,6 +868,7 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -886,6 +904,7 @@ class SplunkAuthenticationToken(BaseModel):
     r"""Authentication method for Discover and Collect REST calls"""
 
     token: str
+    r"""Bearer token"""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -946,6 +965,7 @@ class SplunkAuthenticationToken(BaseModel):
         Optional[SplunkAuthenticationTokenRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1088,12 +1108,14 @@ class SplunkAuthenticationBasicSecretAuthentication(
 
 class SplunkAuthenticationBasicSecretCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicSecretCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1101,12 +1123,14 @@ class SplunkAuthenticationBasicSecretCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationBasicSecretCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicSecretCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1305,6 +1329,7 @@ SplunkAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationBasicSecretRetryRules(BaseModel):
@@ -1341,6 +1366,7 @@ SplunkAuthenticationBasicSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
@@ -1379,11 +1405,13 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
     r"""Basic authentication password"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -1474,6 +1502,7 @@ class SplunkAuthenticationBasicSecret(BaseModel):
         Optional[SplunkAuthenticationBasicSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1482,6 +1511,7 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     r"""Basic authentication password"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
@@ -1611,12 +1641,14 @@ class SplunkAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnu
 
 class SplunkAuthenticationBasicCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1624,12 +1656,14 @@ class SplunkAuthenticationBasicCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationBasicCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1828,6 +1862,7 @@ SplunkAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationBasicSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationBasicRetryRules(BaseModel):
@@ -1864,6 +1899,7 @@ SplunkAuthenticationBasicRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationBasicTypedDict(TypedDict):
@@ -1904,9 +1940,11 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -2000,6 +2038,7 @@ class SplunkAuthenticationBasic(BaseModel):
         Optional[SplunkAuthenticationBasicRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -2007,6 +2046,7 @@ class SplunkAuthenticationBasic(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
@@ -2135,12 +2175,14 @@ class SplunkAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnum
 
 class SplunkAuthenticationNoneCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationNoneCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -2148,12 +2190,14 @@ class SplunkAuthenticationNoneCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationNoneCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationNoneCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -2352,6 +2396,7 @@ SplunkAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationNoneSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationNoneRetryRules(BaseModel):
@@ -2388,6 +2433,7 @@ SplunkAuthenticationNoneRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationNoneTypedDict(TypedDict):
@@ -2424,6 +2470,7 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationNoneRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -2431,6 +2478,7 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -2517,6 +2565,7 @@ class SplunkAuthenticationNone(BaseModel):
     retry_rules: Annotated[
         Optional[SplunkAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -2530,6 +2579,7 @@ class SplunkAuthenticationNone(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""

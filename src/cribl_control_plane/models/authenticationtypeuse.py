@@ -25,6 +25,7 @@ class AuthenticationTypeUseTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
     auth_type: NotRequired[AuthenticationMethodOptionsSaslManualSecret]
     r"""Enter password directly, or select a stored secret"""
     password: NotRequired[str]
@@ -32,11 +33,13 @@ class AuthenticationTypeUseTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
+    r"""SASL mechanism"""
     username: NotRequired[str]
     r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
     client_secret_auth_type: NotRequired[
         AuthenticationMethodOptionsSaslCertificateManual
     ]
+    r"""Authentication method"""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter"""
     client_text_secret: NotRequired[str]
@@ -44,8 +47,11 @@ class AuthenticationTypeUseTypedDict(TypedDict):
     certificate_name: NotRequired[str]
     r"""Select or create a stored certificate"""
     cert_path: NotRequired[str]
+    r"""Path to the client certificate file."""
     priv_key_path: NotRequired[str]
+    r"""Path to the client private key file."""
     passphrase: NotRequired[str]
+    r"""Passphrase used to decrypt the client private key."""
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -72,6 +78,7 @@ class AuthenticationTypeUse(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsSaslManualSecret],
@@ -86,6 +93,7 @@ class AuthenticationTypeUse(BaseModel):
     r"""Select or create a stored text secret"""
 
     mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
+    r"""SASL mechanism"""
 
     username: Optional[str] = None
     r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
@@ -94,6 +102,7 @@ class AuthenticationTypeUse(BaseModel):
         Optional[AuthenticationMethodOptionsSaslCertificateManual],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter"""
@@ -109,10 +118,13 @@ class AuthenticationTypeUse(BaseModel):
     r"""Select or create a stored certificate"""
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path to the client certificate file."""
 
     priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path to the client private key file."""
 
     passphrase: Optional[str] = None
+    r"""Passphrase used to decrypt the client private key."""
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],

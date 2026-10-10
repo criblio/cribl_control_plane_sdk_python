@@ -1,5 +1,7 @@
 # CreateInputInputJournalFilesType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

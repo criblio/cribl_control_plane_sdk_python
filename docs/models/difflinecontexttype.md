@@ -1,5 +1,7 @@
 # DiffLineContextType
 
+Line change type. Always <code>context</code> for unchanged lines.
+
 ## Example Usage
 
 ```python

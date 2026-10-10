@@ -7,11 +7,17 @@ from typing_extensions import Annotated, TypedDict
 
 
 class ShutdownTypeSystemSettingsConfTypedDict(TypedDict):
-    drain_timeout: float
+    r"""Graceful shutdown configuration."""
+
+    drain_timeout: int
+    r"""Maximum time in milliseconds to wait for in-flight events to drain before forcing a shutdown."""
 
 
 class ShutdownTypeSystemSettingsConf(BaseModel):
-    drain_timeout: Annotated[float, pydantic.Field(alias="drainTimeout")]
+    r"""Graceful shutdown configuration."""
+
+    drain_timeout: Annotated[int, pydantic.Field(alias="drainTimeout")]
+    r"""Maximum time in milliseconds to wait for in-flight events to drain before forcing a shutdown."""
 
 
 try:

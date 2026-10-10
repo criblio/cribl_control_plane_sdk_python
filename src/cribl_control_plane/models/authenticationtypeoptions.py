@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class AuthenticationTypeOptions(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Basic

@@ -2,38 +2,21 @@
 
 from __future__ import annotations
 from .branchinfo import BranchInfo, BranchInfoTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from pydantic import model_serializer
-from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from cribl_control_plane.types import BaseModel
+from typing import List
+from typing_extensions import TypedDict
 
 
 class CountedBranchInfoTypedDict(TypedDict):
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[BranchInfoTypedDict]]
-    r"""List of items in this response."""
+    count: int
+    r"""Number of items returned in the items array."""
+    items: List[BranchInfoTypedDict]
+    r"""The list of items returned in this response."""
 
 
 class CountedBranchInfo(BaseModel):
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
+    count: int
+    r"""Number of items returned in the items array."""
 
-    items: Optional[List[BranchInfo]] = None
-    r"""List of items in this response."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["count", "items"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
+    items: List[BranchInfo]
+    r"""The list of items returned in this response."""

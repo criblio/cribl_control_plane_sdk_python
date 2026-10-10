@@ -1,5 +1,7 @@
 # CreateOutputIngestionMode
 
+Ingestion mode
+
 ## Example Usage
 
 ```python

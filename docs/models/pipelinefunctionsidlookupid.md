@@ -1,6 +1,6 @@
 # PipelineFunctionSidlookupID
 
-Function ID
+Identifier of the Function. Always <code>sidlookup</code>
 
 ## Example Usage
 

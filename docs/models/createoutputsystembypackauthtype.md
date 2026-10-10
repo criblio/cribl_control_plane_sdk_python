@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackAuthType
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

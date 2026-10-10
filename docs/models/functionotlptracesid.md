@@ -1,5 +1,7 @@
 # FunctionOtlpTracesID
 
+Identifier of the Function. Always <code>otlp_traces</code>
+
 ## Example Usage
 
 ```python

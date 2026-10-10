@@ -1,5 +1,7 @@
 # CreateOutputLogLocationType
 
+Log location type
+
 ## Example Usage
 
 ```python

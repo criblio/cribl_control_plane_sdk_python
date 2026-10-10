@@ -1,5 +1,7 @@
 # DiffLineDeleteType
 
+Line change type. Always <code>delete</code> for deleted lines.
+
 ## Example Usage
 
 ```python

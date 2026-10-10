@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class SaslMechanismOptionsSaslOauthbearerPlain(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""SASL mechanism"""
+
     # PLAIN
     PLAIN = "plain"
     # OAUTHBEARER

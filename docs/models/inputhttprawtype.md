@@ -1,5 +1,7 @@
 # InputHTTPRawType
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

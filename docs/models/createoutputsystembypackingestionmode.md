@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackIngestionMode
 
+Ingestion mode
+
 ## Example Usage
 
 ```python

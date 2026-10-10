@@ -8,7 +8,6 @@ from enum import Enum
 class AuthenticationMethodOptionsAuthTokensItems(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    r"""Select Secret to use a text secret to authenticate"""
 
-    MANUAL = "manual"
     SECRET = "secret"

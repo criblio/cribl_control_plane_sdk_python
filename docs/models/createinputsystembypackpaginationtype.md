@@ -1,5 +1,7 @@
 # CreateInputSystemByPackPaginationType
 
+Pagination type
+
 ## Example Usage
 
 ```python

@@ -24,6 +24,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenTelemetryType(str, Enum):
+    r"""Source type identifier."""
+
     OPEN_TELEMETRY = "open_telemetry"
 
 
@@ -60,9 +62,9 @@ class InputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMe
     TEXT_SECRET = "textSecret"
 
 
-class InputOpenTelemetryAuthMethodsExtAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthMethodsExtAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication type"""
+
     # Token
     TOKEN = "token"
     # Token (secret)
@@ -71,57 +73,88 @@ class InputOpenTelemetryAuthMethodsExtAuthenticationType(
     BASIC = "basic"
     # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # OAuth
+    OAUTH = "oauth"
 
 
-class InputOpenTelemetryAuthMethodsExtTypedDict(TypedDict):
-    auth_type: InputOpenTelemetryAuthMethodsExtAuthenticationType
+class AuthMethodsExtTypedDict(TypedDict):
+    auth_type: AuthMethodsExtAuthenticationType
+    r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token for Authorization header"""
     description: NotRequired[str]
+    r"""Description"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this auth method"""
     enabled: NotRequired[bool]
+    r"""Enable"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    issuer: NotRequired[str]
+    r"""Expected token issuer (iss claim)"""
+    jwks_uri: NotRequired[str]
+    r"""URL of the JWKS endpoint used to fetch signing keys"""
+    audience: NotRequired[str]
+    r"""Expected token audience (aud claim)"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes the token must grant (optional)"""
 
 
-class InputOpenTelemetryAuthMethodsExt(BaseModel):
+class AuthMethodsExt(BaseModel):
     auth_type: Annotated[
-        InputOpenTelemetryAuthMethodsExtAuthenticationType,
-        pydantic.Field(alias="authType"),
+        AuthMethodsExtAuthenticationType, pydantic.Field(alias="authType")
     ]
+    r"""Authentication type"""
 
     token: Optional[str] = None
     r"""Bearer token for Authorization header"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events referencing this auth method"""
 
     enabled: Optional[bool] = None
+    r"""Enable"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    issuer: Optional[str] = None
+    r"""Expected token issuer (iss claim)"""
+
+    jwks_uri: Annotated[Optional[str], pydantic.Field(alias="jwksUri")] = None
+    r"""URL of the JWKS endpoint used to fetch signing keys"""
+
+    audience: Optional[str] = None
+    r"""Expected token audience (aud claim)"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes the token must grant (optional)"""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenTelemetryAuthMethodsExtAuthenticationType(value)
+                return models.AuthMethodsExtAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -138,6 +171,10 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "issuer",
+                "jwksUri",
+                "audience",
+                "scopes",
             ]
         )
         serialized = handler(self)
@@ -156,6 +193,7 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
 
 class InputOpenTelemetryInputTypedDict(TypedDict):
     type: InputOpenTelemetryType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -163,6 +201,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -172,11 +211,13 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -203,15 +244,26 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[InputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
-    auth_methods_ext: NotRequired[List[InputOpenTelemetryAuthMethodsExtTypedDict]]
-    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+    auth_methods_ext: NotRequired[List[AuthMethodsExtTypedDict]]
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens, Basic auth, and OAuth (JWKS-backed JWT) methods. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited. This does not limit concurrent HTTP/2 streams on a connection; use Maximum concurrent streams and Maximum message size for that bound."""
+    max_message_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of a single received gRPC message (OTLP export request). Requests exceeding this limit are rejected before processing. Compressed requests are checked against their decompressed size."""
+    max_concurrent_streams: NotRequired[float]
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
+    max_connection_age_sec: NotRequired[float]
+    r"""Maximum time a gRPC connection may stay open, including while idle, before @{product} closes it and frees the slot for new clients. Use 0 for unlimited; maximum 86400 sec. (24 hours)."""
+    max_connection_age_grace_sec: NotRequired[float]
+    r"""After the maximum connection age is reached, how long @{product} waits for in-flight requests to complete before forcibly closing the connection. Only applies when Maximum connection age is not 0. Maximum 3600 sec. (1 hour)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -220,6 +272,18 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers. Leave empty to allow all requested headers from an allowed origin. Origin matching and authentication still apply."""
+    access_control_allow_methods: NotRequired[List[str]]
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
+    access_control_expose_headers: NotRequired[List[str]]
+    r"""Headers the browser is allowed to access from the response"""
+    access_control_allow_credentials: NotRequired[bool]
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+    access_control_max_age: NotRequired[int]
+    r"""How long browsers should cache the preflight response, in whole seconds. Fractional values are invalid; browsers that cannot parse the header fall back to 5 seconds."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -232,10 +296,15 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
     template_otlp_version: NotRequired[str]
     r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
 class InputOpenTelemetryInput(BaseModel):
     type: InputOpenTelemetryType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -247,6 +316,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -263,14 +333,16 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -336,10 +408,9 @@ class InputOpenTelemetryInput(BaseModel):
     r"""OpenTelemetry authentication type"""
 
     auth_methods_ext: Annotated[
-        Optional[List[InputOpenTelemetryAuthMethodsExt]],
-        pydantic.Field(alias="authMethodsExt"),
+        Optional[List[AuthMethodsExt]], pydantic.Field(alias="authMethodsExt")
     ] = None
-    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens, Basic auth, and OAuth (JWKS-backed JWT) methods. If empty, unauthenticated access is permitted."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -347,13 +418,36 @@ class InputOpenTelemetryInput(BaseModel):
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         None
     )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited. This does not limit concurrent HTTP/2 streams on a connection; use Maximum concurrent streams and Maximum message size for that bound."""
+
+    max_message_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxMessageSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of a single received gRPC message (OTLP export request). Requests exceeding this limit are rejected before processing. Compressed requests are checked against their decompressed size."""
+
+    max_concurrent_streams: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentStreams")
+    ] = None
+    r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
+
+    max_connection_age_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionAgeSec")
+    ] = None
+    r"""Maximum time a gRPC connection may stay open, including while idle, before @{product} closes it and frees the slot for new clients. Use 0 for unlimited; maximum 86400 sec. (24 hours)."""
+
+    max_connection_age_grace_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionAgeGraceSec")
+    ] = None
+    r"""After the maximum connection age is reached, how long @{product} waits for in-flight requests to complete before forcibly closing the connection. Only applies when Maximum connection age is not 0. Maximum 3600 sec. (1 hour)."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -368,6 +462,36 @@ class InputOpenTelemetryInput(BaseModel):
 
     extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers. Leave empty to allow all requested headers from an allowed origin. Origin matching and authentication still apply."""
+
+    access_control_allow_methods: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowMethods")
+    ] = None
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
+
+    access_control_expose_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlExposeHeaders")
+    ] = None
+    r"""Headers the browser is allowed to access from the response"""
+
+    access_control_allow_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="accessControlAllowCredentials")
+    ] = None
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+
+    access_control_max_age: Annotated[
+        Optional[int], pydantic.Field(alias="accessControlMaxAge")
+    ] = None
+    r"""How long browsers should cache the preflight response, in whole seconds. Fractional values are invalid; browsers that cannot parse the header fall back to 5 seconds."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -398,6 +522,16 @@ class InputOpenTelemetryInput(BaseModel):
         Optional[str], pydantic.Field(alias="__template_otlpVersion")
     ] = None
     r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -456,6 +590,10 @@ class InputOpenTelemetryInput(BaseModel):
                 "authMethodsExt",
                 "metadata",
                 "maxActiveCxn",
+                "maxMessageSizeKB",
+                "maxConcurrentStreams",
+                "maxConnectionAgeSec",
+                "maxConnectionAgeGraceSec",
                 "description",
                 "username",
                 "password",
@@ -463,12 +601,20 @@ class InputOpenTelemetryInput(BaseModel):
                 "credentialsSecret",
                 "textSecret",
                 "extractLogs",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "accessControlAllowMethods",
+                "accessControlExposeHeaders",
+                "accessControlAllowCredentials",
+                "accessControlMaxAge",
                 "__template_environment",
                 "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_protocol",
                 "__template_otlpVersion",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
             ]
         )
         serialized = handler(self)
@@ -486,7 +632,7 @@ class InputOpenTelemetryInput(BaseModel):
 
 
 try:
-    InputOpenTelemetryAuthMethodsExt.model_rebuild()
+    AuthMethodsExt.model_rebuild()
 except NameError:
     pass
 try:

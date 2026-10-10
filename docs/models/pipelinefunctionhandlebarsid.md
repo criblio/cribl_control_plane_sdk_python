@@ -1,6 +1,6 @@
 # PipelineFunctionHandlebarsID
 
-Function ID
+Identifier of the Function. Always <code>handlebars</code>
 
 ## Example Usage
 

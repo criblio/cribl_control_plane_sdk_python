@@ -11,7 +11,7 @@ class UpdateInputHecTokenByIDAndTokenRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Splunk HEC Source."""
     token: str
-    r"""The HEC token value to update."""
+    r"""The HEC token value whose metadata you want to update. Must match an existing token on the Source."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
     r"""UpdateHecTokenRequest object."""
 
@@ -25,7 +25,7 @@ class UpdateInputHecTokenByIDAndTokenRequest(BaseModel):
     token: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The HEC token value to update."""
+    r"""The HEC token value whose metadata you want to update. Must match an existing token on the Source."""
 
     update_hec_token_request: Annotated[
         UpdateHecTokenRequest,

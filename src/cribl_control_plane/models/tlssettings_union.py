@@ -10,22 +10,32 @@ from typing_extensions import Annotated, TypeAliasType, TypedDict
 
 class TLSSettingsTypedDict(TypedDict):
     default_cipher_list: str
+    r"""Cipher suite list to use for TLS connections. <code>DEFAULT</code> means the system default."""
     default_ecdh_curve: str
+    r"""ECDH curve name for TLS key exchange. Use <code>auto</code> to let Node.js choose."""
     max_version: str
+    r"""Maximum TLS protocol version to accept."""
     min_version: str
+    r"""Minimum TLS protocol version to accept."""
     reject_unauthorized: bool
+    r"""If <code>true</code>, reject TLS certificates that cannot be verified against a valid Certificate Authority. Otherwise, <code>false</code>."""
 
 
 class TLSSettings(BaseModel):
     default_cipher_list: Annotated[str, pydantic.Field(alias="defaultCipherList")]
+    r"""Cipher suite list to use for TLS connections. <code>DEFAULT</code> means the system default."""
 
     default_ecdh_curve: Annotated[str, pydantic.Field(alias="defaultEcdhCurve")]
+    r"""ECDH curve name for TLS key exchange. Use <code>auto</code> to let Node.js choose."""
 
     max_version: Annotated[str, pydantic.Field(alias="maxVersion")]
+    r"""Maximum TLS protocol version to accept."""
 
     min_version: Annotated[str, pydantic.Field(alias="minVersion")]
+    r"""Minimum TLS protocol version to accept."""
 
     reject_unauthorized: Annotated[bool, pydantic.Field(alias="rejectUnauthorized")]
+    r"""If <code>true</code>, reject TLS certificates that cannot be verified against a valid Certificate Authority. Otherwise, <code>false</code>."""
 
 
 TLSSettingsUnionTypedDict = TypeAliasType(

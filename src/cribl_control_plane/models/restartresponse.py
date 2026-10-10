@@ -10,22 +10,34 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class RestartResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Result of the restart request for this Node (<code>Restarting</code> or <code>Error</code>)."""
+
     ERROR = "Error"
     RESTARTING = "Restarting"
 
 
 class RestartResponseTypedDict(TypedDict):
+    r"""Result of a restart request for a Worker or Edge Node."""
+
     id: str
+    r"""Unique identifier for the Worker or Edge Node (GUID)."""
     status: RestartResponseStatus
+    r"""Result of the restart request for this Node (<code>Restarting</code> or <code>Error</code>)."""
     message: NotRequired[str]
+    r"""Error message if the restart request failed for this Node."""
 
 
 class RestartResponse(BaseModel):
+    r"""Result of a restart request for a Worker or Edge Node."""
+
     id: str
+    r"""Unique identifier for the Worker or Edge Node (GUID)."""
 
     status: RestartResponseStatus
+    r"""Result of the restart request for this Node (<code>Restarting</code> or <code>Error</code>)."""
 
     message: Optional[str] = None
+    r"""Error message if the restart request failed for this Node."""
 
     @field_serializer("status")
     def serialize_status(self, value):

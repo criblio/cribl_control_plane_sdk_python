@@ -1,5 +1,7 @@
 # FunctionEventstatsID
 
+Identifier of the Function. Always <code>eventstats</code>
+
 ## Example Usage
 
 ```python

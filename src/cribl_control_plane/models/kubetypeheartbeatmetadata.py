@@ -13,23 +13,33 @@ from typing_extensions import NotRequired, TypedDict
 
 class KubeTypeHeartbeatMetadataTypedDict(TypedDict):
     enabled: bool
+    r"""If <code>true</code>, the Kubernetes metadata collector is enabled on the node. Otherwise, <code>false</code>."""
     namespace: str
+    r"""Kubernetes Namespace name."""
     node: str
+    r"""Kubernetes Node name."""
     pod: str
+    r"""Kubernetes Pod name."""
     source: str
+    r"""Kubernetes config source."""
     owner: NotRequired[OwnerTypeHeartbeatMetadataKubeTypedDict]
 
 
 class KubeTypeHeartbeatMetadata(BaseModel):
     enabled: bool
+    r"""If <code>true</code>, the Kubernetes metadata collector is enabled on the node. Otherwise, <code>false</code>."""
 
     namespace: str
+    r"""Kubernetes Namespace name."""
 
     node: str
+    r"""Kubernetes Node name."""
 
     pod: str
+    r"""Kubernetes Pod name."""
 
     source: str
+    r"""Kubernetes config source."""
 
     owner: Optional[OwnerTypeHeartbeatMetadataKube] = None
 

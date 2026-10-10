@@ -138,10 +138,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -244,10 +244,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -541,7 +541,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body:
+        :param request_body: Binary contents of the <code>.crbl</code> Pack file to stage for installation
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -652,7 +652,7 @@ class Packs(BaseSDK):
         Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
-        :param request_body:
+        :param request_body: Binary contents of the <code>.crbl</code> Pack file to stage for installation
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1063,10 +1063,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1185,10 +1185,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1286,10 +1286,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1387,10 +1387,10 @@ class Packs(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 

@@ -45,9 +45,21 @@ class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     include_metrics: NotRequired[bool]
     r"""Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license."""
     offset: NotRequired[int]
-    r"""Pagination offset"""
+    r"""Starting point for catalog-backed pagination. Requires <code>limit</code>."""
     limit: NotRequired[int]
-    r"""Maximum number of items to return"""
+    r"""Page size for catalog-backed pagination. Requires <code>offset</code>."""
+    order_by: NotRequired[str]
+    r"""Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>."""
+    order_dir: NotRequired[str]
+    r"""Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>."""
+    name: NotRequired[str]
+    r"""Exact dataset name match (catalog path, with pagination)."""
+    name_contains: NotRequired[str]
+    r"""Case-insensitive substring match on dataset name (catalog path, with pagination)."""
+    provider_path_contains: NotRequired[str]
+    r"""Case-insensitive substring match on provider path (catalog path, with pagination)."""
+    description_contains: NotRequired[str]
+    r"""Case-insensitive substring match on description (catalog path, with pagination)."""
 
 
 class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
@@ -118,13 +130,54 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Pagination offset"""
+    r"""Starting point for catalog-backed pagination. Requires <code>limit</code>."""
 
     limit: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of items to return"""
+    r"""Page size for catalog-backed pagination. Requires <code>offset</code>."""
+
+    order_by: Annotated[
+        Optional[str],
+        pydantic.Field(alias="orderBy"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>."""
+
+    order_dir: Annotated[
+        Optional[str],
+        pydantic.Field(alias="orderDir"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>."""
+
+    name: Annotated[
+        Optional[str],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exact dataset name match (catalog path, with pagination)."""
+
+    name_contains: Annotated[
+        Optional[str],
+        pydantic.Field(alias="nameContains"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Case-insensitive substring match on dataset name (catalog path, with pagination)."""
+
+    provider_path_contains: Annotated[
+        Optional[str],
+        pydantic.Field(alias="providerPathContains"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Case-insensitive substring match on provider path (catalog path, with pagination)."""
+
+    description_contains: Annotated[
+        Optional[str],
+        pydantic.Field(alias="descriptionContains"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Case-insensitive substring match on description (catalog path, with pagination)."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -149,6 +202,12 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
                 "includeMetrics",
                 "offset",
                 "limit",
+                "orderBy",
+                "orderDir",
+                "name",
+                "nameContains",
+                "providerPathContains",
+                "descriptionContains",
             ]
         )
         serialized = handler(self)

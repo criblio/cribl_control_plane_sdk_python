@@ -4,7 +4,6 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
@@ -14,7 +13,6 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .sqsauthenticationmethodoptions import SqsAuthenticationMethodOptions
 from .tagafterprocessingoptions import TagAfterProcessingOptions
 from cribl_control_plane import models
@@ -32,13 +30,88 @@ class InputCrowdstrikeType(str, Enum):
     CROWDSTRIKE = "crowdstrike"
 
 
+class PreprocessTypedDict(TypedDict):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
+
+    disabled: bool
+    r"""Disabled"""
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class Preprocess(BaseModel):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
+
+    disabled: bool
+    r"""Disabled"""
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["command", "args"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputCrowdstrikeCheckpointingTypedDict(TypedDict):
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
+
+    enabled: bool
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class InputCrowdstrikeCheckpointing(BaseModel):
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
+
+    enabled: bool
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = None
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["retries"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class InputCrowdstrikeInputTypedDict(TypedDict):
     type: InputCrowdstrikeType
     r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -54,6 +127,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -77,13 +151,13 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     max_messages: NotRequired[float]
     r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
     visibility_timeout: NotRequired[float]
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. New Sources default to 600 sec. (10 minutes); existing Sources keep their configured value. You can set this as high as 43200 sec. (12 hours), but a long timeout keeps a message invisible to other pollers for that whole window after a non-graceful shutdown, so redelivery can be hours away."""
     num_receivers: NotRequired[float]
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead. Not applied when fan-out is enabled."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
-    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors. Not applied when fan-out is enabled."""
     include_sqs_metadata: NotRequired[bool]
     r"""Attach SQS notification metadata to a __sqsMetadata field on each event"""
     enable_assume_role: NotRequired[bool]
@@ -100,15 +174,18 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     r"""Use the same credential settings for S3 and SQS"""
     shared_assume_role_arn: NotRequired[bool]
     r"""Use the same settings for S3 and SQS"""
-    preprocess: NotRequired[PreprocessTypeTypedDict]
-    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+    preprocess: NotRequired[PreprocessTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    checkpointing: NotRequired[CheckpointingTypeTypedDict]
+    checkpointing: NotRequired[InputCrowdstrikeCheckpointingTypedDict]
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    enable_fanout: NotRequired[bool]
+    r"""Spread this Source's file processing across all Worker Processes on the Worker, instead of having one Worker Process handle every file of an SQS message. When enabled, Number of receivers, Skip file on error, Checkpointing and Custom command are not applied."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
@@ -128,6 +205,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     sqs_aws_secret_key: NotRequired[str]
     r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
+    r"""Whether to add a tag to each S3 object after processing."""
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -168,7 +246,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -194,6 +272,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -246,12 +325,12 @@ class InputCrowdstrikeInput(BaseModel):
     visibility_timeout: Annotated[
         Optional[float], pydantic.Field(alias="visibilityTimeout")
     ] = None
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. New Sources default to 600 sec. (10 minutes); existing Sources keep their configured value. You can set this as high as 43200 sec. (12 hours), but a long timeout keeps a message invisible to other pollers for that whole window after a non-graceful shutdown, so redelivery can be hours away."""
 
     num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = (
         None
     )
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead. Not applied when fan-out is enabled."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -259,7 +338,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
 
     skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = None
-    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors. Not applied when fan-out is enabled."""
 
     include_sqs_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeSqsMetadata")
@@ -301,19 +380,25 @@ class InputCrowdstrikeInput(BaseModel):
     ] = None
     r"""Use the same settings for S3 and SQS"""
 
-    preprocess: Optional[PreprocessType] = None
-    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+    preprocess: Optional[Preprocess] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    checkpointing: Optional[CheckpointingType] = None
+    checkpointing: Optional[InputCrowdstrikeCheckpointing] = None
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
 
     encoding: Optional[str] = None
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+
+    enable_fanout: Annotated[Optional[bool], pydantic.Field(alias="enableFanout")] = (
+        None
+    )
+    r"""Spread this Source's file processing across all Worker Processes on the Worker, instead of having one Worker Process handle every file of an SQS message. When enabled, Number of receivers, Skip file on error, Checkpointing and Custom command are not applied."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -358,6 +443,7 @@ class InputCrowdstrikeInput(BaseModel):
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
+    r"""Whether to add a tag to each S3 object after processing."""
 
     processed_tag_key: Annotated[
         Optional[str], pydantic.Field(alias="processedTagKey")
@@ -502,6 +588,7 @@ class InputCrowdstrikeInput(BaseModel):
                 "checkpointing",
                 "pollTimeout",
                 "encoding",
+                "enableFanout",
                 "description",
                 "awsApiKey",
                 "awsSecret",

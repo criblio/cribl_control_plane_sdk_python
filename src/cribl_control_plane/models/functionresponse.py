@@ -10,6 +10,10 @@ from .functionautotimestamp import FunctionAutoTimestamp, FunctionAutoTimestampT
 from .functioncef import FunctionCef, FunctionCefTypedDict
 from .functionchain import FunctionChain, FunctionChainTypedDict
 from .functionclone import FunctionClone, FunctionCloneTypedDict
+from .functioncloudchangeenricher import (
+    FunctionCloudChangeEnricher,
+    FunctionCloudChangeEnricherTypedDict,
+)
 from .functioncode import FunctionCode, FunctionCodeTypedDict
 from .functioncomment import FunctionComment, FunctionCommentTypedDict
 from .functiondetectionrules import (
@@ -49,6 +53,10 @@ from .functionlocalsearchdatatypeparser import (
     FunctionLocalSearchDatatypeParser,
     FunctionLocalSearchDatatypeParserTypedDict,
 )
+from .functionlocalsearchdatatypeschemamapper import (
+    FunctionLocalSearchDatatypeSchemaMapper,
+    FunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .functionlocalsearchrulesetrunner import (
     FunctionLocalSearchRulesetRunner,
     FunctionLocalSearchRulesetRunnerTypedDict,
@@ -68,6 +76,10 @@ from .functionlocalsearchtransformer import (
 from .functionlookup import FunctionLookup, FunctionLookupTypedDict
 from .functionmask import FunctionMask, FunctionMaskTypedDict
 from .functionmetricsexport import FunctionMetricsExport, FunctionMetricsExportTypedDict
+from .functionmetricstimerangegate import (
+    FunctionMetricsTimeRangeGate,
+    FunctionMetricsTimeRangeGateTypedDict,
+)
 from .functionmvexpand import FunctionMvExpand, FunctionMvExpandTypedDict
 from .functionmvpull import FunctionMvPull, FunctionMvPullTypedDict
 from .functionnotificationpolicies import (
@@ -135,6 +147,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionCefTypedDict,
         FunctionChainTypedDict,
         FunctionCloneTypedDict,
+        FunctionCloudChangeEnricherTypedDict,
         FunctionCodeTypedDict,
         FunctionCommentTypedDict,
         FunctionDetectionRulesTypedDict,
@@ -159,6 +172,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLakehouseEngineMetricsNormalizerTypedDict,
         FunctionLimitTypedDict,
         FunctionLocalSearchDatatypeParserTypedDict,
+        FunctionLocalSearchDatatypeSchemaMapperTypedDict,
         FunctionLocalSearchRulesetRunnerTypedDict,
         FunctionLocalSearchSchemaMapperTypedDict,
         FunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -166,6 +180,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLookupTypedDict,
         FunctionMaskTypedDict,
         FunctionMetricsExportTypedDict,
+        FunctionMetricsTimeRangeGateTypedDict,
         FunctionMvExpandTypedDict,
         FunctionMvPullTypedDict,
         FunctionNotificationPoliciesTypedDict,
@@ -221,6 +236,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "cef": FunctionCef,
     "chain": FunctionChain,
     "clone": FunctionClone,
+    "cloudChangeEnricher": FunctionCloudChangeEnricher,
     "code": FunctionCode,
     "comment": FunctionComment,
     "detection_rules": FunctionDetectionRules,
@@ -245,6 +261,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "lakehouse_engine_metrics_normalizer": FunctionLakehouseEngineMetricsNormalizer,
     "limit": FunctionLimit,
     "local_search_datatype_parser": FunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": FunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": FunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": FunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": FunctionLocalSearchTimeRangeNormalizer,
@@ -252,6 +269,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "lookup": FunctionLookup,
     "mask": FunctionMask,
     "metrics_export": FunctionMetricsExport,
+    "metrics_time_range_gate": FunctionMetricsTimeRangeGate,
     "mv_expand": FunctionMvExpand,
     "mv_pull": FunctionMvPull,
     "notification_policies": FunctionNotificationPolicies,
@@ -297,6 +315,7 @@ FunctionResponse = Annotated[
         FunctionCef,
         FunctionChain,
         FunctionClone,
+        FunctionCloudChangeEnricher,
         FunctionCode,
         FunctionComment,
         FunctionDetectionRules,
@@ -321,6 +340,7 @@ FunctionResponse = Annotated[
         FunctionLakehouseEngineMetricsNormalizer,
         FunctionLimit,
         FunctionLocalSearchDatatypeParser,
+        FunctionLocalSearchDatatypeSchemaMapper,
         FunctionLocalSearchRulesetRunner,
         FunctionLocalSearchSchemaMapper,
         FunctionLocalSearchTimeRangeNormalizer,
@@ -328,6 +348,7 @@ FunctionResponse = Annotated[
         FunctionLookup,
         FunctionMask,
         FunctionMetricsExport,
+        FunctionMetricsTimeRangeGate,
         FunctionMvExpand,
         FunctionMvPull,
         FunctionNotificationPolicies,

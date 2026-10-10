@@ -47,7 +47,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     custom_source: str
     r"""Name of the custom source configured in Amazon Security Lake"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -103,6 +103,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
@@ -138,7 +139,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    r"""This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     empty_dir_cleanup_sec: NotRequired[float]
@@ -210,7 +211,7 @@ class OutputSecurityLake(BaseModel):
     r"""Name of the custom source configured in Amazon Security Lake"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -343,6 +344,7 @@ class OutputSecurityLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -426,7 +428,7 @@ class OutputSecurityLake(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    r"""This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

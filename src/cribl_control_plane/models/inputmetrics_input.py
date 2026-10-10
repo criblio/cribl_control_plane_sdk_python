@@ -34,7 +34,7 @@ class InputMetricsInputTypedDict(TypedDict):
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -50,6 +50,7 @@ class InputMetricsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     udp_port: NotRequired[float]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     tcp_port: NotRequired[float]
@@ -88,7 +89,7 @@ class InputMetricsInput(BaseModel):
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -114,6 +115,7 @@ class InputMetricsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""

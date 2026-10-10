@@ -62,7 +62,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     log_level: LogLevelOptions
     r"""Collector runtime log level"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -78,6 +78,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
@@ -201,7 +202,7 @@ class InputPrometheusInput(BaseModel):
     r"""Collector runtime log level"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -227,6 +228,7 @@ class InputPrometheusInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     dimension_list: Annotated[
         Optional[List[str]], pydantic.Field(alias="dimensionList")

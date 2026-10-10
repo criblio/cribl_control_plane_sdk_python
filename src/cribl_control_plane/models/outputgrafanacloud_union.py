@@ -53,7 +53,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     prometheus_url: str
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -75,7 +75,9 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
     prometheus_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     loki_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -84,6 +86,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited). Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -106,6 +109,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -158,7 +162,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -198,10 +202,12 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     loki_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
@@ -220,6 +226,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -268,6 +275,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -504,7 +512,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     loki_url: str
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -526,7 +534,9 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
     prometheus_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     loki_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -535,6 +545,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited). Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -557,6 +568,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -609,7 +621,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -651,10 +663,12 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     loki_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
@@ -673,6 +687,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -721,6 +736,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")

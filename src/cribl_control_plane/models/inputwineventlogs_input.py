@@ -49,7 +49,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -65,6 +65,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     suppress_missing_log_errors: NotRequired[bool]
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
@@ -103,7 +104,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -129,6 +130,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     suppress_missing_log_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingLogErrors")

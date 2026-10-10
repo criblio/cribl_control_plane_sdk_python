@@ -31,7 +31,7 @@ class OutputRingTypedDict(TypedDict):
     type: OutputRingType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -67,7 +67,7 @@ class OutputRing(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

@@ -60,7 +60,7 @@ class OutputNetflowTypedDict(TypedDict):
     hosts: List[OutputNetflowHostTypedDict]
     r"""One or more NetFlow Destinations to forward events to"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -89,7 +89,7 @@ class OutputNetflow(BaseModel):
     r"""One or more NetFlow Destinations to forward events to"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

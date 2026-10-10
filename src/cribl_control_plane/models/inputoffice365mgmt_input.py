@@ -14,10 +14,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestypecodesenableheader import (
-    RetryRulesTypeCodesEnableHeader,
-    RetryRulesTypeCodesEnableHeaderTypedDict,
-)
+from .retryrulestypefailed import RetryRulesTypeFailed, RetryRulesTypeFailedTypedDict
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -103,7 +100,7 @@ class InputOffice365MgmtInputTypedDict(TypedDict):
     app_id: str
     r"""Microsoft 365 Azure Application ID"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -119,8 +116,11 @@ class InputOffice365MgmtInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, use 0 to disable"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
     job_timeout: NotRequired[str]
@@ -139,7 +139,8 @@ class InputOffice365MgmtInputTypedDict(TypedDict):
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
-    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    retry_rules: NotRequired[RetryRulesTypeFailedTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
@@ -178,7 +179,7 @@ class InputOffice365MgmtInput(BaseModel):
     r"""Microsoft 365 Azure Application ID"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -204,9 +205,15 @@ class InputOffice365MgmtInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout, use 0 to disable"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
@@ -249,8 +256,9 @@ class InputOffice365MgmtInput(BaseModel):
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeFailed], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsManualSecret],
@@ -334,6 +342,7 @@ class InputOffice365MgmtInput(BaseModel):
                 "connections",
                 "pq",
                 "timeout",
+                "rejectUnauthorized",
                 "keepAliveTime",
                 "jobTimeout",
                 "maxMissedKeepAlives",

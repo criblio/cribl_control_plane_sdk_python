@@ -19,7 +19,7 @@ class GetProductsGroupsACLTeamsByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
     r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
     id: str
-    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the Team ACL for."""
     type: NotRequired[RbacResource]
     r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
@@ -34,7 +34,7 @@ class GetProductsGroupsACLTeamsByProductAndIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the Team ACL for."""
 
     type: Annotated[
         Optional[RbacResource],

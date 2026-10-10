@@ -118,6 +118,8 @@ class HBCriblInfoTypedDict(TypedDict):
     r"""Unique instance identifier for the Cribl node."""
     start_time: int
     r"""Timestamp (in Unix time) when the Cribl server process started, in milliseconds."""
+    auto_lookup_versions: NotRequired[Dict[str, Dict[str, str]]]
+    r"""Objects that map Lookup files to deployment versions."""
     deployment_id: NotRequired[str]
     r"""Unique identifier for the deployment assigned for the node."""
     disable_sni_routing: NotRequired[bool]
@@ -157,6 +159,11 @@ class HBCriblInfo(BaseModel):
 
     start_time: Annotated[int, pydantic.Field(alias="startTime")]
     r"""Timestamp (in Unix time) when the Cribl server process started, in milliseconds."""
+
+    auto_lookup_versions: Annotated[
+        Optional[Dict[str, Dict[str, str]]], pydantic.Field(alias="autoLookupVersions")
+    ] = None
+    r"""Objects that map Lookup files to deployment versions."""
 
     deployment_id: Annotated[Optional[str], pydantic.Field(alias="deploymentId")] = None
     r"""Unique identifier for the deployment assigned for the node."""
@@ -210,6 +217,7 @@ class HBCriblInfo(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "autoLookupVersions",
                 "deploymentId",
                 "disableSNIRouting",
                 "edgeNodes",

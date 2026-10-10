@@ -22,7 +22,7 @@ class RunnableJobScheduledSearchTypedDict(TypedDict):
     saved_query_id: str
     r"""Identifies which search query to run"""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -53,7 +53,7 @@ class RunnableJobScheduledSearch(BaseModel):
     r"""Identifies which search query to run"""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

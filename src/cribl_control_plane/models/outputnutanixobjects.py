@@ -43,7 +43,7 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     endpoint: str
     r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -101,6 +101,7 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     description: NotRequired[str]
@@ -181,7 +182,7 @@ class OutputNutanixObjects(BaseModel):
     r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -317,6 +318,7 @@ class OutputNutanixObjects(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""

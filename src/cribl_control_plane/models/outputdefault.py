@@ -21,7 +21,7 @@ class OutputDefaultTypedDict(TypedDict):
     default_id: Nullable[str]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -42,7 +42,7 @@ class OutputDefault(BaseModel):
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

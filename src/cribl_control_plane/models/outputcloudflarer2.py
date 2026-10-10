@@ -49,7 +49,7 @@ class OutputCloudflareR2TypedDict(TypedDict):
     endpoint: str
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -105,10 +105,11 @@ class OutputCloudflareR2TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    r"""Secret key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[
@@ -195,7 +196,7 @@ class OutputCloudflareR2(BaseModel):
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -328,6 +329,7 @@ class OutputCloudflareR2(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -335,7 +337,7 @@ class OutputCloudflareR2(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    r"""Secret key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     storage_class: Annotated[
         Optional[StorageClassOptionsReducedredundancyStandard],

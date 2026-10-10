@@ -1,5 +1,7 @@
 # CreateInputSystemByPackInputSystemMetricsDisk
 
+Select the level of detail for disk metrics
+
 
 ## Fields
 

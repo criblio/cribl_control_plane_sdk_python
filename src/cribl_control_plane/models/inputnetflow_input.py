@@ -26,7 +26,7 @@ class InputNetflowInputTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -42,6 +42,7 @@ class InputNetflowInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     enable_pass_through: NotRequired[bool]
     r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
     ip_allowlist_regex: NotRequired[str]
@@ -83,7 +84,7 @@ class InputNetflowInput(BaseModel):
     r"""Port to listen on"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -109,6 +110,7 @@ class InputNetflowInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     enable_pass_through: Annotated[
         Optional[bool], pydantic.Field(alias="enablePassThrough")

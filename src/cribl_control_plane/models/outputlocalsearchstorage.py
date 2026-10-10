@@ -57,37 +57,59 @@ class MappingType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class StatsDestinationTypedDict(TypedDict):
+    r"""Internal destination settings for batch metadata and statistics."""
+
     url: NotRequired[str]
+    r"""URL of the database that stores batch metadata and statistics."""
     database: NotRequired[str]
+    r"""Name of the database that stores batch metadata and statistics."""
     table_name: NotRequired[str]
+    r"""Name of the table that stores batch metadata and statistics."""
     auth_type: NotRequired[str]
+    r"""Authentication method for the statistics destination."""
     username: NotRequired[str]
+    r"""Username for the statistics destination."""
     sql_username: NotRequired[str]
+    r"""SQL username for the statistics destination."""
     password: NotRequired[str]
+    r"""Password for the statistics destination."""
     wait_for_async_inserts: NotRequired[bool]
+    r"""Whether to wait for asynchronous inserts to complete."""
     concurrency: NotRequired[float]
+    r"""Maximum number of concurrent requests to the statistics destination."""
 
 
 class StatsDestination(BaseModel):
+    r"""Internal destination settings for batch metadata and statistics."""
+
     url: Optional[str] = None
+    r"""URL of the database that stores batch metadata and statistics."""
 
     database: Optional[str] = None
+    r"""Name of the database that stores batch metadata and statistics."""
 
     table_name: Annotated[Optional[str], pydantic.Field(alias="tableName")] = None
+    r"""Name of the table that stores batch metadata and statistics."""
 
     auth_type: Annotated[Optional[str], pydantic.Field(alias="authType")] = None
+    r"""Authentication method for the statistics destination."""
 
     username: Optional[str] = None
+    r"""Username for the statistics destination."""
 
     sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+    r"""SQL username for the statistics destination."""
 
     password: Optional[str] = None
+    r"""Password for the statistics destination."""
 
     wait_for_async_inserts: Annotated[
         Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
     ] = None
+    r"""Whether to wait for asynchronous inserts to complete."""
 
     concurrency: Optional[float] = None
+    r"""Maximum number of concurrent requests to the statistics destination."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -174,7 +196,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     table_name: str
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -203,6 +225,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -225,6 +248,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     workload: NotRequired[str]
@@ -234,6 +258,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     stats_destination: NotRequired[StatsDestinationTypedDict]
+    r"""Internal destination settings for batch metadata and statistics."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -304,7 +329,7 @@ class OutputLocalSearchStorage(BaseModel):
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -363,6 +388,7 @@ class OutputLocalSearchStorage(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -411,6 +437,7 @@ class OutputLocalSearchStorage(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -433,6 +460,7 @@ class OutputLocalSearchStorage(BaseModel):
     stats_destination: Annotated[
         Optional[StatsDestination], pydantic.Field(alias="statsDestination")
     ] = None
+    r"""Internal destination settings for batch metadata and statistics."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

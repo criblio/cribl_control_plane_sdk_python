@@ -74,7 +74,7 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     google_auth_method: OutputGoogleCloudObservabilityGoogleAuthenticationMethod
     r"""Choose Auto to use Google Application Default Credentials (ADC). Choose Secret to select or create a stored secret that references Google service account credentials."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -166,7 +166,7 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""Choose Auto to use Google Application Default Credentials (ADC). Choose Secret to select or create a stored secret that references Google service account credentials."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

@@ -43,7 +43,7 @@ class OutputAzureEventhubTypedDict(TypedDict):
     topic: str
     r"""The name of the Event Hub (Kafka Topic) to publish events. Can be overwritten using field __topicOut."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -133,7 +133,7 @@ class OutputAzureEventhub(BaseModel):
     r"""The name of the Event Hub (Kafka Topic) to publish events. Can be overwritten using field __topicOut."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""

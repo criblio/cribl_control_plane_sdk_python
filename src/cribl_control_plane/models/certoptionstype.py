@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class CertOptionsTypeTypedDict(TypedDict):
+    r"""Certificate credentials for Microsoft OAuth authentication."""
+
     priv_key_path: str
     r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
     cert_path: str
@@ -20,6 +22,8 @@ class CertOptionsTypeTypedDict(TypedDict):
 
 
 class CertOptionsType(BaseModel):
+    r"""Certificate credentials for Microsoft OAuth authentication."""
+
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
     r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
 

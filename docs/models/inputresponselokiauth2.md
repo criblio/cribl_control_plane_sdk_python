@@ -1,5 +1,7 @@
 # InputResponseLokiAuth2
 
+Authentication settings for Loki requests.
+
 
 ## Fields
 

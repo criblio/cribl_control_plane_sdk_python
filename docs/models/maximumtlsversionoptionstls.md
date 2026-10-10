@@ -1,6 +1,6 @@
 # MaximumTLSVersionOptionsTLS
 
-Maximum TLS version
+Maximum TLS version to use for the connection.
 
 ## Example Usage
 

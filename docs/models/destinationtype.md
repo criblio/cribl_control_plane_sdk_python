@@ -34,6 +34,7 @@ value = DestinationType.DEFAULT
 | `KINESIS`                    | kinesis                      |
 | `ELASTIC`                    | elastic                      |
 | `ELASTIC_CLOUD`              | elastic_cloud                |
+| `ELASTIC_SERVERLESS`         | elastic_serverless           |
 | `MICROSOFT_FABRIC`           | microsoft_fabric             |
 | `CLOUDFLARE_R2`              | cloudflare_r2                |
 | `HONEYCOMB`                  | honeycomb                    |
@@ -99,3 +100,6 @@ value = DestinationType.DEFAULT
 | `ALIBABA_CLOUD_S3`           | alibaba_cloud_s3             |
 | `SNOWFLAKE_STREAMING`        | snowflake_streaming          |
 | `IBM_CLOUD_S3`               | ibm_cloud_s3                 |
+| `DATABRICKS_ZEROBUS`         | databricks_zerobus           |
+| `TRAVERSAL_OTLP`             | traversal_otlp               |
+| `SECURONIX`                  | securonix                    |

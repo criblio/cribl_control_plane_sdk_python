@@ -33,7 +33,7 @@ class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class RecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
 
     # Cribl
     CRIBL = "cribl"
@@ -62,7 +62,7 @@ class InputKinesisInputTypedDict(TypedDict):
     region: str
     r"""Region where the Kinesis stream is located"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -78,6 +78,7 @@ class InputKinesisInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -85,7 +86,7 @@ class InputKinesisInputTypedDict(TypedDict):
     shard_iterator_type: NotRequired[ShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
     payload_format: NotRequired[RecordDataFormat]
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
     get_records_limit: NotRequired[float]
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
@@ -116,6 +117,8 @@ class InputKinesisInputTypedDict(TypedDict):
     r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
@@ -157,7 +160,7 @@ class InputKinesisInput(BaseModel):
     r"""Region where the Kinesis stream is located"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -183,6 +186,7 @@ class InputKinesisInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
@@ -200,7 +204,7 @@ class InputKinesisInput(BaseModel):
     payload_format: Annotated[
         Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = None
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
 
     get_records_limit: Annotated[
         Optional[float], pydantic.Field(alias="getRecordsLimit")
@@ -273,6 +277,9 @@ class InputKinesisInput(BaseModel):
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -406,6 +413,7 @@ class InputKinesisInput(BaseModel):
                 "verifyKPLCheckSums",
                 "avoidDuplicates",
                 "metadata",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

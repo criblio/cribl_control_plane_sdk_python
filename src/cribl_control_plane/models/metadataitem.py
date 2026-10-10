@@ -7,14 +7,14 @@ from typing_extensions import TypedDict
 
 class MetadataItemTypedDict(TypedDict):
     name: str
-    r"""Name of the metadata tag."""
+    r"""Name of the metadata field."""
     value: str
-    r"""Value of the metadata tag."""
+    r"""JavaScript expression to compute the metadata field's value, enclosed in quotes or backticks. Can evaluate to a constant."""
 
 
 class MetadataItem(BaseModel):
     name: str
-    r"""Name of the metadata tag."""
+    r"""Name of the metadata field."""
 
     value: str
-    r"""Value of the metadata tag."""
+    r"""JavaScript expression to compute the metadata field's value, enclosed in quotes or backticks. Can evaluate to a constant."""

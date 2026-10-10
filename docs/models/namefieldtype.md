@@ -1,9 +1,12 @@
 # NameFieldType
 
+Reference to a field by its original text and parsed path segments.
+
 
 ## Fields
 
-| Field                                  | Type                                   | Required                               | Description                            |
-| -------------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| `raw`                                  | *str*                                  | :heavy_check_mark:                     | N/A                                    |
-| `path`                                 | List[[models.Path](../models/path.md)] | :heavy_check_mark:                     | N/A                                    |
+| Field                                                                                                                   | Type                                                                                                                    | Required                                                                                                                | Description                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `raw`                                                                                                                   | *str*                                                                                                                   | :heavy_check_mark:                                                                                                      | Field name or expression before parsing.                                                                                |
+| `path`                                                                                                                  | List[[models.Path](../models/path.md)]                                                                                  | :heavy_check_mark:                                                                                                      | Path segments for the field name. For example, <code>["level1", "level2"]</code> represents <code>level1.level2</code>. |
+| `literal`                                                                                                               | *Optional[bool]*                                                                                                        | :heavy_minus_sign:                                                                                                      | If <code>true</code>, <code>raw</code> is a constant value rather than a field to read from the event.                  |

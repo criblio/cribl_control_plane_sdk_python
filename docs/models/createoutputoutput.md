@@ -197,6 +197,12 @@ value: models.CreateOutputOutputElastic = /* values here */
 value: models.CreateOutputOutputElasticCloud = /* values here */
 ```
 
+### `models.CreateOutputOutputElasticServerless`
+
+```python
+value: models.CreateOutputOutputElasticServerless = /* values here */
+```
+
 ### `models.CreateOutputOutputNewrelic`
 
 ```python
@@ -425,6 +431,12 @@ value: models.CreateOutputOutputDynatraceHTTP = /* values here */
 value: models.CreateOutputOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.CreateOutputOutputTraversalOtlp`
+
+```python
+value: models.CreateOutputOutputTraversalOtlp = /* values here */
+```
+
 ### `models.CreateOutputOutputSentinelOneAiSiem`
 
 ```python
@@ -507,5 +519,17 @@ value: models.CreateOutputOutputAlibabaCloudS3 = /* values here */
 
 ```python
 value: models.CreateOutputOutputIbmCloudS3 = /* values here */
+```
+
+### `models.CreateOutputOutputDatabricksZerobus`
+
+```python
+value: models.CreateOutputOutputDatabricksZerobus = /* values here */
+```
+
+### `models.CreateOutputOutputSecuronix`
+
+```python
+value: models.CreateOutputOutputSecuronix = /* values here */
 ```
 

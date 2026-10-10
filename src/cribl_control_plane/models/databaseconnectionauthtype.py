@@ -8,5 +8,6 @@ from enum import Enum
 class DatabaseConnectionAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
     CONFIG_OBJ = "configObj"
     CONNECTION_STRING = "connectionString"
+    KEYPAIR = "keypair"
     SECRET = "secret"
     SECRETS = "secrets"

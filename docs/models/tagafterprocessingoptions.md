@@ -1,5 +1,7 @@
 # TagAfterProcessingOptions
 
+Whether to add a tag to each S3 object after processing.
+
 ## Example Usage
 
 ```python

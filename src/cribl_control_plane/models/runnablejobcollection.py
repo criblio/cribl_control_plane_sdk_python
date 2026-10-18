@@ -125,6 +125,8 @@ class CaptureSettings(BaseModel):
 
 
 class RunnableJobCollectionRunTypedDict(TypedDict):
+    r"""Run settings that control how and when the Collection job runs."""
+
     mode: RunnableJobCollectionMode
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     reschedule_dropped_tasks: NotRequired[bool]
@@ -162,6 +164,8 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
 
 
 class RunnableJobCollectionRun(BaseModel):
+    r"""Run settings that control how and when the Collection job runs."""
+
     mode: RunnableJobCollectionMode
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
@@ -289,8 +293,9 @@ class RunnableJobCollectionTypedDict(TypedDict):
     collector: CollectorTypedDict
     r"""Collector configuration"""
     run: RunnableJobCollectionRunTypedDict
+    r"""Run settings that control how and when the Collection job runs."""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
@@ -324,9 +329,10 @@ class RunnableJobCollection(BaseModel):
     r"""Collector configuration"""
 
     run: RunnableJobCollectionRun
+    r"""Run settings that control how and when the Collection job runs."""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

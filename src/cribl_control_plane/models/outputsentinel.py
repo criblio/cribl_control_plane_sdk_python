@@ -43,6 +43,13 @@ class AuthTypeEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTH = "oauth"
 
 
+class OAuthSecretSource(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
+
+    INLINE = "inline"
+    SECRET = "secret"
+
+
 class EndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
@@ -72,14 +79,12 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Connector type identifier."""
     login_url: str
     r"""URL for OAuth"""
-    secret: str
-    r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
     endpoint_url_configuration: EndpointConfiguration
     r"""Enter the data collection endpoint URL or the individual ID"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -88,6 +93,10 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
     concurrency: NotRequired[float]
@@ -100,6 +109,7 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -122,12 +132,15 @@ class OutputSentinelTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[AuthTypeEnum]
     r"""Discriminator value."""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
     refresh_token_field: NotRequired[str]
     r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
     rotate_refresh_token: NotRequired[bool]
@@ -138,6 +151,8 @@ class OutputSentinelTypedDict(TypedDict):
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+    oauth_secret_source: NotRequired[OAuthSecretSource]
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request"""
     total_memory_limit_kb: NotRequired[float]
@@ -176,7 +191,7 @@ class OutputSentinelTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -185,6 +200,8 @@ class OutputSentinelTypedDict(TypedDict):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSentinelPqControlsTypedDict]
     r"""Persistent queue controls."""
+    oauth_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth secret value"""
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
     dcr_id: NotRequired[str]
@@ -226,9 +243,6 @@ class OutputSentinel(BaseModel):
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL for OAuth"""
 
-    secret: str
-    r"""Secret parameter value to pass in request body"""
-
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
 
@@ -238,7 +252,7 @@ class OutputSentinel(BaseModel):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -253,6 +267,16 @@ class OutputSentinel(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
@@ -277,6 +301,7 @@ class OutputSentinel(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -325,6 +350,7 @@ class OutputSentinel(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -340,6 +366,9 @@ class OutputSentinel(BaseModel):
         None
     )
     r"""Discriminator value."""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
 
     refresh_token_field: Annotated[
         Optional[str], pydantic.Field(alias="refreshTokenField")
@@ -359,6 +388,11 @@ class OutputSentinel(BaseModel):
         pydantic.Field(alias="refreshRequestParams"),
     ] = None
     r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+
+    oauth_secret_source: Annotated[
+        Optional[OAuthSecretSource], pydantic.Field(alias="oauthSecretSource")
+    ] = None
+    r"""Enter the OAuth secret directly, or select a stored text secret"""
 
     scope: Optional[str] = None
     r"""Scope to pass in the OAuth request"""
@@ -447,7 +481,7 @@ class OutputSentinel(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -468,6 +502,11 @@ class OutputSentinel(BaseModel):
         Optional[OutputSentinelPqControls], pydantic.Field(alias="pqControls")
     ] = None
     r"""Persistent queue controls."""
+
+    oauth_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="oauthTextSecret")
+    ] = None
+    r"""Select or create a stored text secret for the OAuth secret value"""
 
     url: Optional[str] = None
     r"""URL to send events to. Can be overwritten by an event's __url field."""
@@ -568,6 +607,15 @@ class OutputSentinel(BaseModel):
                 return value
         return value
 
+    @field_serializer("oauth_secret_source")
+    def serialize_oauth_secret_source(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OAuthSecretSource(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("endpoint_url_configuration")
     def serialize_endpoint_url_configuration(self, value):
         if isinstance(value, str):
@@ -622,6 +670,8 @@ class OutputSentinel(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "keepAlive",
                 "concurrency",
                 "maxPayloadSizeKB",
@@ -640,10 +690,12 @@ class OutputSentinel(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "onBackpressure",
                 "authType",
+                "secret",
                 "refreshTokenField",
                 "rotateRefreshToken",
                 "refreshUrl",
                 "refreshRequestParams",
+                "oauthSecretSource",
                 "scope",
                 "totalMemoryLimitKB",
                 "description",
@@ -668,6 +720,7 @@ class OutputSentinel(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "oauthTextSecret",
                 "url",
                 "dcrID",
                 "dceEndpoint",

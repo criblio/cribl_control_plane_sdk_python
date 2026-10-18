@@ -65,7 +65,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     log_location_expression: str
     r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -74,6 +74,10 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     sanitize_log_names: NotRequired[bool]
     r"""Validate and correct log name"""
     payload_format: NotRequired[PayloadFormat]
@@ -189,7 +193,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -244,7 +248,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the folder ID with which log entries should be associated. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -259,6 +263,16 @@ class OutputGoogleCloudLogging(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     sanitize_log_names: Annotated[
         Optional[bool], pydantic.Field(alias="sanitizeLogNames")
@@ -530,7 +544,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -689,6 +703,8 @@ class OutputGoogleCloudLogging(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "sanitizeLogNames",
                 "payloadFormat",
                 "logLabels",

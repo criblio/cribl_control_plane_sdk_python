@@ -340,11 +340,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `filename`                                                          | *str*                                                               | :heavy_check_mark:                                                  | Filename of the Pack file to upload.                                |
-| `request_body`                                                      | *Union[bytes, IO[bytes], io.IOBase]*                                | :heavy_check_mark:                                                  | N/A                                                                 |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `filename`                                                                    | *str*                                                                         | :heavy_check_mark:                                                            | Filename of the Pack file to upload.                                          |
+| `request_body`                                                                | *Union[bytes, IO[bytes], io.IOBase]*                                          | :heavy_check_mark:                                                            | Binary contents of the <code>.crbl</code> Pack file to stage for installation |
+| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
 
 ### Response
 

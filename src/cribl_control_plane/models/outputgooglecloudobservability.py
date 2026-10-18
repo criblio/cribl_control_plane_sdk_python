@@ -74,7 +74,7 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     google_auth_method: OutputGoogleCloudObservabilityGoogleAuthenticationMethod
     r"""Choose Auto to use Google Application Default Credentials (ADC). Choose Secret to select or create a stored secret that references Google service account credentials."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -83,6 +83,10 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     protocol: NotRequired[OutputGoogleCloudObservabilityProtocol]
     r"""Discriminator value."""
     otlp_version: NotRequired[OutputGoogleCloudObservabilityOtlpVersion]
@@ -138,7 +142,7 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -166,7 +170,7 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""Choose Auto to use Google Application Default Credentials (ADC). Choose Secret to select or create a stored secret that references Google service account credentials."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -181,6 +185,16 @@ class OutputGoogleCloudObservability(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     protocol: Optional[OutputGoogleCloudObservabilityProtocol] = None
     r"""Discriminator value."""
@@ -300,7 +314,7 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -430,6 +444,8 @@ class OutputGoogleCloudObservability(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "protocol",
                 "otlpVersion",
                 "endpoint",

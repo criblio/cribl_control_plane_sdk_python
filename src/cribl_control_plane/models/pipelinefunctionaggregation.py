@@ -82,9 +82,9 @@ class PipelineFunctionAggregationConfTypedDict(TypedDict):
     print_undefineds: NotRequired[bool]
     r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
     lag_tolerance: NotRequired[str]
-    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s). Defaults to the smaller of Time Window and 1 minute."""
     idle_time_limit: NotRequired[str]
-    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s). Defaults to the smaller of Time Window and 1 minute."""
 
 
 class PipelineFunctionAggregationConf(BaseModel):
@@ -155,12 +155,12 @@ class PipelineFunctionAggregationConf(BaseModel):
     r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
 
     lag_tolerance: Annotated[Optional[str], pydantic.Field(alias="lagTolerance")] = None
-    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s). Defaults to the smaller of Time Window and 1 minute."""
 
     idle_time_limit: Annotated[Optional[str], pydantic.Field(alias="idleTimeLimit")] = (
         None
     )
-    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s). Defaults to the smaller of Time Window and 1 minute."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

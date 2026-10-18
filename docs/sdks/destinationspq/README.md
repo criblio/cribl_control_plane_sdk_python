@@ -119,6 +119,27 @@ with CriblControlPlane(
 
 Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
 
+### Example Usage: OutputPQStatusResponseExamplesCompletedClearJob
+
+<!-- UsageSnippet language="python" operationID="getOutputPqById" method="get" path="/system/outputs/{id}/pq" example="OutputPQStatusResponseExamplesCompletedClearJob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.pq.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputResponseExamplesS3Destination
 
 <!-- UsageSnippet language="python" operationID="getOutputPqById" method="get" path="/system/outputs/{id}/pq" example="OutputResponseExamplesS3Destination" -->

@@ -60,7 +60,7 @@ class OutputNetflowTypedDict(TypedDict):
     hosts: List[OutputNetflowHostTypedDict]
     r"""One or more NetFlow Destinations to forward events to"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -69,6 +69,10 @@ class OutputNetflowTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
     enable_ip_spoofing: NotRequired[bool]
@@ -89,7 +93,7 @@ class OutputNetflow(BaseModel):
     r"""One or more NetFlow Destinations to forward events to"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -104,6 +108,16 @@ class OutputNetflow(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -137,6 +151,8 @@ class OutputNetflow(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "dnsResolvePeriodSec",
                 "enableIpSpoofing",
                 "description",

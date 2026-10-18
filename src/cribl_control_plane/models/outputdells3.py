@@ -44,7 +44,7 @@ class OutputDellS3TypedDict(TypedDict):
     endpoint: str
     r"""Dell PowerScale OneFS S3-compatible endpoint URL (example: https://powerscale.example.com:9021)"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -53,6 +53,10 @@ class OutputDellS3TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsSecret]
     r"""Authentication method."""
     reuse_connections: NotRequired[bool]
@@ -102,6 +106,7 @@ class OutputDellS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -186,7 +191,7 @@ class OutputDellS3(BaseModel):
     r"""Dell PowerScale OneFS S3-compatible endpoint URL (example: https://powerscale.example.com:9021)"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -201,6 +206,16 @@ class OutputDellS3(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsSecret],
@@ -322,6 +337,7 @@ class OutputDellS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -576,6 +592,8 @@ class OutputDellS3(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "awsAuthenticationMethod",
                 "reuseConnections",
                 "rejectUnauthorized",

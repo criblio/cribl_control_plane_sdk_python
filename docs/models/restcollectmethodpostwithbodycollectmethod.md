@@ -1,5 +1,7 @@
 # RestCollectMethodPostWithBodyCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

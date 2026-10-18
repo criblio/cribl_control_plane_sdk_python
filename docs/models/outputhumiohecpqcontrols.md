@@ -1,5 +1,7 @@
 # OutputHumioHecPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

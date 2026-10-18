@@ -7,7 +7,9 @@ from typing_extensions import TypedDict
 
 class CurrentBranchResultTypedDict(TypedDict):
     branch: str
+    r"""Name of the Git branch that the Cribl configuration is currently checked out to."""
 
 
 class CurrentBranchResult(BaseModel):
     branch: str
+    r"""Name of the Git branch that the Cribl configuration is currently checked out to."""

@@ -12,7 +12,9 @@ class AuthTokenConfOutputCriblHTTPTypedDict(TypedDict):
     token_secret: str
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""Enable token"""
     description: NotRequired[str]
+    r"""Description"""
 
 
 class AuthTokenConfOutputCriblHTTP(BaseModel):
@@ -20,8 +22,10 @@ class AuthTokenConfOutputCriblHTTP(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""Enable token"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -9,10 +9,14 @@ from typing_extensions import TypedDict
 
 class UserAccessControlListTypedDict(TypedDict):
     perms: List[ResourcePolicyTypedDict]
+    r"""List of resource policies that define the access permissions for this member."""
     user: str
+    r"""Username of the member whose access control entries are listed."""
 
 
 class UserAccessControlList(BaseModel):
     perms: List[ResourcePolicy]
+    r"""List of resource policies that define the access permissions for this member."""
 
     user: str
+    r"""Username of the member whose access control entries are listed."""

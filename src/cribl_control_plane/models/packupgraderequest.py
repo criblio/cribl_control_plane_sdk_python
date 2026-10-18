@@ -10,21 +10,29 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PackUpgradeRequestTypedDict(TypedDict):
     source: str
+    r"""Source of the upgraded Pack. Use the <code>source</code> value returned by <code>PUT /packs</code> for an uploaded file, or provide a direct URL to a <code>.crbl</code> file or a <code>git+&lt;repo-url&gt;</code> Git repository URL."""
     allow_custom_functions: NotRequired[bool]
-    minor: NotRequired[str]
+    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
+    minor: NotRequired[bool]
+    r"""If <code>true</code>, allow the upgrade to install a minor (non-breaking) version. Otherwise, <code>false</code>."""
     spec: NotRequired[str]
+    r"""Semver range constraint to apply when resolving the Pack version to install."""
 
 
 class PackUpgradeRequest(BaseModel):
     source: str
+    r"""Source of the upgraded Pack. Use the <code>source</code> value returned by <code>PUT /packs</code> for an uploaded file, or provide a direct URL to a <code>.crbl</code> file or a <code>git+&lt;repo-url&gt;</code> Git repository URL."""
 
     allow_custom_functions: Annotated[
         Optional[bool], pydantic.Field(alias="allowCustomFunctions")
     ] = None
+    r"""If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions."""
 
-    minor: Optional[str] = None
+    minor: Optional[bool] = None
+    r"""If <code>true</code>, allow the upgrade to install a minor (non-breaking) version. Otherwise, <code>false</code>."""
 
     spec: Optional[str] = None
+    r"""Semver range constraint to apply when resolving the Pack version to install."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

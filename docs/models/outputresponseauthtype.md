@@ -1,5 +1,7 @@
 # OutputResponseAuthType
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

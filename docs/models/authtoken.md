@@ -3,7 +3,7 @@
 
 ## Fields
 
-| Field                   | Type                    | Required                | Description             |
-| ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `force_password_change` | *bool*                  | :heavy_check_mark:      | N/A                     |
-| `token`                 | *str*                   | :heavy_check_mark:      | N/A                     |
+| Field                                                                                                              | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `force_password_change`                                                                                            | *bool*                                                                                                             | :heavy_check_mark:                                                                                                 | If <code>true</code>, the user must change their password before accessing the API. Otherwise, <code>false</code>. |
+| `token`                                                                                                            | *str*                                                                                                              | :heavy_check_mark:                                                                                                 | Bearer token to include in the <code>Authorization</code> header for subsequent API requests.                      |

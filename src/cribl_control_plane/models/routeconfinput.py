@@ -15,6 +15,8 @@ class RouteConfInputTypedDict(TypedDict):
     r"""Name of the Route."""
     pipeline: str
     r"""Pipeline that the Route sends matching events to."""
+    auto_parse: NotRequired[bool]
+    r"""If <code>true</code>, detect each matched event's datatype and extract fields from <code>_raw</code> before the Pipeline processes the event, so Functions and Filters can reference the extracted fields. Otherwise, <code>false</code> (the default)."""
     clones: NotRequired[List[Dict[str, str]]]
     r"""Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route."""
     context: NotRequired[str]
@@ -46,6 +48,9 @@ class RouteConfInput(BaseModel):
 
     pipeline: str
     r"""Pipeline that the Route sends matching events to."""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""If <code>true</code>, detect each matched event's datatype and extract fields from <code>_raw</code> before the Pipeline processes the event, so Functions and Filters can reference the extracted fields. Otherwise, <code>false</code> (the default)."""
 
     clones: Optional[List[Dict[str, str]]] = None
     r"""Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route."""
@@ -101,6 +106,7 @@ class RouteConfInput(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "autoParse",
                 "clones",
                 "context",
                 "description",

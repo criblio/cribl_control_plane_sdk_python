@@ -2,18 +2,26 @@
 
 from __future__ import annotations
 from .collectortype import CollectorType
+from .paginatedsavedjobresponse import (
+    PaginatedSavedJobResponse,
+    PaginatedSavedJobResponseTypedDict,
+)
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Optional
+from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetSavedJobRequestTypedDict(TypedDict):
     collector_type: NotRequired[CollectorType]
-    r"""Filter by collector type"""
+    r"""Filter by collector type."""
+    offset: NotRequired[int]
+    r"""Pagination offset"""
+    limit: NotRequired[int]
+    r"""Maximum number of items to return"""
 
 
 class GetSavedJobRequest(BaseModel):
@@ -22,7 +30,19 @@ class GetSavedJobRequest(BaseModel):
         pydantic.Field(alias="collectorType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter by collector type"""
+    r"""Filter by collector type."""
+
+    offset: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Pagination offset"""
+
+    limit: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Maximum number of items to return"""
 
     @field_serializer("collector_type")
     def serialize_collector_type(self, value):
@@ -35,7 +55,7 @@ class GetSavedJobRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["collectorType"])
+        optional_fields = set(["collectorType", "offset", "limit"])
         serialized = handler(self)
         m = {}
 
@@ -48,3 +68,16 @@ class GetSavedJobRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+class GetSavedJobResponseTypedDict(TypedDict):
+    result: PaginatedSavedJobResponseTypedDict
+
+
+class GetSavedJobResponse(BaseModel):
+    next: Union[
+        Callable[[], Optional[GetSavedJobResponse]],
+        Callable[[], Awaitable[Optional[GetSavedJobResponse]]],
+    ]
+
+    result: PaginatedSavedJobResponse

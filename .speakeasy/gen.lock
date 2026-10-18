@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: db00d3520ea5f879d66a45d86f521b7d
-  docVersion: 4.20.0-cee79842
+  docChecksum: 054c7d0f42d1efd849aa657acda6dce1
+  docVersion: 4.20.2-7199aa90
   speakeasyVersion: 1.797.0
   generationVersion: 2.937.18
-  releaseVersion: 0.12.0
-  configChecksum: 6d3cde65e6cae17721b86f91b41e5a26
+  releaseVersion: 0.12.1
+  configChecksum: f81fd639a9752e88ef898ab13e5ddbf0
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 0f476aea-4457-408c-9478-ef61c946534d
-  pristine_commit_hash: 0b9ab4aa15589d9c7e118fd0da87bf8e6eb326df
-  pristine_tree_hash: 2735004adc4b1ab932ef16a851cd41a892f2d3d1
+  generation_id: 3c3e270f-cba2-491f-8b9e-e460fb5c262b
+  pristine_commit_hash: 9cca85b2f86444b5f7b899d2754cea76fb43b85d
+  pristine_tree_hash: a27b676a382b3c74d72683af35bc91d656a6919f
 features:
   python:
     additionalDependencies: 1.1.0
@@ -4372,8 +4372,8 @@ trackedFiles:
     pristine_git_object: 7f66f150b09c8976ddedb9c506519c5eb709253f
   docs/models/createoutputoutputsentinel.md:
     id: 68f02716f418
-    last_write_checksum: sha1:2448eee7e60cc4e774a3a93ee2e756d50306a0e9
-    pristine_git_object: c83c55c2460a83ad5b51ffbe2c7961621893c7b4
+    last_write_checksum: sha1:395bfddfd2c7284f24ed5e252eae67ecdd383699
+    pristine_git_object: 5bf68c28b7f2a28da85449804a11175715671e5e
   docs/models/createoutputoutputsentinelformat.md:
     id: c358ed461d14
     last_write_checksum: sha1:42e1baa7048ac28dd5d04363244aa219240e5a4c
@@ -5604,8 +5604,8 @@ trackedFiles:
     pristine_git_object: 0b11b61ad964b0a568740dbb1b050a7b3a0e71c3
   docs/models/createoutputsystembypackoutputsentinel.md:
     id: a08f85f2e3c4
-    last_write_checksum: sha1:f559e67c4a08d37b56924877b0bd590e014b0179
-    pristine_git_object: 197f229f7c57e5c0bd10a9c53d41f4d7651f789e
+    last_write_checksum: sha1:e429710a09437c2dfdb8bb11ce590481a18e9bf8
+    pristine_git_object: 1c0431f6a699e525e8656a2981511a38301f6a06
   docs/models/createoutputsystembypackoutputsentinelformat.md:
     id: 2c46ce01cb68
     last_write_checksum: sha1:1c6f34cccffd9e8dd3ccc7b46154619b5c558282
@@ -13048,8 +13048,8 @@ trackedFiles:
     pristine_git_object: 589b7be971b11181bb403e43a00f886d89363bde
   docs/models/outputresponseoutputsentinel.md:
     id: ca3df8b8a8bf
-    last_write_checksum: sha1:f96c87d308bbdc825617f07dd99f0a152da1bb94
-    pristine_git_object: 10dfcbd1964be3232e05aa8e5469c17c165a1040
+    last_write_checksum: sha1:f94c9aa59985380861fbb4dfa07e75352a303aca
+    pristine_git_object: 03a42250b59463ab49ceeb01d559819e17176f18
   docs/models/outputresponseoutputsentinelformat.md:
     id: 39c9731d0266
     last_write_checksum: sha1:14f037808927ec3fb3f6853adf01f78eb0994565
@@ -13476,8 +13476,8 @@ trackedFiles:
     pristine_git_object: 7c1d7715fd24666fa2f0493c01378bb47f13d904
   docs/models/outputsentinel.md:
     id: 03b521a73712
-    last_write_checksum: sha1:5b7d760497e007d325ffa3064feeded85e333dc2
-    pristine_git_object: 251d28bb510be99056c40c138d890650c9101db8
+    last_write_checksum: sha1:23c5fc06938481bf89d027f486e439d23c394f39
+    pristine_git_object: ad0390f457e14eab29a015157a04411032e6768e
   docs/models/outputsentinelformat.md:
     id: 27648ecebb8b
     last_write_checksum: sha1:abe05d5c79128d683faca4e9001491ba21213445
@@ -18168,8 +18168,8 @@ trackedFiles:
     pristine_git_object: 4772b0b4ed1376e2ff4716d2d10b28d41d924335
   docs/sdks/destinations/README.md:
     id: e83d288899aa
-    last_write_checksum: sha1:0fe52bf5f8fe869a9bcf8c69aa2247deb182bacb
-    pristine_git_object: 14f37d1d474ef55086c38686fbed255b8031af76
+    last_write_checksum: sha1:9aa4a39899c2314849ff08b1d878cd543fec0e93
+    pristine_git_object: c7c757f123c45d07e20dcf2930c9cea59fb7813b
   docs/sdks/destinationspq/README.md:
     id: 4e89748a1821
     last_write_checksum: sha1:a6fe1bedf0718263bfe54ba35a4e136d09fec975
@@ -18204,8 +18204,8 @@ trackedFiles:
     pristine_git_object: a4c063204ce37336999b9b4e3fe5f09140c2eebc
   docs/sdks/packsdestinations/README.md:
     id: 895ef2236167
-    last_write_checksum: sha1:5c51326cd9f4d2afd568f3ee591e130543038a5d
-    pristine_git_object: 151bc2c133f63d2f44a89184781c2be8ccfb9b48
+    last_write_checksum: sha1:70aac0555f9befe67ce84152c5aafd549076cb66
+    pristine_git_object: ecc625fae4d42cec96bb2fdde8910b8282b3981c
   docs/sdks/packsdestinationspq/README.md:
     id: 12a1d2d7f4c4
     last_write_checksum: sha1:5c190fc3bd392e15e50e7a74992ace1a9690b683
@@ -18304,8 +18304,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:734dcae1d46ba4079b08502b8075beab3d24f93f
-    pristine_git_object: 22d26b4149ae59da5e683b6cf4edc871ca0e36f3
+    last_write_checksum: sha1:6e6a3de1e8ab94a24f89f00c050f98c3ca0e3bba
+    pristine_git_object: 8a63363e47704636f84321aff91c42d6d0a43db2
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -18336,8 +18336,8 @@ trackedFiles:
     pristine_git_object: faaf4fb816e5dcaf59ae8e6927e853aa7218a3df
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:7a62e39eda1ffeebd108539328f7fcf47a05a810
-    pristine_git_object: f5ee1173f39c8e6f7b78325ff1f0c1f10d3152c4
+    last_write_checksum: sha1:74586b3b3916817c72d0f4451bcacb4d4a4a24c3
+    pristine_git_object: fdd51395364f31d20e83f526a81b7b2db2272186
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:b529774a83ebe5ca985d05abe78ebf0161455fde
@@ -18996,16 +18996,16 @@ trackedFiles:
     pristine_git_object: 6bb1369260818fd12bb4e7da143639177d170a20
   src/cribl_control_plane/models/createoutput_outputwebhook_format_2.py:
     id: "692590027130"
-    last_write_checksum: sha1:f812956fa15aac0619cb85ade62e59539331612e
-    pristine_git_object: 3134b354aa556c0314b977240141e0f29ae774b7
+    last_write_checksum: sha1:88dfddf6ff5b092f07799ba298a4b0c43147c467
+    pristine_git_object: ab0bb8bab0c63c2486e9435aa31f15047948119a
   src/cribl_control_plane/models/createoutputsystembypack_outputsns_pqcontrols.py:
     id: fdb8ac5c2084
     last_write_checksum: sha1:49984d764d2acc83b373845187c4390e7193acd3
     pristine_git_object: 2f8a2326cbd9486b3c71fa2226ce91157c5dc915
   src/cribl_control_plane/models/createoutputsystembypack_outputwebhook_format_2.py:
     id: a6d07ec411ea
-    last_write_checksum: sha1:d5acd08048f200471222e03fe3501573a9fac89e
-    pristine_git_object: 92032a8ac546461490f645f0eb5bac2877320aad
+    last_write_checksum: sha1:4a41820ae18d7953a50ceaa477f0d9e5b086f830
+    pristine_git_object: e4ad470fc633bc56e5ffef089bee11f66895a267
   src/cribl_control_plane/models/createoutputsystembypack_request.py:
     id: b47a50bc9cb8
     last_write_checksum: sha1:d94d42a527e2b3d46286ab005e9cbd310f611efa
@@ -20892,8 +20892,8 @@ trackedFiles:
     pristine_git_object: 9f029f9473e5962c56c08e128c3a62dbb9f578c4
   src/cribl_control_plane/models/outputresponse_outputwebhook_format_2.py:
     id: 11d90679ce79
-    last_write_checksum: sha1:2db7a63fab3557e59cf500da9eb18d7fa43e94e5
-    pristine_git_object: 7e3358f1c924eaaa54bd992db759d5b010013141
+    last_write_checksum: sha1:a31b7725ca25e804ab60eb62ac36b80d5b2d8abb
+    pristine_git_object: af2028a83e4273bad9a050f0cef35ad7112379c6
   src/cribl_control_plane/models/outputring.py:
     id: 38852fbbc850
     last_write_checksum: sha1:c2e60629c66be14938b39680d8cc5d5bc165d516
@@ -20920,8 +20920,8 @@ trackedFiles:
     pristine_git_object: 8b2d37e7b3cefa9c035616bdd7f2fdba8011fb0d
   src/cribl_control_plane/models/outputsentinel.py:
     id: 77df0de0dedb
-    last_write_checksum: sha1:2725fca4eb0c986c740bd34cb865985daf976cd3
-    pristine_git_object: 7a49d618cb1def1f89cfcc7307707fc0c5beb1ca
+    last_write_checksum: sha1:ce08b633d5aece4b33ea6a1ceebe12071e73b3f4
+    pristine_git_object: e7dd3a9b54ccb364a1e978c39e74eec6a41fd368
   src/cribl_control_plane/models/outputsentineloneaisiem.py:
     id: b7fa883b72d0
     last_write_checksum: sha1:c8c3de86fef47508b95a49f31801b1c143666fb8
@@ -25522,7 +25522,7 @@ examples:
           application/json: {"status": "error", "message": "<value>"}
     OutputCreateExamplesSentinel:
       requestBody:
-        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "client_id": "client-id", "endpointURLConfiguration": "url", "secret": "client-secret", "url": "https://your-workspace.ingest.monitor.azure.com"}
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
       responses:
         "200":
           application/json: {"count": 443349, "items": []}
@@ -27448,7 +27448,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "client_id": "client-id", "endpointURLConfiguration": "url", "secret": "client-secret", "url": "https://your-workspace.ingest.monitor.azure.com"}
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
       responses:
         "200":
           application/json: {"count": 168884, "items": [{"type": "splunk_hec"}]}
@@ -36304,7 +36304,7 @@ examples:
         path:
           pack: "<value>"
       requestBody:
-        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "client_id": "client-id", "endpointURLConfiguration": "url", "secret": "client-secret", "url": "https://your-workspace.ingest.monitor.azure.com"}
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
       responses:
         "200":
           application/json: {"count": 480579, "items": []}
@@ -38585,7 +38585,7 @@ examples:
           id: "<id>"
           pack: "<value>"
       requestBody:
-        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "client_id": "client-id", "endpointURLConfiguration": "url", "secret": "client-secret", "url": "https://your-workspace.ingest.monitor.azure.com"}
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
       responses:
         "200":
           application/json: {"count": 221536, "items": [{"type": "humio_hec", "url": "https://potable-reservation.net", "format": "JSON"}]}
@@ -44167,42 +44167,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
- ## Python SDK Changes
- 
- This version of the SDK is generated for Cribl version 4.20.0.
- 
- ### New sources
- 
- * `akamai_hec`
- * `anthropic_enterprise_analytics`
- * `aqua_security_hec`
- * `azure_vnet_flow_log`
- * `beyondtrust_hec`
- * `extrahop_revealx_360`
- * `f5_big_ip`
- * `gigamon_hec`
- * `hashicorp_hcp_vault_dedicated`
- * `microsoft_copilot`
- * `mimecast_hec`
- * `ping_identity_pingone`
- * `proofpoint_pod`
- * `sailpoint_hec`
- * `trellix_hec`
- * `trend_micro_vision_one`
- * `vectra_ai_hec`
- 
- ### New destinations
- 
- * `databricks_zerobus`
- * `traversal_otlp`
- 
- ### New functions
- 
- * `detection_rules`
- * `lakehouse_engine_metrics_normalizer`
- * `metrics_time_range_gate`
- 
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

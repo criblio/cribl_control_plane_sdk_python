@@ -19454,6 +19454,8 @@ class OutputResponseOutputSentinelTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[OutputResponseAuthType]
     r"""Discriminator value."""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
     refresh_token_field: NotRequired[str]
     r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
     rotate_refresh_token: NotRequired[bool]
@@ -19513,8 +19515,6 @@ class OutputResponseOutputSentinelTypedDict(TypedDict):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponseOutputSentinelPqControlsTypedDict]
     r"""Persistent queue controls."""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
     oauth_text_secret: NotRequired[str]
     r"""Select or create a stored text secret for the OAuth secret value"""
     url: NotRequired[str]
@@ -19533,14 +19533,14 @@ class OutputResponseOutputSentinelTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_login_url: NotRequired[str]
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
     template_refresh_url: NotRequired[str]
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'client_id' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'client_id' at runtime."""
     template_scope: NotRequired[str]
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_dcr_id: NotRequired[str]
@@ -19674,6 +19674,9 @@ class OutputResponseOutputSentinel(BaseModel):
         Optional[OutputResponseAuthType], pydantic.Field(alias="authType")
     ] = None
     r"""Discriminator value."""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
 
     refresh_token_field: Annotated[
         Optional[str], pydantic.Field(alias="refreshTokenField")
@@ -19810,9 +19813,6 @@ class OutputResponseOutputSentinel(BaseModel):
     ] = None
     r"""Persistent queue controls."""
 
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
     oauth_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="oauthTextSecret")
     ] = None
@@ -19850,6 +19850,11 @@ class OutputResponseOutputSentinel(BaseModel):
     ] = None
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
     template_refresh_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_refreshUrl")
     ] = None
@@ -19864,11 +19869,6 @@ class OutputResponseOutputSentinel(BaseModel):
         Optional[str], pydantic.Field(alias="__template_scope")
     ] = None
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -20004,6 +20004,7 @@ class OutputResponseOutputSentinel(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "onBackpressure",
                 "authType",
+                "secret",
                 "refreshTokenField",
                 "rotateRefreshToken",
                 "refreshUrl",
@@ -20033,7 +20034,6 @@ class OutputResponseOutputSentinel(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
-                "secret",
                 "oauthTextSecret",
                 "url",
                 "dcrID",
@@ -20043,10 +20043,10 @@ class OutputResponseOutputSentinel(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
+                "__template_secret",
                 "__template_refreshUrl",
                 "__template_client_id",
                 "__template_scope",
-                "__template_secret",
                 "__template_url",
                 "__template_dcrID",
                 "__template_dceEndpoint",

@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.20.0-cee79842
+  version: 4.20.2-7199aa90
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -39070,6 +39070,10 @@ components:
           title: Login URL
           description: URL for OAuth
           pattern: ^https?://.*
+        secret:
+          type: string
+          title: OAuth secret
+          description: Secret parameter value to pass in request body
         refreshTokenField:
           type: string
           title: Refresh token field
@@ -39244,10 +39248,6 @@ components:
           type: object
           title: ""
           description: Persistent queue controls.
-        secret:
-          type: string
-          title: OAuth secret
-          description: Secret parameter value to pass in request body
         oauthTextSecret:
           type: string
           title: OAuth secret (text secret)
@@ -39292,6 +39292,11 @@ components:
           description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
             variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_secret:
+          type: string
+          description: Binds 'secret' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'secret' at runtime.
         __template_refreshUrl:
           type: string
           description: Binds 'refreshUrl' to a variable for dynamic value resolution. Set
@@ -39307,11 +39312,6 @@ components:
           description: Binds 'scope' to a variable for dynamic value resolution. Set to
             variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'scope' at runtime.
-        __template_secret:
-          type: string
-          description: Binds 'secret' to a variable for dynamic value resolution. Set to
-            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'secret' at runtime.
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to

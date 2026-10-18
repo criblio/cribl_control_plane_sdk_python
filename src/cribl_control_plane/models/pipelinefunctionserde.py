@@ -72,8 +72,6 @@ class SerdeTypeGrokTypedDict(TypedDict):
     r"""Name of the field to add fields to. Extract mode only."""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
     r"""Additional Grok patterns to apply to the source field."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -119,9 +117,6 @@ class SerdeTypeGrok(BaseModel):
         pydantic.Field(alias="patternList"),
     ] = None
     r"""Additional Grok patterns to apply to the source field."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -191,7 +186,6 @@ class SerdeTypeGrok(BaseModel):
                 "srcField",
                 "dstField",
                 "patternList",
-                "tagDatatype",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
@@ -270,8 +264,6 @@ class SerdeTypeRegexTypedDict(TypedDict):
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -321,9 +313,6 @@ class SerdeTypeRegex(BaseModel):
 
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -386,7 +375,6 @@ class SerdeTypeRegex(BaseModel):
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
-                "tagDatatype",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
@@ -458,8 +446,6 @@ class SerdeTypeJSONTypedDict(TypedDict):
     r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
     field_filter_expr: NotRequired[str]
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -505,9 +491,6 @@ class SerdeTypeJSON(BaseModel):
         Optional[str], pydantic.Field(alias="fieldFilterExpr")
     ] = None
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
@@ -577,7 +560,6 @@ class SerdeTypeJSON(BaseModel):
                 "keep",
                 "remove",
                 "fieldFilterExpr",
-                "tagDatatype",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "fields",
@@ -653,8 +635,6 @@ class SerdeTypeCsvTypedDict(TypedDict):
     r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
     field_filter_expr: NotRequired[str]
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -701,9 +681,6 @@ class SerdeTypeCsv(BaseModel):
         Optional[str], pydantic.Field(alias="fieldFilterExpr")
     ] = None
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
@@ -771,7 +748,6 @@ class SerdeTypeCsv(BaseModel):
                 "keep",
                 "remove",
                 "fieldFilterExpr",
-                "tagDatatype",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "regex",
@@ -854,8 +830,6 @@ class SerdeTypeDelimTypedDict(TypedDict):
     r"""Escape character used to escape delimiter or quote character"""
     null_value: NotRequired[str]
     r"""Field value representing the null value. Null fields will be omitted."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -914,9 +888,6 @@ class SerdeTypeDelim(BaseModel):
 
     null_value: Annotated[Optional[str], pydantic.Field(alias="nullValue")] = None
     r"""Field value representing the null value. Null fields will be omitted."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
@@ -988,7 +959,6 @@ class SerdeTypeDelim(BaseModel):
                 "quoteChar",
                 "escapeChar",
                 "nullValue",
-                "tagDatatype",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "regex",
@@ -1067,8 +1037,6 @@ class SerdeTypeKvpTypedDict(TypedDict):
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     fields: NotRequired[List[str]]
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     regex: NotRequired[str]
@@ -1123,9 +1091,6 @@ class SerdeTypeKvp(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedValueChars")
     ] = None
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     fields: Optional[List[str]] = None
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
@@ -1188,7 +1153,6 @@ class SerdeTypeKvp(BaseModel):
                 "cleanFields",
                 "allowedKeyChars",
                 "allowedValueChars",
-                "tagDatatype",
                 "fields",
                 "regex",
                 "regexList",
@@ -1250,8 +1214,6 @@ class SerdeTypeAutoTypedDict(TypedDict):
     r"""Parser or formatter type to use."""
     mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
-    tag_datatype: NotRequired[bool]
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -1286,9 +1248,6 @@ class SerdeTypeAuto(BaseModel):
 
     mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
-
-    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
-    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -1364,7 +1323,6 @@ class SerdeTypeAuto(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "tagDatatype",
                 "keep",
                 "remove",
                 "fieldFilterExpr",

@@ -69,11 +69,15 @@ class OutputAzureDataExplorerAuthenticationMethod(
 
 
 class OutputAzureDataExplorerCertificateTypedDict(TypedDict):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: NotRequired[str]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
 
 class OutputAzureDataExplorerCertificate(BaseModel):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
     ] = None
@@ -222,7 +226,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -231,6 +235,10 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    enable_schema_monitor: NotRequired[bool]
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+    schema_monitor_target_schemas: NotRequired[List[str]]
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[IngestionMode]
@@ -242,6 +250,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[OutputAzureDataExplorerCertificateTypedDict]
+    r"""Certificate credentials for OAuth authentication."""
     format_: NotRequired[DataFormatOptions]
     r"""Format of the output data"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -309,6 +318,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     timeout_sec: NotRequired[float]
@@ -320,18 +330,19 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     extent_tags: NotRequired[List[ExtentTagTypedDict]]
     r"""Strings or tags associated with the extent (ingested data shard)"""
     ingest_if_not_exists: NotRequired[List[IngestIfNotExistTypedDict]]
-    r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
+    r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists. Typically a value corresponding to an \"ingest-by\" tag. Example: \"Part0001\"."""
     report_level: NotRequired[ReportLevel]
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
     report_method: NotRequired[ReportMethod]
     r"""Target of the ingestion status reporting. Defaults to Queue."""
     additional_properties: NotRequired[List[AdditionalPropertyTypedDict]]
-    r"""Optionally, enter additional configuration properties to send to the ingestion service"""
+    r"""Optionally, enter additional configuration properties to send to the ingestion service. The key is the ingestion property field name. Example: \"creationTime\"."""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     concurrency: NotRequired[float]
@@ -346,6 +357,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -368,7 +380,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -448,7 +460,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -463,6 +475,16 @@ class OutputAzureDataExplorer(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    enable_schema_monitor: Annotated[
+        Optional[bool], pydantic.Field(alias="enableSchemaMonitor")
+    ] = None
+    r"""Enable Schema Monitor to detect schema drift for this Destination. Events are sampled after this output's Pipeline runs, immediately before being sent."""
+
+    schema_monitor_target_schemas: Annotated[
+        Optional[List[str]], pydantic.Field(alias="schemaMonitorTargetSchemas")
+    ] = None
+    r"""Names of the Schema Knowledge Objects that sampled events are acceptable against. An event that matches any listed schema does not count as drift."""
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")
@@ -484,6 +506,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[OutputAzureDataExplorerCertificate] = None
+    r"""Certificate credentials for OAuth authentication."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
         None
@@ -647,6 +670,7 @@ class OutputAzureDataExplorer(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -672,7 +696,7 @@ class OutputAzureDataExplorer(BaseModel):
     ingest_if_not_exists: Annotated[
         Optional[List[IngestIfNotExist]], pydantic.Field(alias="ingestIfNotExists")
     ] = None
-    r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
+    r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists. Typically a value corresponding to an \"ingest-by\" tag. Example: \"Part0001\"."""
 
     report_level: Annotated[
         Optional[ReportLevel], pydantic.Field(alias="reportLevel")
@@ -687,7 +711,7 @@ class OutputAzureDataExplorer(BaseModel):
     additional_properties: Annotated[
         Optional[List[AdditionalProperty]], pydantic.Field(alias="additionalProperties")
     ] = None
-    r"""Optionally, enter additional configuration properties to send to the ingestion service"""
+    r"""Optionally, enter additional configuration properties to send to the ingestion service. The key is the ingestion property field name. Example: \"creationTime\"."""
 
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
@@ -698,6 +722,7 @@ class OutputAzureDataExplorer(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -731,6 +756,7 @@ class OutputAzureDataExplorer(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -775,7 +801,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -1021,6 +1047,8 @@ class OutputAzureDataExplorer(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "enableSchemaMonitor",
+                "schemaMonitorTargetSchemas",
                 "validateDatabaseSettings",
                 "ingestMode",
                 "description",

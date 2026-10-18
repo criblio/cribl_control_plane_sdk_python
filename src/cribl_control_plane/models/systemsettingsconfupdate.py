@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .backupssettings_union import BackupsSettingsUnion, BackupsSettingsUnionTypedDict
+from .clusterschedulingpolicy import ClusterSchedulingPolicy
 from .piisettings_union import PiiSettingsUnion, PiiSettingsUnionTypedDict
 from .rollbacksettings_union import (
     RollbackSettingsUnion,
@@ -92,7 +93,7 @@ class Ssl(BaseModel):
         return m
 
 
-class SystemSettingsConfUpdateAPITypedDict(TypedDict):
+class APITypedDict(TypedDict):
     r"""API server configuration for the Cribl instance."""
 
     base_url: NotRequired[str]
@@ -127,7 +128,7 @@ class SystemSettingsConfUpdateAPITypedDict(TypedDict):
     r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
 
-class SystemSettingsConfUpdateAPI(BaseModel):
+class API(BaseModel):
     r"""API server configuration for the Cribl instance."""
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
@@ -235,6 +236,12 @@ class AppsTypedDict(TypedDict):
     r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
     app_backend_max_in_flight: NotRequired[int]
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
+    app_schedule_body_expression_max_length: NotRequired[int]
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+    app_scheduled_concurrent_job_limit: NotRequired[int]
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+    app_schedules_max: NotRequired[int]
+    r"""Maximum number of schedule records a single App may declare."""
     enabled: NotRequired[bool]
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
@@ -262,6 +269,21 @@ class Apps(BaseModel):
     ] = None
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
 
+    app_schedule_body_expression_max_length: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduleBodyExpressionMaxLength")
+    ] = None
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+
+    app_scheduled_concurrent_job_limit: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduledConcurrentJobLimit")
+    ] = None
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+
+    app_schedules_max: Annotated[
+        Optional[int], pydantic.Field(alias="appSchedulesMax")
+    ] = None
+    r"""Maximum number of schedule records a single App may declare."""
+
     enabled: Optional[bool] = None
     r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
@@ -273,6 +295,9 @@ class Apps(BaseModel):
                 "appBackendMaxCallbacksPerInstallation",
                 "appBackendMaxCallbacksTotal",
                 "appBackendMaxInFlight",
+                "appScheduleBodyExpressionMaxLength",
+                "appScheduledConcurrentJobLimit",
+                "appSchedulesMax",
                 "enabled",
             ]
         )
@@ -531,6 +556,7 @@ class SystemSettingsConfUpdateWorkersTypedDict(TypedDict):
     r"""Minimum number of Worker Processes to keep running."""
     restart_unresponsive_processes: NotRequired[bool]
     r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
+    scheduling_policy: NotRequired[ClusterSchedulingPolicy]
     startup_max_conns: NotRequired[int]
     r"""Maximum number of connections to accept during Worker Process startup before throttling begins."""
     startup_throttle_timeout: NotRequired[int]
@@ -572,6 +598,10 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
     ] = None
     r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
 
+    scheduling_policy: Annotated[
+        Optional[ClusterSchedulingPolicy], pydantic.Field(alias="schedulingPolicy")
+    ] = None
+
     startup_max_conns: Annotated[
         Optional[int], pydantic.Field(alias="startupMaxConns")
     ] = None
@@ -602,6 +632,15 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
     ] = None
     r"""Size of the Worker thread pool used for CPU-bound tasks."""
 
+    @field_serializer("scheduling_policy")
+    def serialize_scheduling_policy(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ClusterSchedulingPolicy(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -612,6 +651,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
                 "memory",
                 "minimum",
                 "restartUnresponsiveProcesses",
+                "schedulingPolicy",
                 "startupMaxConns",
                 "startupThrottleTimeout",
                 "v8SingleThread",
@@ -635,7 +675,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
 
 
 class SystemSettingsConfUpdateTypedDict(TypedDict):
-    api: NotRequired[SystemSettingsConfUpdateAPITypedDict]
+    api: NotRequired[APITypedDict]
     r"""API server configuration for the Cribl instance."""
     apps: NotRequired[AppsTypedDict]
     r"""App configuration."""
@@ -663,7 +703,7 @@ class SystemSettingsConfUpdateTypedDict(TypedDict):
 
 
 class SystemSettingsConfUpdate(BaseModel):
-    api: Optional[SystemSettingsConfUpdateAPI] = None
+    api: Optional[API] = None
     r"""API server configuration for the Cribl instance."""
 
     apps: Optional[Apps] = None
@@ -751,7 +791,7 @@ try:
 except NameError:
     pass
 try:
-    SystemSettingsConfUpdateAPI.model_rebuild()
+    API.model_rebuild()
 except NameError:
     pass
 try:

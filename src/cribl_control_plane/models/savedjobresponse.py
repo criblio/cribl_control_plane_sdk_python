@@ -36,7 +36,7 @@ class SavedJobResponseScheduledSearchTypedDict(TypedDict):
     saved_query_id: str
     r"""Identifies which search query to run"""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -73,7 +73,7 @@ class SavedJobResponseScheduledSearch(BaseModel):
     r"""Identifies which search query to run"""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""
@@ -168,7 +168,7 @@ class SavedJobResponseExecutorTypedDict(TypedDict):
     executor: ExecutorTypeRunnableJobExecutorTypedDict
     r"""Executor configuration, including the executor type and its settings."""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -205,7 +205,7 @@ class SavedJobResponseExecutor(BaseModel):
     r"""Executor configuration, including the executor type and its settings."""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""
@@ -300,7 +300,7 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
     collector: CollectorTypedDict
     r"""Collector configuration"""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -341,7 +341,7 @@ class SavedJobResponseCollection(BaseModel):
     r"""Collector configuration"""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

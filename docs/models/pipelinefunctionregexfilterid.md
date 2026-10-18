@@ -1,6 +1,6 @@
 # PipelineFunctionRegexFilterID
 
-Function ID
+Identifier of the Function. Always <code>regex_filter</code>
 
 ## Example Usage
 

@@ -1,5 +1,7 @@
 # DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
 
+Discover method
+
 ## Example Usage
 
 ```python

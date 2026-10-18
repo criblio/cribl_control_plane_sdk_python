@@ -1,0 +1,8 @@
+# FunctionConfSchemaDetectionRules
+
+
+## Fields
+
+| Field                                                                                                                   | Type                                                                                                                    | Required                                                                                                                | Description                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `local_overrides`                                                                                                       | [Optional[models.LocalOverrides]](../models/localoverrides.md)                                                          | :heavy_minus_sign:                                                                                                      | Instance-level tuning applied after the rule set is merged. Managed by Cribl Security; not intended for direct editing. |

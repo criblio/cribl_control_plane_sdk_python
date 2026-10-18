@@ -1,5 +1,7 @@
 # InputCriblmetricsType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

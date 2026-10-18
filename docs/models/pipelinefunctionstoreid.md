@@ -1,6 +1,6 @@
 # PipelineFunctionStoreID
 
-Function ID
+Identifier of the Function. Always <code>store</code>
 
 ## Example Usage
 

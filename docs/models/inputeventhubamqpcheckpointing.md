@@ -1,8 +1,10 @@
 # InputEventhubAmqpCheckpointing
 
+Azure Blob Storage settings used to persist Event Hubs checkpoints.
+
 
 ## Fields
 
-| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `blob_store`                                                                               | [models.InputEventhubAmqpAzureBlobStorage](../models/inputeventhubamqpazureblobstorage.md) | :heavy_check_mark:                                                                         | N/A                                                                                        |
+| Field                                                    | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `blob_store`                                             | [models.AzureBlobStorage](../models/azureblobstorage.md) | :heavy_check_mark:                                       | Azure Blob Storage                                       |

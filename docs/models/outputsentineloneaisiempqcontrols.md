@@ -1,5 +1,7 @@
 # OutputSentinelOneAiSiemPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

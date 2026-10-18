@@ -1,0 +1,8 @@
+# GetInputSystemByPackResponse
+
+
+## Fields
+
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `result`                                                             | [models.PaginatedInputResponse](../models/paginatedinputresponse.md) | :heavy_check_mark:                                                   | N/A                                                                  |

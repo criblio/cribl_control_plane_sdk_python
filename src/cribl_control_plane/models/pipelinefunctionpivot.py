@@ -10,12 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionPivotID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
 
     PIVOT = "pivot"
 
 
 class SimplePivotConfigurationTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     label_field: str
     r"""Fields to be used for the left-most column."""
     data_fields: List[str]
@@ -25,6 +27,8 @@ class SimplePivotConfigurationTypedDict(TypedDict):
 
 
 class SimplePivotConfiguration(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     label_field: Annotated[str, pydantic.Field(alias="labelField")]
     r"""Fields to be used for the left-most column."""
 
@@ -37,40 +41,42 @@ class SimplePivotConfiguration(BaseModel):
 
 class PipelineFunctionPivotTypedDict(TypedDict):
     id: PipelineFunctionPivotID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
     conf: SimplePivotConfigurationTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionPivot(BaseModel):
     id: PipelineFunctionPivotID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
 
     conf: SimplePivotConfiguration
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

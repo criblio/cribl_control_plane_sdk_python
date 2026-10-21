@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class AuthenticationProtocolOptionsV3User(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication protocol for the SNMPv3 user."""
+
     # None
     NONE = "none"
     # MD5

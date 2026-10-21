@@ -11,9 +11,32 @@
 
 List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
 
-### Example Usage
+### Example Usage: InputStatusResponseExamplesGreenSource
 
-<!-- UsageSnippet language="python" operationID="getInputStatus" method="get" path="/system/status/inputs" -->
+<!-- UsageSnippet language="python" operationID="getInputStatus" method="get" path="/system/status/inputs" example="InputStatusResponseExamplesGreenSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.statuses.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: InputStatusResponseExamplesYellowSource
+
+<!-- UsageSnippet language="python" operationID="getInputStatus" method="get" path="/system/status/inputs" example="InputStatusResponseExamplesYellowSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -53,6 +76,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -60,9 +84,30 @@ with CriblControlPlane(
 
 Get the status and optional metrics for the specified Source.
 
-### Example Usage
+### Example Usage: InputStatusResponseExamplesGreenSource
 
-<!-- UsageSnippet language="python" operationID="getInputStatusById" method="get" path="/system/status/inputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getInputStatusById" method="get" path="/system/status/inputs/{id}" example="InputStatusResponseExamplesGreenSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.statuses.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputStatusResponseExamplesYellowSource
+
+<!-- UsageSnippet language="python" operationID="getInputStatusById" method="get" path="/system/status/inputs/{id}" example="InputStatusResponseExamplesYellowSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -99,5 +144,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

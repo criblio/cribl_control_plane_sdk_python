@@ -1,5 +1,7 @@
 # FunctionConfSchemaPublishMetricsMetricType
 
+The type of metric to publish (counter, timer, gauge, distribution, summary, or histogram).
+
 ## Example Usage
 
 ```python

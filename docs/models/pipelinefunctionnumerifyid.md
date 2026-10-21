@@ -1,6 +1,6 @@
 # PipelineFunctionNumerifyID
 
-Function ID
+Identifier of the Function. Always <code>numerify</code>
 
 ## Example Usage
 

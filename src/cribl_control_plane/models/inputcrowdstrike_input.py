@@ -4,7 +4,6 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
@@ -14,7 +13,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .sqsauthenticationmethodoptions import SqsAuthenticationMethodOptions
 from .tagafterprocessingoptions import TagAfterProcessingOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -26,16 +25,95 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCrowdstrikeType(str, Enum):
+    r"""Connector type identifier."""
+
     CROWDSTRIKE = "crowdstrike"
+
+
+class PreprocessTypedDict(TypedDict):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
+
+    disabled: bool
+    r"""Disabled"""
+    command: NotRequired[str]
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+    args: NotRequired[List[str]]
+    r"""Arguments to be added to the custom command"""
+
+
+class Preprocess(BaseModel):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
+
+    disabled: bool
+    r"""Disabled"""
+
+    command: Optional[str] = None
+    r"""Command to feed the data through (via stdin) and process its output (stdout)"""
+
+    args: Optional[List[str]] = None
+    r"""Arguments to be added to the custom command"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["command", "args"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputCrowdstrikeCheckpointingTypedDict(TypedDict):
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
+
+    enabled: bool
+    r"""Resume processing files after an interruption"""
+    retries: NotRequired[float]
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+
+class InputCrowdstrikeCheckpointing(BaseModel):
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
+
+    enabled: bool
+    r"""Resume processing files after an interruption"""
+
+    retries: Optional[float] = None
+    r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["retries"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputCrowdstrikeInputTypedDict(TypedDict):
     type: InputCrowdstrikeType
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -45,10 +123,11 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -56,6 +135,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -71,13 +151,13 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     max_messages: NotRequired[float]
     r"""The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10."""
     visibility_timeout: NotRequired[float]
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. New Sources default to 600 sec. (10 minutes); existing Sources keep their configured value. You can set this as high as 43200 sec. (12 hours), but a long timeout keeps a message invisible to other pollers for that whole window after a non-graceful shutdown, so redelivery can be hours away."""
     num_receivers: NotRequired[float]
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead. Not applied when fan-out is enabled."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
-    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors. Not applied when fan-out is enabled."""
     include_sqs_metadata: NotRequired[bool]
     r"""Attach SQS notification metadata to a __sqsMetadata field on each event"""
     enable_assume_role: NotRequired[bool]
@@ -90,19 +170,42 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[PreprocessTypeTypedDict]
+    shared_credentials: NotRequired[bool]
+    r"""Use the same credential settings for S3 and SQS"""
+    shared_assume_role_arn: NotRequired[bool]
+    r"""Use the same settings for S3 and SQS"""
+    preprocess: NotRequired[PreprocessTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    checkpointing: NotRequired[CheckpointingTypeTypedDict]
+    checkpointing: NotRequired[InputCrowdstrikeCheckpointingTypedDict]
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     encoding: NotRequired[str]
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
+    enable_fanout: NotRequired[bool]
+    r"""Spread this Source's file processing across all Worker Processes on the Worker, instead of having one Worker Process handle every file of an SQS message. When enabled, Number of receivers, Skip file on error, Checkpointing and Custom command are not applied."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    sqs_assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    sqs_duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    sqs_aws_authentication_method: NotRequired[SqsAuthenticationMethodOptions]
+    r"""Choose Auto to use IAM roles"""
+    sqs_aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_aws_secret_key: NotRequired[str]
+    r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
+    r"""Whether to add a tag to each S3 object after processing."""
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -127,10 +230,17 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_sqs_assume_role_arn: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+    template_sqs_assume_role_external_id: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+    template_sqs_aws_secret_key: NotRequired[str]
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
 class InputCrowdstrikeInput(BaseModel):
     type: InputCrowdstrikeType
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -139,6 +249,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -155,12 +266,13 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -179,6 +291,7 @@ class InputCrowdstrikeInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -212,12 +325,12 @@ class InputCrowdstrikeInput(BaseModel):
     visibility_timeout: Annotated[
         Optional[float], pydantic.Field(alias="visibilityTimeout")
     ] = None
-    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
+    r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. New Sources default to 600 sec. (10 minutes); existing Sources keep their configured value. You can set this as high as 43200 sec. (12 hours), but a long timeout keeps a message invisible to other pollers for that whole window after a non-graceful shutdown, so redelivery can be hours away."""
 
     num_receivers: Annotated[Optional[float], pydantic.Field(alias="numReceivers")] = (
         None
     )
-    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead. Not applied when fan-out is enabled."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -225,7 +338,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
 
     skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = None
-    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
+    r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors. Not applied when fan-out is enabled."""
 
     include_sqs_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeSqsMetadata")
@@ -257,12 +370,24 @@ class InputCrowdstrikeInput(BaseModel):
     ] = None
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[PreprocessType] = None
+    shared_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedCredentials")
+    ] = None
+    r"""Use the same credential settings for S3 and SQS"""
+
+    shared_assume_role_arn: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedAssumeRoleArn")
+    ] = None
+    r"""Use the same settings for S3 and SQS"""
+
+    preprocess: Optional[Preprocess] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion. Not applied when fan-out is enabled."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    checkpointing: Optional[CheckpointingType] = None
+    checkpointing: Optional[InputCrowdstrikeCheckpointing] = None
+    r"""Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled."""
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -270,16 +395,55 @@ class InputCrowdstrikeInput(BaseModel):
     encoding: Optional[str] = None
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
+    enable_fanout: Annotated[Optional[bool], pydantic.Field(alias="enableFanout")] = (
+        None
+    )
+    r"""Spread this Source's file processing across all Worker Processes on the Worker, instead of having one Worker Process handle every file of an SQS message. When enabled, Number of receivers, Skip file on error, Checkpointing and Custom command are not applied."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleArn")
+    ] = None
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    sqs_duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="SQSDurationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    sqs_aws_authentication_method: Annotated[
+        Optional[SqsAuthenticationMethodOptions],
+        pydantic.Field(alias="SQSAwsAuthenticationMethod"),
+    ] = None
+    r"""Choose Auto to use IAM roles"""
+
+    sqs_aws_secret: Annotated[Optional[str], pydantic.Field(alias="SQSAwsSecret")] = (
+        None
+    )
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAwsSecretKey")
+    ] = None
+    r"""SQS secret key"""
+
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
+    r"""Whether to add a tag to each S3 object after processing."""
 
     processed_tag_key: Annotated[
         Optional[str], pydantic.Field(alias="processedTagKey")
@@ -341,11 +505,35 @@ class InputCrowdstrikeInput(BaseModel):
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
+    template_sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleArn")
+    ] = None
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+
+    template_sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleExternalId")
+    ] = None
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+
+    template_sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAwsSecretKey")
+    ] = None
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("sqs_aws_authentication_method")
+    def serialize_sqs_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SqsAuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -393,14 +581,23 @@ class InputCrowdstrikeInput(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "enableSQSAssumeRole",
+                "sharedCredentials",
+                "sharedAssumeRoleArn",
                 "preprocess",
                 "metadata",
                 "checkpointing",
                 "pollTimeout",
                 "encoding",
+                "enableFanout",
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "SQSAssumeRoleArn",
+                "SQSAssumeRoleExternalId",
+                "SQSDurationSeconds",
+                "SQSAwsAuthenticationMethod",
+                "SQSAwsSecret",
+                "SQSAwsSecretKey",
                 "tagAfterProcessing",
                 "processedTagKey",
                 "processedTagValue",
@@ -414,6 +611,9 @@ class InputCrowdstrikeInput(BaseModel):
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",
+                "__template_SQSAssumeRoleArn",
+                "__template_SQSAssumeRoleExternalId",
+                "__template_SQSAwsSecretKey",
             ]
         )
         serialized = handler(self)

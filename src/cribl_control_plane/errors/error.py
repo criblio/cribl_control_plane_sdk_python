@@ -3,14 +3,25 @@
 from __future__ import annotations
 from cribl_control_plane.errors import CriblControlPlaneError
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import validate_const
 from dataclasses import dataclass, field
 import httpx
-from typing import Optional
+import pydantic
+from pydantic.functional_validators import AfterValidator
+from typing import Any, Literal, Optional
+from typing_extensions import Annotated
 
 
 class ErrorData(BaseModel):
-    message: Optional[str] = None
-    r"""Error message"""
+    message: str
+    r"""Human-readable message describing the error."""
+    STATUS: Annotated[
+        Annotated[Literal["error"], AfterValidator(validate_const("error"))],
+        pydantic.Field(alias="status"),
+    ] = "error"
+    r"""Always \"error\" for API error responses."""
+    details: Optional[Any] = None
+    r"""Optional structured details about the error (e.g. validation failures)."""
 
 
 @dataclass(unsafe_hash=True)

@@ -10,12 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionDistinctID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
 
     DISTINCT = "distinct"
 
 
 class DistinctConfigurationTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     group_by: List[str]
     r"""Defines the properties that are concatenated to produce distinct key"""
     max_combinations: NotRequired[float]
@@ -29,6 +31,8 @@ class DistinctConfigurationTypedDict(TypedDict):
 
 
 class DistinctConfiguration(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     group_by: Annotated[List[str], pydantic.Field(alias="groupBy")]
     r"""Defines the properties that are concatenated to produce distinct key"""
 
@@ -69,40 +73,42 @@ class DistinctConfiguration(BaseModel):
 
 class PipelineFunctionDistinctTypedDict(TypedDict):
     id: PipelineFunctionDistinctID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
     conf: DistinctConfigurationTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionDistinct(BaseModel):
     id: PipelineFunctionDistinctID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
 
     conf: DistinctConfiguration
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

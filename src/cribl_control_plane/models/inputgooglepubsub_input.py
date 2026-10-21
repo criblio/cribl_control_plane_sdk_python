@@ -44,6 +44,7 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -121,6 +122,7 @@ class InputGooglePubsubInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")

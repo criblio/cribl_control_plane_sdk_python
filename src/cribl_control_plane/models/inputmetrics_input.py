@@ -50,6 +50,7 @@ class InputMetricsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     udp_port: NotRequired[float]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     tcp_port: NotRequired[float]
@@ -114,6 +115,7 @@ class InputMetricsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""

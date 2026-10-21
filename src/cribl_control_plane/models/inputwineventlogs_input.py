@@ -65,6 +65,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     suppress_missing_log_errors: NotRequired[bool]
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
@@ -87,6 +88,8 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     include_empty_json_fields: NotRequired[bool]
     r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
+    resolve_parameter_codes: NotRequired[bool]
+    r"""Resolve Windows message table parameter codes (%%NNNN) in EventData fields to their human-readable strings (for example: %%14592 → Inbound)"""
     disable_xml_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     template_environment: NotRequired[str]
@@ -129,6 +132,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     suppress_missing_log_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingLogErrors")
@@ -176,6 +180,11 @@ class InputWinEventLogsInput(BaseModel):
         Optional[bool], pydantic.Field(alias="includeEmptyJsonFields")
     ] = None
     r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
+
+    resolve_parameter_codes: Annotated[
+        Optional[bool], pydantic.Field(alias="resolveParameterCodes")
+    ] = None
+    r"""Resolve Windows message table parameter codes (%%NNNN) in EventData fields to their human-readable strings (for example: %%14592 → Inbound)"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
@@ -234,6 +243,7 @@ class InputWinEventLogsInput(BaseModel):
                 "description",
                 "disableJsonRendering",
                 "includeEmptyJsonFields",
+                "resolveParameterCodes",
                 "disableXmlRendering",
                 "__template_environment",
                 "__template_streamtags",

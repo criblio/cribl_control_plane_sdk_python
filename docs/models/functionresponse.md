@@ -183,6 +183,12 @@ value: models.FunctionLimit = /* values here */
 value: models.FunctionLocalSearchDatatypeParser = /* values here */
 ```
 
+### `models.FunctionLocalSearchDatatypeSchemaMapper`
+
+```python
+value: models.FunctionLocalSearchDatatypeSchemaMapper = /* values here */
+```
+
 ### `models.FunctionLocalSearchRulesetRunner`
 
 ```python

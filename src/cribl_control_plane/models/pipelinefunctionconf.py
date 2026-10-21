@@ -91,6 +91,10 @@ from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
 )
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -271,6 +275,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -358,6 +363,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lakehouse_engine_metrics_normalizer": PipelineFunctionLakehouseEngineMetricsNormalizer,
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": PipelineFunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": PipelineFunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": PipelineFunctionLocalSearchTimeRangeNormalizer,
@@ -435,6 +441,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLakehouseEngineMetricsNormalizer,
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
+        PipelineFunctionLocalSearchDatatypeSchemaMapper,
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchSchemaMapper,
         PipelineFunctionLocalSearchTimeRangeNormalizer,

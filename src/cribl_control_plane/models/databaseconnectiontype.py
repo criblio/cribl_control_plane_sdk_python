@@ -9,5 +9,6 @@ class DatabaseConnectionType(str, Enum, metaclass=utils.OpenEnumMeta):
     MYSQL = "mysql"
     ORACLE = "oracle"
     POSTGRES = "postgres"
+    SNOWFLAKE = "snowflake"
     SQLSERVER = "sqlserver"
     TERADATA = "teradata"

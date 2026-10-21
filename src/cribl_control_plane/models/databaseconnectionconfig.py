@@ -12,6 +12,20 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class PemTypedDict(TypedDict):
+    r"""RSA private key configuration for Snowflake key-pair authentication."""
+
+    key_name: str
+    r"""RSA private key (PEM format) for Snowflake key-pair authentication."""
+
+
+class Pem(BaseModel):
+    r"""RSA private key configuration for Snowflake key-pair authentication."""
+
+    key_name: Annotated[str, pydantic.Field(alias="keyName")]
+    r"""RSA private key (PEM format) for Snowflake key-pair authentication."""
+
+
 class DatabaseConnectionConfigTypedDict(TypedDict):
     auth_type: DatabaseConnectionAuthType
     database_type: DatabaseConnectionType
@@ -19,6 +33,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Brief description of the Database Connection."""
     id: str
     r"""Unique identifier for the Database Connection."""
+    account_identifier: NotRequired[str]
+    r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)."""
     config_obj: NotRequired[str]
     r"""JSON configuration object for advanced SQL Server connection settings."""
     connection_string: NotRequired[str]
@@ -37,8 +53,12 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Log On Mechanism for databases that support multiple, like Teradata."""
     password: NotRequired[str]
     r"""Database password for authentication. Used with Oracle connections."""
+    pem: NotRequired[PemTypedDict]
+    r"""RSA private key configuration for Snowflake key-pair authentication."""
     request_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+    role: NotRequired[str]
+    r"""Snowflake role to use for the session. When set, requests a role-scoped token."""
     sslmode: NotRequired[str]
     r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
     tags: NotRequired[str]
@@ -49,6 +69,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""TLS client connection settings."""
     user: NotRequired[str]
     r"""Database username for authentication. Used with Oracle connections."""
+    warehouse: NotRequired[str]
+    r"""Snowflake warehouse to use for queries."""
 
 
 class DatabaseConnectionConfig(BaseModel):
@@ -63,6 +85,11 @@ class DatabaseConnectionConfig(BaseModel):
 
     id: str
     r"""Unique identifier for the Database Connection."""
+
+    account_identifier: Annotated[
+        Optional[str], pydantic.Field(alias="accountIdentifier")
+    ] = None
+    r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)."""
 
     config_obj: Annotated[Optional[str], pydantic.Field(alias="configObj")] = None
     r"""JSON configuration object for advanced SQL Server connection settings."""
@@ -99,10 +126,16 @@ class DatabaseConnectionConfig(BaseModel):
     password: Optional[str] = None
     r"""Database password for authentication. Used with Oracle connections."""
 
+    pem: Optional[Pem] = None
+    r"""RSA private key configuration for Snowflake key-pair authentication."""
+
     request_timeout: Annotated[
         Optional[int], pydantic.Field(alias="requestTimeout")
     ] = None
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+
+    role: Optional[str] = None
+    r"""Snowflake role to use for the session. When set, requests a role-scoped token."""
 
     sslmode: Optional[str] = None
     r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
@@ -118,6 +151,9 @@ class DatabaseConnectionConfig(BaseModel):
 
     user: Optional[str] = None
     r"""Database username for authentication. Used with Oracle connections."""
+
+    warehouse: Optional[str] = None
+    r"""Snowflake warehouse to use for queries."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -141,6 +177,7 @@ class DatabaseConnectionConfig(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "accountIdentifier",
                 "configObj",
                 "connectionString",
                 "connectionTimeout",
@@ -150,12 +187,15 @@ class DatabaseConnectionConfig(BaseModel):
                 "host",
                 "logOnMechanism",
                 "password",
+                "pem",
                 "requestTimeout",
+                "role",
                 "sslmode",
                 "tags",
                 "textSecret",
                 "tls",
                 "user",
+                "warehouse",
             ]
         )
         serialized = handler(self)
@@ -172,6 +212,10 @@ class DatabaseConnectionConfig(BaseModel):
         return m
 
 
+try:
+    Pem.model_rebuild()
+except NameError:
+    pass
 try:
     DatabaseConnectionConfig.model_rebuild()
 except NameError:

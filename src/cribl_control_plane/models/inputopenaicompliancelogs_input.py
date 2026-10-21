@@ -39,11 +39,11 @@ class AccountType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputOpenaiComplianceLogsManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOpenaiComplianceLogsManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
@@ -72,6 +72,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     api_key: NotRequired[str]
     r"""API key"""
     earliest: NotRequired[str]
@@ -103,6 +104,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     workspace_id: NotRequired[str]
@@ -118,6 +120,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputOpenaiComplianceLogsManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -168,6 +171,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""API key"""
@@ -234,6 +238,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -270,6 +275,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
         Optional[InputOpenaiComplianceLogsManageState],
         pydantic.Field(alias="manageState"),
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

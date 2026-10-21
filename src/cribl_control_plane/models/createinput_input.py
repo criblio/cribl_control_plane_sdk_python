@@ -17,9 +17,7 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinput_inputelastic_type import (
-    CreateInputInputConfluentCloud,
-    CreateInputInputConfluentCloudTypedDict,
+from .createinput_inputgrafana_grafana_1 import (
     CreateInputInputCribl,
     CreateInputInputCriblHTTP,
     CreateInputInputCriblHTTPTypedDict,
@@ -38,7 +36,6 @@ from .createinput_inputelastic_type import (
     CreateInputInputDatagenTypedDict,
     CreateInputInputEdgePrometheus,
     CreateInputInputEdgePrometheusTypedDict,
-    CreateInputInputElasticType,
     CreateInputInputEventhub,
     CreateInputInputEventhubAmqp,
     CreateInputInputEventhubAmqpTypedDict,
@@ -49,8 +46,10 @@ from .createinput_inputelastic_type import (
     CreateInputInputFirehoseTypedDict,
     CreateInputInputGooglePubsub,
     CreateInputInputGooglePubsubTypedDict,
-    CreateInputInputGrafanaUnion,
-    CreateInputInputGrafanaUnionTypedDict,
+    CreateInputInputGrafanaGrafana1,
+    CreateInputInputGrafanaGrafana1TypedDict,
+    CreateInputInputGrafanaGrafana2,
+    CreateInputInputGrafanaGrafana2TypedDict,
     CreateInputInputHTTPRaw,
     CreateInputInputHTTPRawTypedDict,
     CreateInputInputKinesis,
@@ -92,7 +91,7 @@ from .createinput_inputelastic_type import (
     CreateInputInputWindowsMetrics,
     CreateInputInputWindowsMetricsTypedDict,
 )
-from .createinput_v3user import (
+from .createinput_v3_privacy_key_type import (
     CreateInputInputAkamaiHec,
     CreateInputInputAkamaiHecTypedDict,
     CreateInputInputAnthropicCompliance,
@@ -204,6 +203,7 @@ from .tlssettingsserversidetype import (
 )
 from .typeoptions import TypeOptions
 from .typeoptionsazureblob import TypeOptionsAzureblob
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
 from .typeoptionsmsk import TypeOptionsMsk
 from .typeoptionssplunk import TypeOptionsSplunk
 from cribl_control_plane import models, utils
@@ -214,6 +214,354 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+CreateInputInputGrafanaUnionTypedDict = TypeAliasType(
+    "CreateInputInputGrafanaUnionTypedDict",
+    Union[
+        CreateInputInputGrafanaGrafana1TypedDict,
+        CreateInputInputGrafanaGrafana2TypedDict,
+    ],
+)
+
+
+CreateInputInputGrafanaUnion = TypeAliasType(
+    "CreateInputInputGrafanaUnion",
+    Union[CreateInputInputGrafanaGrafana1, CreateInputInputGrafanaGrafana2],
+)
+
+
+class CreateInputInputConfluentCloudTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
+    brokers: List[str]
+    r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Metadata tags used for categorization and filtering."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
+    group_id: NotRequired[str]
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+    from_beginning: NotRequired[bool]
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
+    connection_timeout: NotRequired[float]
+    r"""Maximum time to wait for a connection to complete successfully"""
+    request_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to a request"""
+    max_retries: NotRequired[float]
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+    max_back_off: NotRequired[float]
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+    initial_backoff: NotRequired[float]
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+    backoff_rate: NotRequired[float]
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+    authentication_timeout: NotRequired[float]
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+    reauthentication_threshold: NotRequired[float]
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    sasl: NotRequired[AuthenticationTypeTypedDict]
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    session_timeout: NotRequired[float]
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+    rebalance_timeout: NotRequired[float]
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+    heartbeat_interval: NotRequired[float]
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+    auto_commit_interval: NotRequired[float]
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    auto_commit_threshold: NotRequired[float]
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+    max_bytes_per_partition: NotRequired[float]
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+    max_bytes: NotRequired[float]
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+    max_socket_errors: NotRequired[float]
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events from this input"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_brokers: NotRequired[str]
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
+    template_topics: NotRequired[str]
+    r"""Binds 'topics' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topics' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
+
+class CreateInputInputConfluentCloud(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
+
+    brokers: List[str]
+    r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
+
+    topics: List[str]
+    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+
+    disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Metadata tags used for categorization and filtering."""
+
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
+
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
+
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
+    r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        None
+    )
+    r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
+
+    kafka_schema_registry: Annotated[
+        Optional[KafkaSchemaRegistryAuthenticationType],
+        pydantic.Field(alias="kafkaSchemaRegistry"),
+    ] = None
+    r"""Kafka Schema Registry Authentication"""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = None
+    r"""Maximum time to wait for a connection to complete successfully"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""Maximum time to wait for Kafka to respond to a request"""
+
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
+    r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
+
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
+    r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
+
+    initial_backoff: Annotated[
+        Optional[float], pydantic.Field(alias="initialBackoff")
+    ] = None
+    r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
+
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
+    r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
+
+    authentication_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="authenticationTimeout")
+    ] = None
+    r"""Maximum time to wait for Kafka to respond to an authentication request"""
+
+    reauthentication_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="reauthenticationThreshold")
+    ] = None
+    r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+
+    sasl: Optional[AuthenticationType] = None
+    r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+
+    session_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="sessionTimeout")
+    ] = None
+    r"""
+    Timeout used to detect client failures when using Kafka's group-management facilities.
+    If the client sends no heartbeats to the broker before the timeout expires,
+    the broker will remove the client from the group and initiate a rebalance.
+    Value must be between the broker's configured group.min.session.timeout.ms and group.max.session.timeout.ms.
+    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
+    """
+
+    rebalance_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="rebalanceTimeout")
+    ] = None
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    """
+
+    heartbeat_interval: Annotated[
+        Optional[float], pydantic.Field(alias="heartbeatInterval")
+    ] = None
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    """
+
+    auto_commit_interval: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitInterval")
+    ] = None
+    r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    auto_commit_threshold: Annotated[
+        Optional[float], pydantic.Field(alias="autoCommitThreshold")
+    ] = None
+    r"""How many events are needed to trigger an offset commit. If both this and Offset commit interval are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
+
+    max_bytes_per_partition: Annotated[
+        Optional[float], pydantic.Field(alias="maxBytesPerPartition")
+    ] = None
+    r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
+
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = None
+    r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
+
+    max_socket_errors: Annotated[
+        Optional[float], pydantic.Field(alias="maxSocketErrors")
+    ] = None
+    r"""Maximum number of network errors before the consumer re-creates a socket"""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events from this input"""
+
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_brokers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokers")
+    ] = None
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
+
+    template_topics: Annotated[
+        Optional[str], pydantic.Field(alias="__template_topics")
+    ] = None
+    r"""Binds 'topics' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topics' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "groupId",
+                "fromBeginning",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "metadata",
+                "autoParse",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+                "__template_brokers",
+                "__template_topics",
+                "__template_groupId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputElasticType(str, Enum):
+    r"""Source type identifier."""
+
+    ELASTIC = "elastic"
 
 
 class CreateInputInputElasticAuthenticationType(
@@ -253,6 +601,8 @@ class CreateInputInputElasticAuthenticationMethod(
 
 
 class CreateInputInputElasticProxyModeTypedDict(TypedDict):
+    r"""Proxy mode settings for Elasticsearch requests."""
+
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
     auth_type: NotRequired[CreateInputInputElasticAuthenticationMethod]
@@ -276,6 +626,8 @@ class CreateInputInputElasticProxyModeTypedDict(TypedDict):
 
 
 class CreateInputInputElasticProxyMode(BaseModel):
+    r"""Proxy mode settings for Elasticsearch requests."""
+
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
@@ -381,6 +733,7 @@ class CreateInputInputElasticTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -414,6 +767,7 @@ class CreateInputInputElasticTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[CreateInputInputElasticProxyModeTypedDict]
+    r"""Proxy mode settings for Elasticsearch requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -480,6 +834,7 @@ class CreateInputInputElastic(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -562,6 +917,7 @@ class CreateInputInputElastic(BaseModel):
     proxy_mode: Annotated[
         Optional[CreateInputInputElasticProxyMode], pydantic.Field(alias="proxyMode")
     ] = None
+    r"""Proxy mode settings for Elasticsearch requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -720,6 +1076,7 @@ class CreateInputInputAzureVnetFlowLogTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     visibility_timeout: NotRequired[float]
@@ -757,6 +1114,7 @@ class CreateInputInputAzureVnetFlowLogTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeTypedDict]
+    r"""Certificate credentials for the Azure service principal."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -807,6 +1165,7 @@ class CreateInputInputAzureVnetFlowLog(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -884,6 +1243,7 @@ class CreateInputInputAzureVnetFlowLog(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[CertificateType] = None
+    r"""Certificate credentials for the Azure service principal."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1009,6 +1369,7 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     visibility_timeout: NotRequired[float]
@@ -1056,6 +1417,7 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeTypedDict]
+    r"""Certificate credentials for the Azure service principal."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1108,6 +1470,7 @@ class CreateInputInputAzureBlob(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -1203,6 +1566,7 @@ class CreateInputInputAzureBlob(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[CertificateType] = None
+    r"""Certificate credentials for the Azure service principal."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1424,6 +1788,7 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[CreateInputInputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -1526,6 +1891,7 @@ class CreateInputInputSplunkHec(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[
         Optional[List[CreateInputInputSplunkHecAuthToken]],
@@ -1822,6 +2188,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
@@ -1853,6 +2220,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -1940,6 +2308,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
@@ -2008,6 +2377,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -2263,6 +2633,7 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
@@ -2350,6 +2721,7 @@ class CreateInputInputSplunk(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -2695,6 +3067,7 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -2790,6 +3163,7 @@ class CreateInputInputHTTP(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
         None
@@ -3006,6 +3380,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -3152,6 +3527,7 @@ class CreateInputInputMsk(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -3465,6 +3841,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -3572,6 +3949,7 @@ class CreateInputInputKafka(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -3794,6 +4172,7 @@ class CreateInputInputCollectionTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -3845,6 +4224,7 @@ class CreateInputInputCollection(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -3936,43 +4316,43 @@ CreateInputInputTypedDict = TypeAliasType(
         CreateInputInputProofpointPodTypedDict,
         CreateInputInputRawUDPTypedDict,
         CreateInputInputSnmpTypedDict,
-        CreateInputInputWinEventLogsTypedDict,
         CreateInputInputAnthropicEnterpriseAnalyticsTypedDict,
         CreateInputInputMetricsTypedDict,
+        CreateInputInputWinEventLogsTypedDict,
         CreateInputInputNetflowTypedDict,
         CreateInputInputCriblTCPTypedDict,
         CreateInputInputOpenaiTypedDict,
         CreateInputInputTcpjsonTypedDict,
-        CreateInputInputOktaTypedDict,
         CreateInputInputEventhubAmqpTypedDict,
+        CreateInputInputOktaTypedDict,
         CreateInputInputCriblHTTPTypedDict,
         CreateInputInputGooglePubsubTypedDict,
         CreateInputInputFirehoseTypedDict,
         CreateInputInputSailpointHecTypedDict,
-        CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputWizTypedDict,
-        CreateInputInputAkamaiHecTypedDict,
+        CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputAnthropicComplianceTypedDict,
+        CreateInputInputAkamaiHecTypedDict,
         CreateInputInputDatadogAgentTypedDict,
-        CreateInputInputOffice365MgmtTypedDict,
         CreateInputInputAppscopeTypedDict,
+        CreateInputInputOffice365MgmtTypedDict,
         CreateInputInputSplunkTypedDict,
-        CreateInputInputBeyondtrustHecTypedDict,
         CreateInputInputWefTypedDict,
+        CreateInputInputBeyondtrustHecTypedDict,
         CreateInputInputAzureVnetFlowLogTypedDict,
         CreateInputInputWizWebhookTypedDict,
         CreateInputInputLokiTypedDict,
-        CreateInputInputSysdigHecTypedDict,
+        CreateInputInputPingIdentityPingoneTypedDict,
         CreateInputInputVectraAiHecTypedDict,
         CreateInputInputGigamonHecTypedDict,
-        CreateInputInputUpwindHecTypedDict,
-        CreateInputInputPingIdentityPingoneTypedDict,
-        CreateInputInputExtrahopRevealx360TypedDict,
-        CreateInputInputFileTypedDict,
-        CreateInputInputTrellixHecTypedDict,
         CreateInputInputPrometheusRwTypedDict,
+        CreateInputInputUpwindHecTypedDict,
         CreateInputInputAquaSecurityHecTypedDict,
+        CreateInputInputFileTypedDict,
+        CreateInputInputExtrahopRevealx360TypedDict,
+        CreateInputInputTrellixHecTypedDict,
+        CreateInputInputSysdigHecTypedDict,
         CreateInputInputHashicorpHcpVaultDedicatedTypedDict,
         CreateInputInputMimecastHecTypedDict,
         CreateInputInputTrendMicroVisionOneTypedDict,
@@ -3982,31 +4362,31 @@ CreateInputInputTypedDict = TypeAliasType(
         CreateInputInputF5BigIPTypedDict,
         CreateInputInputCloudflareHecTypedDict,
         CreateInputInputKafkaTypedDict,
-        CreateInputInputOpenaiComplianceLogsTypedDict,
         CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputMicrosoftCopilotTypedDict,
         CreateInputInputEventhubTypedDict,
+        CreateInputInputMicrosoftCopilotTypedDict,
+        CreateInputInputOpenaiComplianceLogsTypedDict,
         CreateInputInputElasticTypedDict,
         CreateInputInputSplunkHecTypedDict,
         CreateInputInputAzureBlobTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputHTTPRawTypedDict,
         CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputServicenowTableTypedDict,
         CreateInputInputMskTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
-        CreateInputInputPrometheusTypedDict,
-        CreateInputInputBedrockS3TypedDict,
         CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputBedrockS3TypedDict,
         CreateInputInputS3TypedDict,
         CreateInputInputS3InventoryTypedDict,
-        CreateInputInputGrafanaUnionTypedDict,
+        CreateInputInputPrometheusTypedDict,
         CreateInputInputSyslogUnionTypedDict,
+        CreateInputInputGrafanaUnionTypedDict,
     ],
 )
 r"""Input object."""
@@ -4114,6 +4494,10 @@ CreateInputInput = Annotated[
 r"""Input object."""
 
 
+try:
+    CreateInputInputConfluentCloud.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputInputElasticProxyMode.model_rebuild()
 except NameError:

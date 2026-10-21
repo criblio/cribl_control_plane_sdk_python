@@ -72,6 +72,8 @@ class Allow(BaseModel):
 
 
 class InputAppscopeFilterTypedDict(TypedDict):
+    r"""Rules that select processes for AppScope instrumentation."""
+
     allow: NotRequired[List[AllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
@@ -79,6 +81,8 @@ class InputAppscopeFilterTypedDict(TypedDict):
 
 
 class InputAppscopeFilter(BaseModel):
+    r"""Rules that select processes for AppScope instrumentation."""
+
     allow: Optional[List[Allow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
@@ -205,6 +209,7 @@ class InputAppscopeInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -226,6 +231,7 @@ class InputAppscopeInputTypedDict(TypedDict):
     enable_unix_path: NotRequired[bool]
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
     filter_: NotRequired[InputAppscopeFilterTypedDict]
+    r"""Rules that select processes for AppScope instrumentation."""
     persistence: NotRequired[InputAppscopePersistenceTypedDict]
     r"""Persistence"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensExtItems]
@@ -287,6 +293,7 @@ class InputAppscopeInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -339,6 +346,7 @@ class InputAppscopeInput(BaseModel):
     filter_: Annotated[
         Optional[InputAppscopeFilter], pydantic.Field(alias="filter")
     ] = None
+    r"""Rules that select processes for AppScope instrumentation."""
 
     persistence: Optional[InputAppscopePersistence] = None
     r"""Persistence"""

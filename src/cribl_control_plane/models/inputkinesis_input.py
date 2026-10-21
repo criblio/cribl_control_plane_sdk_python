@@ -33,7 +33,7 @@ class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class RecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
 
     # Cribl
     CRIBL = "cribl"
@@ -78,6 +78,7 @@ class InputKinesisInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -85,7 +86,7 @@ class InputKinesisInputTypedDict(TypedDict):
     shard_iterator_type: NotRequired[ShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
     payload_format: NotRequired[RecordDataFormat]
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
     get_records_limit: NotRequired[float]
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
@@ -185,6 +186,7 @@ class InputKinesisInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
@@ -202,7 +204,7 @@ class InputKinesisInput(BaseModel):
     payload_format: Annotated[
         Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = None
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
+    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected. Cloudwatch Logs records become one event per log event, keeping the event id, message type, log group, log stream, owner, and subscription filters; other fields are dropped."""
 
     get_records_limit: Annotated[
         Optional[float], pydantic.Field(alias="getRecordsLimit")

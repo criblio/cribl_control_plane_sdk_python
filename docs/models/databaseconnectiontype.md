@@ -18,5 +18,6 @@ value = DatabaseConnectionType.MYSQL
 | `MYSQL`     | mysql       |
 | `ORACLE`    | oracle      |
 | `POSTGRES`  | postgres    |
+| `SNOWFLAKE` | snowflake   |
 | `SQLSERVER` | sqlserver   |
 | `TERADATA`  | teradata    |

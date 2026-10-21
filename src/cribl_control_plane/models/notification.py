@@ -11,27 +11,13 @@ from .notificationtargetdetails import (
     NotificationTargetDetails,
     NotificationTargetDetailsTypedDict,
 )
+from .templatetargetpair import TemplateTargetPair, TemplateTargetPairTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class NotificationTemplateTargetPairTypedDict(TypedDict):
-    target_id: str
-    r"""The <code>id</code> of the Notification target to send the Notification to."""
-    template_id: str
-    r"""The <code>id</code> of the Notification template to use."""
-
-
-class NotificationTemplateTargetPair(BaseModel):
-    target_id: Annotated[str, pydantic.Field(alias="targetId")]
-    r"""The <code>id</code> of the Notification target to send the Notification to."""
-
-    template_id: Annotated[str, pydantic.Field(alias="templateId")]
-    r"""The <code>id</code> of the Notification template to use."""
 
 
 class NotificationTypedDict(TypedDict):
@@ -60,7 +46,7 @@ class NotificationTypedDict(TypedDict):
     r"""Override settings to apply for each referenced Notification target."""
     target_details: NotRequired[List[NotificationTargetDetailsTypedDict]]
     r"""Additional details about referenced Notification targets. Optionally populated on request."""
-    template_target_pairs: NotRequired[List[NotificationTemplateTargetPairTypedDict]]
+    template_target_pairs: NotRequired[List[TemplateTargetPairTypedDict]]
     r"""If <code>mode</code> is <code>direct</code>, the key-value pairs that define the Notification templates and targets to use for sending Notifications."""
 
 
@@ -110,8 +96,7 @@ class Notification(BaseModel):
     r"""Additional details about referenced Notification targets. Optionally populated on request."""
 
     template_target_pairs: Annotated[
-        Optional[List[NotificationTemplateTargetPair]],
-        pydantic.Field(alias="templateTargetPairs"),
+        Optional[List[TemplateTargetPair]], pydantic.Field(alias="templateTargetPairs")
     ] = None
     r"""If <code>mode</code> is <code>direct</code>, the key-value pairs that define the Notification templates and targets to use for sending Notifications."""
 
@@ -154,10 +139,6 @@ class Notification(BaseModel):
         return m
 
 
-try:
-    NotificationTemplateTargetPair.model_rebuild()
-except NameError:
-    pass
 try:
     Notification.model_rebuild()
 except NameError:

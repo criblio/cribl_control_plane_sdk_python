@@ -359,6 +359,8 @@ class LoggedInUsers(BaseModel):
 
 
 class CollectorsTypedDict(TypedDict):
+    r"""System state collectors to enable and configure."""
+
     hostsfile: NotRequired[HostsFileTypedDict]
     r"""Creates events based on entries collected from the hosts file"""
     interfaces: NotRequired[InterfacesTypedDict]
@@ -384,6 +386,8 @@ class CollectorsTypedDict(TypedDict):
 
 
 class Collectors(BaseModel):
+    r"""System state collectors to enable and configure."""
+
     hostsfile: Optional[HostsFile] = None
     r"""Creates events based on entries collected from the hosts file"""
 
@@ -451,6 +455,8 @@ class Collectors(BaseModel):
 
 
 class InputSystemStatePersistenceTypedDict(TypedDict):
+    r"""Disk spooling settings for collected system state data."""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -466,6 +472,8 @@ class InputSystemStatePersistenceTypedDict(TypedDict):
 
 
 class InputSystemStatePersistence(BaseModel):
+    r"""Disk spooling settings for collected system state data."""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -539,12 +547,15 @@ class InputSystemStateInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[CollectorsTypedDict]
+    r"""System state collectors to enable and configure."""
     persistence: NotRequired[InputSystemStatePersistenceTypedDict]
+    r"""Disk spooling settings for collected system state data."""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
@@ -588,6 +599,7 @@ class InputSystemStateInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
@@ -596,8 +608,10 @@ class InputSystemStateInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     collectors: Optional[Collectors] = None
+    r"""System state collectors to enable and configure."""
 
     persistence: Optional[InputSystemStatePersistence] = None
+    r"""Disk spooling settings for collected system state data."""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")

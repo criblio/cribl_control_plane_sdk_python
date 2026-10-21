@@ -183,6 +183,12 @@ value: models.PipelineFunctionLimit = /* values here */
 value: models.PipelineFunctionLocalSearchDatatypeParser = /* values here */
 ```
 
+### `models.PipelineFunctionLocalSearchDatatypeSchemaMapper`
+
+```python
+value: models.PipelineFunctionLocalSearchDatatypeSchemaMapper = /* values here */
+```
+
 ### `models.PipelineFunctionLocalSearchRulesetRunner`
 
 ```python

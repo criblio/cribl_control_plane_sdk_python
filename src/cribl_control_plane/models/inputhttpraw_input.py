@@ -186,6 +186,7 @@ class InputHTTPRawInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -231,7 +232,7 @@ class InputHTTPRawInputTypedDict(TypedDict):
     access_control_allow_headers: NotRequired[List[str]]
     r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers."""
     access_control_allow_methods: NotRequired[List[str]]
-    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
     access_control_expose_headers: NotRequired[List[str]]
     r"""Headers the browser is allowed to access from the response"""
     access_control_allow_credentials: NotRequired[bool]
@@ -295,6 +296,7 @@ class InputHTTPRawInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
         None
@@ -404,7 +406,7 @@ class InputHTTPRawInput(BaseModel):
     access_control_allow_methods: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowMethods")
     ] = None
-    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
 
     access_control_expose_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlExposeHeaders")

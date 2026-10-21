@@ -215,6 +215,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -253,6 +254,10 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Maximum size, in KB, of a single received gRPC message (OTLP export request). Requests exceeding this limit are rejected before processing. Compressed requests are checked against their decompressed size."""
     max_concurrent_streams: NotRequired[float]
     r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
+    max_connection_age_sec: NotRequired[float]
+    r"""Maximum time a gRPC connection may stay open, including while idle, before @{product} closes it and frees the slot for new clients. Use 0 for unlimited; maximum 86400 sec. (24 hours)."""
+    max_connection_age_grace_sec: NotRequired[float]
+    r"""After the maximum connection age is reached, how long @{product} waits for in-flight requests to complete before forcibly closing the connection. Only applies when Maximum connection age is not 0. Maximum 3600 sec. (1 hour)."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -267,6 +272,18 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers. Leave empty to allow all requested headers from an allowed origin. Origin matching and authentication still apply."""
+    access_control_allow_methods: NotRequired[List[str]]
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
+    access_control_expose_headers: NotRequired[List[str]]
+    r"""Headers the browser is allowed to access from the response"""
+    access_control_allow_credentials: NotRequired[bool]
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+    access_control_max_age: NotRequired[int]
+    r"""How long browsers should cache the preflight response, in whole seconds. Fractional values are invalid; browsers that cannot parse the header fall back to 5 seconds."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -279,6 +296,10 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
     template_otlp_version: NotRequired[str]
     r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
 class InputOpenTelemetryInput(BaseModel):
@@ -318,6 +339,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""
@@ -408,6 +430,16 @@ class InputOpenTelemetryInput(BaseModel):
     ] = None
     r"""Maximum number of concurrent HTTP/2 streams allowed on a single gRPC connection. Combined with Maximum message size, this bounds per-connection receive and decompress state. Active connection limit only bounds connections."""
 
+    max_connection_age_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionAgeSec")
+    ] = None
+    r"""Maximum time a gRPC connection may stay open, including while idle, before @{product} closes it and frees the slot for new clients. Use 0 for unlimited; maximum 86400 sec. (24 hours)."""
+
+    max_connection_age_grace_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionAgeGraceSec")
+    ] = None
+    r"""After the maximum connection age is reached, how long @{product} waits for in-flight requests to complete before forcibly closing the connection. Only applies when Maximum connection age is not 0. Maximum 3600 sec. (1 hour)."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -430,6 +462,36 @@ class InputOpenTelemetryInput(BaseModel):
 
     extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers. Leave empty to allow all requested headers from an allowed origin. Origin matching and authentication still apply."""
+
+    access_control_allow_methods: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowMethods")
+    ] = None
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight"""
+
+    access_control_expose_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlExposeHeaders")
+    ] = None
+    r"""Headers the browser is allowed to access from the response"""
+
+    access_control_allow_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="accessControlAllowCredentials")
+    ] = None
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+
+    access_control_max_age: Annotated[
+        Optional[int], pydantic.Field(alias="accessControlMaxAge")
+    ] = None
+    r"""How long browsers should cache the preflight response, in whole seconds. Fractional values are invalid; browsers that cannot parse the header fall back to 5 seconds."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -460,6 +522,16 @@ class InputOpenTelemetryInput(BaseModel):
         Optional[str], pydantic.Field(alias="__template_otlpVersion")
     ] = None
     r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -520,6 +592,8 @@ class InputOpenTelemetryInput(BaseModel):
                 "maxActiveCxn",
                 "maxMessageSizeKB",
                 "maxConcurrentStreams",
+                "maxConnectionAgeSec",
+                "maxConnectionAgeGraceSec",
                 "description",
                 "username",
                 "password",
@@ -527,12 +601,20 @@ class InputOpenTelemetryInput(BaseModel):
                 "credentialsSecret",
                 "textSecret",
                 "extractLogs",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "accessControlAllowMethods",
+                "accessControlExposeHeaders",
+                "accessControlAllowCredentials",
+                "accessControlMaxAge",
                 "__template_environment",
                 "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_protocol",
                 "__template_otlpVersion",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
             ]
         )
         serialized = handler(self)

@@ -54,6 +54,7 @@ class InputFileInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     mode: NotRequired[InputFileMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
@@ -145,6 +146,7 @@ class InputFileInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     mode: Optional[InputFileMode] = None
     r"""Choose how to discover files to monitor"""

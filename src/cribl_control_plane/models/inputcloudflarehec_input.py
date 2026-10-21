@@ -9,12 +9,16 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
+from .maximumtlsversionoptionstlstlsv1tlsv11 import (
+    MaximumTLSVersionOptionsTLSTlSv1TlSv11,
+)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
 )
-from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
+from .minimumtlsversionoptionstlstlsv1tlsv11 import (
+    MinimumTLSVersionOptionsTLSTlSv1TlSv11,
+)
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -52,10 +56,10 @@ class TLSSettingsServerSideTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     cert_path: NotRequired[str]
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
-    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
-    r"""Minimum TLS version"""
-    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
-    r"""Maximum TLS version"""
+    min_version: NotRequired[MinimumTLSVersionOptionsTLSTlSv1TlSv11]
+    r"""Minimum TLS version to accept from clients."""
+    max_version: NotRequired[MaximumTLSVersionOptionsTLSTlSv1TlSv11]
+    r"""Maximum TLS version to accept from clients."""
 
 
 class TLSSettingsServerSide(BaseModel):
@@ -95,20 +99,22 @@ class TLSSettingsServerSide(BaseModel):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
+        Optional[MinimumTLSVersionOptionsTLSTlSv1TlSv11],
+        pydantic.Field(alias="minVersion"),
     ] = None
-    r"""Minimum TLS version"""
+    r"""Minimum TLS version to accept from clients."""
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
+        Optional[MaximumTLSVersionOptionsTLSTlSv1TlSv11],
+        pydantic.Field(alias="maxVersion"),
     ] = None
-    r"""Maximum TLS version"""
+    r"""Maximum TLS version to accept from clients."""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsTLS(value)
+                return models.MinimumTLSVersionOptionsTLSTlSv1TlSv11(value)
             except ValueError:
                 return value
         return value
@@ -117,7 +123,7 @@ class TLSSettingsServerSide(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsTLS(value)
+                return models.MaximumTLSVersionOptionsTLSTlSv1TlSv11(value)
             except ValueError:
                 return value
         return value
@@ -179,6 +185,7 @@ class InputCloudflareHecInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypedDict]
@@ -277,6 +284,7 @@ class InputCloudflareHecInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[
         Optional[List[AuthTokenConfInputCloudflareHec]],

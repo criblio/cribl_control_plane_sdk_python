@@ -1,5 +1,7 @@
 # CertOptions
 
+Certificate credentials for Microsoft Graph OAuth authentication.
+
 
 ## Fields
 

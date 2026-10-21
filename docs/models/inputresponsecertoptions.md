@@ -1,5 +1,7 @@
 # InputResponseCertOptions
 
+Certificate credentials for Microsoft Graph OAuth authentication.
+
 
 ## Fields
 

@@ -1,5 +1,7 @@
 # PqType
 
+Persistent queue settings for this Source.
+
 
 ## Fields
 

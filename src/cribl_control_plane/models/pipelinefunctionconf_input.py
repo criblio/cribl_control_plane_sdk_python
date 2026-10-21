@@ -94,6 +94,10 @@ from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
 )
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -271,6 +275,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -354,6 +359,10 @@ PipelineFunctionConfInput = Annotated[
         Annotated[
             PipelineFunctionLocalSearchDatatypeParser,
             Tag("local_search_datatype_parser"),
+        ],
+        Annotated[
+            PipelineFunctionLocalSearchDatatypeSchemaMapper,
+            Tag("local_search_datatype_schema_mapper"),
         ],
         Annotated[
             PipelineFunctionLocalSearchRulesetRunner, Tag("local_search_ruleset_runner")

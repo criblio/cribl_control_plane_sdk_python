@@ -1,5 +1,7 @@
 # CreateInputRetryRules
 
+HTTP retry behavior for failed collection requests.
+
 
 ## Fields
 

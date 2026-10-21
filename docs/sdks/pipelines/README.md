@@ -1645,14 +1645,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -3712,14 +3712,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -3997,10 +3997,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 
@@ -4025,10 +4025,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 
@@ -5594,14 +5594,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -5879,10 +5879,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 

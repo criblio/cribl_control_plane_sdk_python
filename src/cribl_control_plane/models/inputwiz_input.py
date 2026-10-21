@@ -33,11 +33,11 @@ class InputWizType(str, Enum):
 
 
 class InputWizManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputWizManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputWizContentConfigTypedDict(TypedDict):
@@ -62,6 +62,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputWizManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[LogLevelOptionsContentConfigItemsDebugError]
@@ -112,6 +113,7 @@ class InputWizContentConfig(BaseModel):
     manage_state: Annotated[
         Optional[InputWizManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
@@ -191,6 +193,7 @@ class InputWizInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_audience_override: NotRequired[str]
     r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
     request_timeout: NotRequired[float]
@@ -210,6 +213,7 @@ class InputWizInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
@@ -275,6 +279,7 @@ class InputWizInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_audience_override: Annotated[
         Optional[str], pydantic.Field(alias="authAudienceOverride")
@@ -320,6 +325,7 @@ class InputWizInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsManualSecret],

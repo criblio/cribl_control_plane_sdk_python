@@ -48,6 +48,7 @@ class InputRawUDPInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
@@ -111,6 +112,7 @@ class InputRawUDPInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")

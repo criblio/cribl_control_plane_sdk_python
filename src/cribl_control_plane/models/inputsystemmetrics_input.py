@@ -45,6 +45,8 @@ class InputSystemMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsSystemTypedDict(TypedDict):
+    r"""Select the level of detail for system metrics"""
+
     mode: NotRequired[InputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
@@ -52,6 +54,8 @@ class InputSystemMetricsSystemTypedDict(TypedDict):
 
 
 class InputSystemMetricsSystem(BaseModel):
+    r"""Select the level of detail for system metrics"""
+
     mode: Optional[InputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
@@ -98,6 +102,8 @@ class InputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsCPUTypedDict(TypedDict):
+    r"""Select the level of detail for CPU metrics"""
+
     mode: NotRequired[InputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
@@ -109,6 +115,8 @@ class InputSystemMetricsCPUTypedDict(TypedDict):
 
 
 class InputSystemMetricsCPU(BaseModel):
+    r"""Select the level of detail for CPU metrics"""
+
     mode: Optional[InputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
@@ -161,6 +169,8 @@ class InputSystemMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsMemoryTypedDict(TypedDict):
+    r"""Select the level of detail for memory metrics"""
+
     mode: NotRequired[InputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
@@ -168,6 +178,8 @@ class InputSystemMetricsMemoryTypedDict(TypedDict):
 
 
 class InputSystemMetricsMemory(BaseModel):
+    r"""Select the level of detail for memory metrics"""
+
     mode: Optional[InputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
@@ -214,6 +226,8 @@ class InputSystemMetricsNetworkMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsNetworkTypedDict(TypedDict):
+    r"""Select the level of detail for network metrics"""
+
     mode: NotRequired[InputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
@@ -227,6 +241,8 @@ class InputSystemMetricsNetworkTypedDict(TypedDict):
 
 
 class InputSystemMetricsNetwork(BaseModel):
+    r"""Select the level of detail for network metrics"""
+
     mode: Optional[InputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
@@ -286,6 +302,8 @@ class InputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSystemMetricsDiskTypedDict(TypedDict):
+    r"""Select the level of detail for disk metrics"""
+
     mode: NotRequired[InputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
@@ -303,6 +321,8 @@ class InputSystemMetricsDiskTypedDict(TypedDict):
 
 
 class InputSystemMetricsDisk(BaseModel):
+    r"""Select the level of detail for disk metrics"""
+
     mode: Optional[InputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
@@ -361,23 +381,37 @@ class InputSystemMetricsDisk(BaseModel):
 
 
 class InputSystemMetricsCustomTypedDict(TypedDict):
+    r"""Custom host metric collection settings."""
+
     system: NotRequired[InputSystemMetricsSystemTypedDict]
+    r"""Select the level of detail for system metrics"""
     cpu: NotRequired[InputSystemMetricsCPUTypedDict]
+    r"""Select the level of detail for CPU metrics"""
     memory: NotRequired[InputSystemMetricsMemoryTypedDict]
+    r"""Select the level of detail for memory metrics"""
     network: NotRequired[InputSystemMetricsNetworkTypedDict]
+    r"""Select the level of detail for network metrics"""
     disk: NotRequired[InputSystemMetricsDiskTypedDict]
+    r"""Select the level of detail for disk metrics"""
 
 
 class InputSystemMetricsCustom(BaseModel):
+    r"""Custom host metric collection settings."""
+
     system: Optional[InputSystemMetricsSystem] = None
+    r"""Select the level of detail for system metrics"""
 
     cpu: Optional[InputSystemMetricsCPU] = None
+    r"""Select the level of detail for CPU metrics"""
 
     memory: Optional[InputSystemMetricsMemory] = None
+    r"""Select the level of detail for memory metrics"""
 
     network: Optional[InputSystemMetricsNetwork] = None
+    r"""Select the level of detail for network metrics"""
 
     disk: Optional[InputSystemMetricsDisk] = None
+    r"""Select the level of detail for disk metrics"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -397,16 +431,22 @@ class InputSystemMetricsCustom(BaseModel):
 
 
 class InputSystemMetricsHostTypedDict(TypedDict):
+    r"""Select level of detail for host metrics"""
+
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
     custom: NotRequired[InputSystemMetricsCustomTypedDict]
+    r"""Custom host metric collection settings."""
 
 
 class InputSystemMetricsHost(BaseModel):
+    r"""Select level of detail for host metrics"""
+
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputSystemMetricsCustom] = None
+    r"""Custom host metric collection settings."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -458,6 +498,8 @@ class InputSystemMetricsFilter(BaseModel):
 
 
 class ContainerTypedDict(TypedDict):
+    r"""Select the level of detail for container metrics"""
+
     mode: NotRequired[ContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
@@ -475,6 +517,8 @@ class ContainerTypedDict(TypedDict):
 
 
 class Container(BaseModel):
+    r"""Select the level of detail for container metrics"""
+
     mode: Optional[ContainerMode] = None
     r"""Select the level of detail for container metrics"""
 
@@ -631,12 +675,17 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputSystemMetricsHostTypedDict]
+    r"""Select level of detail for host metrics"""
     process: NotRequired[ProcessTypeTypedDict]
+    r"""Process metric collection settings."""
     container: NotRequired[ContainerTypedDict]
+    r"""Select the level of detail for container metrics"""
     gpu: NotRequired[GpuTypeTypedDict]
+    r"""Select the level of detail for GPU metrics"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
@@ -680,17 +729,22 @@ class InputSystemMetricsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputSystemMetricsHost] = None
+    r"""Select level of detail for host metrics"""
 
     process: Optional[ProcessType] = None
+    r"""Process metric collection settings."""
 
     container: Optional[Container] = None
+    r"""Select the level of detail for container metrics"""
 
     gpu: Optional[GpuType] = None
+    r"""Select the level of detail for GPU metrics"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

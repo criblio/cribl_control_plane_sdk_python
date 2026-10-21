@@ -1778,9 +1778,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.CreateOutputOutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
+        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.CreateOutputEndpointConfiguration.URL,
-        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -4282,9 +4282,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.OutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
+        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.EndpointConfiguration.URL,
-        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -6701,9 +6701,9 @@ with CriblControlPlane(
         "id": "sentinel-output",
         "type": models.OutputSentinelType.SENTINEL,
         "login_url": "https://login.microsoftonline.com",
+        "secret": "client-secret",
         "client_id": "client-id",
         "endpoint_url_configuration": models.EndpointConfiguration.URL,
-        "secret": "client-secret",
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 

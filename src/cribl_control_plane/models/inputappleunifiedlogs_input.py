@@ -40,7 +40,7 @@ class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     predicate: str
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -56,6 +56,7 @@ class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     read_mode: NotRequired[InputAppleUnifiedLogsReadMode]
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -76,7 +77,7 @@ class InputAppleUnifiedLogsInput(BaseModel):
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -102,6 +103,7 @@ class InputAppleUnifiedLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     read_mode: Annotated[
         Optional[InputAppleUnifiedLogsReadMode], pydantic.Field(alias="readMode")

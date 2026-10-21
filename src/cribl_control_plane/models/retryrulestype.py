@@ -13,6 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RetryRulesTypeTypedDict(TypedDict):
+    r"""HTTP retry behavior for failed collection requests."""
+
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
@@ -32,6 +34,8 @@ class RetryRulesTypeTypedDict(TypedDict):
 
 
 class RetryRulesType(BaseModel):
+    r"""HTTP retry behavior for failed collection requests."""
+
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 

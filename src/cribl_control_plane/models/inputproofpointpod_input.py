@@ -62,6 +62,7 @@ class InputProofpointPodInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     r"""TLS settings (client side)"""
     compress: NotRequired[bool]
@@ -126,6 +127,7 @@ class InputProofpointPodInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
     r"""TLS settings (client side)"""

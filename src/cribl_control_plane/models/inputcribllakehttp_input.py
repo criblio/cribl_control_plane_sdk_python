@@ -33,23 +33,31 @@ class InputCriblLakeHTTPType(str, Enum):
 
 
 class InputHTTPAuthTypeSecretConstraintSplunkHecMetadataTypedDict(TypedDict):
+    r"""Splunk HEC metadata associated with the authentication token."""
+
     enabled: NotRequired[bool]
     r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
+    r"""Default Lake Dataset for events received with the token."""
     allowed_indexes_at_token: NotRequired[List[str]]
+    r"""Splunk indexes that the token can write to."""
 
 
 class InputHTTPAuthTypeSecretConstraintSplunkHecMetadata(BaseModel):
+    r"""Splunk HEC metadata associated with the authentication token."""
+
     enabled: Optional[bool] = None
     r"""When enabled, the token value is available on events as __hecToken"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+    r"""Default Lake Dataset for events received with the token."""
 
     allowed_indexes_at_token: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
+    r"""Splunk indexes that the token can write to."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -69,18 +77,24 @@ class InputHTTPAuthTypeSecretConstraintSplunkHecMetadata(BaseModel):
 
 
 class InputHTTPAuthTypeSecretConstraintElasticsearchMetadataTypedDict(TypedDict):
+    r"""Elasticsearch metadata associated with the authentication token."""
+
     enabled: NotRequired[bool]
     r"""Elasticsearch"""
     default_dataset: NotRequired[str]
+    r"""Default Lake Dataset for Elasticsearch events received with the token."""
 
 
 class InputHTTPAuthTypeSecretConstraintElasticsearchMetadata(BaseModel):
+    r"""Elasticsearch metadata associated with the authentication token."""
+
     enabled: Optional[bool] = None
     r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+    r"""Default Lake Dataset for Elasticsearch events received with the token."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -107,14 +121,17 @@ class InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraintTypedDict(TypedDict):
     token: NotRequired[str]
     r"""Token"""
     description: NotRequired[str]
+    r"""Optional description of the authentication token."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
-    r"""Fields to add to events referencing this token"""
+    r"""Fields to add to events that reference the authentication token"""
     splunk_hec_metadata: NotRequired[
         InputHTTPAuthTypeSecretConstraintSplunkHecMetadataTypedDict
     ]
+    r"""Splunk HEC metadata associated with the authentication token."""
     elasticsearch_metadata: NotRequired[
         InputHTTPAuthTypeSecretConstraintElasticsearchMetadataTypedDict
     ]
+    r"""Elasticsearch metadata associated with the authentication token."""
 
 
 class InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint(BaseModel):
@@ -130,19 +147,22 @@ class InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint(BaseModel):
     r"""Token"""
 
     description: Optional[str] = None
+    r"""Optional description of the authentication token."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
-    r"""Fields to add to events referencing this token"""
+    r"""Fields to add to events that reference the authentication token"""
 
     splunk_hec_metadata: Annotated[
         Optional[InputHTTPAuthTypeSecretConstraintSplunkHecMetadata],
         pydantic.Field(alias="splunkHecMetadata"),
     ] = None
+    r"""Splunk HEC metadata associated with the authentication token."""
 
     elasticsearch_metadata: Annotated[
         Optional[InputHTTPAuthTypeSecretConstraintElasticsearchMetadata],
         pydantic.Field(alias="elasticsearchMetadata"),
     ] = None
+    r"""Elasticsearch metadata associated with the authentication token."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -180,23 +200,31 @@ class InputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint(BaseModel):
 
 
 class InputHTTPAuthTokensExtItemsTypeSplunkHecMetadataTypedDict(TypedDict):
+    r"""Splunk HEC metadata associated with the authentication token."""
+
     enabled: NotRequired[bool]
     r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
+    r"""Default Lake Dataset for events received with the token."""
     allowed_indexes_at_token: NotRequired[List[str]]
+    r"""Splunk indexes that the token can write to."""
 
 
 class InputHTTPAuthTokensExtItemsTypeSplunkHecMetadata(BaseModel):
+    r"""Splunk HEC metadata associated with the authentication token."""
+
     enabled: Optional[bool] = None
     r"""When enabled, the token value is available on events as __hecToken"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+    r"""Default Lake Dataset for events received with the token."""
 
     allowed_indexes_at_token: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
+    r"""Splunk indexes that the token can write to."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -216,18 +244,24 @@ class InputHTTPAuthTokensExtItemsTypeSplunkHecMetadata(BaseModel):
 
 
 class InputHTTPAuthTokensExtItemsTypeElasticsearchMetadataTypedDict(TypedDict):
+    r"""Elasticsearch metadata associated with the authentication token."""
+
     enabled: NotRequired[bool]
     r"""Elasticsearch"""
     default_dataset: NotRequired[str]
+    r"""Default Lake Dataset for Elasticsearch events received with the token."""
 
 
 class InputHTTPAuthTokensExtItemsTypeElasticsearchMetadata(BaseModel):
+    r"""Elasticsearch metadata associated with the authentication token."""
+
     enabled: Optional[bool] = None
     r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+    r"""Default Lake Dataset for Elasticsearch events received with the token."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -254,14 +288,17 @@ class InputCriblLakeHTTPInputHTTPAuthTokensExtItemsTypeTypedDict(TypedDict):
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     description: NotRequired[str]
+    r"""Optional description of the authentication token."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
-    r"""Fields to add to events referencing this token"""
+    r"""Fields to add to events that reference the authentication token"""
     splunk_hec_metadata: NotRequired[
         InputHTTPAuthTokensExtItemsTypeSplunkHecMetadataTypedDict
     ]
+    r"""Splunk HEC metadata associated with the authentication token."""
     elasticsearch_metadata: NotRequired[
         InputHTTPAuthTokensExtItemsTypeElasticsearchMetadataTypedDict
     ]
+    r"""Elasticsearch metadata associated with the authentication token."""
 
 
 class InputCriblLakeHTTPInputHTTPAuthTokensExtItemsType(BaseModel):
@@ -278,19 +315,22 @@ class InputCriblLakeHTTPInputHTTPAuthTokensExtItemsType(BaseModel):
     r"""Select or create a stored text secret"""
 
     description: Optional[str] = None
+    r"""Optional description of the authentication token."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
-    r"""Fields to add to events referencing this token"""
+    r"""Fields to add to events that reference the authentication token"""
 
     splunk_hec_metadata: Annotated[
         Optional[InputHTTPAuthTokensExtItemsTypeSplunkHecMetadata],
         pydantic.Field(alias="splunkHecMetadata"),
     ] = None
+    r"""Splunk HEC metadata associated with the authentication token."""
 
     elasticsearch_metadata: Annotated[
         Optional[InputHTTPAuthTokensExtItemsTypeElasticsearchMetadata],
         pydantic.Field(alias="elasticsearchMetadata"),
     ] = None
+    r"""Elasticsearch metadata associated with the authentication token."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -369,6 +409,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -464,6 +505,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
         None

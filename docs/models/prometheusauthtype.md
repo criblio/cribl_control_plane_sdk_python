@@ -1,5 +1,7 @@
 # PrometheusAuthType
 
+Authentication settings for Grafana Cloud requests.
+
 
 ## Fields
 

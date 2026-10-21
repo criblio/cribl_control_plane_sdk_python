@@ -51,8 +51,11 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     certificate_name: NotRequired[str]
     r"""Select or create a stored certificate"""
     cert_path: NotRequired[str]
+    r"""Path to the client certificate file."""
     priv_key_path: NotRequired[str]
+    r"""Path to the client private key file."""
     passphrase: NotRequired[str]
+    r"""Passphrase used to decrypt the client private key."""
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -105,10 +108,13 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Select or create a stored certificate"""
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path to the client certificate file."""
 
     priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path to the client private key file."""
 
     passphrase: Optional[str] = None
+    r"""Passphrase used to decrypt the client private key."""
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],

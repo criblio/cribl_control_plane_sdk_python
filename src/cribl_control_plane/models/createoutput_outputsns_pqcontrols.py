@@ -43,6 +43,10 @@ from .datacompressionformatoptionspersistence import (
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
+from .exceptionretrysettingconfoutputlocalsearchstorage import (
+    ExceptionRetrySettingConfOutputLocalSearchStorage,
+    ExceptionRetrySettingConfOutputLocalSearchStorageTypedDict,
+)
 from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElastic,
     ExtraHTTPHeaderConfInputElasticTypedDict,
@@ -531,6 +535,7 @@ class CreateOutputOutputIbmCloudS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     description: NotRequired[str]
@@ -742,6 +747,7 @@ class CreateOutputOutputIbmCloudS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -1127,6 +1133,7 @@ class CreateOutputOutputAlibabaCloudS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -1354,6 +1361,7 @@ class CreateOutputOutputAlibabaCloudS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -1787,6 +1795,7 @@ class CreateOutputOutputScalityS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     description: NotRequired[str]
@@ -2003,6 +2012,7 @@ class CreateOutputOutputScalityS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -2384,6 +2394,7 @@ class CreateOutputOutputCloudianS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -2616,6 +2627,7 @@ class CreateOutputOutputCloudianS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -3071,6 +3083,7 @@ class CreateOutputOutputDellS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -3291,6 +3304,7 @@ class CreateOutputOutputDellS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -3689,6 +3703,7 @@ class CreateOutputOutputAlphasocS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     endpoint: NotRequired[str]
@@ -3897,6 +3912,7 @@ class CreateOutputOutputAlphasocS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -4267,6 +4283,7 @@ class CreateOutputOutputStorjS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     description: NotRequired[str]
@@ -4478,6 +4495,7 @@ class CreateOutputOutputStorjS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -4852,6 +4870,7 @@ class CreateOutputOutputNutanixObjectsTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     description: NotRequired[str]
@@ -5068,6 +5087,7 @@ class CreateOutputOutputNutanixObjects(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -5447,6 +5467,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
@@ -5670,6 +5691,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -6044,8 +6066,11 @@ class CreateOutputAuthenticationTypedDict(TypedDict):
     certificate_name: NotRequired[str]
     r"""Select or create a stored certificate"""
     cert_path: NotRequired[str]
+    r"""Path to the client certificate file."""
     priv_key_path: NotRequired[str]
+    r"""Path to the client private key file."""
     passphrase: NotRequired[str]
+    r"""Passphrase used to decrypt the client private key."""
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -6098,10 +6123,13 @@ class CreateOutputAuthentication(BaseModel):
     r"""Select or create a stored certificate"""
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path to the client certificate file."""
 
     priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path to the client private key file."""
 
     passphrase: Optional[str] = None
+    r"""Passphrase used to decrypt the client private key."""
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
@@ -6684,6 +6712,7 @@ class CreateOutputOutputSnowflakeStreamingTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -6852,6 +6881,7 @@ class CreateOutputOutputSnowflakeStreaming(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -7152,6 +7182,7 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     workspace_host: NotRequired[str]
@@ -7343,6 +7374,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -7706,6 +7738,7 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     concurrency: NotRequired[float]
@@ -7852,6 +7885,7 @@ class CreateOutputOutputChronicle(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -8275,6 +8309,7 @@ class CreateOutputOutputSentinelOneAiSiemTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -8443,6 +8478,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -8863,6 +8899,7 @@ class CreateOutputOutputTraversalOtlpTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
@@ -9094,6 +9131,7 @@ class CreateOutputOutputTraversalOtlp(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -9448,6 +9486,7 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     pq_strict_ordering: NotRequired[bool]
@@ -9647,6 +9686,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -9989,6 +10029,7 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -10151,6 +10192,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -10670,6 +10712,7 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     throttle_rate_req_per_sec: NotRequired[int]
@@ -10825,6 +10868,7 @@ class CreateOutputOutputXsiam(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -11102,37 +11146,69 @@ class CreateOutputMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CreateOutputStatsDestinationTypedDict(TypedDict):
+    r"""Internal destination settings for batch metadata and statistics."""
+
     url: NotRequired[str]
+    r"""URL of the database that stores batch metadata and statistics."""
     database: NotRequired[str]
+    r"""Name of the database that stores batch metadata and statistics."""
     table_name: NotRequired[str]
+    r"""Name of the table that stores batch metadata and statistics."""
     auth_type: NotRequired[str]
+    r"""Authentication method for the statistics destination."""
     username: NotRequired[str]
+    r"""Username for the statistics destination."""
     sql_username: NotRequired[str]
+    r"""SQL username for the statistics destination."""
     password: NotRequired[str]
+    r"""Password for the statistics destination."""
     wait_for_async_inserts: NotRequired[bool]
+    r"""Whether to wait for asynchronous inserts to complete."""
     concurrency: NotRequired[float]
+    r"""Maximum number of concurrent requests to the statistics destination."""
+    exception_retry_settings: NotRequired[
+        List[ExceptionRetrySettingConfOutputLocalSearchStorageTypedDict]
+    ]
+    r"""Retry automatically when ClickHouse reports a matching exception code, such as 241 (memory limit exceeded) or 202 (too many simultaneous queries). These settings take precedence over Settings for failed HTTP requests."""
 
 
 class CreateOutputStatsDestination(BaseModel):
+    r"""Internal destination settings for batch metadata and statistics."""
+
     url: Optional[str] = None
+    r"""URL of the database that stores batch metadata and statistics."""
 
     database: Optional[str] = None
+    r"""Name of the database that stores batch metadata and statistics."""
 
     table_name: Annotated[Optional[str], pydantic.Field(alias="tableName")] = None
+    r"""Name of the table that stores batch metadata and statistics."""
 
     auth_type: Annotated[Optional[str], pydantic.Field(alias="authType")] = None
+    r"""Authentication method for the statistics destination."""
 
     username: Optional[str] = None
+    r"""Username for the statistics destination."""
 
     sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+    r"""SQL username for the statistics destination."""
 
     password: Optional[str] = None
+    r"""Password for the statistics destination."""
 
     wait_for_async_inserts: Annotated[
         Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
     ] = None
+    r"""Whether to wait for asynchronous inserts to complete."""
 
     concurrency: Optional[float] = None
+    r"""Maximum number of concurrent requests to the statistics destination."""
+
+    exception_retry_settings: Annotated[
+        Optional[List[ExceptionRetrySettingConfOutputLocalSearchStorage]],
+        pydantic.Field(alias="exceptionRetrySettings"),
+    ] = None
+    r"""Retry automatically when ClickHouse reports a matching exception code, such as 241 (memory limit exceeded) or 202 (too many simultaneous queries). These settings take precedence over Settings for failed HTTP requests."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -11147,6 +11223,7 @@ class CreateOutputStatsDestination(BaseModel):
                 "password",
                 "waitForAsyncInserts",
                 "concurrency",
+                "exceptionRetrySettings",
             ]
         )
         serialized = handler(self)
@@ -11270,6 +11347,7 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     workload: NotRequired[str]
@@ -11278,7 +11356,12 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
+    exception_retry_settings: NotRequired[
+        List[ExceptionRetrySettingConfOutputLocalSearchStorageTypedDict]
+    ]
+    r"""Retry automatically when ClickHouse reports a matching exception code, such as 241 (memory limit exceeded) or 202 (too many simultaneous queries). These settings take precedence over Settings for failed HTTP requests."""
     stats_destination: NotRequired[CreateOutputStatsDestinationTypedDict]
+    r"""Internal destination settings for batch metadata and statistics."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -11457,6 +11540,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -11476,9 +11560,16 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    exception_retry_settings: Annotated[
+        Optional[List[ExceptionRetrySettingConfOutputLocalSearchStorage]],
+        pydantic.Field(alias="exceptionRetrySettings"),
+    ] = None
+    r"""Retry automatically when ClickHouse reports a matching exception code, such as 241 (memory limit exceeded) or 202 (too many simultaneous queries). These settings take precedence over Settings for failed HTTP requests."""
+
     stats_destination: Annotated[
         Optional[CreateOutputStatsDestination], pydantic.Field(alias="statsDestination")
     ] = None
+    r"""Internal destination settings for batch metadata and statistics."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -11706,6 +11797,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
                 "workload",
                 "dumpFormatErrorsToDisk",
                 "onBackpressure",
+                "exceptionRetrySettings",
                 "statsDestination",
                 "description",
                 "username",
@@ -11825,6 +11917,7 @@ class CreateOutputOutputCustomerMetricsStorageTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     workload: NotRequired[str]
@@ -12010,6 +12103,7 @@ class CreateOutputOutputCustomerMetricsStorage(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -12373,6 +12467,7 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     workload: NotRequired[str]
@@ -12556,6 +12651,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -12972,6 +13068,8 @@ class CreateOutputOutputCriblLakeType(str, Enum):
 
 
 class CreateOutputOutputCriblLakeFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data format to use for files written to the Lake Dataset."""
+
     JSON = "json"
     PARQUET = "parquet"
     RAW = "raw"
@@ -13021,6 +13119,7 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     storage_location_id: NotRequired[str]
@@ -13028,10 +13127,15 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     dest_path: NotRequired[str]
     r"""Lake dataset to send the data to."""
     format_: NotRequired[CreateOutputOutputCriblLakeFormat]
+    r"""Data format to use for files written to the Lake Dataset."""
     dynamic_dataset: NotRequired[bool]
+    r"""Whether the Destination selects the Lake Dataset dynamically."""
     max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files waiting to close before the Destination applies backpressure."""
     max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of file parts to upload concurrently."""
     freshness_grace_period_sec: NotRequired[float]
+    r"""Additional time, in seconds, allowed before a completed file is considered late."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -13181,6 +13285,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -13196,22 +13301,27 @@ class CreateOutputOutputCriblLake(BaseModel):
     format_: Annotated[
         Optional[CreateOutputOutputCriblLakeFormat], pydantic.Field(alias="format")
     ] = None
+    r"""Data format to use for files written to the Lake Dataset."""
 
     dynamic_dataset: Annotated[
         Optional[bool], pydantic.Field(alias="dynamicDataset")
     ] = None
+    r"""Whether the Destination selects the Lake Dataset dynamically."""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
     ] = None
+    r"""Maximum number of files waiting to close before the Destination applies backpressure."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
     ] = None
+    r"""Maximum number of file parts to upload concurrently."""
 
     freshness_grace_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="freshnessGracePeriodSec")
     ] = None
+    r"""Additional time, in seconds, allowed before a completed file is considered late."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -13543,6 +13653,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
@@ -13783,6 +13894,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -14222,6 +14334,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
@@ -14483,6 +14596,7 @@ class CreateOutputOutputDlS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -14975,6 +15089,7 @@ class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -15124,6 +15239,7 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -15407,6 +15523,7 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -15552,6 +15669,7 @@ class CreateOutputOutputHumioHec(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -15848,6 +15966,7 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[AuthTokenConfOutputCriblHTTPTypedDict]]
@@ -16011,6 +16130,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -16333,6 +16453,7 @@ class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[AuthTokenConfOutputCriblHTTPTypedDict]]
@@ -16494,6 +16615,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -17180,6 +17302,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     site: NotRequired[CreateOutputDataSetSite]
@@ -17220,6 +17343,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
+    r"""Custom Cribl API endpoint URL."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -17312,6 +17436,7 @@ class CreateOutputOutputDataset(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -17399,6 +17524,7 @@ class CreateOutputOutputDataset(BaseModel):
     r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
+    r"""Custom Cribl API endpoint URL."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -17714,6 +17840,7 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
@@ -17910,6 +18037,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -18285,6 +18413,7 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
@@ -18541,6 +18670,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -19048,6 +19178,7 @@ class CreateOutputOutputPrometheusTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -19230,6 +19361,7 @@ class CreateOutputOutputPrometheus(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -19622,6 +19754,7 @@ class CreateOutputOutputAmazonManagedPrometheusTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -19814,6 +19947,7 @@ class CreateOutputOutputAmazonManagedPrometheus(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -20126,6 +20260,7 @@ class CreateOutputOutputLokiTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     enable_dynamic_headers: NotRequired[bool]
@@ -20288,6 +20423,7 @@ class CreateOutputOutputLoki(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -20575,7 +20711,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
     prometheus_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     loki_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -20606,6 +20744,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -20698,10 +20837,12 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     loki_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
@@ -20768,6 +20909,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -21026,7 +21168,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
     prometheus_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     loki_auth: NotRequired[PrometheusAuthTypeTypedDict]
+    r"""Authentication settings for Grafana Cloud requests."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -21057,6 +21201,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -21151,10 +21296,12 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     prometheus_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="prometheusAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     loki_auth: Annotated[
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
+    r"""Authentication settings for Grafana Cloud requests."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
@@ -21221,6 +21368,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -21585,6 +21733,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -21596,6 +21745,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
+    r"""Custom Datadog intake endpoint URL."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -21762,6 +21912,7 @@ class CreateOutputOutputDatadog(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -21787,6 +21938,7 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
+    r"""Custom Datadog intake endpoint URL."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -22099,6 +22251,7 @@ class CreateOutputOutputSumoLogicTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -22246,6 +22399,7 @@ class CreateOutputOutputSumoLogic(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")

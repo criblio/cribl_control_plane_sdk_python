@@ -59,7 +59,7 @@ Get information about the latest job to clear the persistent queue (PQ) for the 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" -->
+<!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" example="OutputPQStatusResponseExamplesCompletedClearJob" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

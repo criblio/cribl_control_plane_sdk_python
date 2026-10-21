@@ -1,5 +1,7 @@
 # InputResponseInputMicrosoftCopilotManageState
 
+Controls for viewing and managing the collector state.
+
 
 ## Fields
 

@@ -46,6 +46,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     udp_port: NotRequired[float]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     max_buffer_size: NotRequired[float]
@@ -141,6 +142,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
@@ -353,6 +355,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tcp_port: NotRequired[float]
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     max_buffer_size: NotRequired[float]
@@ -448,6 +451,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""

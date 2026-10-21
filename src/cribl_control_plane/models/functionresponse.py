@@ -49,6 +49,10 @@ from .functionlocalsearchdatatypeparser import (
     FunctionLocalSearchDatatypeParser,
     FunctionLocalSearchDatatypeParserTypedDict,
 )
+from .functionlocalsearchdatatypeschemamapper import (
+    FunctionLocalSearchDatatypeSchemaMapper,
+    FunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .functionlocalsearchrulesetrunner import (
     FunctionLocalSearchRulesetRunner,
     FunctionLocalSearchRulesetRunnerTypedDict,
@@ -163,6 +167,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLakehouseEngineMetricsNormalizerTypedDict,
         FunctionLimitTypedDict,
         FunctionLocalSearchDatatypeParserTypedDict,
+        FunctionLocalSearchDatatypeSchemaMapperTypedDict,
         FunctionLocalSearchRulesetRunnerTypedDict,
         FunctionLocalSearchSchemaMapperTypedDict,
         FunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -250,6 +255,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "lakehouse_engine_metrics_normalizer": FunctionLakehouseEngineMetricsNormalizer,
     "limit": FunctionLimit,
     "local_search_datatype_parser": FunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": FunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": FunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": FunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": FunctionLocalSearchTimeRangeNormalizer,
@@ -327,6 +333,7 @@ FunctionResponse = Annotated[
         FunctionLakehouseEngineMetricsNormalizer,
         FunctionLimit,
         FunctionLocalSearchDatatypeParser,
+        FunctionLocalSearchDatatypeSchemaMapper,
         FunctionLocalSearchRulesetRunner,
         FunctionLocalSearchSchemaMapper,
         FunctionLocalSearchTimeRangeNormalizer,

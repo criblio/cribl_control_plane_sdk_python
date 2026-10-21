@@ -47,14 +47,16 @@ class InputMicrosoftCopilotSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumM
 
 
 class InputMicrosoftCopilotManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputMicrosoftCopilotManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputMicrosoftCopilotRetryRulesTypedDict(TypedDict):
+    r"""HTTP retry behavior for failed collection requests."""
+
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
@@ -74,6 +76,8 @@ class InputMicrosoftCopilotRetryRulesTypedDict(TypedDict):
 
 
 class InputMicrosoftCopilotRetryRules(BaseModel):
+    r"""HTTP retry behavior for failed collection requests."""
+
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -141,6 +145,8 @@ class InputMicrosoftCopilotRetryRules(BaseModel):
 
 
 class CertOptionsTypedDict(TypedDict):
+    r"""Certificate credentials for Microsoft Graph OAuth authentication."""
+
     priv_key_path: str
     r"""Path to the private key (PEM format). Can reference $ENV_VARS."""
     cert_path: str
@@ -152,6 +158,8 @@ class CertOptionsTypedDict(TypedDict):
 
 
 class CertOptions(BaseModel):
+    r"""Certificate credentials for Microsoft Graph OAuth authentication."""
+
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
     r"""Path to the private key (PEM format). Can reference $ENV_VARS."""
 
@@ -207,6 +215,7 @@ class InputMicrosoftCopilotInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     resource: NotRequired[str]
     r"""Microsoft Graph resource URI used in the OAuth token request scope parameter. Derived automatically from the selected plan type."""
     auth_type: NotRequired[InputMicrosoftCopilotAuthenticationMethod]
@@ -228,6 +237,7 @@ class InputMicrosoftCopilotInputTypedDict(TypedDict):
     sku_ids: NotRequired[List[str]]
     r"""Microsoft 365 SKU GUIDs that grant access to the Copilot Interaction Export API. During discovery, users are filtered to those with at least one of these SKUs in their assignedLicenses. Pre-populated with known Copilot SKUs; add custom entries for tenant-specific or new plans."""
     manage_state: NotRequired[InputMicrosoftCopilotManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, in seconds. Enter 0 to wait indefinitely."""
     keep_alive_time: NotRequired[float]
@@ -243,6 +253,7 @@ class InputMicrosoftCopilotInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[InputMicrosoftCopilotRetryRulesTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -252,6 +263,7 @@ class InputMicrosoftCopilotInputTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references the client secret from your app registration"""
     cert_options: NotRequired[CertOptionsTypedDict]
+    r"""Certificate credentials for Microsoft Graph OAuth authentication."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -301,6 +313,7 @@ class InputMicrosoftCopilotInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     resource: Optional[str] = None
     r"""Microsoft Graph resource URI used in the OAuth token request scope parameter. Derived automatically from the selected plan type."""
@@ -345,6 +358,7 @@ class InputMicrosoftCopilotInput(BaseModel):
     manage_state: Annotated[
         Optional[InputMicrosoftCopilotManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout, in seconds. Enter 0 to wait indefinitely."""
@@ -376,6 +390,7 @@ class InputMicrosoftCopilotInput(BaseModel):
     retry_rules: Annotated[
         Optional[InputMicrosoftCopilotRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")
@@ -396,6 +411,7 @@ class InputMicrosoftCopilotInput(BaseModel):
     cert_options: Annotated[
         Optional[CertOptions], pydantic.Field(alias="certOptions")
     ] = None
+    r"""Certificate credentials for Microsoft Graph OAuth authentication."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

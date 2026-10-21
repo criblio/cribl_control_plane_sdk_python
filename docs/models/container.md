@@ -1,5 +1,7 @@
 # Container
 
+Select the level of detail for container metrics
+
 
 ## Fields
 

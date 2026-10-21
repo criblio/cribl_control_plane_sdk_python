@@ -143,6 +143,7 @@ class InputSplunkHecInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -245,6 +246,7 @@ class InputSplunkHecInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
@@ -475,6 +477,7 @@ class InputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -488,6 +491,7 @@ class InputSplunkHecTypedDict(TypedDict):
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
     capture_headers_warning: Literal[""]
+    r"""Warning displayed when request-header capture is enabled."""
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -584,6 +588,7 @@ class InputSplunkHec(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
@@ -617,6 +622,7 @@ class InputSplunkHec(BaseModel):
         Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
         pydantic.Field(alias="captureHeadersWarning"),
     ] = ""
+    r"""Warning displayed when request-header capture is enabled."""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")

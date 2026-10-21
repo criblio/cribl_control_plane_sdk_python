@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RetrySettingsTypeTypedDict(TypedDict):
+    r"""Retry settings for failed file uploads."""
+
     enabled: NotRequired[bool]
     r"""Apply exponential backoff with jitter when file uploads fail repeatedly."""
     initial_backoff_ms: NotRequired[float]
@@ -22,6 +24,8 @@ class RetrySettingsTypeTypedDict(TypedDict):
 
 
 class RetrySettingsType(BaseModel):
+    r"""Retry settings for failed file uploads."""
+
     enabled: Optional[bool] = None
     r"""Apply exponential backoff with jitter when file uploads fail repeatedly."""
 

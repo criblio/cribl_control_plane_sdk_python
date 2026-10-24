@@ -8,16 +8,24 @@ from typing_extensions import TypedDict
 
 class HostOsTypeHeartbeatMetadataTypedDict(TypedDict):
     addresses: List[str]
+    r"""Network addresses reported by the host operating system."""
     enabled: bool
+    r"""If <code>true</code>, the host operating system metadata collector is enabled on the node. Otherwise, <code>false</code>."""
     id: str
+    r"""Host operating system distribution name."""
     version: str
+    r"""Host operating system version."""
 
 
 class HostOsTypeHeartbeatMetadata(BaseModel):
     addresses: List[str]
+    r"""Network addresses reported by the host operating system."""
 
     enabled: bool
+    r"""If <code>true</code>, the host operating system metadata collector is enabled on the node. Otherwise, <code>false</code>."""
 
     id: str
+    r"""Host operating system distribution name."""
 
     version: str
+    r"""Host operating system version."""

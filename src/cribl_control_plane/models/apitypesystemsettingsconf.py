@@ -13,67 +13,101 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class APITypeSystemSettingsConfTypedDict(TypedDict):
+    r"""API server configuration for the Cribl instance."""
+
     disabled: bool
+    r"""If <code>true</code>, the API server is disabled. Otherwise, <code>false</code>."""
     host: str
-    port: float
+    r"""Hostname or IP address the API server listens on."""
+    port: int
+    r"""Port number the API server listens on."""
     base_url: NotRequired[str]
+    r"""Base URL for the API server. Used when the server is behind a reverse proxy."""
     disable_api_cache: NotRequired[bool]
+    r"""If <code>true</code>, disable the API response cache. Otherwise, <code>false</code>."""
     headers: NotRequired[Dict[str, str]]
-    idle_session_ttl: NotRequired[float]
+    r"""Custom HTTP response headers to include in every API response."""
+    idle_session_ttl: NotRequired[int]
+    r"""Idle session timeout in seconds. Sessions are invalidated after the specified seconds of inactivity."""
     listen_on_port: NotRequired[bool]
+    r"""If <code>true</code>, bind to the configured port as the server listen port. Otherwise, <code>false</code>."""
     login_rate_limit: NotRequired[str]
+    r"""Rate limit for login attempts. Value is a string such as <code>100/min</code>."""
     protocol: NotRequired[str]
+    r"""API protocol: <code>http</code> or <code>https</code>."""
     scripts: NotRequired[bool]
+    r"""If <code>true</code>, enable JavaScript scripting support in the API. Otherwise, <code>false</code>."""
     sensitive_fields: NotRequired[List[str]]
+    r"""List of field names whose values are redacted in API responses and logs."""
     ssl: NotRequired[SslTypeSystemSettingsConfAPITypedDict]
+    r"""TLS configuration for the API server."""
     sso_rate_limit: NotRequired[str]
+    r"""Rate limit for SSO authentication attempts. Value is a string such as <code>100/min</code>."""
     worker_remote_access: NotRequired[bool]
+    r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
 
 class APITypeSystemSettingsConf(BaseModel):
+    r"""API server configuration for the Cribl instance."""
+
     disabled: bool
+    r"""If <code>true</code>, the API server is disabled. Otherwise, <code>false</code>."""
 
     host: str
+    r"""Hostname or IP address the API server listens on."""
 
-    port: float
+    port: int
+    r"""Port number the API server listens on."""
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
+    r"""Base URL for the API server. Used when the server is behind a reverse proxy."""
 
     disable_api_cache: Annotated[
         Optional[bool], pydantic.Field(alias="disableApiCache")
     ] = None
+    r"""If <code>true</code>, disable the API response cache. Otherwise, <code>false</code>."""
 
     headers: Optional[Dict[str, str]] = None
+    r"""Custom HTTP response headers to include in every API response."""
 
     idle_session_ttl: Annotated[
-        Optional[float], pydantic.Field(alias="idleSessionTTL")
+        Optional[int], pydantic.Field(alias="idleSessionTTL")
     ] = None
+    r"""Idle session timeout in seconds. Sessions are invalidated after the specified seconds of inactivity."""
 
     listen_on_port: Annotated[Optional[bool], pydantic.Field(alias="listenOnPort")] = (
         None
     )
+    r"""If <code>true</code>, bind to the configured port as the server listen port. Otherwise, <code>false</code>."""
 
     login_rate_limit: Annotated[
         Optional[str], pydantic.Field(alias="loginRateLimit")
     ] = None
+    r"""Rate limit for login attempts. Value is a string such as <code>100/min</code>."""
 
     protocol: Optional[str] = None
+    r"""API protocol: <code>http</code> or <code>https</code>."""
 
     scripts: Optional[bool] = None
+    r"""If <code>true</code>, enable JavaScript scripting support in the API. Otherwise, <code>false</code>."""
 
     sensitive_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="sensitiveFields")
     ] = None
+    r"""List of field names whose values are redacted in API responses and logs."""
 
     ssl: Optional[SslTypeSystemSettingsConfAPI] = None
+    r"""TLS configuration for the API server."""
 
     sso_rate_limit: Annotated[Optional[str], pydantic.Field(alias="ssoRateLimit")] = (
         None
     )
+    r"""Rate limit for SSO authentication attempts. Value is a string such as <code>100/min</code>."""
 
     worker_remote_access: Annotated[
         Optional[bool], pydantic.Field(alias="workerRemoteAccess")
     ] = None
+    r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

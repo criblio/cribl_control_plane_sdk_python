@@ -299,19 +299,27 @@ class DatabaseConnections(BaseSDK):
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
+        account_identifier: Optional[str] = None,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
+        pem: Optional[Union[models.Pem, models.PemTypedDict]] = None,
         request_timeout: Optional[int] = None,
+        role: Optional[str] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
             Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
         ] = None,
         user: Optional[str] = None,
+        warehouse: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -325,17 +333,25 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
+        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
+        :param pem: RSA private key configuration for Snowflake key-pair authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
+        :param warehouse: Snowflake warehouse to use for queries.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -352,21 +368,29 @@ class DatabaseConnections(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.DatabaseConnectionConfig(
+            account_identifier=account_identifier,
             auth_type=auth_type,
             config_obj=config_obj,
             connection_string=connection_string,
             connection_timeout=connection_timeout,
             credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
+            database=database,
             database_type=database_type,
             description=description,
+            host=host,
             id=id,
+            log_on_mechanism=log_on_mechanism,
             password=password,
+            pem=utils.get_pydantic_model(pem, Optional[models.Pem]),
             request_timeout=request_timeout,
+            role=role,
+            sslmode=sslmode,
             tags=tags,
             text_secret=text_secret,
             tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
+            warehouse=warehouse,
         )
 
         req = self._build_request(
@@ -438,10 +462,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -454,19 +478,27 @@ class DatabaseConnections(BaseSDK):
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
+        account_identifier: Optional[str] = None,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
+        pem: Optional[Union[models.Pem, models.PemTypedDict]] = None,
         request_timeout: Optional[int] = None,
+        role: Optional[str] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
             Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
         ] = None,
         user: Optional[str] = None,
+        warehouse: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -480,17 +512,25 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
+        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
+        :param pem: RSA private key configuration for Snowflake key-pair authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
+        :param warehouse: Snowflake warehouse to use for queries.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -507,21 +547,29 @@ class DatabaseConnections(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.DatabaseConnectionConfig(
+            account_identifier=account_identifier,
             auth_type=auth_type,
             config_obj=config_obj,
             connection_string=connection_string,
             connection_timeout=connection_timeout,
             credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
+            database=database,
             database_type=database_type,
             description=description,
+            host=host,
             id=id,
+            log_on_mechanism=log_on_mechanism,
             password=password,
+            pem=utils.get_pydantic_model(pem, Optional[models.Pem]),
             request_timeout=request_timeout,
+            role=role,
+            sslmode=sslmode,
             tags=tags,
             text_secret=text_secret,
             tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
+            warehouse=warehouse,
         )
 
         req = self._build_request_async(
@@ -593,10 +641,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -826,19 +874,27 @@ class DatabaseConnections(BaseSDK):
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
+        account_identifier: Optional[str] = None,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
+        pem: Optional[Union[models.Pem, models.PemTypedDict]] = None,
         request_timeout: Optional[int] = None,
+        role: Optional[str] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
             Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
         ] = None,
         user: Optional[str] = None,
+        warehouse: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -853,17 +909,25 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
+        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
+        :param pem: RSA private key configuration for Snowflake key-pair authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
+        :param warehouse: Snowflake warehouse to use for queries.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -882,21 +946,29 @@ class DatabaseConnections(BaseSDK):
         request = models.UpdateDatabaseConnectionConfigByIDRequest(
             id_param=id_param,
             database_connection_config=models.DatabaseConnectionConfig(
+                account_identifier=account_identifier,
                 auth_type=auth_type,
                 config_obj=config_obj,
                 connection_string=connection_string,
                 connection_timeout=connection_timeout,
                 credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
+                database=database,
                 database_type=database_type,
                 description=description,
+                host=host,
                 id=id,
+                log_on_mechanism=log_on_mechanism,
                 password=password,
+                pem=utils.get_pydantic_model(pem, Optional[models.Pem]),
                 request_timeout=request_timeout,
+                role=role,
+                sslmode=sslmode,
                 tags=tags,
                 text_secret=text_secret,
                 tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
+                warehouse=warehouse,
             ),
         )
 
@@ -973,10 +1045,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -990,19 +1062,27 @@ class DatabaseConnections(BaseSDK):
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
+        account_identifier: Optional[str] = None,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
         credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
+        database: Optional[str] = None,
+        host: Optional[str] = None,
+        log_on_mechanism: Optional[str] = None,
         password: Optional[str] = None,
+        pem: Optional[Union[models.Pem, models.PemTypedDict]] = None,
         request_timeout: Optional[int] = None,
+        role: Optional[str] = None,
+        sslmode: Optional[str] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
         tls: Optional[
             Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
         ] = None,
         user: Optional[str] = None,
+        warehouse: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1017,17 +1097,25 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
+        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
         :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param database: Database to connect to instead of the server default.
+        :param host: Hostname of the server to connect to.
+        :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
+        :param pem: RSA private key configuration for Snowflake key-pair authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
+        :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
         :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
+        :param warehouse: Snowflake warehouse to use for queries.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1046,21 +1134,29 @@ class DatabaseConnections(BaseSDK):
         request = models.UpdateDatabaseConnectionConfigByIDRequest(
             id_param=id_param,
             database_connection_config=models.DatabaseConnectionConfig(
+                account_identifier=account_identifier,
                 auth_type=auth_type,
                 config_obj=config_obj,
                 connection_string=connection_string,
                 connection_timeout=connection_timeout,
                 credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
+                database=database,
                 database_type=database_type,
                 description=description,
+                host=host,
                 id=id,
+                log_on_mechanism=log_on_mechanism,
                 password=password,
+                pem=utils.get_pydantic_model(pem, Optional[models.Pem]),
                 request_timeout=request_timeout,
+                role=role,
+                sslmode=sslmode,
                 tags=tags,
                 text_secret=text_secret,
                 tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
+                warehouse=warehouse,
             ),
         )
 
@@ -1137,10 +1233,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1245,10 +1341,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1353,10 +1449,10 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 

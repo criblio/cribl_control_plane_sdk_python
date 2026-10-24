@@ -1,5 +1,7 @@
 # CreateInputSystemByPackInputWindowsMetricsSystem
 
+Select the level of details for system metrics
+
 
 ## Fields
 

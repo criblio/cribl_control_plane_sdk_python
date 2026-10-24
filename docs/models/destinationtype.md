@@ -34,6 +34,7 @@ value = DestinationType.DEFAULT
 | `KINESIS`                    | kinesis                      |
 | `ELASTIC`                    | elastic                      |
 | `ELASTIC_CLOUD`              | elastic_cloud                |
+| `ELASTIC_SERVERLESS`         | elastic_serverless           |
 | `MICROSOFT_FABRIC`           | microsoft_fabric             |
 | `CLOUDFLARE_R2`              | cloudflare_r2                |
 | `HONEYCOMB`                  | honeycomb                    |
@@ -91,11 +92,17 @@ value = DestinationType.DEFAULT
 | `DATABRICKS`                 | databricks                   |
 | `WIZ_HEC`                    | wiz_hec                      |
 | `NUTANIX_OBJECTS`            | nutanix_objects              |
+| `BACKBLAZE_B2`               | backblaze_b2                 |
 | `STORJ_S3`                   | storj_s3                     |
 | `ALPHASOC_S3`                | alphasoc_s3                  |
 | `DELL_S3`                    | dell_s3                      |
+| `WASABI`                     | wasabi                       |
 | `CLOUDIAN_S3`                | cloudian_s3                  |
 | `SCALITY_S3`                 | scality_s3                   |
 | `ALIBABA_CLOUD_S3`           | alibaba_cloud_s3             |
 | `SNOWFLAKE_STREAMING`        | snowflake_streaming          |
 | `IBM_CLOUD_S3`               | ibm_cloud_s3                 |
+| `DATABRICKS_ZEROBUS`         | databricks_zerobus           |
+| `TRAVERSAL_OTLP`             | traversal_otlp               |
+| `SECURONIX`                  | securonix                    |
+| `FORTISIEM`                  | fortisiem                    |

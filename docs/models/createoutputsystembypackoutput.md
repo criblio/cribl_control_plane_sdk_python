@@ -197,6 +197,12 @@ value: models.CreateOutputSystemByPackOutputElastic = /* values here */
 value: models.CreateOutputSystemByPackOutputElasticCloud = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputElasticServerless`
+
+```python
+value: models.CreateOutputSystemByPackOutputElasticServerless = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputNewrelic`
 
 ```python
@@ -425,6 +431,12 @@ value: models.CreateOutputSystemByPackOutputDynatraceHTTP = /* values here */
 value: models.CreateOutputSystemByPackOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputTraversalOtlp`
+
+```python
+value: models.CreateOutputSystemByPackOutputTraversalOtlp = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputSentinelOneAiSiem`
 
 ```python
@@ -467,6 +479,12 @@ value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputBackblazeB2`
+
+```python
+value: models.CreateOutputSystemByPackOutputBackblazeB2 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputStorjS3`
 
 ```python
@@ -483,6 +501,12 @@ value: models.CreateOutputSystemByPackOutputAlphasocS3 = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputDellS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputWasabi`
+
+```python
+value: models.CreateOutputSystemByPackOutputWasabi = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputCloudianS3`
@@ -507,5 +531,23 @@ value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputIbmCloudS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDatabricksZerobus`
+
+```python
+value: models.CreateOutputSystemByPackOutputDatabricksZerobus = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputSecuronix`
+
+```python
+value: models.CreateOutputSystemByPackOutputSecuronix = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFortisiem`
+
+```python
+value: models.CreateOutputSystemByPackOutputFortisiem = /* values here */
 ```
 

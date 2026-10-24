@@ -16,6 +16,10 @@ from .pipelinefunctionautotimestamp import (
 from .pipelinefunctioncef import PipelineFunctionCef, PipelineFunctionCefTypedDict
 from .pipelinefunctionchain import PipelineFunctionChain, PipelineFunctionChainTypedDict
 from .pipelinefunctionclone import PipelineFunctionClone, PipelineFunctionCloneTypedDict
+from .pipelinefunctioncloudchangeenricher import (
+    PipelineFunctionCloudChangeEnricher,
+    PipelineFunctionCloudChangeEnricherTypedDict,
+)
 from .pipelinefunctioncode import PipelineFunctionCode, PipelineFunctionCodeTypedDict
 from .pipelinefunctioncomment import (
     PipelineFunctionComment,
@@ -91,6 +95,10 @@ from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
 )
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -115,6 +123,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -243,6 +255,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionCefTypedDict,
         PipelineFunctionChainTypedDict,
         PipelineFunctionCloneTypedDict,
+        PipelineFunctionCloudChangeEnricherTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
         PipelineFunctionDetectionRulesTypedDict,
@@ -267,6 +280,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -274,6 +288,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -329,6 +344,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "cef": PipelineFunctionCef,
     "chain": PipelineFunctionChain,
     "clone": PipelineFunctionClone,
+    "cloudChangeEnricher": PipelineFunctionCloudChangeEnricher,
     "code": PipelineFunctionCode,
     "comment": PipelineFunctionComment,
     "detection_rules": PipelineFunctionDetectionRules,
@@ -353,6 +369,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lakehouse_engine_metrics_normalizer": PipelineFunctionLakehouseEngineMetricsNormalizer,
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": PipelineFunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": PipelineFunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": PipelineFunctionLocalSearchTimeRangeNormalizer,
@@ -360,6 +377,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -405,6 +423,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionCef,
         PipelineFunctionChain,
         PipelineFunctionClone,
+        PipelineFunctionCloudChangeEnricher,
         PipelineFunctionCode,
         PipelineFunctionComment,
         PipelineFunctionDetectionRules,
@@ -429,6 +448,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLakehouseEngineMetricsNormalizer,
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
+        PipelineFunctionLocalSearchDatatypeSchemaMapper,
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchSchemaMapper,
         PipelineFunctionLocalSearchTimeRangeNormalizer,
@@ -436,6 +456,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

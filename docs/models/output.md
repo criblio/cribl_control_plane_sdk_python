@@ -195,6 +195,12 @@ value: models.OutputElastic = /* values here */
 value: models.OutputElasticCloud = /* values here */
 ```
 
+### `models.OutputElasticServerless`
+
+```python
+value: models.OutputElasticServerless = /* values here */
+```
+
 ### `models.OutputNewrelic`
 
 ```python
@@ -423,6 +429,12 @@ value: models.OutputDynatraceHTTP = /* values here */
 value: models.OutputDynatraceOtlp = /* values here */
 ```
 
+### `models.OutputTraversalOtlp`
+
+```python
+value: models.OutputTraversalOtlp = /* values here */
+```
+
 ### `models.OutputSentinelOneAiSiem`
 
 ```python
@@ -465,6 +477,12 @@ value: models.OutputCloudflareR2 = /* values here */
 value: models.OutputNutanixObjects = /* values here */
 ```
 
+### `models.OutputBackblazeB2`
+
+```python
+value: models.OutputBackblazeB2 = /* values here */
+```
+
 ### `models.OutputStorjS3`
 
 ```python
@@ -481,6 +499,12 @@ value: models.OutputAlphasocS3 = /* values here */
 
 ```python
 value: models.OutputDellS3 = /* values here */
+```
+
+### `models.OutputWasabi`
+
+```python
+value: models.OutputWasabi = /* values here */
 ```
 
 ### `models.OutputCloudianS3`
@@ -505,5 +529,23 @@ value: models.OutputAlibabaCloudS3 = /* values here */
 
 ```python
 value: models.OutputIbmCloudS3 = /* values here */
+```
+
+### `models.OutputDatabricksZerobus`
+
+```python
+value: models.OutputDatabricksZerobus = /* values here */
+```
+
+### `models.OutputSecuronix`
+
+```python
+value: models.OutputSecuronix = /* values here */
+```
+
+### `models.OutputFortisiem`
+
+```python
+value: models.OutputFortisiem = /* values here */
 ```
 

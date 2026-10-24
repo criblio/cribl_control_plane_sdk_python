@@ -1,5 +1,7 @@
 # FunctionNotificationsID
 
+Identifier of the Function. Always <code>notifications</code>
+
 ## Example Usage
 
 ```python

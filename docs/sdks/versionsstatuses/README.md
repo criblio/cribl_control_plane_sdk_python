@@ -12,7 +12,7 @@ Get the status of the current working tree of the Git repository used for Cribl 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionStatus" method="get" path="/version/status" -->
+<!-- UsageSnippet language="python" operationID="getVersionStatus" method="get" path="/version/status" example="VersionStatusResponseExamplesWorkingTreeStatus" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -46,5 +46,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

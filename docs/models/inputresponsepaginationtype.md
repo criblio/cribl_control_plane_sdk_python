@@ -1,5 +1,7 @@
 # InputResponsePaginationType
 
+Pagination type
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # OutputClickHouseType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

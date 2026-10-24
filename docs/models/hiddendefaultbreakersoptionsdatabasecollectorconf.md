@@ -1,5 +1,7 @@
 # HiddenDefaultBreakersOptionsDatabaseCollectorConf
 
+Hidden Default Breakers
+
 ## Example Usage
 
 ```python

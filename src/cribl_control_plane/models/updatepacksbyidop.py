@@ -9,7 +9,7 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdatePacksByIDRequestTypedDict(TypedDict):
     id: str
-    r"""The <code>id</code> of the Pack to upgrade."""
+    r"""The <code>id</code> of the Pack to upgrade. Use the <code>id</code> field from the list response."""
     pack_upgrade_request: PackUpgradeRequestTypedDict
     r"""PackUpgradeRequest object."""
 
@@ -18,7 +18,7 @@ class UpdatePacksByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to upgrade."""
+    r"""The <code>id</code> of the Pack to upgrade. Use the <code>id</code> field from the list response."""
 
     pack_upgrade_request: Annotated[
         PackUpgradeRequest,

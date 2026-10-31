@@ -1,5 +1,7 @@
 # GpuType
 
+Select the level of detail for GPU metrics
+
 
 ## Fields
 

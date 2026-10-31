@@ -1,5 +1,7 @@
 # PipelineFunctionLookupConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Fields
 

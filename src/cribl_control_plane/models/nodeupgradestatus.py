@@ -14,7 +14,8 @@ from typing_extensions import NotRequired, TypedDict
 
 class NodeUpgradeStatusTypedDict(TypedDict):
     state: NodeUpgradeState
-    timestamp: float
+    timestamp: int
+    r"""Timestamp (in Unix time) when the node entered the upgrade state, in milliseconds."""
     active: NotRequired[NodeActiveUpgradeStatus]
     failed: NotRequired[NodeFailedUpgradeStatus]
     skipped: NotRequired[NodeSkippedUpgradeStatus]
@@ -23,7 +24,8 @@ class NodeUpgradeStatusTypedDict(TypedDict):
 class NodeUpgradeStatus(BaseModel):
     state: NodeUpgradeState
 
-    timestamp: float
+    timestamp: int
+    r"""Timestamp (in Unix time) when the node entered the upgrade state, in milliseconds."""
 
     active: Optional[NodeActiveUpgradeStatus] = None
 

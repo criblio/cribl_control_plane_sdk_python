@@ -8,6 +8,8 @@ from enum import Enum
 class PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Pagination"""
+
     # None
     NONE = "none"
     # Response Body Attribute

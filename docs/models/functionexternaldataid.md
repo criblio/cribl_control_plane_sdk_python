@@ -1,5 +1,7 @@
 # FunctionExternaldataID
 
+Identifier of the Function. Always <code>externaldata</code>
+
 ## Example Usage
 
 ```python

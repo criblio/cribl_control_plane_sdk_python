@@ -1,6 +1,6 @@
 # PipelineFunctionPackID
 
-Function ID
+Identifier of the Function. Always <code>pack</code>
 
 ## Example Usage
 

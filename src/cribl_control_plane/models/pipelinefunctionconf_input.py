@@ -24,6 +24,10 @@ from .pipelinefunctioncomment import (
     PipelineFunctionComment,
     PipelineFunctionCommentTypedDict,
 )
+from .pipelinefunctiondetectionrules import (
+    PipelineFunctionDetectionRules,
+    PipelineFunctionDetectionRulesTypedDict,
+)
 from .pipelinefunctiondistinct import (
     PipelineFunctionDistinct,
     PipelineFunctionDistinctTypedDict,
@@ -81,10 +85,18 @@ from .pipelinefunctionlakeexport import (
     PipelineFunctionLakeExport,
     PipelineFunctionLakeExportTypedDict,
 )
+from .pipelinefunctionlakehouseenginemetricsnormalizer import (
+    PipelineFunctionLakehouseEngineMetricsNormalizer,
+    PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
+)
 from .pipelinefunctionlimit import PipelineFunctionLimit, PipelineFunctionLimitTypedDict
 from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
+)
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
 )
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
@@ -107,6 +119,14 @@ from .pipelinefunctionlookup import (
     PipelineFunctionLookupTypedDict,
 )
 from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskTypedDict
+from .pipelinefunctionmetricsexport import (
+    PipelineFunctionMetricsExport,
+    PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -188,10 +208,6 @@ from .pipelinefunctionsidlookup import (
     PipelineFunctionSidlookup,
     PipelineFunctionSidlookupTypedDict,
 )
-from .pipelinefunctionsignalfilter import (
-    PipelineFunctionSignalFilter,
-    PipelineFunctionSignalFilterTypedDict,
-)
 from .pipelinefunctionsnmptrapserialize import (
     PipelineFunctionSnmpTrapSerialize,
     PipelineFunctionSnmpTrapSerializeTypedDict,
@@ -237,6 +253,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionCloneTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
+        PipelineFunctionDetectionRulesTypedDict,
         PipelineFunctionDistinctTypedDict,
         PipelineFunctionDNSLookupTypedDict,
         PipelineFunctionDropTypedDict,
@@ -255,14 +272,18 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionJoinTypedDict,
         PipelineFunctionJSONUnrollTypedDict,
         PipelineFunctionLakeExportTypedDict,
+        PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
+        PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -287,7 +308,6 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionSerdeTypedDict,
         PipelineFunctionSerializeTypedDict,
         PipelineFunctionSidlookupTypedDict,
-        PipelineFunctionSignalFilterTypedDict,
         PipelineFunctionSnmpTrapSerializeTypedDict,
         PipelineFunctionSortTypedDict,
         PipelineFunctionStoreTypedDict,
@@ -312,6 +332,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionClone, Tag("clone")],
         Annotated[PipelineFunctionCode, Tag("code")],
         Annotated[PipelineFunctionComment, Tag("comment")],
+        Annotated[PipelineFunctionDetectionRules, Tag("detection_rules")],
         Annotated[PipelineFunctionDistinct, Tag("distinct")],
         Annotated[PipelineFunctionDNSLookup, Tag("dns_lookup")],
         Annotated[PipelineFunctionDrop, Tag("drop")],
@@ -330,10 +351,18 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionJoin, Tag("join")],
         Annotated[PipelineFunctionJSONUnroll, Tag("json_unroll")],
         Annotated[PipelineFunctionLakeExport, Tag("lake_export")],
+        Annotated[
+            PipelineFunctionLakehouseEngineMetricsNormalizer,
+            Tag("lakehouse_engine_metrics_normalizer"),
+        ],
         Annotated[PipelineFunctionLimit, Tag("limit")],
         Annotated[
             PipelineFunctionLocalSearchDatatypeParser,
             Tag("local_search_datatype_parser"),
+        ],
+        Annotated[
+            PipelineFunctionLocalSearchDatatypeSchemaMapper,
+            Tag("local_search_datatype_schema_mapper"),
         ],
         Annotated[
             PipelineFunctionLocalSearchRulesetRunner, Tag("local_search_ruleset_runner")
@@ -350,6 +379,8 @@ PipelineFunctionConfInput = Annotated[
         ],
         Annotated[PipelineFunctionLookup, Tag("lookup")],
         Annotated[PipelineFunctionMask, Tag("mask")],
+        Annotated[PipelineFunctionMetricsExport, Tag("metrics_export")],
+        Annotated[PipelineFunctionMetricsTimeRangeGate, Tag("metrics_time_range_gate")],
         Annotated[PipelineFunctionMvExpand, Tag("mv_expand")],
         Annotated[PipelineFunctionMvPull, Tag("mv_pull")],
         Annotated[PipelineFunctionNotificationPolicies, Tag("notification_policies")],
@@ -374,7 +405,6 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionSerde, Tag("serde")],
         Annotated[PipelineFunctionSerialize, Tag("serialize")],
         Annotated[PipelineFunctionSidlookup, Tag("sidlookup")],
-        Annotated[PipelineFunctionSignalFilter, Tag("signal_filter")],
         Annotated[PipelineFunctionSnmpTrapSerialize, Tag("snmp_trap_serialize")],
         Annotated[PipelineFunctionSort, Tag("sort")],
         Annotated[PipelineFunctionStore, Tag("store")],

@@ -1,5 +1,7 @@
 # OutputResponseCertificate
 
+Certificate credentials for OAuth authentication.
+
 
 ## Fields
 

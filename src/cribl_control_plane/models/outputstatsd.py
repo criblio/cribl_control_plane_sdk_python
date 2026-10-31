@@ -16,19 +16,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputStatsdType(str, Enum):
+    r"""Connector type identifier."""
+
     STATSD = "statsd"
 
 
 class OutputStatsdPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputStatsdPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputStatsdTypedDict(TypedDict):
     type: OutputStatsdType
+    r"""Connector type identifier."""
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -44,7 +47,7 @@ class OutputStatsdTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -52,6 +55,7 @@ class OutputStatsdTypedDict(TypedDict):
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     connection_timeout: NotRequired[float]
@@ -83,6 +87,7 @@ class OutputStatsdTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputStatsdPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -91,6 +96,7 @@ class OutputStatsdTypedDict(TypedDict):
 
 class OutputStatsd(BaseModel):
     type: OutputStatsdType
+    r"""Connector type identifier."""
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -116,7 +122,7 @@ class OutputStatsd(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
@@ -132,6 +138,7 @@ class OutputStatsd(BaseModel):
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -205,6 +212,7 @@ class OutputStatsd(BaseModel):
     pq_controls: Annotated[
         Optional[OutputStatsdPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

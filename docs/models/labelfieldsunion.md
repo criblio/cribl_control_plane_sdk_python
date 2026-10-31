@@ -1,5 +1,7 @@
 # LabelFieldsUnion
 
+Field references to attach as labels to each exported metric. Specify one field or a list of fields.
+
 
 ## Supported Types
 

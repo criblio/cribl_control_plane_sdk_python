@@ -1,5 +1,7 @@
 # CheckpointingType
 
+Checkpoint settings used to resume processing after an interruption.
+
 
 ## Fields
 

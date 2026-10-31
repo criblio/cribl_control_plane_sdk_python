@@ -1,5 +1,7 @@
 # OutputMicrosoftFabricPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

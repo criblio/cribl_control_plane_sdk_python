@@ -12,11 +12,15 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class ProcessTypeTypedDict(TypedDict):
+    r"""Process metric collection settings."""
+
     sets: NotRequired[List[SetConfInputSystemMetricsTypedDict]]
     r"""Configure sets to collect process metrics"""
 
 
 class ProcessType(BaseModel):
+    r"""Process metric collection settings."""
+
     sets: Optional[List[SetConfInputSystemMetrics]] = None
     r"""Configure sets to collect process metrics"""
 

@@ -1,6 +1,6 @@
 # PipelineFunctionLocalSearchSchemaMapperID
 
-Function ID
+Identifier of the Function. Always <code>local_search_schema_mapper</code>
 
 ## Example Usage
 

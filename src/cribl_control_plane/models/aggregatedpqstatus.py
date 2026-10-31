@@ -2,30 +2,41 @@
 
 from __future__ import annotations
 from .healthcounttype import HealthCountType, HealthCountTypeTypedDict
-from .healthstringtype import HealthStringType
 from .statuserror import StatusError, StatusErrorTypedDict
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class Health(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Health status of the persistent queue."""
+
+    GREEN = "Green"
+    RED = "Red"
+    UNKNOWN = "Unknown"
+    YELLOW = "Yellow"
+
+
 class AggregatedPQStatusTypedDict(TypedDict):
-    health: HealthStringType
+    health: Health
+    r"""Health status of the persistent queue."""
     health_counts: HealthCountTypeTypedDict
-    timestamp: float
+    timestamp: int
     r"""Timestamp (in Unix time) when the persistent queue status was last updated."""
     error: NotRequired[StatusErrorTypedDict]
 
 
 class AggregatedPQStatus(BaseModel):
-    health: HealthStringType
+    health: Health
+    r"""Health status of the persistent queue."""
 
     health_counts: Annotated[HealthCountType, pydantic.Field(alias="healthCounts")]
 
-    timestamp: float
+    timestamp: int
     r"""Timestamp (in Unix time) when the persistent queue status was last updated."""
 
     error: Optional[StatusError] = None
@@ -34,7 +45,7 @@ class AggregatedPQStatus(BaseModel):
     def serialize_health(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthStringType(value)
+                return models.Health(value)
             except ValueError:
                 return value
         return value

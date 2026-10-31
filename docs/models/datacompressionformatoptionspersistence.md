@@ -1,5 +1,7 @@
 # DataCompressionFormatOptionsPersistence
 
+Data compression format
+
 ## Example Usage
 
 ```python

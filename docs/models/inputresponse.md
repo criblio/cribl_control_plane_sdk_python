@@ -149,6 +149,12 @@ value: models.InputResponseInputExec = /* values here */
 value: models.InputResponseInputFirehose = /* values here */
 ```
 
+### `models.InputResponseInputCloudChangeFirehose`
+
+```python
+value: models.InputResponseInputCloudChangeFirehose = /* values here */
+```
+
 ### `models.InputResponseInputGooglePubsub`
 
 ```python
@@ -305,6 +311,48 @@ value: models.InputResponseInputSqs = /* values here */
 value: models.InputResponseInputSyslogUnion = /* values here */
 ```
 
+### `models.InputResponseInputCheckPointSaseSyslog`
+
+```python
+value: models.InputResponseInputCheckPointSaseSyslog = /* values here */
+```
+
+### `models.InputResponseInputCiscoAsaSyslogUnion`
+
+```python
+value: models.InputResponseInputCiscoAsaSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputCiscoMerakiSyslogUnion`
+
+```python
+value: models.InputResponseInputCiscoMerakiSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputFortigateSyslogUnion`
+
+```python
+value: models.InputResponseInputFortigateSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputNetgatePfsenseSyslogUnion`
+
+```python
+value: models.InputResponseInputNetgatePfsenseSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputWatchguardFireboxSyslogUnion`
+
+```python
+value: models.InputResponseInputWatchguardFireboxSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputInfobloxSyslogUnion`
+
+```python
+value: models.InputResponseInputInfobloxSyslogUnion = /* values here */
+```
+
 ### `models.InputResponseInputFile`
 
 ```python
@@ -389,10 +437,22 @@ value: models.InputResponseInputSecurityLake = /* values here */
 value: models.InputResponseInputBedrockS3 = /* values here */
 ```
 
+### `models.InputResponseInputCloudChangeEvent`
+
+```python
+value: models.InputResponseInputCloudChangeEvent = /* values here */
+```
+
 ### `models.InputResponseInputServicenowTable`
 
 ```python
 value: models.InputResponseInputServicenowTable = /* values here */
+```
+
+### `models.InputResponseInputProofpointPod`
+
+```python
+value: models.InputResponseInputProofpointPod = /* values here */
 ```
 
 ### `models.InputResponseInputZscalerHec`
@@ -419,6 +479,36 @@ value: models.InputResponseInputSysdigHec = /* values here */
 value: models.InputResponseInputUpwindHec = /* values here */
 ```
 
+### `models.InputResponseInputTrellixHec`
+
+```python
+value: models.InputResponseInputTrellixHec = /* values here */
+```
+
+### `models.InputResponseInputSalesforce`
+
+```python
+value: models.InputResponseInputSalesforce = /* values here */
+```
+
+### `models.InputResponseInputSailpointHec`
+
+```python
+value: models.InputResponseInputSailpointHec = /* values here */
+```
+
+### `models.InputResponseInputExtrahopRevealx360`
+
+```python
+value: models.InputResponseInputExtrahopRevealx360 = /* values here */
+```
+
+### `models.InputResponseInputAquaSecurityHec`
+
+```python
+value: models.InputResponseInputAquaSecurityHec = /* values here */
+```
+
 ### `models.InputResponseInputOpenaiComplianceLogs`
 
 ```python
@@ -431,9 +521,117 @@ value: models.InputResponseInputOpenaiComplianceLogs = /* values here */
 value: models.InputResponseInputAnthropicCompliance = /* values here */
 ```
 
+### `models.InputResponseInputAnthropicEnterpriseAnalytics`
+
+```python
+value: models.InputResponseInputAnthropicEnterpriseAnalytics = /* values here */
+```
+
+### `models.InputResponseInputMicrosoftCopilot`
+
+```python
+value: models.InputResponseInputMicrosoftCopilot = /* values here */
+```
+
 ### `models.InputResponseInputOkta`
 
 ```python
 value: models.InputResponseInputOkta = /* values here */
+```
+
+### `models.InputResponseInputSentinelone`
+
+```python
+value: models.InputResponseInputSentinelone = /* values here */
+```
+
+### `models.InputResponseInputAkamaiHec`
+
+```python
+value: models.InputResponseInputAkamaiHec = /* values here */
+```
+
+### `models.InputResponseInputPingIdentityPingone`
+
+```python
+value: models.InputResponseInputPingIdentityPingone = /* values here */
+```
+
+### `models.InputResponseInputGigamonHec`
+
+```python
+value: models.InputResponseInputGigamonHec = /* values here */
+```
+
+### `models.InputResponseInputVectraAiHec`
+
+```python
+value: models.InputResponseInputVectraAiHec = /* values here */
+```
+
+### `models.InputResponseInputF5BigIP`
+
+```python
+value: models.InputResponseInputF5BigIP = /* values here */
+```
+
+### `models.InputResponseInputBeyondtrustHec`
+
+```python
+value: models.InputResponseInputBeyondtrustHec = /* values here */
+```
+
+### `models.InputResponseInputHashicorpHcpVaultDedicated`
+
+```python
+value: models.InputResponseInputHashicorpHcpVaultDedicated = /* values here */
+```
+
+### `models.InputResponseInputMimecastHec`
+
+```python
+value: models.InputResponseInputMimecastHec = /* values here */
+```
+
+### `models.InputResponseInputTrendMicroVisionOne`
+
+```python
+value: models.InputResponseInputTrendMicroVisionOne = /* values here */
+```
+
+### `models.InputResponseInputZoomWebhook`
+
+```python
+value: models.InputResponseInputZoomWebhook = /* values here */
+```
+
+### `models.InputResponseInputNetskope`
+
+```python
+value: models.InputResponseInputNetskope = /* values here */
+```
+
+### `models.InputResponseInputLitellm`
+
+```python
+value: models.InputResponseInputLitellm = /* values here */
+```
+
+### `models.InputResponseInputCiscoSecureFirewallSyslogUnion`
+
+```python
+value: models.InputResponseInputCiscoSecureFirewallSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputJuniperJunosSyslogUnion`
+
+```python
+value: models.InputResponseInputJuniperJunosSyslogUnion = /* values here */
+```
+
+### `models.InputResponseInputCiscoIosSyslogUnion`
+
+```python
+value: models.InputResponseInputCiscoIosSyslogUnion = /* values here */
 ```
 

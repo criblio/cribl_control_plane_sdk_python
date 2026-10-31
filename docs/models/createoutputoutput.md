@@ -197,6 +197,12 @@ value: models.CreateOutputOutputElastic = /* values here */
 value: models.CreateOutputOutputElasticCloud = /* values here */
 ```
 
+### `models.CreateOutputOutputElasticServerless`
+
+```python
+value: models.CreateOutputOutputElasticServerless = /* values here */
+```
+
 ### `models.CreateOutputOutputNewrelic`
 
 ```python
@@ -425,6 +431,12 @@ value: models.CreateOutputOutputDynatraceHTTP = /* values here */
 value: models.CreateOutputOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.CreateOutputOutputTraversalOtlp`
+
+```python
+value: models.CreateOutputOutputTraversalOtlp = /* values here */
+```
+
 ### `models.CreateOutputOutputSentinelOneAiSiem`
 
 ```python
@@ -467,6 +479,12 @@ value: models.CreateOutputOutputCloudflareR2 = /* values here */
 value: models.CreateOutputOutputNutanixObjects = /* values here */
 ```
 
+### `models.CreateOutputOutputBackblazeB2`
+
+```python
+value: models.CreateOutputOutputBackblazeB2 = /* values here */
+```
+
 ### `models.CreateOutputOutputStorjS3`
 
 ```python
@@ -485,6 +503,18 @@ value: models.CreateOutputOutputAlphasocS3 = /* values here */
 value: models.CreateOutputOutputDellS3 = /* values here */
 ```
 
+### `models.CreateOutputOutputWasabi`
+
+```python
+value: models.CreateOutputOutputWasabi = /* values here */
+```
+
+### `models.CreateOutputOutputSeagateLyveCloudS3`
+
+```python
+value: models.CreateOutputOutputSeagateLyveCloudS3 = /* values here */
+```
+
 ### `models.CreateOutputOutputCloudianS3`
 
 ```python
@@ -497,15 +527,81 @@ value: models.CreateOutputOutputCloudianS3 = /* values here */
 value: models.CreateOutputOutputScalityS3 = /* values here */
 ```
 
+### `models.CreateOutputOutputAkamaiObjectStorageS3`
+
+```python
+value: models.CreateOutputOutputAkamaiObjectStorageS3 = /* values here */
+```
+
 ### `models.CreateOutputOutputAlibabaCloudS3`
 
 ```python
 value: models.CreateOutputOutputAlibabaCloudS3 = /* values here */
 ```
 
+### `models.CreateOutputOutputExoscaleSosS3`
+
+```python
+value: models.CreateOutputOutputExoscaleSosS3 = /* values here */
+```
+
+### `models.CreateOutputOutputIonosS3ObjectStorage`
+
+```python
+value: models.CreateOutputOutputIonosS3ObjectStorage = /* values here */
+```
+
+### `models.CreateOutputOutputTencentCloudCosS3`
+
+```python
+value: models.CreateOutputOutputTencentCloudCosS3 = /* values here */
+```
+
+### `models.CreateOutputOutputOvhcloudObjectStorageS3`
+
+```python
+value: models.CreateOutputOutputOvhcloudObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputOutputScalewayObjectStorageS3`
+
+```python
+value: models.CreateOutputOutputScalewayObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputOutputDigitaloceanSpacesS3`
+
+```python
+value: models.CreateOutputOutputDigitaloceanSpacesS3 = /* values here */
+```
+
 ### `models.CreateOutputOutputIbmCloudS3`
 
 ```python
 value: models.CreateOutputOutputIbmCloudS3 = /* values here */
+```
+
+### `models.CreateOutputOutputOracleCloudS3`
+
+```python
+value: models.CreateOutputOutputOracleCloudS3 = /* values here */
+```
+
+### `models.CreateOutputOutputDatabricksZerobus`
+
+```python
+value: models.CreateOutputOutputDatabricksZerobus = /* values here */
+```
+
+### `models.CreateOutputOutputSecuronix`
+
+```python
+value: models.CreateOutputOutputSecuronix = /* values here */
+```
+
+### `models.CreateOutputOutputFortisiem`
+
+```python
+value: models.CreateOutputOutputFortisiem = /* values here */
 ```
 

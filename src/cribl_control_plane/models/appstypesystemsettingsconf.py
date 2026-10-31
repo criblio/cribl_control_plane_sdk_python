@@ -21,6 +21,12 @@ class AppsTypeSystemSettingsConfTypedDict(TypedDict):
     r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
     app_backend_max_in_flight: NotRequired[int]
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
+    app_schedule_body_expression_max_length: NotRequired[int]
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+    app_scheduled_concurrent_job_limit: NotRequired[int]
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+    app_schedules_max: NotRequired[int]
+    r"""Maximum number of schedule records a single App may declare."""
 
 
 class AppsTypeSystemSettingsConf(BaseModel):
@@ -49,6 +55,21 @@ class AppsTypeSystemSettingsConf(BaseModel):
     ] = None
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
 
+    app_schedule_body_expression_max_length: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduleBodyExpressionMaxLength")
+    ] = None
+    r"""Maximum number of characters allowed in a schedule bodyExpression."""
+
+    app_scheduled_concurrent_job_limit: Annotated[
+        Optional[int], pydantic.Field(alias="appScheduledConcurrentJobLimit")
+    ] = None
+    r"""Maximum number of concurrent scheduled App Platform function jobs across all apps on this Leader (group-wide). Changes require a Leader restart."""
+
+    app_schedules_max: Annotated[
+        Optional[int], pydantic.Field(alias="appSchedulesMax")
+    ] = None
+    r"""Maximum number of schedule records a single App may declare."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -57,6 +78,9 @@ class AppsTypeSystemSettingsConf(BaseModel):
                 "appBackendMaxCallbacksPerInstallation",
                 "appBackendMaxCallbacksTotal",
                 "appBackendMaxInFlight",
+                "appScheduleBodyExpressionMaxLength",
+                "appScheduledConcurrentJobLimit",
+                "appSchedulesMax",
             ]
         )
         serialized = handler(self)

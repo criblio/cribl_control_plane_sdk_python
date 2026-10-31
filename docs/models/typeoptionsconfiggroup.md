@@ -23,3 +23,4 @@ value = TypeOptionsConfigGroup.EDGE
 | `OUTPOST`      | outpost        |
 | `SEARCH`       | search         |
 | `STREAM`       | stream         |
+| `STREAM_AI`    | stream_ai      |

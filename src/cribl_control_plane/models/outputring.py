@@ -5,6 +5,10 @@ from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlo
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -31,7 +35,7 @@ class OutputRingTypedDict(TypedDict):
     type: OutputRingType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -40,6 +44,8 @@ class OutputRingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     format_: NotRequired[OutputRingDataFormat]
     r"""Format of the output data."""
     partition_expr: NotRequired[str]
@@ -67,7 +73,7 @@ class OutputRing(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -82,6 +88,12 @@ class OutputRing(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     format_: Annotated[
         Optional[OutputRingDataFormat], pydantic.Field(alias="format")
@@ -160,6 +172,7 @@ class OutputRing(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "format",
                 "partitionExpr",
                 "maxDataSize",

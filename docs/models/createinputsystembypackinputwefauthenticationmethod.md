@@ -19,3 +19,4 @@ value = CreateInputSystemByPackInputWefAuthenticationMethod.CLIENT_CERT
 | ------------- | ------------- |
 | `CLIENT_CERT` | clientCert    |
 | `KERBEROS`    | kerberos      |
+| `NEGOTIATE`   | negotiate     |

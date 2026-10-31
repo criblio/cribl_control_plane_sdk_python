@@ -1,5 +1,7 @@
 # RunnableJobCollectionRun
 
+Run settings that control how and when the Collection job runs.
+
 
 ## Fields
 

@@ -3,26 +3,28 @@
 from __future__ import annotations
 from .routeconfinput import RouteConfInput, RouteConfInputTypedDict
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
-from typing import List
+from cribl_control_plane.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_const,
+)
+import pydantic
+from pydantic.functional_validators import AfterValidator
+from typing import List, Literal
 from typing_extensions import Annotated, TypedDict
 
 
 class CreateRoutesAppendByPackAndIDRequestTypedDict(TypedDict):
-    id: str
-    r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
     pack: str
     r"""The <code>id</code> of the Pack."""
     request_body: List[RouteConfInputTypedDict]
     r"""RouteDefinitions object."""
+    id: Literal["default"]
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
 
 
 class CreateRoutesAppendByPackAndIDRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
-    ]
-    r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
-
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
@@ -33,3 +35,16 @@ class CreateRoutesAppendByPackAndIDRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""RouteDefinitions object."""
+
+    ID: Annotated[
+        Annotated[Literal["default"], AfterValidator(validate_const("default"))],
+        pydantic.Field(alias="id"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ] = "default"
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
+
+
+try:
+    CreateRoutesAppendByPackAndIDRequest.model_rebuild()
+except NameError:
+    pass

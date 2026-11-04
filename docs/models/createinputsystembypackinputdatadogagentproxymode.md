@@ -1,5 +1,7 @@
 # CreateInputSystemByPackInputDatadogAgentProxyMode
 
+Proxy mode settings for Datadog Agent requests.
+
 
 ## Fields
 

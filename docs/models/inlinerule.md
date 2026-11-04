@@ -3,13 +3,13 @@
 
 ## Fields
 
-| Field                | Type                 | Required             | Description          |
-| -------------------- | -------------------- | -------------------- | -------------------- |
-| `id`                 | *str*                | :heavy_check_mark:   | Rule ID              |
-| `name`               | *str*                | :heavy_check_mark:   | Rule Name            |
-| `condition`          | *str*                | :heavy_check_mark:   | Condition Expression |
-| `severity_id`        | *Optional[int]*      | :heavy_minus_sign:   | Severity             |
-| `confidence_id`      | *Optional[int]*      | :heavy_minus_sign:   | Confidence           |
-| `is_alert`           | *Optional[bool]*     | :heavy_minus_sign:   | Is Alert             |
-| `message`            | *Optional[str]*      | :heavy_minus_sign:   | Message              |
-| `tags`               | List[*str*]          | :heavy_minus_sign:   | N/A                  |
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `id`                                                                                      | *str*                                                                                     | :heavy_check_mark:                                                                        | Unique identifier for the Detection Rule.                                                 |
+| `name`                                                                                    | *str*                                                                                     | :heavy_check_mark:                                                                        | Display name for the Detection Rule.                                                      |
+| `condition`                                                                               | *str*                                                                                     | :heavy_check_mark:                                                                        | Expression that determines whether the Detection Rule matches an event.                   |
+| `severity_id`                                                                             | *Optional[int]*                                                                           | :heavy_minus_sign:                                                                        | Severity level for the Detection Rule.                                                    |
+| `confidence_id`                                                                           | *Optional[int]*                                                                           | :heavy_minus_sign:                                                                        | Confidence level for the Detection Rule.                                                  |
+| `is_alert`                                                                                | *Optional[bool]*                                                                          | :heavy_minus_sign:                                                                        | If <code>true</code>, the Detection Rule creates an alert. Otherwise, <code>false</code>. |
+| `message`                                                                                 | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | Alert message emitted when the Detection Rule matches.                                    |
+| `tags`                                                                                    | List[*str*]                                                                               | :heavy_minus_sign:                                                                        | Tags for filtering and grouping detection rules.                                          |

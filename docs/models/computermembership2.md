@@ -1,0 +1,9 @@
+# ComputerMembership2
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `addomain`                                                                                       | *str*                                                                                            | :heavy_check_mark:                                                                               | Active Directory DNS domain the machine is joined to; for example <code>corp.example.com</code>. |
+| `netbiosdomain`                                                                                  | *str*                                                                                            | :heavy_check_mark:                                                                               | NetBIOS domain name; for example <code>CORP</code>.                                              |

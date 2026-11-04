@@ -11,6 +11,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GpuTypeTypedDict(TypedDict):
+    r"""Select the level of detail for GPU metrics"""
+
     mode: NotRequired[ModeOptionsGpu]
     r"""Select the level of detail for GPU metrics"""
     per_gpu: NotRequired[bool]
@@ -20,6 +22,8 @@ class GpuTypeTypedDict(TypedDict):
 
 
 class GpuType(BaseModel):
+    r"""Select the level of detail for GPU metrics"""
+
     mode: Optional[ModeOptionsGpu] = None
     r"""Select the level of detail for GPU metrics"""
 

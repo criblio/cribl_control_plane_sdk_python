@@ -22,7 +22,7 @@ class PacksDestinationsPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Destination within a Pack
 
-        Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+        Asynchronously clears the persistent queue (PQ) for the specified Destination. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to clear the PQ for.
         :param pack: The <code>id</code> of the Pack.
@@ -102,6 +102,11 @@ class PacksDestinationsPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -126,7 +131,7 @@ class PacksDestinationsPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Destination within a Pack
 
-        Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+        Asynchronously clears the persistent queue (PQ) for the specified Destination. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to clear the PQ for.
         :param pack: The <code>id</code> of the Pack.
@@ -206,6 +211,11 @@ class PacksDestinationsPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

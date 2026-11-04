@@ -62,13 +62,15 @@ class DistributedSummaryWorkersTypedDict(TypedDict):
     count: int
     r"""Total number of Worker or Edge Nodes."""
     disconnected_count: int
-    r"""Total number of Worker or Edge Nodes in a disconnected state."""
+    r"""Total number of Worker or Edge Nodes in a disconnected state. Excludes Nodes counted in <code>awayCount</code>."""
     groups: int
     r"""Total number of distinct Worker Groups or Edge Fleets that the Workers or Edge Nodes belong to."""
     software_versions: int
     r"""Total number of unique Cribl software versions across all Worker or Edge Nodes."""
     unhealthy: int
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
+    away_count: NotRequired[int]
+    r"""Total number of Worker or Edge Nodes that are disconnected but still within their ephemeral reconnect window."""
 
 
 class DistributedSummaryWorkers(BaseModel):
@@ -84,7 +86,7 @@ class DistributedSummaryWorkers(BaseModel):
     r"""Total number of Worker or Edge Nodes."""
 
     disconnected_count: Annotated[int, pydantic.Field(alias="disconnectedCount")]
-    r"""Total number of Worker or Edge Nodes in a disconnected state."""
+    r"""Total number of Worker or Edge Nodes in a disconnected state. Excludes Nodes counted in <code>awayCount</code>."""
 
     groups: int
     r"""Total number of distinct Worker Groups or Edge Fleets that the Workers or Edge Nodes belong to."""
@@ -94,6 +96,25 @@ class DistributedSummaryWorkers(BaseModel):
 
     unhealthy: int
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
+
+    away_count: Annotated[Optional[int], pydantic.Field(alias="awayCount")] = None
+    r"""Total number of Worker or Edge Nodes that are disconnected but still within their ephemeral reconnect window."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["awayCount"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class DistributedSummaryTypedDict(TypedDict):

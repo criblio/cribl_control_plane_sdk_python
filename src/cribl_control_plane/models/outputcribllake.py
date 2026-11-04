@@ -16,6 +16,10 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -32,6 +36,8 @@ class OutputCriblLakeType(str, Enum):
 
 
 class OutputCriblLakeFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data format to use for files written to the Lake Dataset."""
+
     JSON = "json"
     PARQUET = "parquet"
     RAW = "raw"
@@ -41,7 +47,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     type: OutputCriblLakeType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -50,6 +56,8 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     stage_path: NotRequired[str]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
@@ -81,6 +89,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     storage_location_id: NotRequired[str]
@@ -88,9 +97,15 @@ class OutputCriblLakeTypedDict(TypedDict):
     dest_path: NotRequired[str]
     r"""Lake dataset to send the data to."""
     format_: NotRequired[OutputCriblLakeFormat]
+    r"""Data format to use for files written to the Lake Dataset."""
     dynamic_dataset: NotRequired[bool]
+    r"""Whether the Destination selects the Lake Dataset dynamically."""
     max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files waiting to close before the Destination applies backpressure."""
     max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of file parts to upload concurrently."""
+    freshness_grace_period_sec: NotRequired[float]
+    r"""Additional time, in seconds, allowed before a completed file is considered late."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -148,7 +163,7 @@ class OutputCriblLake(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -163,6 +178,12 @@ class OutputCriblLake(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
@@ -240,6 +261,7 @@ class OutputCriblLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
@@ -255,18 +277,27 @@ class OutputCriblLake(BaseModel):
     format_: Annotated[
         Optional[OutputCriblLakeFormat], pydantic.Field(alias="format")
     ] = None
+    r"""Data format to use for files written to the Lake Dataset."""
 
     dynamic_dataset: Annotated[
         Optional[bool], pydantic.Field(alias="dynamicDataset")
     ] = None
+    r"""Whether the Destination selects the Lake Dataset dynamically."""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
     ] = None
+    r"""Maximum number of files waiting to close before the Destination applies backpressure."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
     ] = None
+    r"""Maximum number of file parts to upload concurrently."""
+
+    freshness_grace_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="freshnessGracePeriodSec")
+    ] = None
+    r"""Additional time, in seconds, allowed before a completed file is considered late."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -462,6 +493,7 @@ class OutputCriblLake(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "stagePath",
                 "addIdToStagePath",
                 "removeEmptyDirs",
@@ -485,6 +517,7 @@ class OutputCriblLake(BaseModel):
                 "dynamicDataset",
                 "maxClosingFilesToBackpressure",
                 "maxConcurrentFileParts",
+                "freshnessGracePeriodSec",
                 "description",
                 "compress",
                 "compressionLevel",

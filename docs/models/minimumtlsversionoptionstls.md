@@ -1,6 +1,6 @@
 # MinimumTLSVersionOptionsTLS
 
-Minimum TLS version
+Minimum TLS version to use for the connection.
 
 ## Example Usage
 

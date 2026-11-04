@@ -25,3 +25,6 @@ value = RbacResource.GROUPS
 | `NOTEBOOKS`          | notebooks            |
 | `NOTEBOOK_TEMPLATES` | notebook-templates   |
 | `APPS`               | apps                 |
+| `SECRET_FOLDERS`     | secret-folders       |
+| `AI_WORKFLOWS`       | ai-workflows         |
+| `AI_WORKFLOW_RUNS`   | ai-workflow-runs     |

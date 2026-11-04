@@ -1,5 +1,7 @@
 # RetrySettingsType
 
+Retry settings for failed file uploads.
+
 
 ## Fields
 

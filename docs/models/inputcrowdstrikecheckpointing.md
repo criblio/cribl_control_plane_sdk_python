@@ -1,0 +1,11 @@
+# InputCrowdstrikeCheckpointing
+
+Checkpoint settings used to resume processing after an interruption. Not applied when fan-out is enabled.
+
+
+## Fields
+
+| Field                                                                                                                              | Type                                                                                                                               | Required                                                                                                                           | Description                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `enabled`                                                                                                                          | *bool*                                                                                                                             | :heavy_check_mark:                                                                                                                 | Resume processing files after an interruption                                                                                      |
+| `retries`                                                                                                                          | *Optional[float]*                                                                                                                  | :heavy_minus_sign:                                                                                                                 | The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored. |

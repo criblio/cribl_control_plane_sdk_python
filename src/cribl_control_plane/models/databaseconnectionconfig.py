@@ -12,6 +12,46 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class PemTypedDict(TypedDict):
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
+
+    key_name: str
+    r"""Name of the stored private key, as listed by <code>/lib/private-keys</code>, to authenticate with."""
+    passphrase: NotRequired[str]
+    r"""Server-resolved passphrase for the stored private key. Ignored on input and omitted from responses."""
+    priv_key_path: NotRequired[str]
+    r"""Server-resolved filesystem path to the stored private key. Ignored on input and omitted from responses."""
+
+
+class Pem(BaseModel):
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
+
+    key_name: Annotated[str, pydantic.Field(alias="keyName")]
+    r"""Name of the stored private key, as listed by <code>/lib/private-keys</code>, to authenticate with."""
+
+    passphrase: Optional[str] = None
+    r"""Server-resolved passphrase for the stored private key. Ignored on input and omitted from responses."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Server-resolved filesystem path to the stored private key. Ignored on input and omitted from responses."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["passphrase", "privKeyPath"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class DatabaseConnectionConfigTypedDict(TypedDict):
     auth_type: DatabaseConnectionAuthType
     database_type: DatabaseConnectionType
@@ -19,6 +59,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Brief description of the Database Connection."""
     id: str
     r"""Unique identifier for the Database Connection."""
+    account_identifier: NotRequired[str]
+    r"""Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>)."""
     config_obj: NotRequired[str]
     r"""JSON configuration object for advanced SQL Server connection settings."""
     connection_string: NotRequired[str]
@@ -29,10 +71,22 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Name of the stored credentials secret containing username and password for SQL Server configObj authentication."""
     creds_secrets: NotRequired[str]
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
+    database: NotRequired[str]
+    r"""Database to connect to instead of the server default."""
+    host: NotRequired[str]
+    r"""Hostname of the server to connect to."""
+    log_on_mechanism: NotRequired[str]
+    r"""Log On Mechanism for databases that support multiple, like Teradata."""
     password: NotRequired[str]
     r"""Database password for authentication. Used with Oracle connections."""
+    pem: NotRequired[PemTypedDict]
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
     request_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+    role: NotRequired[str]
+    r"""Snowflake role to use for the session. When set, requests a role-scoped token."""
+    sslmode: NotRequired[str]
+    r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
     tags: NotRequired[str]
     r"""Comma-separated list of tags for categorizing and filtering Database Connections."""
     text_secret: NotRequired[str]
@@ -41,6 +95,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""TLS client connection settings."""
     user: NotRequired[str]
     r"""Database username for authentication. Used with Oracle connections."""
+    warehouse: NotRequired[str]
+    r"""Snowflake warehouse to use for queries."""
 
 
 class DatabaseConnectionConfig(BaseModel):
@@ -55,6 +111,11 @@ class DatabaseConnectionConfig(BaseModel):
 
     id: str
     r"""Unique identifier for the Database Connection."""
+
+    account_identifier: Annotated[
+        Optional[str], pydantic.Field(alias="accountIdentifier")
+    ] = None
+    r"""Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>)."""
 
     config_obj: Annotated[Optional[str], pydantic.Field(alias="configObj")] = None
     r"""JSON configuration object for advanced SQL Server connection settings."""
@@ -77,13 +138,33 @@ class DatabaseConnectionConfig(BaseModel):
     creds_secrets: Annotated[Optional[str], pydantic.Field(alias="credsSecrets")] = None
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
 
+    database: Optional[str] = None
+    r"""Database to connect to instead of the server default."""
+
+    host: Optional[str] = None
+    r"""Hostname of the server to connect to."""
+
+    log_on_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="logOnMechanism")
+    ] = None
+    r"""Log On Mechanism for databases that support multiple, like Teradata."""
+
     password: Optional[str] = None
     r"""Database password for authentication. Used with Oracle connections."""
+
+    pem: Optional[Pem] = None
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
 
     request_timeout: Annotated[
         Optional[int], pydantic.Field(alias="requestTimeout")
     ] = None
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
+
+    role: Optional[str] = None
+    r"""Snowflake role to use for the session. When set, requests a role-scoped token."""
+
+    sslmode: Optional[str] = None
+    r"""HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior."""
 
     tags: Optional[str] = None
     r"""Comma-separated list of tags for categorizing and filtering Database Connections."""
@@ -96,6 +177,9 @@ class DatabaseConnectionConfig(BaseModel):
 
     user: Optional[str] = None
     r"""Database username for authentication. Used with Oracle connections."""
+
+    warehouse: Optional[str] = None
+    r"""Snowflake warehouse to use for queries."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -119,17 +203,25 @@ class DatabaseConnectionConfig(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "accountIdentifier",
                 "configObj",
                 "connectionString",
                 "connectionTimeout",
                 "credentialsSecret",
                 "credsSecrets",
+                "database",
+                "host",
+                "logOnMechanism",
                 "password",
+                "pem",
                 "requestTimeout",
+                "role",
+                "sslmode",
                 "tags",
                 "textSecret",
                 "tls",
                 "user",
+                "warehouse",
             ]
         )
         serialized = handler(self)
@@ -146,6 +238,10 @@ class DatabaseConnectionConfig(BaseModel):
         return m
 
 
+try:
+    Pem.model_rebuild()
+except NameError:
+    pass
 try:
     DatabaseConnectionConfig.model_rebuild()
 except NameError:

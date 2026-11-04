@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetPipelinesRequestTypedDict(TypedDict):
     offset: NotRequired[int]
-    r"""Pagination offset"""
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
     limit: NotRequired[int]
-    r"""Maximum number of items to return"""
+    r"""Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
 
 
 class GetPipelinesRequest(BaseModel):
@@ -21,13 +21,13 @@ class GetPipelinesRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Pagination offset"""
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
     limit: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of items to return"""
+    r"""Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

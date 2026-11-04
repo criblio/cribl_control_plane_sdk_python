@@ -32,7 +32,7 @@ class InputKubeEventsInputTypedDict(TypedDict):
     type: InputKubeEventsType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -48,6 +48,7 @@ class InputKubeEventsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     rules: NotRequired[List[RuleConfInputKubeMetricsTypedDict]]
     r"""Filtering on event fields"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -65,7 +66,7 @@ class InputKubeEventsInput(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -91,6 +92,7 @@ class InputKubeEventsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     rules: Optional[List[RuleConfInputKubeMetrics]] = None
     r"""Filtering on event fields"""

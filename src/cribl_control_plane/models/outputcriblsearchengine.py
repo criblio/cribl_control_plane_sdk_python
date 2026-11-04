@@ -8,6 +8,8 @@ from .authtokenconfoutputcriblhttp import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
+from .endpointlisttype import EndpointListType, EndpointListTypeTypedDict
+from .endpointsourceoptions import EndpointSourceOptions
 from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElastic,
     ExtraHTTPHeaderConfInputElasticTypedDict,
@@ -18,6 +20,10 @@ from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
+)
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
 )
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
@@ -31,7 +37,7 @@ from .urlconfoutputcriblhttp import (
     URLConfOutputCriblHTTP,
     URLConfOutputCriblHTTPTypedDict,
 )
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -46,6 +52,17 @@ class OutputCriblSearchEngineType(str, Enum):
     CRIBL_SEARCH_ENGINE = "cribl_search_engine"
 
 
+class SendAs(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
+
+    # Logs
+    LOGS = "logs"
+    # Metrics
+    METRICS = "metrics"
+    # Logs and Metrics
+    BOTH = "both"
+
+
 class OutputCriblSearchEnginePqControlsTypedDict(TypedDict):
     r"""Persistent queue controls."""
 
@@ -58,7 +75,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     type: OutputCriblSearchEngineType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -67,6 +84,8 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
@@ -85,6 +104,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -102,27 +122,36 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    throttle_burst_disabled: NotRequired[bool]
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[AuthTokenConfOutputCriblHTTPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
+    send_as: NotRequired[SendAs]
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
-    exclude_self: NotRequired[bool]
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    endpoint_source: NotRequired[EndpointSourceOptions]
+    r"""Whether to use statically configured endpoints or an Endpoint List"""
     urls: NotRequired[List[URLConfOutputCriblHTTPTypedDict]]
     r"""Cribl Worker endpoints"""
+    endpoint_list: NotRequired[EndpointListTypeTypedDict]
+    r"""Endpoint List"""
+    exclude_self: NotRequired[bool]
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -142,7 +171,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -166,7 +195,7 @@ class OutputCriblSearchEngine(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -181,6 +210,12 @@ class OutputCriblSearchEngine(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -220,6 +255,7 @@ class OutputCriblSearchEngine(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -259,6 +295,11 @@ class OutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
+    throttle_burst_disabled: Annotated[
+        Optional[bool], pydantic.Field(alias="throttleBurstDisabled")
+    ] = None
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
+
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
@@ -268,6 +309,7 @@ class OutputCriblSearchEngine(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -284,6 +326,9 @@ class OutputCriblSearchEngine(BaseModel):
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
+    send_as: Annotated[Optional[SendAs], pydantic.Field(alias="sendAs")] = None
+    r"""Which signals this Destination carries. Logs sends everything to log search, including metric events. Metrics routes metric events to the metric store and drops everything else. Logs and Metrics routes metric events to the metric store and sends the rest to log search. Metric routing requires the receiving Cribl Search Source to be enabled for metrics storage; if it is not, metric events are discarded rather than stored as logs."""
+
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
     ] = None
@@ -295,11 +340,21 @@ class OutputCriblSearchEngine(BaseModel):
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    endpoint_source: Annotated[
+        Optional[EndpointSourceOptions], pydantic.Field(alias="endpointSource")
+    ] = None
+    r"""Whether to use statically configured endpoints or an Endpoint List"""
 
     urls: Optional[List[URLConfOutputCriblHTTP]] = None
     r"""Cribl Worker endpoints"""
+
+    endpoint_list: Annotated[
+        Optional[EndpointListType], pydantic.Field(alias="endpointList")
+    ] = None
+    r"""Endpoint List"""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -343,7 +398,7 @@ class OutputCriblSearchEngine(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -412,6 +467,24 @@ class OutputCriblSearchEngine(BaseModel):
                 return value
         return value
 
+    @field_serializer("send_as")
+    def serialize_send_as(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SendAs(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("endpoint_source")
+    def serialize_endpoint_source(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EndpointSourceOptions(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("pq_mode")
     def serialize_pq_mode(self, value):
         if isinstance(value, str):
@@ -448,6 +521,7 @@ class OutputCriblSearchEngine(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "loadBalanced",
                 "tls",
                 "tokenTTLMinutes",
@@ -464,16 +538,20 @@ class OutputCriblSearchEngine(BaseModel):
                 "failedRequestLoggingMode",
                 "safeHeaders",
                 "throttleRatePerSec",
+                "throttleBurstDisabled",
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "authTokens",
                 "onBackpressure",
+                "sendAs",
                 "useRoundRobinDns",
                 "description",
                 "url",
-                "excludeSelf",
+                "endpointSource",
                 "urls",
+                "endpointList",
+                "excludeSelf",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
                 "pqStrictOrdering",

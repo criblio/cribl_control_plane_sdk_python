@@ -14,3 +14,4 @@ class TypeOptionsConfigGroup(str, Enum, metaclass=utils.OpenEnumMeta):
     OUTPOST = "outpost"
     SEARCH = "search"
     STREAM = "stream"
+    STREAM_AI = "stream_ai"

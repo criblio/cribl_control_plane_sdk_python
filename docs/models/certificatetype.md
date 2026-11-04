@@ -1,5 +1,7 @@
 # CertificateType
 
+Certificate credentials for the Azure service principal.
+
 
 ## Fields
 

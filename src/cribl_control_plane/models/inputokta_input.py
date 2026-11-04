@@ -26,22 +26,22 @@ class InputOktaType(str, Enum):
 
 
 class InputOktaManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOktaManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputOktaInputTypedDict(TypedDict):
     type: InputOktaType
     r"""Connector type identifier."""
     okta_domain: str
-    r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
+    r"""Your Okta subdomain (example: your-org). Do not include the domain suffix, https://, or trailing slashes."""
     text_secret: str
     r"""Select or create a stored text secret"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -57,6 +57,9 @@ class InputOktaInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
+    okta_domain_suffix: NotRequired[str]
+    r"""Host suffix for your Okta cell/region. Defaults to okta.com (US commercial). Choose okta-emea.com (EMEA), oktapreview.com (preview), okta-gov.com (US gov), or okta.mil (US military)."""
     okta_token: NotRequired[str]
     r"""Your Okta API token for authentication"""
     cron_schedule: NotRequired[str]
@@ -66,6 +69,7 @@ class InputOktaInputTypedDict(TypedDict):
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
     manage_state: NotRequired[InputOktaManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     request_timeout: NotRequired[float]
@@ -81,6 +85,7 @@ class InputOktaInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -96,13 +101,13 @@ class InputOktaInput(BaseModel):
     r"""Connector type identifier."""
 
     okta_domain: Annotated[str, pydantic.Field(alias="oktaDomain")]
-    r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
+    r"""Your Okta subdomain (example: your-org). Do not include the domain suffix, https://, or trailing slashes."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored text secret"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -128,6 +133,12 @@ class InputOktaInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
+
+    okta_domain_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="oktaDomainSuffix")
+    ] = None
+    r"""Host suffix for your Okta cell/region. Defaults to okta.com (US commercial). Choose okta-emea.com (EMEA), oktapreview.com (preview), okta-gov.com (US gov), or okta.mil (US military)."""
 
     okta_token: Annotated[Optional[str], pydantic.Field(alias="oktaToken")] = None
     r"""Your Okta API token for authentication"""
@@ -144,6 +155,7 @@ class InputOktaInput(BaseModel):
     manage_state: Annotated[
         Optional[InputOktaManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -177,6 +189,7 @@ class InputOktaInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -209,6 +222,7 @@ class InputOktaInput(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "oktaDomainSuffix",
                 "oktaToken",
                 "cronSchedule",
                 "earliest",

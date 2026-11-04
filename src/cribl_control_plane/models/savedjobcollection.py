@@ -27,7 +27,7 @@ class SavedJobCollectionTypedDict(TypedDict):
     collector: CollectorTypedDict
     r"""Collector configuration"""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -62,7 +62,7 @@ class SavedJobCollection(BaseModel):
     r"""Collector configuration"""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

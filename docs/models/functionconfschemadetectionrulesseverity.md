@@ -1,6 +1,6 @@
 # FunctionConfSchemaDetectionRulesSeverity
 
-Severity
+Severity level to assign to the Detection Rule.
 
 ## Example Usage
 

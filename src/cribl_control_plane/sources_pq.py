@@ -223,7 +223,7 @@ class SourcesPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Source
 
-        Clear the persistent queue (PQ) for the specified Source.
+        Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
         :param retries: Override the default retry configuration for this method
@@ -301,6 +301,11 @@ class SourcesPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -324,7 +329,7 @@ class SourcesPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Source
 
-        Clear the persistent queue (PQ) for the specified Source.
+        Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
         :param retries: Override the default retry configuration for this method
@@ -402,6 +407,11 @@ class SourcesPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

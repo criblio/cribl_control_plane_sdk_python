@@ -2,24 +2,35 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
+from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, validate_const
+import pydantic
+from pydantic.functional_validators import AfterValidator
+from typing import Literal
 from typing_extensions import Annotated, TypedDict
 
 
 class GetRoutesByPackAndIDRequestTypedDict(TypedDict):
-    id: str
-    r"""The <code>id</code> of the Routing table to get. The supported value is <code>default</code>."""
     pack: str
     r"""The <code>id</code> of the Pack."""
+    id: Literal["default"]
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
 
 
 class GetRoutesByPackAndIDRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
-    ]
-    r"""The <code>id</code> of the Routing table to get. The supported value is <code>default</code>."""
-
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
     r"""The <code>id</code> of the Pack."""
+
+    ID: Annotated[
+        Annotated[Literal["default"], AfterValidator(validate_const("default"))],
+        pydantic.Field(alias="id"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ] = "default"
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
+
+
+try:
+    GetRoutesByPackAndIDRequest.model_rebuild()
+except NameError:
+    pass

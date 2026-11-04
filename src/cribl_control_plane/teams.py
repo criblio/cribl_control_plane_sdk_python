@@ -21,12 +21,12 @@ class Teams(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedTeamAccessControlList:
-        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+        r"""Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
+        Get the Team access control list (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>This endpoint lists Teams with explicit access assignments on the Group or Fleet. The response does not include access granted to individual Team Members through direct user assignments or inherited based on Team Permissions and Roles at the Organization/Global, Workspace, or product level.<br/><br/>To list the user ACL for a Group or Fleet, use <code>GET /products/{product}/groups/{id}/acl</code>.
 
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the Team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -110,7 +110,7 @@ class Teams(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -130,12 +130,12 @@ class Teams(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedTeamAccessControlList:
-        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+        r"""Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
+        Get the Team access control list (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>This endpoint lists Teams with explicit access assignments on the Group or Fleet. The response does not include access granted to individual Team Members through direct user assignments or inherited based on Team Permissions and Roles at the Organization/Global, Workspace, or product level.<br/><br/>To list the user ACL for a Group or Fleet, use <code>GET /products/{product}/groups/{id}/acl</code>.
 
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the Team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -219,7 +219,7 @@ class Teams(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

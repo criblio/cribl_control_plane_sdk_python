@@ -19,3 +19,4 @@ value = CreateInputInputWefAuthenticationMethod.CLIENT_CERT
 | ------------- | ------------- |
 | `CLIENT_CERT` | clientCert    |
 | `KERBEROS`    | kerberos      |
+| `NEGOTIATE`   | negotiate     |

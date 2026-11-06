@@ -1,5 +1,7 @@
 # SaslMechanismOptionsSasl
 
+SASL mechanism
+
 ## Example Usage
 
 ```python

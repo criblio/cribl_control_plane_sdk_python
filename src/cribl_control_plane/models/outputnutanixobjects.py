@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputNutanixObjectsType(str, Enum):
+    r"""Connector type identifier."""
+
     NUTANIX_OBJECTS = "nutanix_objects"
 
 
 class OutputNutanixObjectsTypedDict(TypedDict):
     type: OutputNutanixObjectsType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -48,7 +51,7 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsSecret]
     r"""Authentication method."""
     reuse_connections: NotRequired[bool]
@@ -98,8 +101,11 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -164,6 +170,7 @@ class OutputNutanixObjectsTypedDict(TypedDict):
 
 class OutputNutanixObjects(BaseModel):
     type: OutputNutanixObjectsType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -189,7 +196,7 @@ class OutputNutanixObjects(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsSecret],
@@ -311,10 +318,13 @@ class OutputNutanixObjects(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

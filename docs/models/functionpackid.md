@@ -1,5 +1,7 @@
 # FunctionPackID
 
+Identifier of the Function. Always <code>pack</code>
+
 ## Example Usage
 
 ```python

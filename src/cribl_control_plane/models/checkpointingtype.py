@@ -8,6 +8,8 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class CheckpointingTypeTypedDict(TypedDict):
+    r"""Checkpoint settings used to resume processing after an interruption."""
+
     enabled: bool
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
@@ -15,6 +17,8 @@ class CheckpointingTypeTypedDict(TypedDict):
 
 
 class CheckpointingType(BaseModel):
+    r"""Checkpoint settings used to resume processing after an interruption."""
+
     enabled: bool
     r"""Resume processing files after an interruption"""
 

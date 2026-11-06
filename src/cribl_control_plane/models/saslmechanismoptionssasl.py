@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class SaslMechanismOptionsSasl(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""SASL mechanism"""
+
     # PLAIN
     PLAIN = "plain"
     # SCRAM-SHA-256

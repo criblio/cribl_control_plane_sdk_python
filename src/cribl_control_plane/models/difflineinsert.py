@@ -8,21 +8,33 @@ from typing_extensions import Annotated, TypedDict
 
 
 class DiffLineInsertType(str, Enum):
+    r"""Line change type. Always <code>insert</code> for inserted lines."""
+
     INSERT = "insert"
 
 
 class DiffLineInsertTypedDict(TypedDict):
+    r"""Inserted line in a Git diff hunk."""
+
     type: DiffLineInsertType
-    new_number: float
+    r"""Line change type. Always <code>insert</code> for inserted lines."""
+    new_number: int
+    r"""Line number in the new file."""
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 class DiffLineInsert(BaseModel):
-    type: DiffLineInsertType
+    r"""Inserted line in a Git diff hunk."""
 
-    new_number: Annotated[float, pydantic.Field(alias="newNumber")]
+    type: DiffLineInsertType
+    r"""Line change type. Always <code>insert</code> for inserted lines."""
+
+    new_number: Annotated[int, pydantic.Field(alias="newNumber")]
+    r"""Line number in the new file."""
 
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 try:

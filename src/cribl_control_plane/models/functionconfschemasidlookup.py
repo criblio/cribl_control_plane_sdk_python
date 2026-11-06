@@ -11,6 +11,7 @@ class FunctionConfSchemaSidlookupFieldTypedDict(TypedDict):
     expr: str
     r"""JavaScript expression to compute the value (can be constant)"""
     name: NotRequired[str]
+    r"""Name of the field to set or add to the event."""
     disabled: NotRequired[bool]
     r"""Set to No to disable the evaluation of an individual expression"""
 
@@ -20,6 +21,7 @@ class FunctionConfSchemaSidlookupField(BaseModel):
     r"""JavaScript expression to compute the value (can be constant)"""
 
     name: Optional[str] = None
+    r"""Name of the field to set or add to the event."""
 
     disabled: Optional[bool] = None
     r"""Set to No to disable the evaluation of an individual expression"""

@@ -1,10 +1,16 @@
 # PipelineFunctionNotificationsConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Fields
 
-| Field                               | Type                                | Required                            | Description                         |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| `id`                                | *str*                               | :heavy_check_mark:                  | Notification ID                     |
-| `field`                             | *str*                               | :heavy_check_mark:                  | Notification event state field name |
-| `deduplicate`                       | *bool*                              | :heavy_check_mark:                  | Toggle deduplication.               |
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `id`                                                                                   | *str*                                                                                  | :heavy_check_mark:                                                                     | Notification ID                                                                        |
+| `field`                                                                                | *str*                                                                                  | :heavy_check_mark:                                                                     | Notification event state field name                                                    |
+| `deduplicate`                                                                          | *bool*                                                                                 | :heavy_check_mark:                                                                     | Toggle deduplication.                                                                  |
+| `mode`                                                                                 | [OptionalNullable[models.InternalProcessingMode]](../models/internalprocessingmode.md) | :heavy_minus_sign:                                                                     | Internal no-data window processing                                                     |
+| `lag_tolerance_sec`                                                                    | *Optional[float]*                                                                      | :heavy_minus_sign:                                                                     | Minimum no-data window age                                                             |
+| `max_age_sec`                                                                          | *Optional[float]*                                                                      | :heavy_minus_sign:                                                                     | Maximum no-data window age                                                             |
+| `retro_monitor`                                                                        | *Optional[bool]*                                                                       | :heavy_minus_sign:                                                                     | Internal no-data retro-monitor processing                                              |

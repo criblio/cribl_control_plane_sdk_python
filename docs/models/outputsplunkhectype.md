@@ -1,5 +1,7 @@
 # OutputSplunkHecType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

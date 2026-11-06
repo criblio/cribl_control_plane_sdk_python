@@ -10,13 +10,17 @@ from typing_extensions import Annotated, TypeAliasType, TypedDict
 
 class BackupsSettingsTypedDict(TypedDict):
     backup_persistence: str
+    r"""How long to retain backups. Value is a duration string such as <code>24h</code>."""
     backups_directory: str
+    r"""Filesystem path where configuration backups are stored."""
 
 
 class BackupsSettings(BaseModel):
     backup_persistence: Annotated[str, pydantic.Field(alias="backupPersistence")]
+    r"""How long to retain backups. Value is a duration string such as <code>24h</code>."""
 
     backups_directory: Annotated[str, pydantic.Field(alias="backupsDirectory")]
+    r"""Filesystem path where configuration backups are stored."""
 
 
 BackupsSettingsUnionTypedDict = TypeAliasType(

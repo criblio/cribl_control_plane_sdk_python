@@ -1,5 +1,7 @@
 # InputKubeEventsType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

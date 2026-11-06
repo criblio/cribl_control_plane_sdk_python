@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class OauthParamConfInputKafkaTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
+    r"""Parameter Value"""
 
 
 class OauthParamConfInputKafka(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
+    r"""Parameter Value"""

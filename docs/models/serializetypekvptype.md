@@ -1,6 +1,6 @@
 # SerializeTypeKvpType
 
-Data output format
+Data output format.
 
 ## Example Usage
 

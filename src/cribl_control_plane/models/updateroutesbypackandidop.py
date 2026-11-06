@@ -10,7 +10,7 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdateRoutesByPackAndIDRequestTypedDict(TypedDict):
     id_param: str
-    r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
+    r"""The <code>id</code> of the Routing table to update. The supported value is <code>default</code>."""
     pack: str
     r"""The <code>id</code> of the Pack."""
     routes_input: RoutesInputTypedDict
@@ -23,7 +23,7 @@ class UpdateRoutesByPackAndIDRequest(BaseModel):
         pydantic.Field(alias="id"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
+    r"""The <code>id</code> of the Routing table to update. The supported value is <code>default</code>."""
 
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))

@@ -21,6 +21,10 @@ from .pipelinefunctioncomment import (
     PipelineFunctionComment,
     PipelineFunctionCommentTypedDict,
 )
+from .pipelinefunctiondetectionrules import (
+    PipelineFunctionDetectionRules,
+    PipelineFunctionDetectionRulesTypedDict,
+)
 from .pipelinefunctiondistinct import (
     PipelineFunctionDistinct,
     PipelineFunctionDistinctTypedDict,
@@ -78,10 +82,18 @@ from .pipelinefunctionlakeexport import (
     PipelineFunctionLakeExport,
     PipelineFunctionLakeExportTypedDict,
 )
+from .pipelinefunctionlakehouseenginemetricsnormalizer import (
+    PipelineFunctionLakehouseEngineMetricsNormalizer,
+    PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
+)
 from .pipelinefunctionlimit import PipelineFunctionLimit, PipelineFunctionLimitTypedDict
 from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
+)
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
 )
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
@@ -104,6 +116,14 @@ from .pipelinefunctionlookup import (
     PipelineFunctionLookupTypedDict,
 )
 from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskTypedDict
+from .pipelinefunctionmetricsexport import (
+    PipelineFunctionMetricsExport,
+    PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -185,10 +205,6 @@ from .pipelinefunctionsidlookup import (
     PipelineFunctionSidlookup,
     PipelineFunctionSidlookupTypedDict,
 )
-from .pipelinefunctionsignalfilter import (
-    PipelineFunctionSignalFilter,
-    PipelineFunctionSignalFilterTypedDict,
-)
 from .pipelinefunctionsnmptrapserialize import (
     PipelineFunctionSnmpTrapSerialize,
     PipelineFunctionSnmpTrapSerializeTypedDict,
@@ -237,6 +253,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionCloneTypedDict,
         PipelineFunctionCodeTypedDict,
         PipelineFunctionCommentTypedDict,
+        PipelineFunctionDetectionRulesTypedDict,
         PipelineFunctionDistinctTypedDict,
         PipelineFunctionDNSLookupTypedDict,
         PipelineFunctionDropTypedDict,
@@ -255,14 +272,18 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionJoinTypedDict,
         PipelineFunctionJSONUnrollTypedDict,
         PipelineFunctionLakeExportTypedDict,
+        PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
+        PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -287,7 +308,6 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionSerdeTypedDict,
         PipelineFunctionSerializeTypedDict,
         PipelineFunctionSidlookupTypedDict,
-        PipelineFunctionSignalFilterTypedDict,
         PipelineFunctionSnmpTrapSerializeTypedDict,
         PipelineFunctionSortTypedDict,
         PipelineFunctionStoreTypedDict,
@@ -321,6 +341,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "clone": PipelineFunctionClone,
     "code": PipelineFunctionCode,
     "comment": PipelineFunctionComment,
+    "detection_rules": PipelineFunctionDetectionRules,
     "distinct": PipelineFunctionDistinct,
     "dns_lookup": PipelineFunctionDNSLookup,
     "drop": PipelineFunctionDrop,
@@ -339,14 +360,18 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "join": PipelineFunctionJoin,
     "json_unroll": PipelineFunctionJSONUnroll,
     "lake_export": PipelineFunctionLakeExport,
+    "lakehouse_engine_metrics_normalizer": PipelineFunctionLakehouseEngineMetricsNormalizer,
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": PipelineFunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": PipelineFunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": PipelineFunctionLocalSearchTimeRangeNormalizer,
     "local_search_transformer": PipelineFunctionLocalSearchTransformer,
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
+    "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -371,7 +396,6 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "serde": PipelineFunctionSerde,
     "serialize": PipelineFunctionSerialize,
     "sidlookup": PipelineFunctionSidlookup,
-    "signal_filter": PipelineFunctionSignalFilter,
     "snmp_trap_serialize": PipelineFunctionSnmpTrapSerialize,
     "sort": PipelineFunctionSort,
     "store": PipelineFunctionStore,
@@ -395,6 +419,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionClone,
         PipelineFunctionCode,
         PipelineFunctionComment,
+        PipelineFunctionDetectionRules,
         PipelineFunctionDistinct,
         PipelineFunctionDNSLookup,
         PipelineFunctionDrop,
@@ -413,14 +438,18 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionJoin,
         PipelineFunctionJSONUnroll,
         PipelineFunctionLakeExport,
+        PipelineFunctionLakehouseEngineMetricsNormalizer,
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
+        PipelineFunctionLocalSearchDatatypeSchemaMapper,
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchSchemaMapper,
         PipelineFunctionLocalSearchTimeRangeNormalizer,
         PipelineFunctionLocalSearchTransformer,
         PipelineFunctionLookup,
         PipelineFunctionMask,
+        PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,
@@ -445,7 +474,6 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionSerde,
         PipelineFunctionSerialize,
         PipelineFunctionSidlookup,
-        PipelineFunctionSignalFilter,
         PipelineFunctionSnmpTrapSerialize,
         PipelineFunctionSort,
         PipelineFunctionStore,

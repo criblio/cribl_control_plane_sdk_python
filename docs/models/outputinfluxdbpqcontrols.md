@@ -1,5 +1,7 @@
 # OutputInfluxdbPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

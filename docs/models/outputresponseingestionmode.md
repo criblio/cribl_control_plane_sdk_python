@@ -1,5 +1,7 @@
 # OutputResponseIngestionMode
 
+Ingestion mode
+
 ## Example Usage
 
 ```python

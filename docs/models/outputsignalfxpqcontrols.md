@@ -1,5 +1,7 @@
 # OutputSignalfxPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

@@ -1,5 +1,7 @@
 # DistributedSummaryGroups
 
+Resource counts for Worker Groups or Edge Fleets in the deployment summary.
+
 
 ## Fields
 

@@ -1,6 +1,6 @@
 # PipelineFunctionNotificationPoliciesID
 
-Function ID
+Identifier of the Function. Always <code>notification_policies</code>
 
 ## Example Usage
 

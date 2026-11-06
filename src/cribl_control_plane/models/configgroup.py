@@ -55,9 +55,17 @@ class Git(BaseModel):
 
 
 class ConfigGroupTypedDict(TypedDict):
+    r"""Configuration settings and dynamic status for a Worker Group, Outpost Group, or Edge Fleet."""
+
     id: str
     r"""Unique identifier."""
+    src_group: NotRequired[str]
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+    src_overridden: NotRequired[bool]
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
+    collectors_ha_enabled: NotRequired[bool]
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
     config_version: NotRequired[str]
     r"""Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."""
     deploying_worker_count: NotRequired[int]
@@ -101,10 +109,25 @@ class ConfigGroupTypedDict(TypedDict):
 
 
 class ConfigGroup(BaseModel):
+    r"""Configuration settings and dynamic status for a Worker Group, Outpost Group, or Edge Fleet."""
+
     id: str
     r"""Unique identifier."""
 
+    src_group: Annotated[Optional[str], pydantic.Field(alias="__srcGroup")] = None
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+
+    src_overridden: Annotated[
+        Optional[bool], pydantic.Field(alias="__srcOverridden")
+    ] = None
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
+
     cloud: Optional[ConfigGroupCloud] = None
+
+    collectors_ha_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="collectorsHaEnabled")
+    ] = None
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
 
     config_version: Annotated[Optional[str], pydantic.Field(alias="configVersion")] = (
         None
@@ -222,7 +245,10 @@ class ConfigGroup(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__srcGroup",
+                "__srcOverridden",
                 "cloud",
+                "collectorsHaEnabled",
                 "configVersion",
                 "deployingWorkerCount",
                 "description",

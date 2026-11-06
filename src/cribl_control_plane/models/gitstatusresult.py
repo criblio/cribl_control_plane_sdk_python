@@ -9,65 +9,97 @@ from typing_extensions import Annotated, TypedDict
 
 class FileTypedDict(TypedDict):
     index: str
+    r"""Status code for the file in the index (staging area), using Git short-format notation."""
     path: str
+    r"""File path relative to the configuration root."""
     working_dir: str
+    r"""Status code for the file in the working directory, using Git short-format notation."""
 
 
 class File(BaseModel):
     index: str
+    r"""Status code for the file in the index (staging area), using Git short-format notation."""
 
     path: str
+    r"""File path relative to the configuration root."""
 
     working_dir: str
+    r"""Status code for the file in the working directory, using Git short-format notation."""
 
 
 class RenamedTypedDict(TypedDict):
     from_: str
+    r"""Original file path before the rename."""
     to: str
+    r"""New file path after the rename."""
 
 
 class Renamed(BaseModel):
     from_: Annotated[str, pydantic.Field(alias="from")]
+    r"""Original file path before the rename."""
 
     to: str
+    r"""New file path after the rename."""
 
 
 class GitStatusResultTypedDict(TypedDict):
-    ahead: float
-    behind: float
+    ahead: int
+    r"""Number of local commits that have not been pushed to the remote repository."""
+    behind: int
+    r"""Number of commits in the remote repository that have not been pulled to the local branch."""
     conflicted: List[str]
+    r"""Array of file paths that have merge conflicts."""
     created: List[str]
+    r"""Array of file paths for newly created files that are staged for commit."""
     current: str
+    r"""Name of the current Git branch."""
     deleted: List[str]
+    r"""Array of file paths for deleted files that are staged for commit."""
     files: List[FileTypedDict]
+    r"""Array of all changed files with their index and working directory status codes."""
     modified: List[str]
+    r"""Array of file paths for modified files that are staged for commit."""
     not_added: List[str]
+    r"""Array of file paths that have been modified but are not staged for commit."""
     renamed: List[RenamedTypedDict]
+    r"""Array of file rename operations that are staged for commit."""
     staged: List[str]
+    r"""Array of file paths that are staged for the next commit."""
 
 
 class GitStatusResult(BaseModel):
-    ahead: float
+    ahead: int
+    r"""Number of local commits that have not been pushed to the remote repository."""
 
-    behind: float
+    behind: int
+    r"""Number of commits in the remote repository that have not been pulled to the local branch."""
 
     conflicted: List[str]
+    r"""Array of file paths that have merge conflicts."""
 
     created: List[str]
+    r"""Array of file paths for newly created files that are staged for commit."""
 
     current: str
+    r"""Name of the current Git branch."""
 
     deleted: List[str]
+    r"""Array of file paths for deleted files that are staged for commit."""
 
     files: List[File]
+    r"""Array of all changed files with their index and working directory status codes."""
 
     modified: List[str]
+    r"""Array of file paths for modified files that are staged for commit."""
 
     not_added: List[str]
+    r"""Array of file paths that have been modified but are not staged for commit."""
 
     renamed: List[Renamed]
+    r"""Array of file rename operations that are staged for commit."""
 
     staged: List[str]
+    r"""Array of file paths that are staged for the next commit."""
 
 
 try:

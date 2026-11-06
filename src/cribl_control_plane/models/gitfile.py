@@ -2,27 +2,41 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GitFileTypedDict(TypedDict):
     name: str
+    r"""Path of the file relative to the configuration root."""
+    auto_included_in_commit: NotRequired[bool]
+    r"""If <code>true</code>, this file is automatically included in commits without being explicitly listed. Otherwise, <code>false</code>."""
     children: NotRequired[List[GitFileTypedDict]]
+    r"""When this entry is a directory, nested files and subdirectories. Each array element matches this same object shape (recursive file tree)."""
     state: NotRequired[str]
+    r"""Git status code for the file: <code>M</code> for modified, <code>A</code> for added, or <code>D</code> for deleted."""
 
 
 class GitFile(BaseModel):
     name: str
+    r"""Path of the file relative to the configuration root."""
+
+    auto_included_in_commit: Annotated[
+        Optional[bool], pydantic.Field(alias="autoIncludedInCommit")
+    ] = None
+    r"""If <code>true</code>, this file is automatically included in commits without being explicitly listed. Otherwise, <code>false</code>."""
 
     children: Optional[List[GitFile]] = None
+    r"""When this entry is a directory, nested files and subdirectories. Each array element matches this same object shape (recursive file tree)."""
 
     state: Optional[str] = None
+    r"""Git status code for the file: <code>M</code> for modified, <code>A</code> for added, or <code>D</code> for deleted."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["children", "state"])
+        optional_fields = set(["autoIncludedInCommit", "children", "state"])
         serialized = handler(self)
         m = {}
 
@@ -35,3 +49,9 @@ class GitFile(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GitFile.model_rebuild()
+except NameError:
+    pass

@@ -1,5 +1,7 @@
 # OutputGoogleChronicleAuthenticationMethod
 
+Authentication method
+
 ## Example Usage
 
 ```python

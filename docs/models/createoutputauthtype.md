@@ -1,5 +1,7 @@
 # CreateOutputAuthType
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

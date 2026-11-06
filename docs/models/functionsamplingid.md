@@ -1,5 +1,7 @@
 # FunctionSamplingID
 
+Identifier of the Function. Always <code>sampling</code>
+
 ## Example Usage
 
 ```python

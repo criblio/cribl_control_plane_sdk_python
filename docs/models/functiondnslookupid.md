@@ -1,5 +1,7 @@
 # FunctionDNSLookupID
 
+Identifier of the Function. Always <code>dns_lookup</code>
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # AuthenticationProtocolOptionsV3User
 
+Authentication protocol for the SNMPv3 user.
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # FunctionUnionID
 
+Identifier of the Function. Always <code>union</code>
+
 ## Example Usage
 
 ```python

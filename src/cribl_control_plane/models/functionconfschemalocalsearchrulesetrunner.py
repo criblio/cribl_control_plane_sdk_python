@@ -11,26 +11,27 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RulesetType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Type of ruleset to apply: dataset or datatype."""
+
     DATASET = "dataset"
     DATATYPE = "datatype"
 
 
-class FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict(
-    TypedDict
-):
-    pass
+class FullRulesetTypedDict(TypedDict):
+    r"""Full ruleset definition, used with live data capture for draft or unsaved rulesets."""
 
 
-class FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets(BaseModel):
-    pass
+class FullRuleset(BaseModel):
+    r"""Full ruleset definition, used with live data capture for draft or unsaved rulesets."""
 
 
 class FunctionConfSchemaLocalSearchRulesetRunnerTypedDict(TypedDict):
     ruleset_type: NotRequired[RulesetType]
+    r"""Type of ruleset to apply: dataset or datatype."""
     ruleset_id: NotRequired[str]
-    ruleset: NotRequired[
-        FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict
-    ]
+    r"""ID of the ruleset to apply."""
+    ruleset: NotRequired[FullRulesetTypedDict]
+    r"""Full ruleset definition, used with live data capture for draft or unsaved rulesets."""
     mark_and_include_dropped_events: NotRequired[bool]
     r"""Only for use with live data capture. Mark events that were dropped by dataset rules and still include them for capture"""
 
@@ -39,12 +40,13 @@ class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
     ruleset_type: Annotated[
         Optional[RulesetType], pydantic.Field(alias="rulesetType")
     ] = None
+    r"""Type of ruleset to apply: dataset or datatype."""
 
     ruleset_id: Annotated[Optional[str], pydantic.Field(alias="rulesetId")] = None
+    r"""ID of the ruleset to apply."""
 
-    ruleset: Optional[
-        FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets
-    ] = None
+    ruleset: Optional[FullRuleset] = None
+    r"""Full ruleset definition, used with live data capture for draft or unsaved rulesets."""
 
     mark_and_include_dropped_events: Annotated[
         Optional[bool], pydantic.Field(alias="markAndIncludeDroppedEvents")

@@ -1,5 +1,7 @@
 # FunctionEvalID
 
+Identifier of the Function. Always <code>eval</code>
+
 ## Example Usage
 
 ```python

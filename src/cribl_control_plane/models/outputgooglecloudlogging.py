@@ -20,10 +20,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleCloudLoggingType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CLOUD_LOGGING = "google_cloud_logging"
 
 
-class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Log location type"""
+
     # Project
     PROJECT = "project"
     # Organization
@@ -34,7 +38,7 @@ class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnu
     FOLDER = "folder"
 
 
-class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
     # Text
@@ -44,16 +48,18 @@ class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumM
 
 
 class OutputGoogleCloudLoggingPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleCloudLoggingPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
-    log_location_type: OutputGoogleCloudLoggingLogLocationType
+    r"""Connector type identifier."""
+    log_location_type: LogLocationType
+    r"""Log location type"""
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
@@ -67,9 +73,10 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     sanitize_log_names: NotRequired[bool]
-    payload_format: NotRequired[OutputGoogleCloudLoggingPayloadFormat]
+    r"""Validate and correct log name"""
+    payload_format: NotRequired[PayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
     log_labels: NotRequired[List[LogLabelConfOutputGoogleCloudLoggingTypedDict]]
     r"""Labels to apply to the log entry"""
@@ -164,6 +171,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     payload_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the payload. Must evaluate to a JavaScript object value. If an invalid value is encountered it will result in the default value instead. Defaults to the entire event."""
     pq_strict_ordering: NotRequired[bool]
@@ -189,6 +197,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGoogleCloudLoggingPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_log_location_type: NotRequired[str]
@@ -219,10 +228,12 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
 
 class OutputGoogleCloudLogging(BaseModel):
     type: OutputGoogleCloudLoggingType
+    r"""Connector type identifier."""
 
     log_location_type: Annotated[
-        OutputGoogleCloudLoggingLogLocationType, pydantic.Field(alias="logLocationType")
+        LogLocationType, pydantic.Field(alias="logLocationType")
     ]
+    r"""Log location type"""
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
@@ -247,15 +258,15 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     sanitize_log_names: Annotated[
         Optional[bool], pydantic.Field(alias="sanitizeLogNames")
     ] = None
+    r"""Validate and correct log name"""
 
     payload_format: Annotated[
-        Optional[OutputGoogleCloudLoggingPayloadFormat],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[PayloadFormat], pydantic.Field(alias="payloadFormat")
     ] = None
     r"""Format to use when sending payload. Defaults to Text."""
 
@@ -480,6 +491,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="payloadExpression")
@@ -538,6 +550,7 @@ class OutputGoogleCloudLogging(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGoogleCloudLoggingPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -608,7 +621,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_log_location_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleCloudLoggingLogLocationType(value)
+                return models.LogLocationType(value)
             except ValueError:
                 return value
         return value
@@ -617,7 +630,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleCloudLoggingPayloadFormat(value)
+                return models.PayloadFormat(value)
             except ValueError:
                 return value
         return value

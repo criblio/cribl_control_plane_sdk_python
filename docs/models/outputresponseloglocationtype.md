@@ -1,5 +1,7 @@
 # OutputResponseLogLocationType
 
+Log location type
+
 ## Example Usage
 
 ```python

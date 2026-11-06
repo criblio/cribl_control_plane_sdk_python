@@ -41,10 +41,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAzureDataExplorerType(str, Enum):
+    r"""Connector type identifier."""
+
     AZURE_DATA_EXPLORER = "azure_data_explorer"
 
 
-class OutputAzureDataExplorerIngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class IngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Ingestion mode"""
+
     # Batching
     BATCHING = "batching"
     # Streaming
@@ -65,11 +69,15 @@ class OutputAzureDataExplorerAuthenticationMethod(
 
 
 class OutputAzureDataExplorerCertificateTypedDict(TypedDict):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: NotRequired[str]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
 
 class OutputAzureDataExplorerCertificate(BaseModel):
+    r"""Certificate credentials for OAuth authentication."""
+
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
     ] = None
@@ -92,28 +100,34 @@ class OutputAzureDataExplorerCertificate(BaseModel):
         return m
 
 
-class OutputAzureDataExplorerPrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+class PrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Prefix (optional)"""
+
     # drop-by
     DROP_BY = "dropBy"
     # ingest-by
     INGEST_BY = "ingestBy"
 
 
-class OutputAzureDataExplorerExtentTagTypedDict(TypedDict):
+class ExtentTagTypedDict(TypedDict):
     value: str
-    prefix: NotRequired[OutputAzureDataExplorerPrefixOptional]
+    r"""Value"""
+    prefix: NotRequired[PrefixOptional]
+    r"""Prefix (optional)"""
 
 
-class OutputAzureDataExplorerExtentTag(BaseModel):
+class ExtentTag(BaseModel):
     value: str
+    r"""Value"""
 
-    prefix: Optional[OutputAzureDataExplorerPrefixOptional] = None
+    prefix: Optional[PrefixOptional] = None
+    r"""Prefix (optional)"""
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureDataExplorerPrefixOptional(value)
+                return models.PrefixOptional(value)
             except ValueError:
                 return value
         return value
@@ -135,15 +149,17 @@ class OutputAzureDataExplorerExtentTag(BaseModel):
         return m
 
 
-class OutputAzureDataExplorerIngestIfNotExistTypedDict(TypedDict):
+class IngestIfNotExistTypedDict(TypedDict):
     value: str
+    r"""Value"""
 
 
-class OutputAzureDataExplorerIngestIfNotExist(BaseModel):
+class IngestIfNotExist(BaseModel):
     value: str
+    r"""Value"""
 
 
-class OutputAzureDataExplorerReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     # FailuresOnly
@@ -154,7 +170,7 @@ class OutputAzureDataExplorerReportLevel(str, Enum, metaclass=utils.OpenEnumMeta
     FAILURES_AND_SUCCESSES = "failuresAndSuccesses"
 
 
-class OutputAzureDataExplorerReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     # Queue
@@ -165,27 +181,32 @@ class OutputAzureDataExplorerReportMethod(str, Enum, metaclass=utils.OpenEnumMet
     QUEUE_AND_TABLE = "queueAndTable"
 
 
-class OutputAzureDataExplorerAdditionalPropertyTypedDict(TypedDict):
+class AdditionalPropertyTypedDict(TypedDict):
     key: str
+    r"""Key"""
     value: str
+    r"""Value"""
 
 
-class OutputAzureDataExplorerAdditionalProperty(BaseModel):
+class AdditionalProperty(BaseModel):
     key: str
+    r"""Key"""
 
     value: str
+    r"""Value"""
 
 
 class OutputAzureDataExplorerPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureDataExplorerPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureDataExplorerTypedDict(TypedDict):
     type: OutputAzureDataExplorerType
+    r"""Connector type identifier."""
     cluster_url: str
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
     database: str
@@ -213,16 +234,19 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
-    ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
+    ingest_mode: NotRequired[IngestionMode]
+    r"""Ingestion mode"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[OutputAzureDataExplorerCertificateTypedDict]
+    r"""Certificate credentials for OAuth authentication."""
     format_: NotRequired[DataFormatOptions]
     r"""Format of the output data"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -290,32 +314,31 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
     r"""Bypass the data management service's aggregation mechanism"""
     retain_blob_on_success: NotRequired[bool]
     r"""Prevent blob deletion after ingestion is complete"""
-    extent_tags: NotRequired[List[OutputAzureDataExplorerExtentTagTypedDict]]
+    extent_tags: NotRequired[List[ExtentTagTypedDict]]
     r"""Strings or tags associated with the extent (ingested data shard)"""
-    ingest_if_not_exists: NotRequired[
-        List[OutputAzureDataExplorerIngestIfNotExistTypedDict]
-    ]
+    ingest_if_not_exists: NotRequired[List[IngestIfNotExistTypedDict]]
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
-    report_level: NotRequired[OutputAzureDataExplorerReportLevel]
+    report_level: NotRequired[ReportLevel]
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
-    report_method: NotRequired[OutputAzureDataExplorerReportMethod]
+    report_method: NotRequired[ReportMethod]
     r"""Target of the ingestion status reporting. Defaults to Queue."""
-    additional_properties: NotRequired[
-        List[OutputAzureDataExplorerAdditionalPropertyTypedDict]
-    ]
+    additional_properties: NotRequired[List[AdditionalPropertyTypedDict]]
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     concurrency: NotRequired[float]
@@ -324,6 +347,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Maximum size, in KB, of the request body"""
     max_payload_events: NotRequired[float]
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     reject_unauthorized: NotRequired[bool]
@@ -358,6 +383,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputAzureDataExplorerPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_cluster_url: NotRequired[str]
@@ -394,6 +420,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
 
 class OutputAzureDataExplorer(BaseModel):
     type: OutputAzureDataExplorerType
+    r"""Connector type identifier."""
 
     cluster_url: Annotated[str, pydantic.Field(alias="clusterUrl")]
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
@@ -442,7 +469,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")
@@ -450,11 +477,12 @@ class OutputAzureDataExplorer(BaseModel):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
-        Optional[OutputAzureDataExplorerIngestionMode],
-        pydantic.Field(alias="ingestMode"),
+        Optional[IngestionMode], pydantic.Field(alias="ingestMode")
     ] = None
+    r"""Ingestion mode"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret that you generated for your app in the Azure portal"""
@@ -463,6 +491,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[OutputAzureDataExplorerCertificate] = None
+    r"""Certificate credentials for OAuth authentication."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
         None
@@ -626,8 +655,10 @@ class OutputAzureDataExplorer(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -643,32 +674,27 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Prevent blob deletion after ingestion is complete"""
 
     extent_tags: Annotated[
-        Optional[List[OutputAzureDataExplorerExtentTag]],
-        pydantic.Field(alias="extentTags"),
+        Optional[List[ExtentTag]], pydantic.Field(alias="extentTags")
     ] = None
     r"""Strings or tags associated with the extent (ingested data shard)"""
 
     ingest_if_not_exists: Annotated[
-        Optional[List[OutputAzureDataExplorerIngestIfNotExist]],
-        pydantic.Field(alias="ingestIfNotExists"),
+        Optional[List[IngestIfNotExist]], pydantic.Field(alias="ingestIfNotExists")
     ] = None
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
 
     report_level: Annotated[
-        Optional[OutputAzureDataExplorerReportLevel],
-        pydantic.Field(alias="reportLevel"),
+        Optional[ReportLevel], pydantic.Field(alias="reportLevel")
     ] = None
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
-        Optional[OutputAzureDataExplorerReportMethod],
-        pydantic.Field(alias="reportMethod"),
+        Optional[ReportMethod], pydantic.Field(alias="reportMethod")
     ] = None
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     additional_properties: Annotated[
-        Optional[List[OutputAzureDataExplorerAdditionalProperty]],
-        pydantic.Field(alias="additionalProperties"),
+        Optional[List[AdditionalProperty]], pydantic.Field(alias="additionalProperties")
     ] = None
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
 
@@ -681,6 +707,7 @@ class OutputAzureDataExplorer(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -699,6 +726,11 @@ class OutputAzureDataExplorer(BaseModel):
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
     ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -773,6 +805,7 @@ class OutputAzureDataExplorer(BaseModel):
     pq_controls: Annotated[
         Optional[OutputAzureDataExplorerPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -858,7 +891,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_ingest_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureDataExplorerIngestionMode(value)
+                return models.IngestionMode(value)
             except ValueError:
                 return value
         return value
@@ -948,7 +981,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_level(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureDataExplorerReportLevel(value)
+                return models.ReportLevel(value)
             except ValueError:
                 return value
         return value
@@ -957,7 +990,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_method(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureDataExplorerReportMethod(value)
+                return models.ReportMethod(value)
             except ValueError:
                 return value
         return value
@@ -1053,6 +1086,7 @@ class OutputAzureDataExplorer(BaseModel):
                 "concurrency",
                 "maxPayloadSizeKB",
                 "maxPayloadEvents",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "rejectUnauthorized",
                 "useRoundRobinDns",

@@ -1,5 +1,7 @@
 # OutputGoogleCloudLoggingPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

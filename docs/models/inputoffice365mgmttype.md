@@ -1,5 +1,7 @@
 # InputOffice365MgmtType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -11,6 +11,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DiskSpoolingTypeTypedDict(TypedDict):
+    r"""Disk Spooling"""
+
     enable: NotRequired[bool]
     r"""Spool events on disk for Cribl Edge and Search. Default is disabled."""
     time_window: NotRequired[str]
@@ -24,6 +26,8 @@ class DiskSpoolingTypeTypedDict(TypedDict):
 
 
 class DiskSpoolingType(BaseModel):
+    r"""Disk Spooling"""
+
     enable: Optional[bool] = None
     r"""Spool events on disk for Cribl Edge and Search. Default is disabled."""
 

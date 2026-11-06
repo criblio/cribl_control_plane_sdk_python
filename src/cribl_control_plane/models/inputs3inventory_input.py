@@ -15,6 +15,7 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .sqsauthenticationmethodoptions import SqsAuthenticationMethodOptions
 from .tagafterprocessingoptions import TagAfterProcessingOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -26,16 +27,20 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputS3InventoryType(str, Enum):
+    r"""Connector type identifier."""
+
     S3_INVENTORY = "s3_inventory"
 
 
 class InputS3InventoryInputTypedDict(TypedDict):
     type: InputS3InventoryType
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -45,10 +50,11 @@ class InputS3InventoryInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     file_filter: NotRequired[str]
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
@@ -56,6 +62,7 @@ class InputS3InventoryInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -90,7 +97,12 @@ class InputS3InventoryInputTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
+    shared_credentials: NotRequired[bool]
+    r"""Use the same credential settings for S3 and SQS"""
+    shared_assume_role_arn: NotRequired[bool]
+    r"""Use the same settings for S3 and SQS"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
@@ -98,6 +110,7 @@ class InputS3InventoryInputTypedDict(TypedDict):
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     checkpointing: NotRequired[CheckpointingTypeTypedDict]
+    r"""Checkpoint settings used to resume processing after an interruption."""
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     checksum_suffix: NotRequired[str]
@@ -107,10 +120,25 @@ class InputS3InventoryInputTypedDict(TypedDict):
     validate_inventory_files: NotRequired[bool]
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    sqs_assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    sqs_duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    sqs_aws_authentication_method: NotRequired[SqsAuthenticationMethodOptions]
+    r"""Choose Auto to use IAM roles"""
+    sqs_aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    sqs_aws_secret_key: NotRequired[str]
+    r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
+    r"""Whether to add a tag to each S3 object after processing."""
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -135,10 +163,17 @@ class InputS3InventoryInputTypedDict(TypedDict):
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_sqs_assume_role_arn: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+    template_sqs_assume_role_external_id: NotRequired[str]
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+    template_sqs_aws_secret_key: NotRequired[str]
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
 class InputS3InventoryInput(BaseModel):
     type: InputS3InventoryType
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -147,6 +182,7 @@ class InputS3InventoryInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -163,12 +199,13 @@ class InputS3InventoryInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     file_filter: Annotated[Optional[str], pydantic.Field(alias="fileFilter")] = None
     r"""Regex matching file names to download and process. Defaults to: .*"""
@@ -187,6 +224,7 @@ class InputS3InventoryInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -265,7 +303,18 @@ class InputS3InventoryInput(BaseModel):
     ] = None
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
+    shared_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedCredentials")
+    ] = None
+    r"""Use the same credential settings for S3 and SQS"""
+
+    shared_assume_role_arn: Annotated[
+        Optional[bool], pydantic.Field(alias="sharedAssumeRoleArn")
+    ] = None
+    r"""Use the same settings for S3 and SQS"""
+
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -281,6 +330,7 @@ class InputS3InventoryInput(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     checkpointing: Optional[CheckpointingType] = None
+    r"""Checkpoint settings used to resume processing after an interruption."""
 
     poll_timeout: Annotated[Optional[float], pydantic.Field(alias="pollTimeout")] = None
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
@@ -301,15 +351,49 @@ class InputS3InventoryInput(BaseModel):
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleArn")
+    ] = None
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAssumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    sqs_duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="SQSDurationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    sqs_aws_authentication_method: Annotated[
+        Optional[SqsAuthenticationMethodOptions],
+        pydantic.Field(alias="SQSAwsAuthenticationMethod"),
+    ] = None
+    r"""Choose Auto to use IAM roles"""
+
+    sqs_aws_secret: Annotated[Optional[str], pydantic.Field(alias="SQSAwsSecret")] = (
+        None
+    )
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="SQSAwsSecretKey")
+    ] = None
+    r"""SQS secret key"""
+
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")
     ] = None
+    r"""Whether to add a tag to each S3 object after processing."""
 
     processed_tag_key: Annotated[
         Optional[str], pydantic.Field(alias="processedTagKey")
@@ -371,11 +455,35 @@ class InputS3InventoryInput(BaseModel):
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
+    template_sqs_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleArn")
+    ] = None
+    r"""Binds 'SQSAssumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleArn' at runtime."""
+
+    template_sqs_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAssumeRoleExternalId")
+    ] = None
+    r"""Binds 'SQSAssumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAssumeRoleExternalId' at runtime."""
+
+    template_sqs_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_SQSAwsSecretKey")
+    ] = None
+    r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("sqs_aws_authentication_method")
+    def serialize_sqs_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SqsAuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -423,6 +531,8 @@ class InputS3InventoryInput(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "enableSQSAssumeRole",
+                "sharedCredentials",
+                "sharedAssumeRoleArn",
                 "preprocess",
                 "metadata",
                 "parquetChunkSizeMB",
@@ -435,6 +545,12 @@ class InputS3InventoryInput(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "SQSAssumeRoleArn",
+                "SQSAssumeRoleExternalId",
+                "SQSDurationSeconds",
+                "SQSAwsAuthenticationMethod",
+                "SQSAwsSecret",
+                "SQSAwsSecretKey",
                 "tagAfterProcessing",
                 "processedTagKey",
                 "processedTagValue",
@@ -448,6 +564,9 @@ class InputS3InventoryInput(BaseModel):
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",
+                "__template_SQSAssumeRoleArn",
+                "__template_SQSAssumeRoleExternalId",
+                "__template_SQSAwsSecretKey",
             ]
         )
         serialized = handler(self)

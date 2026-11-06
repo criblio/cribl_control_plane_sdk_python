@@ -23,13 +23,17 @@ class AuthenticationTypeTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     mechanism: NotRequired[SaslMechanismOptionsSasl]
+    r"""SASL mechanism"""
     keytab_location: NotRequired[str]
     r"""Location of keytab file for authentication principal"""
     principal: NotRequired[str]
@@ -43,6 +47,7 @@ class AuthenticationTypeTypedDict(TypedDict):
     client_id: NotRequired[str]
     r"""Client ID to use for OAuth authentication"""
     oauth_secret_type: NotRequired[str]
+    r"""Source of the OAuth client secret."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     oauth_params: NotRequired[List[OauthParamConfInputKafkaTypedDict]]
@@ -67,10 +72,13 @@ class AuthenticationType(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsSasl], pydantic.Field(alias="authType")
@@ -83,6 +91,7 @@ class AuthenticationType(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
     mechanism: Optional[SaslMechanismOptionsSasl] = None
+    r"""SASL mechanism"""
 
     keytab_location: Annotated[
         Optional[str], pydantic.Field(alias="keytabLocation")
@@ -111,6 +120,7 @@ class AuthenticationType(BaseModel):
     oauth_secret_type: Annotated[
         Optional[str], pydantic.Field(alias="oauthSecretType")
     ] = None
+    r"""Source of the OAuth client secret."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")

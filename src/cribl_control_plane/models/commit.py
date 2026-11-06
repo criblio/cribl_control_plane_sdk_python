@@ -21,6 +21,8 @@ class CommitTypedDict(TypedDict):
     r"""Email address of the commit author."""
     author_name: NotRequired[str]
     r"""Name of the commit author."""
+    body: NotRequired[str]
+    r"""Body of the commit message (all lines after the subject), if any."""
 
 
 class Commit(BaseModel):
@@ -42,9 +44,12 @@ class Commit(BaseModel):
     author_name: Optional[str] = None
     r"""Name of the commit author."""
 
+    body: Optional[str] = None
+    r"""Body of the commit message (all lines after the subject), if any."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["author_email", "author_name"])
+        optional_fields = set(["author_email", "author_name", "body"])
         serialized = handler(self)
         m = {}
 

@@ -56,10 +56,12 @@ value = DestinationType.DEFAULT
 | `DATADOG`                    | datadog                      |
 | `WEBHOOK`                    | webhook                      |
 | `PROMETHEUS`                 | prometheus                   |
+| `AMAZON_MANAGED_PROMETHEUS`  | amazon_managed_prometheus    |
 | `GOOGLE_PUBSUB`              | google_pubsub                |
 | `GOOGLE_CHRONICLE`           | google_chronicle             |
 | `CHRONICLE`                  | chronicle                    |
 | `GOOGLE_CLOUD_OBSERVABILITY` | google_cloud_observability   |
+| `GOOGLE_BIGQUERY`            | google_bigquery              |
 | `GRAFANA_CLOUD`              | grafana_cloud                |
 | `LOKI`                       | loki                         |
 | `OPEN_TELEMETRY`             | open_telemetry               |
@@ -81,6 +83,7 @@ value = DestinationType.DEFAULT
 | `EXABEAM`                    | exabeam                      |
 | `DISK_SPOOL`                 | disk_spool                   |
 | `CLICK_HOUSE`                | click_house                  |
+| `CUSTOMER_METRICS_STORAGE`   | customer_metrics_storage     |
 | `LOCAL_SEARCH_STORAGE`       | local_search_storage         |
 | `XSIAM`                      | xsiam                        |
 | `NETFLOW`                    | netflow                      |
@@ -94,3 +97,7 @@ value = DestinationType.DEFAULT
 | `CLOUDIAN_S3`                | cloudian_s3                  |
 | `SCALITY_S3`                 | scality_s3                   |
 | `ALIBABA_CLOUD_S3`           | alibaba_cloud_s3             |
+| `SNOWFLAKE_STREAMING`        | snowflake_streaming          |
+| `IBM_CLOUD_S3`               | ibm_cloud_s3                 |
+| `DATABRICKS_ZEROBUS`         | databricks_zerobus           |
+| `TRAVERSAL_OTLP`             | traversal_otlp               |

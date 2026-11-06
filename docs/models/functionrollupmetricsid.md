@@ -1,5 +1,7 @@
 # FunctionRollupMetricsID
 
+Identifier of the Function. Always <code>rollup_metrics</code>
+
 ## Example Usage
 
 ```python

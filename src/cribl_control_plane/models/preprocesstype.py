@@ -8,7 +8,10 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class PreprocessTypeTypedDict(TypedDict):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+
     disabled: bool
+    r"""Disabled"""
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
     args: NotRequired[List[str]]
@@ -16,7 +19,10 @@ class PreprocessTypeTypedDict(TypedDict):
 
 
 class PreprocessType(BaseModel):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+
     disabled: bool
+    r"""Disabled"""
 
     command: Optional[str] = None
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""

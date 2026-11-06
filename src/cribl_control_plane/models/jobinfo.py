@@ -8,9 +8,10 @@ from .additionalpropertiestypejobinfostats import (
 from .jobstatus import JobStatus, JobStatusTypedDict
 from .runnablejob import RunnableJob, RunnableJobTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+import pydantic
 from pydantic import model_serializer
 from typing import Dict, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class JobInfoTypedDict(TypedDict):
@@ -25,6 +26,8 @@ class JobInfoTypedDict(TypedDict):
     r"""Status of a job, including its current state and failure reason."""
     keep: NotRequired[bool]
     r"""If <code>true</code>, retain the job and its artifacts instead of deleting according to the time-to-live or retention policy. The job persists until it is manually deleted."""
+    worker_owner: NotRequired[str]
+    r"""The GUID of the worker node that owns this artifact, set when the job ran on a Captain while the leader was offline. When present, the leader proxies read access to the artifact; mutating actions (replay, delete, stop) are not supported."""
 
 
 class JobInfo(BaseModel):
@@ -44,9 +47,12 @@ class JobInfo(BaseModel):
     keep: Optional[bool] = None
     r"""If <code>true</code>, retain the job and its artifacts instead of deleting according to the time-to-live or retention policy. The job persists until it is manually deleted."""
 
+    worker_owner: Annotated[Optional[str], pydantic.Field(alias="workerOwner")] = None
+    r"""The GUID of the worker node that owns this artifact, set when the job ran on a Captain while the leader was offline. When present, the leader proxies read access to the artifact; mutating actions (replay, delete, stop) are not supported."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["keep"])
+        optional_fields = set(["keep", "workerOwner"])
         serialized = handler(self)
         m = {}
 
@@ -59,3 +65,9 @@ class JobInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    JobInfo.model_rebuild()
+except NameError:
+    pass

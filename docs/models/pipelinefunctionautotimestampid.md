@@ -1,6 +1,6 @@
 # PipelineFunctionAutoTimestampID
 
-Function ID
+Identifier of the Function. Always <code>auto_timestamp</code>
 
 ## Example Usage
 

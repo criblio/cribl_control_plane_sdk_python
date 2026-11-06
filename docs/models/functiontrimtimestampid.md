@@ -1,5 +1,7 @@
 # FunctionTrimTimestampID
 
+Identifier of the Function. Always <code>trim_timestamp</code>
+
 ## Example Usage
 
 ```python

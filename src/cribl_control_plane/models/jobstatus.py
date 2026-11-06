@@ -22,7 +22,6 @@ class State(int, Enum, metaclass=utils.OpenEnumMeta):
     FAILED = 6
     ORPHANED = 7
     UNKNOWN = 8
-    LENGTH = 9
 
 
 class JobStatusTypedDict(TypedDict):

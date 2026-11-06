@@ -17,29 +17,26 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputConfluentCloudType(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class OutputConfluentCloudPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputConfluentCloudPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputConfluentCloudTypedDict(TypedDict):
-    type: OutputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
     topic: str
@@ -53,8 +50,9 @@ class OutputConfluentCloudTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
     format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
@@ -70,6 +68,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     kafka_schema_registry: NotRequired[
         KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -91,6 +90,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -118,6 +118,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputConfluentCloudPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_brokers: NotRequired[str]
@@ -133,7 +134,8 @@ class OutputConfluentCloudTypedDict(TypedDict):
 
 
 class OutputConfluentCloud(BaseModel):
-    type: OutputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
@@ -156,9 +158,10 @@ class OutputConfluentCloud(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
@@ -190,6 +193,7 @@ class OutputConfluentCloud(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -234,6 +238,7 @@ class OutputConfluentCloud(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")
@@ -297,6 +302,7 @@ class OutputConfluentCloud(BaseModel):
     pq_controls: Annotated[
         Optional[OutputConfluentCloudPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

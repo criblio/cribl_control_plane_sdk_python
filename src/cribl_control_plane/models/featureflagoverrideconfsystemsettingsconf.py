@@ -8,13 +8,17 @@ from typing_extensions import Annotated, TypedDict
 
 class FeatureFlagOverrideConfSystemSettingsConfTypedDict(TypedDict):
     disabled: bool
+    r"""If <code>true</code>, the feature flag is disabled. Otherwise, <code>false</code>."""
     flag_id: str
+    r"""Unique identifier of the feature flag to override."""
 
 
 class FeatureFlagOverrideConfSystemSettingsConf(BaseModel):
     disabled: bool
+    r"""If <code>true</code>, the feature flag is disabled. Otherwise, <code>false</code>."""
 
     flag_id: Annotated[str, pydantic.Field(alias="flagId")]
+    r"""Unique identifier of the feature flag to override."""
 
 
 try:

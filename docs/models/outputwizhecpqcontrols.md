@@ -1,5 +1,7 @@
 # OutputWizHecPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

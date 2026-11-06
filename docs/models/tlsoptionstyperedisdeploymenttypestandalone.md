@@ -1,5 +1,7 @@
 # TLSOptionsTypeRedisDeploymentTypeStandalone
 
+TLS settings for encrypting the connection to Redis.
+
 
 ## Fields
 

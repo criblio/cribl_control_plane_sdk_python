@@ -9,7 +9,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TimeoutRetrySettingsTypeTypedDict(TypedDict):
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
+
     timeout_retry: bool
+    r"""Whether to retry HTTP requests that exceed the request timeout."""
     initial_backoff: NotRequired[float]
     r"""How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes)."""
     backoff_rate: NotRequired[float]
@@ -19,7 +22,10 @@ class TimeoutRetrySettingsTypeTypedDict(TypedDict):
 
 
 class TimeoutRetrySettingsType(BaseModel):
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
+
     timeout_retry: Annotated[bool, pydantic.Field(alias="timeoutRetry")]
+    r"""Whether to retry HTTP requests that exceed the request timeout."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")

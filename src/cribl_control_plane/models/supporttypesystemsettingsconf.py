@@ -13,26 +13,36 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SupportTypeSystemSettingsConfTypedDict(TypedDict):
+    r"""Support and diagnostics settings."""
+
     feature_flag_overrides: NotRequired[
         List[FeatureFlagOverrideConfSystemSettingsConfTypedDict]
     ]
-    log_file_max_files: NotRequired[float]
+    r"""List of feature flag overrides applied to this Cribl instance."""
+    log_file_max_files: NotRequired[int]
+    r"""Maximum number of log files to retain before rotating."""
     log_file_max_size: NotRequired[str]
+    r"""Maximum size of each log file. Value is a numeral and unit such as <code>10 MB</code>."""
 
 
 class SupportTypeSystemSettingsConf(BaseModel):
+    r"""Support and diagnostics settings."""
+
     feature_flag_overrides: Annotated[
         Optional[List[FeatureFlagOverrideConfSystemSettingsConf]],
         pydantic.Field(alias="featureFlagOverrides"),
     ] = None
+    r"""List of feature flag overrides applied to this Cribl instance."""
 
     log_file_max_files: Annotated[
-        Optional[float], pydantic.Field(alias="logFileMaxFiles")
+        Optional[int], pydantic.Field(alias="logFileMaxFiles")
     ] = None
+    r"""Maximum number of log files to retain before rotating."""
 
     log_file_max_size: Annotated[
         Optional[str], pydantic.Field(alias="logFileMaxSize")
     ] = None
+    r"""Maximum size of each log file. Value is a numeral and unit such as <code>10 MB</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

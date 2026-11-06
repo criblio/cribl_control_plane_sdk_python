@@ -8,7 +8,7 @@ with CriblControlPlane(
     "https://api.example.com",
 ) as ccp_client:
 
-    res = ccp_client.auth.tokens.get(password="6j50J9421x29IhO", username="Lilly_Weissnat")
+    res = ccp_client.auth.tokens.get(password="yourPassword", username="yourUsername")
 
     # Handle response
     print(res)
@@ -29,7 +29,7 @@ async def main():
         "https://api.example.com",
     ) as ccp_client:
 
-        res = await ccp_client.auth.tokens.get_async(password="6j50J9421x29IhO", username="Lilly_Weissnat")
+        res = await ccp_client.auth.tokens.get_async(password="yourPassword", username="yourUsername")
 
         # Handle response
         print(res)

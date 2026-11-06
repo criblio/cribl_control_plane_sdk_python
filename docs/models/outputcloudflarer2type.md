@@ -1,5 +1,7 @@
 # OutputCloudflareR2Type
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -12,6 +12,7 @@ class AuthTokenConfInputCriblTCPTypedDict(TypedDict):
     token_secret: str
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""Enable token"""
     description: NotRequired[str]
     r"""Optional token description"""
 
@@ -21,6 +22,7 @@ class AuthTokenConfInputCriblTCP(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""Enable token"""
 
     description: Optional[str] = None
     r"""Optional token description"""

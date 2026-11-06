@@ -1,0 +1,18 @@
+# CreateOutputOutputDiskSpoolType
+
+Connector type identifier.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputOutputDiskSpoolType
+
+value = CreateOutputOutputDiskSpoolType.DISK_SPOOL
+```
+
+
+## Values
+
+| Name         | Value        |
+| ------------ | ------------ |
+| `DISK_SPOOL` | disk_spool   |

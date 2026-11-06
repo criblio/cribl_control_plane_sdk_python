@@ -1,6 +1,6 @@
 # PipelineFunctionSerdeID
 
-Function ID
+Identifier of the Function. Always <code>serde</code>
 
 ## Example Usage
 

@@ -51,6 +51,12 @@ value: models.FunctionCode = /* values here */
 value: models.FunctionComment = /* values here */
 ```
 
+### `models.FunctionDetectionRules`
+
+```python
+value: models.FunctionDetectionRules = /* values here */
+```
+
 ### `models.FunctionDistinct`
 
 ```python
@@ -159,6 +165,12 @@ value: models.FunctionJSONUnroll = /* values here */
 value: models.FunctionLakeExport = /* values here */
 ```
 
+### `models.FunctionLakehouseEngineMetricsNormalizer`
+
+```python
+value: models.FunctionLakehouseEngineMetricsNormalizer = /* values here */
+```
+
 ### `models.FunctionLimit`
 
 ```python
@@ -169,6 +181,12 @@ value: models.FunctionLimit = /* values here */
 
 ```python
 value: models.FunctionLocalSearchDatatypeParser = /* values here */
+```
+
+### `models.FunctionLocalSearchDatatypeSchemaMapper`
+
+```python
+value: models.FunctionLocalSearchDatatypeSchemaMapper = /* values here */
 ```
 
 ### `models.FunctionLocalSearchRulesetRunner`
@@ -205,6 +223,18 @@ value: models.FunctionLookup = /* values here */
 
 ```python
 value: models.FunctionMask = /* values here */
+```
+
+### `models.FunctionMetricsExport`
+
+```python
+value: models.FunctionMetricsExport = /* values here */
+```
+
+### `models.FunctionMetricsTimeRangeGate`
+
+```python
+value: models.FunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.FunctionMvExpand`
@@ -349,12 +379,6 @@ value: models.FunctionSerialize = /* values here */
 
 ```python
 value: models.FunctionSidlookup = /* values here */
-```
-
-### `models.FunctionSignalFilter`
-
-```python
-value: models.FunctionSignalFilter = /* values here */
 ```
 
 ### `models.FunctionSnmpTrapSerialize`

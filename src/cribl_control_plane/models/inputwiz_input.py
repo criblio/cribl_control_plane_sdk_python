@@ -27,15 +27,17 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWizType(str, Enum):
+    r"""Connector type identifier."""
+
     WIZ = "wiz"
 
 
 class InputWizManageStateTypedDict(TypedDict):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputWizManageState(BaseModel):
-    pass
+    r"""Controls for viewing and managing the collector state."""
 
 
 class InputWizContentConfigTypedDict(TypedDict):
@@ -50,7 +52,9 @@ class InputWizContentConfigTypedDict(TypedDict):
     latest: str
     r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     content_description: NotRequired[str]
+    r"""Description"""
     enabled: NotRequired[bool]
+    r"""Enable content"""
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
@@ -58,6 +62,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputWizManageStateTypedDict]
+    r"""Controls for viewing and managing the collector state."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[LogLevelOptionsContentConfigItemsDebugError]
@@ -85,8 +90,10 @@ class InputWizContentConfig(BaseModel):
     content_description: Annotated[
         Optional[str], pydantic.Field(alias="contentDescription")
     ] = None
+    r"""Description"""
 
     enabled: Optional[bool] = None
+    r"""Enable content"""
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
         None
@@ -106,6 +113,7 @@ class InputWizContentConfig(BaseModel):
     manage_state: Annotated[
         Optional[InputWizManageState], pydantic.Field(alias="manageState")
     ] = None
+    r"""Controls for viewing and managing the collector state."""
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
@@ -159,6 +167,7 @@ class InputWizContentConfig(BaseModel):
 
 class InputWizInputTypedDict(TypedDict):
     type: InputWizType
+    r"""Connector type identifier."""
     endpoint: str
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_url: str
@@ -166,9 +175,11 @@ class InputWizInputTypedDict(TypedDict):
     client_id: str
     r"""The client ID of the Wiz application"""
     content_config: List[InputWizContentConfigTypedDict]
+    r"""Content types"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -178,10 +189,11 @@ class InputWizInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     auth_audience_override: NotRequired[str]
     r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
     request_timeout: NotRequired[float]
@@ -201,9 +213,11 @@ class InputWizInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    r"""HTTP retry behavior for failed collection requests."""
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
@@ -222,6 +236,7 @@ class InputWizInputTypedDict(TypedDict):
 
 class InputWizInput(BaseModel):
     type: InputWizType
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -235,11 +250,13 @@ class InputWizInput(BaseModel):
     content_config: Annotated[
         List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
     ]
+    r"""Content types"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -256,12 +273,13 @@ class InputWizInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     auth_audience_override: Annotated[
         Optional[str], pydantic.Field(alias="authAudienceOverride")
@@ -307,6 +325,7 @@ class InputWizInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
+    r"""HTTP retry behavior for failed collection requests."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsManualSecret],
@@ -315,6 +334,7 @@ class InputWizInput(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret of the Wiz application"""

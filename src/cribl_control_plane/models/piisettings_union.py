@@ -10,10 +10,12 @@ from typing_extensions import Annotated, TypeAliasType, TypedDict
 
 class PiiSettingsTypedDict(TypedDict):
     enable_pii_detection: bool
+    r"""If <code>true</code>, enable PII detection for events processed by the Cribl instance. Otherwise, <code>false</code>."""
 
 
 class PiiSettings(BaseModel):
     enable_pii_detection: Annotated[bool, pydantic.Field(alias="enablePiiDetection")]
+    r"""If <code>true</code>, enable PII detection for events processed by the Cribl instance. Otherwise, <code>false</code>."""
 
 
 PiiSettingsUnionTypedDict = TypeAliasType(

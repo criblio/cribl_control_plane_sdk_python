@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.20.3-ea354447
+  version: 4.20.4-9651be2b
   contact:
     name: Support
     url: https://portal.support.cribl.io

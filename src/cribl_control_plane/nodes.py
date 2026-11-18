@@ -257,8 +257,8 @@ class Nodes(BaseSDK):
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
-        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
-        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. In API v2, if omitted, defaults to <code>100</code>. Values greater than <code>1000</code> are clamped to <code>1000</code>. A negative value such as <code>-1</code> returns a 400 error.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches. In API v2, a negative value returns a 400 error.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -410,8 +410,8 @@ class Nodes(BaseSDK):
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
-        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
-        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. In API v2, if omitted, defaults to <code>100</code>. Values greater than <code>1000</code> are clamped to <code>1000</code>. A negative value such as <code>-1</code> returns a 400 error.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches. In API v2, a negative value returns a 400 error.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -783,7 +783,7 @@ class Nodes(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateProductsWorkersRestartByProductRequest(
+        request = models.CreateProductsWorkersRestartByProductRequest(
             product=product,
             restart_request=models.RestartRequest(
                 guids=utils.unmarshal(guids, List[str]),
@@ -791,7 +791,7 @@ class Nodes(BaseSDK):
         )
 
         req = self._build_request(
-            method="PATCH",
+            method="POST",
             path="/products/{product}/workers/restart",
             base_url=base_url,
             url_variables=url_variables,
@@ -826,7 +826,7 @@ class Nodes(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateProductsWorkersRestartByProduct",
+                operation_id="createProductsWorkersRestartByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -892,7 +892,7 @@ class Nodes(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateProductsWorkersRestartByProductRequest(
+        request = models.CreateProductsWorkersRestartByProductRequest(
             product=product,
             restart_request=models.RestartRequest(
                 guids=utils.unmarshal(guids, List[str]),
@@ -900,7 +900,7 @@ class Nodes(BaseSDK):
         )
 
         req = self._build_request_async(
-            method="PATCH",
+            method="POST",
             path="/products/{product}/workers/restart",
             base_url=base_url,
             url_variables=url_variables,
@@ -935,7 +935,7 @@ class Nodes(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateProductsWorkersRestartByProduct",
+                operation_id="createProductsWorkersRestartByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security

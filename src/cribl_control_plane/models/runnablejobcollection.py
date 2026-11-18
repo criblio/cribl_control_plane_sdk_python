@@ -65,6 +65,8 @@ r"""Latest time to collect data for the selected timezone"""
 class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Where to capture"""
 
+    # 0. Before the event breaker (raw data)
+    BEFORE_THE_EVENT_BREAKER_RAW_DATA = 4
     # 1. Before pre-processing Pipeline
     BEFORE_PRE_PROCESSING_PIPELINE = 0
     # 2. Before the Routes
@@ -295,7 +297,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     run: RunnableJobCollectionRunTypedDict
     r"""Run settings that control how and when the Collection job runs."""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
@@ -332,7 +334,7 @@ class RunnableJobCollection(BaseModel):
     r"""Run settings that control how and when the Collection job runs."""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

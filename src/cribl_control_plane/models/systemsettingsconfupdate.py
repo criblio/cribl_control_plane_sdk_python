@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .backupssettings_union import BackupsSettingsUnion, BackupsSettingsUnionTypedDict
+from .clusterschedulingpolicy import ClusterSchedulingPolicy
 from .piisettings_union import PiiSettingsUnion, PiiSettingsUnionTypedDict
 from .rollbacksettings_union import (
     RollbackSettingsUnion,
@@ -555,6 +556,7 @@ class SystemSettingsConfUpdateWorkersTypedDict(TypedDict):
     r"""Minimum number of Worker Processes to keep running."""
     restart_unresponsive_processes: NotRequired[bool]
     r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
+    scheduling_policy: NotRequired[ClusterSchedulingPolicy]
     startup_max_conns: NotRequired[int]
     r"""Maximum number of connections to accept during Worker Process startup before throttling begins."""
     startup_throttle_timeout: NotRequired[int]
@@ -596,6 +598,10 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
     ] = None
     r"""If <code>true</code>, automatically restart Worker Processes that become unresponsive. Otherwise, <code>false</code>."""
 
+    scheduling_policy: Annotated[
+        Optional[ClusterSchedulingPolicy], pydantic.Field(alias="schedulingPolicy")
+    ] = None
+
     startup_max_conns: Annotated[
         Optional[int], pydantic.Field(alias="startupMaxConns")
     ] = None
@@ -626,6 +632,15 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
     ] = None
     r"""Size of the Worker thread pool used for CPU-bound tasks."""
 
+    @field_serializer("scheduling_policy")
+    def serialize_scheduling_policy(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ClusterSchedulingPolicy(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -636,6 +651,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
                 "memory",
                 "minimum",
                 "restartUnresponsiveProcesses",
+                "schedulingPolicy",
                 "startupMaxConns",
                 "startupThrottleTimeout",
                 "v8SingleThread",

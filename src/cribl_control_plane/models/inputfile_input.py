@@ -38,7 +38,7 @@ class InputFileInputTypedDict(TypedDict):
     type: InputFileType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -107,6 +107,12 @@ class InputFileInputTypedDict(TypedDict):
     r"""When enabled, discovery will throttle CPU usage to the configured target percentage."""
     discovery_throttle_cpu_percent: NotRequired[float]
     r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
+    recursive_watch: NotRequired[bool]
+    r"""Watch the search path recursively, so new and updated files are detected as the filesystem reports them. When disabled, file discovery relies on repeated directory scans only. Intended for large search paths, where it removes the cost of scanning the whole tree on every interval.It offers little benefit for search paths containing few files or a single file."""
+    rescan_interval: NotRequired[float]
+    r"""Time, in seconds, between restarting the recursive watch and rescanning the directory tree. The rescan recovers discovered changes when the operating system fails to send filesystem notifications. A shorter interval reduces the time window during which changes can go unnoticed, but at the expense of performing a full directory walk each time. An interval is always in force: clearing the field falls back to one hour rather than turning rescans off."""
+    max_watches: NotRequired[float]
+    r"""Maximum number of directories this Source watches at one time. Applies on Linux, where the operating system needs one watch per directory; macOS and Windows use a single recursive watch and ignore this. Reaching the limit stops the watch from descending further and reports the Source as unhealthy, rather than quietly missing files below that point. Raise the limit for a tree with many directories, or lower it to leave room for other Sources sharing the host's fs.inotify.max_user_watches budget."""
     include_unidentifiable_binary: NotRequired[bool]
     r"""Stream binary files as Base64-encoded chunks"""
     template_environment: NotRequired[str]
@@ -120,7 +126,7 @@ class InputFileInput(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -246,6 +252,19 @@ class InputFileInput(BaseModel):
     ] = None
     r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
 
+    recursive_watch: Annotated[
+        Optional[bool], pydantic.Field(alias="recursiveWatch")
+    ] = None
+    r"""Watch the search path recursively, so new and updated files are detected as the filesystem reports them. When disabled, file discovery relies on repeated directory scans only. Intended for large search paths, where it removes the cost of scanning the whole tree on every interval.It offers little benefit for search paths containing few files or a single file."""
+
+    rescan_interval: Annotated[
+        Optional[float], pydantic.Field(alias="rescanInterval")
+    ] = None
+    r"""Time, in seconds, between restarting the recursive watch and rescanning the directory tree. The rescan recovers discovered changes when the operating system fails to send filesystem notifications. A shorter interval reduces the time window during which changes can go unnoticed, but at the expense of performing a full directory walk each time. An interval is always in force: clearing the field falls back to one hour rather than turning rescans off."""
+
+    max_watches: Annotated[Optional[float], pydantic.Field(alias="maxWatches")] = None
+    r"""Maximum number of directories this Source watches at one time. Applies on Linux, where the operating system needs one watch per directory; macOS and Windows use a single recursive watch and ignore this. Reaching the limit stops the watch from descending further and reports the Source as unhealthy, rather than quietly missing files below that point. Raise the limit for a tree with many directories, or lower it to leave room for other Sources sharing the host's fs.inotify.max_user_watches budget."""
+
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
     ] = None
@@ -309,6 +328,9 @@ class InputFileInput(BaseModel):
                 "optimizeLeafDirectories",
                 "enableDiscoveryThrottle",
                 "discoveryThrottleCpuPercent",
+                "recursiveWatch",
+                "rescanInterval",
+                "maxWatches",
                 "includeUnidentifiableBinary",
                 "__template_environment",
                 "__template_streamtags",

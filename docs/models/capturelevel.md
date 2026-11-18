@@ -1,6 +1,6 @@
 # CaptureLevel
 
-Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
+Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination <br><code>4</code> == Before the event breaker, i.e. raw incoming data (TCP Sources only).
 
 ## Example Usage
 
@@ -21,3 +21,4 @@ value = CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE
 | `BEFORE_ROUTES`                   | 1                                 |
 | `BEFORE_POST_PROCESSING_PIPELINE` | 2                                 |
 | `BEFORE_DESTINATION`              | 3                                 |
+| `BEFORE_EVENT_BREAKER`            | 4                                 |

@@ -42,7 +42,7 @@ class InputAquaSecurityHecInputTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for Aqua Security HTTP Event Collector API requests. This input supports event, raw, and acknowledgement endpoints."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -127,7 +127,7 @@ class InputAquaSecurityHecInput(BaseModel):
     r"""Absolute path on which to listen for Aqua Security HTTP Event Collector API requests. This input supports event, raw, and acknowledgement endpoints."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

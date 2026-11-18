@@ -97,7 +97,7 @@ class InputSplunkSearchInputTypedDict(TypedDict):
     auth_type: InputSplunkSearchAuthenticationType
     r"""Splunk Search authentication type"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -207,7 +207,7 @@ class InputSplunkSearchInput(BaseModel):
     r"""Splunk Search authentication type"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

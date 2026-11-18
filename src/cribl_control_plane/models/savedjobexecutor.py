@@ -26,7 +26,7 @@ class SavedJobExecutorTypedDict(TypedDict):
     executor: ExecutorTypeRunnableJobExecutorTypedDict
     r"""Executor configuration, including the executor type and its settings."""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     ttl: NotRequired[str]
@@ -57,7 +57,7 @@ class SavedJobExecutor(BaseModel):
     r"""Executor configuration, including the executor type and its settings."""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

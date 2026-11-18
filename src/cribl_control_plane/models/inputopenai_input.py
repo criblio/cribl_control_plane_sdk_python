@@ -61,7 +61,7 @@ class InputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class ContentConfigInputTypedDict(TypedDict):
+class InputOpenaiContentConfigInputTypedDict(TypedDict):
     request_params: List[
         RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict
     ]
@@ -102,7 +102,7 @@ class ContentConfigInputTypedDict(TypedDict):
     r"""Fields automatically added to events from this Content Type"""
 
 
-class ContentConfigInput(BaseModel):
+class InputOpenaiContentConfigInput(BaseModel):
     request_params: Annotated[
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret],
         pydantic.Field(alias="requestParams"),
@@ -235,12 +235,12 @@ class ContentConfigInput(BaseModel):
 class InputOpenaiInputTypedDict(TypedDict):
     type: InputOpenaiType
     r"""Connector type identifier."""
-    content_config: List[ContentConfigInputTypedDict]
+    content_config: List[InputOpenaiContentConfigInputTypedDict]
     r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -294,7 +294,7 @@ class InputOpenaiInput(BaseModel):
     r"""Connector type identifier."""
 
     content_config: Annotated[
-        List[ContentConfigInput], pydantic.Field(alias="contentConfig")
+        List[InputOpenaiContentConfigInput], pydantic.Field(alias="contentConfig")
     ]
     r"""Content Types"""
 
@@ -302,7 +302,7 @@ class InputOpenaiInput(BaseModel):
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -442,7 +442,7 @@ class InputOpenaiInput(BaseModel):
 
 
 try:
-    ContentConfigInput.model_rebuild()
+    InputOpenaiContentConfigInput.model_rebuild()
 except NameError:
     pass
 try:

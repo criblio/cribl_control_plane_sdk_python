@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .connectionprotocol import ConnectionProtocol
+from .connectionstatus import ConnectionStatus
 from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
 from .masterworkerprocesses import MasterWorkerProcesses, MasterWorkerProcessesTypedDict
 from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
@@ -38,6 +39,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     worker_processes: int
     r"""Number of Worker Processes running on the node."""
     connection_protocol: NotRequired[ConnectionProtocol]
+    connection_status: NotRequired[ConnectionStatus]
     deployable: NotRequired[bool]
     r"""If <code>true</code>, the node can receive configuration deployments. Otherwise, <code>false</code>."""
     disconnected: NotRequired[bool]
@@ -48,6 +50,8 @@ class MasterWorkerEntryTypedDict(TypedDict):
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
     offline_duration_ms: NotRequired[int]
     r"""Maximum configured ephemeral offline duration, in milliseconds (base + jitter cap)."""
+    overdue_at: NotRequired[int]
+    r"""Timestamp (in Unix time) when the ephemeral reconnect window of a disconnected node expires."""
     provisioning_token_id: NotRequired[str]
     r"""The <code>id</code> of the provisioning token used to authenticate the node, if used."""
     status: NotRequired[str]
@@ -81,6 +85,10 @@ class MasterWorkerEntry(BaseModel):
         Optional[ConnectionProtocol], pydantic.Field(alias="connectionProtocol")
     ] = None
 
+    connection_status: Annotated[
+        Optional[ConnectionStatus], pydantic.Field(alias="connectionStatus")
+    ] = None
+
     deployable: Optional[bool] = None
     r"""If <code>true</code>, the node can receive configuration deployments. Otherwise, <code>false</code>."""
 
@@ -102,6 +110,9 @@ class MasterWorkerEntry(BaseModel):
         Optional[int], pydantic.Field(alias="offlineDurationMs")
     ] = None
     r"""Maximum configured ephemeral offline duration, in milliseconds (base + jitter cap)."""
+
+    overdue_at: Annotated[Optional[int], pydantic.Field(alias="overdueAt")] = None
+    r"""Timestamp (in Unix time) when the ephemeral reconnect window of a disconnected node expires."""
 
     provisioning_token_id: Annotated[
         Optional[str], pydantic.Field(alias="provisioningTokenId")
@@ -125,6 +136,15 @@ class MasterWorkerEntry(BaseModel):
                 return value
         return value
 
+    @field_serializer("connection_status")
+    def serialize_connection_status(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ConnectionStatus(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -139,12 +159,14 @@ class MasterWorkerEntry(BaseModel):
         optional_fields = set(
             [
                 "connectionProtocol",
+                "connectionStatus",
                 "deployable",
                 "disconnected",
                 "lastMetrics",
                 "metadata",
                 "nodeUpgradeStatus",
                 "offlineDurationMs",
+                "overdueAt",
                 "provisioningTokenId",
                 "status",
                 "type",

@@ -199,7 +199,7 @@ class InputMicrosoftCopilotInputTypedDict(TypedDict):
     client_id: str
     r"""Application (client) ID from the app registration"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -287,7 +287,7 @@ class InputMicrosoftCopilotInput(BaseModel):
     r"""Application (client) ID from the app registration"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

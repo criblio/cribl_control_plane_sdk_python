@@ -1,0 +1,18 @@
+# CreateInputInputWatchguardFireboxSyslogType2
+
+Connector type identifier.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputInputWatchguardFireboxSyslogType2
+
+value = CreateInputInputWatchguardFireboxSyslogType2.WATCHGUARD_FIREBOX_SYSLOG
+```
+
+
+## Values
+
+| Name                        | Value                       |
+| --------------------------- | --------------------------- |
+| `WATCHGUARD_FIREBOX_SYSLOG` | watchguard_firebox_syslog   |

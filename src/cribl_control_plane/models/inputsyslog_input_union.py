@@ -30,7 +30,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     tcp_port: float
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -116,7 +116,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -339,7 +339,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     udp_port: float
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -425,7 +425,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

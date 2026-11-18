@@ -100,7 +100,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.get(id="<id>", pack="<value>")
+    res = ccp_client.packs.routes.get(pack="<value>")
 
     # Handle response
     print(res)
@@ -121,7 +121,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.get(id="<id>", pack="<value>")
+    res = ccp_client.packs.routes.get(pack="<value>")
 
     # Handle response
     print(res)
@@ -130,11 +130,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Routing table to get. The supported value is <code>default</code>. |
-| `pack`                                                                                        | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Pack.                                                              |
-| `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -167,7 +166,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="<id>", routes=[
         {
             "name": "<value>",
             "pipeline": "<value>",
@@ -193,7 +192,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="<id>", routes=[
         {
             "name": "<value>",
             "pipeline": "<value>",
@@ -219,7 +218,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="default", routes=[
         {
             "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
@@ -249,7 +248,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="default", routes=[
         {
             "description": "Route speedtest logs",
             "filter_": "source == \"speedtest.log\"",
@@ -307,7 +306,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="default", routes=[
         {
             "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
@@ -335,7 +334,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="default", routes=[
         {
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
@@ -367,7 +366,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[
+    res = ccp_client.packs.routes.update(pack="<value>", id="<id>", routes=[
         {
             "name": "<value>",
             "pipeline": "<value>",
@@ -383,7 +382,6 @@ with CriblControlPlane(
 
 | Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `id_param`                                                                                                     | *str*                                                                                                          | :heavy_check_mark:                                                                                             | The <code>id</code> of the Routing table to update. The supported value is <code>default</code>.               |
 | `pack`                                                                                                         | *str*                                                                                                          | :heavy_check_mark:                                                                                             | The <code>id</code> of the Pack.                                                                               |
 | `id`                                                                                                           | *str*                                                                                                          | :heavy_check_mark:                                                                                             | Unique identifier for the Routing table. The supported value is <code>default</code>.                          |
 | `routes`                                                                                                       | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                                  | :heavy_check_mark:                                                                                             | Array of Route configurations that define how events are processed and routed.                                 |
@@ -422,7 +420,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "description": "Route audit logs",
             "filter_": "source == \"audit.log\"",
@@ -462,7 +460,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "description": "Route with server-generated id and default final value",
             "filter_": "source == \"new.log\"",
@@ -490,7 +488,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
@@ -522,7 +520,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "description": "Route new logs to main pipeline",
             "filter_": "source == \"new.log\"",
@@ -552,7 +550,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[])
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[])
 
     # Handle response
     print(res)
@@ -573,7 +571,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "name": "<value>",
             "pipeline": "<value>",
@@ -599,7 +597,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+    res = ccp_client.packs.routes.append(pack="<value>", request_body=[
         {
             "name": "<value>",
             "pipeline": "<value>",
@@ -613,12 +611,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                  | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                       | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>. |
-| `pack`                                                                                                     | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The <code>id</code> of the Pack.                                                                           |
-| `request_body`                                                                                             | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                              | :heavy_check_mark:                                                                                         | RouteDefinitions object.                                                                                   |
-| `retries`                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                           | :heavy_minus_sign:                                                                                         | Configuration to override the default retry behavior of the client.                                        |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
+| `request_body`                                                      | List[[models.RouteConfInput](../../models/routeconfinput.md)]       | :heavy_check_mark:                                                  | RouteDefinitions object.                                            |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

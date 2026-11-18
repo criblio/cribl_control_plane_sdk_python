@@ -75,7 +75,7 @@ with CriblControlPlane(
 
 ## create
 
-Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch.
+Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch. In v2, the <code>Location</code> response header is returned only when a single Lake Dataset object is created; an array request creates multiple resources and omits it.
 
 ### Example Usage: LakeDatasetCreateExamplesBulkCreateDatasets
 
@@ -319,7 +319,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only). Explicitly selecting Search v2 requires an Enterprise license and Search v2 enablement; an update that omits the search version repairs an existing unavailable v2 configuration to v1 where supported.
 
 ### Example Usage: LakeDatasetUpdateExamplesUpdateDescription
 

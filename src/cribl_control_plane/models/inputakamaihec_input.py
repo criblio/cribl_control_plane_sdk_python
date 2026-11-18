@@ -42,7 +42,7 @@ class InputAkamaiHecInputTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for Akamai DataStream 2 HTTP Event Collector API requests. Akamai delivers to the /raw endpoint beneath this path."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -115,7 +115,7 @@ class InputAkamaiHecInput(BaseModel):
     r"""Absolute path on which to listen for Akamai DataStream 2 HTTP Event Collector API requests. Akamai delivers to the /raw endpoint beneath this path."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

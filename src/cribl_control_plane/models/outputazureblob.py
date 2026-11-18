@@ -13,12 +13,17 @@ from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystem,
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
+from .objecttagconfoutputs3 import ObjectTagConfOutputS3, ObjectTagConfOutputS3TypedDict
 from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
     OrphanFileRecoveryTypeTypedDict,
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .typeoptionsazureblob import TypeOptionsAzureblob
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -52,7 +57,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     stage_path: str
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -61,6 +66,8 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     create_container: NotRequired[bool]
     r"""Create the configured container in Azure Blob Storage if it does not already exist"""
     dest_path: NotRequired[str]
@@ -107,6 +114,8 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Authentication method"""
     storage_class: NotRequired[BlobAccessTier]
     r"""Blob access tier"""
+    blob_index_tags: NotRequired[List[ObjectTagConfOutputS3TypedDict]]
+    r"""Key-value tags set on each uploaded blob"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -204,7 +213,7 @@ class OutputAzureBlob(BaseModel):
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -219,6 +228,12 @@ class OutputAzureBlob(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     create_container: Annotated[
         Optional[bool], pydantic.Field(alias="createContainer")
@@ -330,6 +345,11 @@ class OutputAzureBlob(BaseModel):
         Optional[BlobAccessTier], pydantic.Field(alias="storageClass")
     ] = None
     r"""Blob access tier"""
+
+    blob_index_tags: Annotated[
+        Optional[List[ObjectTagConfOutputS3]], pydantic.Field(alias="blobIndexTags")
+    ] = None
+    r"""Key-value tags set on each uploaded blob"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -618,6 +638,7 @@ class OutputAzureBlob(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "createContainer",
                 "destPath",
                 "addIdToStagePath",
@@ -641,6 +662,7 @@ class OutputAzureBlob(BaseModel):
                 "orphans",
                 "authType",
                 "storageClass",
+                "blobIndexTags",
                 "description",
                 "compress",
                 "compressionLevel",

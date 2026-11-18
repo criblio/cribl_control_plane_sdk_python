@@ -38,7 +38,7 @@ class InputExecInputTypedDict(TypedDict):
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""Disabled"""
     pipeline: NotRequired[str]
@@ -89,7 +89,7 @@ class InputExecInput(BaseModel):
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""Disabled"""

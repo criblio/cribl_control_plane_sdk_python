@@ -92,7 +92,7 @@ class RunnableJobExecutorTypedDict(TypedDict):
     run: RunnableJobExecutorRunTypedDict
     r"""Run settings that control how and when the Executor job runs."""
     id: NotRequired[str]
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
     description: NotRequired[str]
     r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
@@ -125,7 +125,7 @@ class RunnableJobExecutor(BaseModel):
     r"""Run settings that control how and when the Executor job runs."""
 
     id: Optional[str] = None
-    r"""Unique ID for this Job"""
+    r"""Unique name for this Job"""
 
     description: Optional[str] = None
     r"""Description"""

@@ -135,7 +135,7 @@ class HecTokens(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -269,7 +269,7 @@ class HecTokens(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -299,7 +299,7 @@ class HecTokens(BaseSDK):
     ) -> models.CountedInputSplunkHec:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
-        Update the metadata for the specified HEC token for the specified Splunk HEC Source.
+        Update the metadata for the specified HEC token for the specified Splunk HEC Source.<br/><br/>The v2 API supports partial updates: omitted fields keep their stored values, and an array in the request body replaces the stored array. To clear a field, send an empty value. <code>null</code> is rejected with <code>400</code>.<br/><br/>The v1 API accepts partial request bodies but resets omitted fields to their default values. For example, omitting <code>enabled</code> from the request body sets it to <code>true</code>.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The HEC token value whose metadata you want to update. Must match an existing token on the Source.
@@ -403,7 +403,7 @@ class HecTokens(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -433,7 +433,7 @@ class HecTokens(BaseSDK):
     ) -> models.CountedInputSplunkHec:
         r"""Update metadata for an HEC token for a Splunk HEC Source
 
-        Update the metadata for the specified HEC token for the specified Splunk HEC Source.
+        Update the metadata for the specified HEC token for the specified Splunk HEC Source.<br/><br/>The v2 API supports partial updates: omitted fields keep their stored values, and an array in the request body replaces the stored array. To clear a field, send an empty value. <code>null</code> is rejected with <code>400</code>.<br/><br/>The v1 API accepts partial request bodies but resets omitted fields to their default values. For example, omitting <code>enabled</code> from the request body sets it to <code>true</code>.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The HEC token value whose metadata you want to update. Must match an existing token on the Source.
@@ -537,7 +537,7 @@ class HecTokens(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):

@@ -179,7 +179,7 @@ class InputAnthropicEnterpriseAnalyticsInputTypedDict(TypedDict):
     content_config: List[InputAnthropicEnterpriseAnalyticsContentConfigTypedDict]
     r"""Analytics endpoints to collect from. Each content type runs on its own schedule as a separate collection job."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -238,7 +238,7 @@ class InputAnthropicEnterpriseAnalyticsInput(BaseModel):
     r"""Analytics endpoints to collect from. Each content type runs on its own schedule as a separate collection job."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

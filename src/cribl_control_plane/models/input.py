@@ -29,6 +29,26 @@ from .inputbeyondtrusthec_input import (
     InputBeyondtrustHecInput,
     InputBeyondtrustHecInputTypedDict,
 )
+from .inputcheckpointsasesyslog_input import (
+    InputCheckPointSaseSyslogInput,
+    InputCheckPointSaseSyslogInputTypedDict,
+)
+from .inputciscoasasyslog_input_union import (
+    InputCiscoAsaSyslogInputUnion,
+    InputCiscoAsaSyslogInputUnionTypedDict,
+)
+from .inputciscoiossyslog_input_union import (
+    InputCiscoIosSyslogInputUnion,
+    InputCiscoIosSyslogInputUnionTypedDict,
+)
+from .inputciscomerakisyslog_input_union import (
+    InputCiscoMerakiSyslogInputUnion,
+    InputCiscoMerakiSyslogInputUnionTypedDict,
+)
+from .inputciscosecurefirewallsyslog_input_union import (
+    InputCiscoSecureFirewallSyslogInputUnion,
+    InputCiscoSecureFirewallSyslogInputUnionTypedDict,
+)
 from .inputcloudflarehec_input import (
     InputCloudflareHecInput,
     InputCloudflareHecInputTypedDict,
@@ -76,6 +96,10 @@ from .inputextrahoprevealx360_input import (
 from .inputf5bigip_input import InputF5BigIPInput, InputF5BigIPInputTypedDict
 from .inputfile_input import InputFileInput, InputFileInputTypedDict
 from .inputfirehose_input import InputFirehoseInput, InputFirehoseInputTypedDict
+from .inputfortigatesyslog_input_union import (
+    InputFortigateSyslogInputUnion,
+    InputFortigateSyslogInputUnionTypedDict,
+)
 from .inputgigamonhec_input import InputGigamonHecInput, InputGigamonHecInputTypedDict
 from .inputgooglepubsub_input import (
     InputGooglePubsubInput,
@@ -91,9 +115,17 @@ from .inputhashicorphcpvaultdedicated_input import (
 )
 from .inputhttp_input import InputHTTPInput, InputHTTPInputTypedDict
 from .inputhttpraw_input import InputHTTPRawInput, InputHTTPRawInputTypedDict
+from .inputinfobloxsyslog_input_union import (
+    InputInfobloxSyslogInputUnion,
+    InputInfobloxSyslogInputUnionTypedDict,
+)
 from .inputjournalfiles_input import (
     InputJournalFilesInput,
     InputJournalFilesInputTypedDict,
+)
+from .inputjuniperjunossyslog_input_union import (
+    InputJuniperJunosSyslogInputUnion,
+    InputJuniperJunosSyslogInputUnionTypedDict,
 )
 from .inputkafka_input import InputKafkaInput, InputKafkaInputTypedDict
 from .inputkinesis_input import InputKinesisInput, InputKinesisInputTypedDict
@@ -103,6 +135,7 @@ from .inputkubemetrics_input import (
     InputKubeMetricsInput,
     InputKubeMetricsInputTypedDict,
 )
+from .inputlitellm_input import InputLitellmInput, InputLitellmInputTypedDict
 from .inputloki_input import InputLokiInput, InputLokiInputTypedDict
 from .inputmetrics_input import InputMetricsInput, InputMetricsInputTypedDict
 from .inputmicrosoftcopilot_input import (
@@ -123,6 +156,11 @@ from .inputmodeldriventelemetry_input import (
 )
 from .inputmsk_input import InputMskInput, InputMskInputTypedDict
 from .inputnetflow_input import InputNetflowInput, InputNetflowInputTypedDict
+from .inputnetgatepfsensesyslog_input_union import (
+    InputNetgatePfsenseSyslogInputUnion,
+    InputNetgatePfsenseSyslogInputUnionTypedDict,
+)
+from .inputnetskope_input import InputNetskopeInput, InputNetskopeInputTypedDict
 from .inputoffice365mgmt_input import (
     InputOffice365MgmtInput,
     InputOffice365MgmtInputTypedDict,
@@ -168,15 +206,28 @@ from .inputsailpointhec_input import (
     InputSailpointHecInput,
     InputSailpointHecInputTypedDict,
 )
+from .inputsalesforce_input import InputSalesforceInput, InputSalesforceInputTypedDict
 from .inputsecuritylake_input import (
     InputSecurityLakeInput,
     InputSecurityLakeInputTypedDict,
+)
+from .inputsentinelone_input import (
+    InputSentineloneInput,
+    InputSentineloneInputTypedDict,
 )
 from .inputservicenowtable_input import (
     InputServicenowTableInput,
     InputServicenowTableInputTypedDict,
 )
 from .inputsnmp_input import InputSnmpInput, InputSnmpInputTypedDict
+from .inputsonicwallsyslog_input_union import (
+    InputSonicwallSyslogInputUnion,
+    InputSonicwallSyslogInputUnionTypedDict,
+)
+from .inputsophosxgxgsfirewallsyslog_input_union import (
+    InputSophosXgXgsFirewallSyslogInputUnion,
+    InputSophosXgXgsFirewallSyslogInputUnionTypedDict,
+)
 from .inputsplunk_input import InputSplunkInput, InputSplunkInputTypedDict
 from .inputsplunkhec_input import InputSplunkHecInput, InputSplunkHecInputTypedDict
 from .inputsplunksearch_input import (
@@ -204,10 +255,22 @@ from .inputtrendmicrovisionone_input import (
     InputTrendMicroVisionOneInput,
     InputTrendMicroVisionOneInputTypedDict,
 )
+from .inputubiquitiunifisyslog_input_union import (
+    InputUbiquitiUnifiSyslogInputUnion,
+    InputUbiquitiUnifiSyslogInputUnionTypedDict,
+)
 from .inputupwindhec_input import InputUpwindHecInput, InputUpwindHecInputTypedDict
 from .inputvectraaihec_input import (
     InputVectraAiHecInput,
     InputVectraAiHecInputTypedDict,
+)
+from .inputvmwareesxivcentersyslog_input_union import (
+    InputVmwareEsxiVcenterSyslogInputUnion,
+    InputVmwareEsxiVcenterSyslogInputUnionTypedDict,
+)
+from .inputwatchguardfireboxsyslog_input_union import (
+    InputWatchguardFireboxSyslogInputUnion,
+    InputWatchguardFireboxSyslogInputUnionTypedDict,
 )
 from .inputwef_input import InputWefInput, InputWefInputTypedDict
 from .inputwindowsmetrics_input import (
@@ -220,6 +283,10 @@ from .inputwineventlogs_input import (
 )
 from .inputwiz_input import InputWizInput, InputWizInputTypedDict
 from .inputwizwebhook_input import InputWizWebhookInput, InputWizWebhookInputTypedDict
+from .inputzoomwebhook_input import (
+    InputZoomWebhookInput,
+    InputZoomWebhookInputTypedDict,
+)
 from .inputzscalerhec_input import InputZscalerHecInput, InputZscalerHecInputTypedDict
 from cribl_control_plane.utils import get_discriminator
 from pydantic import Discriminator, Tag
@@ -230,74 +297,80 @@ from typing_extensions import Annotated, TypeAliasType
 InputTypedDict = TypeAliasType(
     "InputTypedDict",
     Union[
+        InputDatagenInputTypedDict,
         InputCriblInputTypedDict,
         InputKubeEventsInputTypedDict,
-        InputDatagenInputTypedDict,
-        InputCriblmetricsInputTypedDict,
         InputAppleUnifiedLogsInputTypedDict,
-        InputCollectionInputTypedDict,
-        InputKubeMetricsInputTypedDict,
+        InputCriblmetricsInputTypedDict,
         InputSystemStateInputTypedDict,
+        InputKubeMetricsInputTypedDict,
+        InputCollectionInputTypedDict,
         InputWindowsMetricsInputTypedDict,
         InputSystemMetricsInputTypedDict,
         InputJournalFilesInputTypedDict,
         InputKubeLogsInputTypedDict,
-        InputModelDrivenTelemetryInputTypedDict,
         InputExecInputTypedDict,
-        InputProofpointPodInputTypedDict,
+        InputModelDrivenTelemetryInputTypedDict,
         InputRawUDPInputTypedDict,
+        InputProofpointPodInputTypedDict,
         InputSnmpInputTypedDict,
         InputAnthropicEnterpriseAnalyticsInputTypedDict,
         InputMetricsInputTypedDict,
-        InputWinEventLogsInputTypedDict,
+        InputNetskopeInputTypedDict,
         InputNetflowInputTypedDict,
         InputCriblTCPInputTypedDict,
+        InputSentineloneInputTypedDict,
+        InputWinEventLogsInputTypedDict,
         InputOpenaiInputTypedDict,
         InputTcpjsonInputTypedDict,
-        InputEventhubAmqpInputTypedDict,
         InputOktaInputTypedDict,
-        InputCriblHTTPInputTypedDict,
+        InputEventhubAmqpInputTypedDict,
+        InputCheckPointSaseSyslogInputTypedDict,
         InputGooglePubsubInputTypedDict,
+        InputCriblHTTPInputTypedDict,
         InputFirehoseInputTypedDict,
         InputSailpointHecInputTypedDict,
-        InputTCPInputTypedDict,
-        InputWizInputTypedDict,
-        InputOffice365ServiceInputTypedDict,
-        InputAnthropicComplianceInputTypedDict,
         InputAkamaiHecInputTypedDict,
+        InputWizInputTypedDict,
+        InputAnthropicComplianceInputTypedDict,
+        InputTCPInputTypedDict,
+        InputSalesforceInputTypedDict,
+        InputOffice365ServiceInputTypedDict,
         InputDatadogAgentInputTypedDict,
+        InputLitellmInputTypedDict,
         InputAppscopeInputTypedDict,
         InputOffice365MgmtInputTypedDict,
         InputSplunkInputTypedDict,
         InputWefInputTypedDict,
-        InputBeyondtrustHecInputTypedDict,
         InputAzureVnetFlowLogInputTypedDict,
-        InputWizWebhookInputTypedDict,
+        InputBeyondtrustHecInputTypedDict,
         InputLokiInputTypedDict,
+        InputZoomWebhookInputTypedDict,
+        InputWizWebhookInputTypedDict,
         InputPingIdentityPingoneInputTypedDict,
-        InputVectraAiHecInputTypedDict,
         InputGigamonHecInputTypedDict,
+        InputVectraAiHecInputTypedDict,
         InputPrometheusRwInputTypedDict,
-        InputUpwindHecInputTypedDict,
-        InputAquaSecurityHecInputTypedDict,
-        InputFileInputTypedDict,
-        InputExtrahopRevealx360InputTypedDict,
-        InputTrellixHecInputTypedDict,
         InputSysdigHecInputTypedDict,
+        InputExtrahopRevealx360InputTypedDict,
         InputHashicorpHcpVaultDedicatedInputTypedDict,
         InputMimecastHecInputTypedDict,
         InputTrendMicroVisionOneInputTypedDict,
+        InputUpwindHecInputTypedDict,
+        InputAquaSecurityHecInputTypedDict,
+        InputTrellixHecInputTypedDict,
         InputZscalerHecInputTypedDict,
         InputHTTPInputTypedDict,
         InputCriblLakeHTTPInputTypedDict,
         InputF5BigIPInputTypedDict,
-        InputCloudflareHecInputTypedDict,
-        InputKafkaInputTypedDict,
-        InputConfluentCloudInputTypedDict,
-        InputEventhubInputTypedDict,
         InputMicrosoftCopilotInputTypedDict,
         InputOpenaiComplianceLogsInputTypedDict,
+        InputEventhubInputTypedDict,
+        InputCloudflareHecInputTypedDict,
+        InputKafkaInputTypedDict,
+        InputFileInputTypedDict,
         InputElasticInputTypedDict,
+        InputConfluentCloudInputTypedDict,
         InputSplunkHecInputTypedDict,
         InputAzureBlobInputTypedDict,
         InputSqsInputTypedDict,
@@ -306,8 +379,8 @@ InputTypedDict = TypeAliasType(
         InputKinesisInputTypedDict,
         InputHTTPRawInputTypedDict,
         InputSplunkSearchInputTypedDict,
-        InputOpenTelemetryInputTypedDict,
         InputServicenowTableInputTypedDict,
+        InputOpenTelemetryInputTypedDict,
         InputMskInputTypedDict,
         InputEdgePrometheusInputTypedDict,
         InputCrowdstrikeInputTypedDict,
@@ -316,8 +389,21 @@ InputTypedDict = TypeAliasType(
         InputS3InputTypedDict,
         InputS3InventoryInputTypedDict,
         InputPrometheusInputTypedDict,
-        InputSyslogInputUnionTypedDict,
+        InputVmwareEsxiVcenterSyslogInputUnionTypedDict,
+        InputWatchguardFireboxSyslogInputUnionTypedDict,
         InputGrafanaInputUnionTypedDict,
+        InputCiscoMerakiSyslogInputUnionTypedDict,
+        InputFortigateSyslogInputUnionTypedDict,
+        InputSyslogInputUnionTypedDict,
+        InputNetgatePfsenseSyslogInputUnionTypedDict,
+        InputCiscoAsaSyslogInputUnionTypedDict,
+        InputInfobloxSyslogInputUnionTypedDict,
+        InputUbiquitiUnifiSyslogInputUnionTypedDict,
+        InputSonicwallSyslogInputUnionTypedDict,
+        InputSophosXgXgsFirewallSyslogInputUnionTypedDict,
+        InputCiscoSecureFirewallSyslogInputUnionTypedDict,
+        InputJuniperJunosSyslogInputUnionTypedDict,
+        InputCiscoIosSyslogInputUnionTypedDict,
     ],
 )
 
@@ -374,6 +460,24 @@ Input = Annotated[
         Annotated[InputModelDrivenTelemetryInput, Tag("model_driven_telemetry")],
         Annotated[InputSqsInput, Tag("sqs")],
         Annotated[InputSyslogInputUnion, Tag("syslog")],
+        Annotated[InputCheckPointSaseSyslogInput, Tag("check_point_sase_syslog")],
+        Annotated[InputCiscoAsaSyslogInputUnion, Tag("cisco_asa_syslog")],
+        Annotated[InputCiscoMerakiSyslogInputUnion, Tag("cisco_meraki_syslog")],
+        Annotated[InputFortigateSyslogInputUnion, Tag("fortigate_syslog")],
+        Annotated[
+            InputVmwareEsxiVcenterSyslogInputUnion, Tag("vmware_esxi_vcenter_syslog")
+        ],
+        Annotated[InputNetgatePfsenseSyslogInputUnion, Tag("netgate_pfsense_syslog")],
+        Annotated[
+            InputWatchguardFireboxSyslogInputUnion, Tag("watchguard_firebox_syslog")
+        ],
+        Annotated[InputInfobloxSyslogInputUnion, Tag("infoblox_syslog")],
+        Annotated[InputUbiquitiUnifiSyslogInputUnion, Tag("ubiquiti_unifi_syslog")],
+        Annotated[InputSonicwallSyslogInputUnion, Tag("sonicwall_syslog")],
+        Annotated[
+            InputSophosXgXgsFirewallSyslogInputUnion,
+            Tag("sophos_xg_xgs_firewall_syslog"),
+        ],
         Annotated[InputFileInput, Tag("file")],
         Annotated[InputTCPInput, Tag("tcp")],
         Annotated[InputAppscopeInput, Tag("appscope")],
@@ -395,6 +499,7 @@ Input = Annotated[
         Annotated[InputSysdigHecInput, Tag("sysdig_hec")],
         Annotated[InputUpwindHecInput, Tag("upwind_hec")],
         Annotated[InputTrellixHecInput, Tag("trellix_hec")],
+        Annotated[InputSalesforceInput, Tag("salesforce")],
         Annotated[InputSailpointHecInput, Tag("sailpoint_hec")],
         Annotated[InputExtrahopRevealx360Input, Tag("extrahop_revealx_360")],
         Annotated[InputAquaSecurityHecInput, Tag("aqua_security_hec")],
@@ -406,6 +511,7 @@ Input = Annotated[
         ],
         Annotated[InputMicrosoftCopilotInput, Tag("microsoft_copilot")],
         Annotated[InputOktaInput, Tag("okta")],
+        Annotated[InputSentineloneInput, Tag("sentinelone")],
         Annotated[InputAkamaiHecInput, Tag("akamai_hec")],
         Annotated[InputPingIdentityPingoneInput, Tag("ping_identity_pingone")],
         Annotated[InputGigamonHecInput, Tag("gigamon_hec")],
@@ -417,6 +523,15 @@ Input = Annotated[
         ],
         Annotated[InputMimecastHecInput, Tag("mimecast_hec")],
         Annotated[InputTrendMicroVisionOneInput, Tag("trend_micro_vision_one")],
+        Annotated[InputZoomWebhookInput, Tag("zoom_webhook")],
+        Annotated[InputNetskopeInput, Tag("netskope")],
+        Annotated[InputLitellmInput, Tag("litellm")],
+        Annotated[
+            InputCiscoSecureFirewallSyslogInputUnion,
+            Tag("cisco_secure_firewall_syslog"),
+        ],
+        Annotated[InputJuniperJunosSyslogInputUnion, Tag("juniper_junos_syslog")],
+        Annotated[InputCiscoIosSyslogInputUnion, Tag("cisco_ios_syslog")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]

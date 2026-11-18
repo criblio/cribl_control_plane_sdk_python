@@ -93,7 +93,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -167,7 +167,7 @@ class InputDatadogAgentInput(BaseModel):
     r"""Port to listen on"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

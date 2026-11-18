@@ -12,6 +12,12 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .typeoptionssnmp import TypeOptionsSnmp
+from .v3authenticationkeytypeoptionssnmptrapserializev3userauthprotocolnotnone import (
+    V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+)
+from .v3privacykeytypeoptionssnmptrapserializev3userauthprotocolnotnoneprivprotocolnotnone import (
+    V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -19,15 +25,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class V3AuthenticationKeyType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
-
-    # Manual
-    MANUAL = "manual"
-    # Secret
-    SECRET = "secret"
 
 
 class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -45,21 +42,14 @@ class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     AES256R = "aes256r"
 
 
-class V3PrivacyKeyType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
-
-    # Manual
-    MANUAL = "manual"
-    # Secret
-    SECRET = "secret"
-
-
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
     r"""SNMPv3 security name."""
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     r"""Authentication protocol for the SNMPv3 user."""
-    auth_key_type: NotRequired[V3AuthenticationKeyType]
+    auth_key_type: NotRequired[
+        V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    ]
     r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
     auth_key: NotRequired[str]
     r"""Authentication key for the SNMPv3 user."""
@@ -67,7 +57,9 @@ class InputSnmpV3UserTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
     priv_protocol: NotRequired[PrivacyProtocol]
     r"""Privacy protocol"""
-    priv_key_type: NotRequired[V3PrivacyKeyType]
+    priv_key_type: NotRequired[
+        V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
+    ]
     r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
     priv_key: NotRequired[str]
     r"""Privacy key for the SNMPv3 user."""
@@ -86,7 +78,10 @@ class InputSnmpV3User(BaseModel):
     r"""Authentication protocol for the SNMPv3 user."""
 
     auth_key_type: Annotated[
-        Optional[V3AuthenticationKeyType], pydantic.Field(alias="authKeyType")
+        Optional[
+            V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+        ],
+        pydantic.Field(alias="authKeyType"),
     ] = None
     r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
 
@@ -104,7 +99,10 @@ class InputSnmpV3User(BaseModel):
     r"""Privacy protocol"""
 
     priv_key_type: Annotated[
-        Optional[V3PrivacyKeyType], pydantic.Field(alias="privKeyType")
+        Optional[
+            V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
+        ],
+        pydantic.Field(alias="privKeyType"),
     ] = None
     r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
 
@@ -129,7 +127,9 @@ class InputSnmpV3User(BaseModel):
     def serialize_auth_key_type(self, value):
         if isinstance(value, str):
             try:
-                return models.V3AuthenticationKeyType(value)
+                return models.V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -147,7 +147,9 @@ class InputSnmpV3User(BaseModel):
     def serialize_priv_key_type(self, value):
         if isinstance(value, str):
             try:
-                return models.V3PrivacyKeyType(value)
+                return models.V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -232,7 +234,7 @@ class InputSnmpInputTypedDict(TypedDict):
     port: float
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -286,7 +288,7 @@ class InputSnmpInput(BaseModel):
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

@@ -195,6 +195,12 @@ value: models.OutputElastic = /* values here */
 value: models.OutputElasticCloud = /* values here */
 ```
 
+### `models.OutputElasticServerless`
+
+```python
+value: models.OutputElasticServerless = /* values here */
+```
+
 ### `models.OutputNewrelic`
 
 ```python
@@ -471,6 +477,12 @@ value: models.OutputCloudflareR2 = /* values here */
 value: models.OutputNutanixObjects = /* values here */
 ```
 
+### `models.OutputBackblazeB2`
+
+```python
+value: models.OutputBackblazeB2 = /* values here */
+```
+
 ### `models.OutputStorjS3`
 
 ```python
@@ -489,6 +501,18 @@ value: models.OutputAlphasocS3 = /* values here */
 value: models.OutputDellS3 = /* values here */
 ```
 
+### `models.OutputWasabi`
+
+```python
+value: models.OutputWasabi = /* values here */
+```
+
+### `models.OutputSeagateLyveCloudS3`
+
+```python
+value: models.OutputSeagateLyveCloudS3 = /* values here */
+```
+
 ### `models.OutputCloudianS3`
 
 ```python
@@ -501,10 +525,76 @@ value: models.OutputCloudianS3 = /* values here */
 value: models.OutputScalityS3 = /* values here */
 ```
 
+### `models.OutputAkamaiObjectStorageS3`
+
+```python
+value: models.OutputAkamaiObjectStorageS3 = /* values here */
+```
+
 ### `models.OutputAlibabaCloudS3`
 
 ```python
 value: models.OutputAlibabaCloudS3 = /* values here */
+```
+
+### `models.OutputExoscaleSosS3`
+
+```python
+value: models.OutputExoscaleSosS3 = /* values here */
+```
+
+### `models.OutputIonosS3ObjectStorage`
+
+```python
+value: models.OutputIonosS3ObjectStorage = /* values here */
+```
+
+### `models.OutputFastlyObjectStorageS3`
+
+```python
+value: models.OutputFastlyObjectStorageS3 = /* values here */
+```
+
+### `models.OutputImpossibleCloudS3`
+
+```python
+value: models.OutputImpossibleCloudS3 = /* values here */
+```
+
+### `models.OutputDreamobjectsS3`
+
+```python
+value: models.OutputDreamobjectsS3 = /* values here */
+```
+
+### `models.OutputFilebaseS3`
+
+```python
+value: models.OutputFilebaseS3 = /* values here */
+```
+
+### `models.OutputTencentCloudCosS3`
+
+```python
+value: models.OutputTencentCloudCosS3 = /* values here */
+```
+
+### `models.OutputOvhcloudObjectStorageS3`
+
+```python
+value: models.OutputOvhcloudObjectStorageS3 = /* values here */
+```
+
+### `models.OutputScalewayObjectStorageS3`
+
+```python
+value: models.OutputScalewayObjectStorageS3 = /* values here */
+```
+
+### `models.OutputDigitaloceanSpacesS3`
+
+```python
+value: models.OutputDigitaloceanSpacesS3 = /* values here */
 ```
 
 ### `models.OutputIbmCloudS3`
@@ -513,9 +603,27 @@ value: models.OutputAlibabaCloudS3 = /* values here */
 value: models.OutputIbmCloudS3 = /* values here */
 ```
 
+### `models.OutputOracleCloudS3`
+
+```python
+value: models.OutputOracleCloudS3 = /* values here */
+```
+
 ### `models.OutputDatabricksZerobus`
 
 ```python
 value: models.OutputDatabricksZerobus = /* values here */
+```
+
+### `models.OutputSecuronix`
+
+```python
+value: models.OutputSecuronix = /* values here */
+```
+
+### `models.OutputFortisiem`
+
+```python
+value: models.OutputFortisiem = /* values here */
 ```
 

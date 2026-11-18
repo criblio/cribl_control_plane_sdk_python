@@ -303,6 +303,72 @@ value: models.InputSqsInput = /* values here */
 value: models.InputSyslogInputUnion = /* values here */
 ```
 
+### `models.InputCheckPointSaseSyslogInput`
+
+```python
+value: models.InputCheckPointSaseSyslogInput = /* values here */
+```
+
+### `models.InputCiscoAsaSyslogInputUnion`
+
+```python
+value: models.InputCiscoAsaSyslogInputUnion = /* values here */
+```
+
+### `models.InputCiscoMerakiSyslogInputUnion`
+
+```python
+value: models.InputCiscoMerakiSyslogInputUnion = /* values here */
+```
+
+### `models.InputFortigateSyslogInputUnion`
+
+```python
+value: models.InputFortigateSyslogInputUnion = /* values here */
+```
+
+### `models.InputVmwareEsxiVcenterSyslogInputUnion`
+
+```python
+value: models.InputVmwareEsxiVcenterSyslogInputUnion = /* values here */
+```
+
+### `models.InputNetgatePfsenseSyslogInputUnion`
+
+```python
+value: models.InputNetgatePfsenseSyslogInputUnion = /* values here */
+```
+
+### `models.InputWatchguardFireboxSyslogInputUnion`
+
+```python
+value: models.InputWatchguardFireboxSyslogInputUnion = /* values here */
+```
+
+### `models.InputInfobloxSyslogInputUnion`
+
+```python
+value: models.InputInfobloxSyslogInputUnion = /* values here */
+```
+
+### `models.InputUbiquitiUnifiSyslogInputUnion`
+
+```python
+value: models.InputUbiquitiUnifiSyslogInputUnion = /* values here */
+```
+
+### `models.InputSonicwallSyslogInputUnion`
+
+```python
+value: models.InputSonicwallSyslogInputUnion = /* values here */
+```
+
+### `models.InputSophosXgXgsFirewallSyslogInputUnion`
+
+```python
+value: models.InputSophosXgXgsFirewallSyslogInputUnion = /* values here */
+```
+
 ### `models.InputFileInput`
 
 ```python
@@ -429,6 +495,12 @@ value: models.InputUpwindHecInput = /* values here */
 value: models.InputTrellixHecInput = /* values here */
 ```
 
+### `models.InputSalesforceInput`
+
+```python
+value: models.InputSalesforceInput = /* values here */
+```
+
 ### `models.InputSailpointHecInput`
 
 ```python
@@ -475,6 +547,12 @@ value: models.InputMicrosoftCopilotInput = /* values here */
 
 ```python
 value: models.InputOktaInput = /* values here */
+```
+
+### `models.InputSentineloneInput`
+
+```python
+value: models.InputSentineloneInput = /* values here */
 ```
 
 ### `models.InputAkamaiHecInput`
@@ -529,5 +607,41 @@ value: models.InputMimecastHecInput = /* values here */
 
 ```python
 value: models.InputTrendMicroVisionOneInput = /* values here */
+```
+
+### `models.InputZoomWebhookInput`
+
+```python
+value: models.InputZoomWebhookInput = /* values here */
+```
+
+### `models.InputNetskopeInput`
+
+```python
+value: models.InputNetskopeInput = /* values here */
+```
+
+### `models.InputLitellmInput`
+
+```python
+value: models.InputLitellmInput = /* values here */
+```
+
+### `models.InputCiscoSecureFirewallSyslogInputUnion`
+
+```python
+value: models.InputCiscoSecureFirewallSyslogInputUnion = /* values here */
+```
+
+### `models.InputJuniperJunosSyslogInputUnion`
+
+```python
+value: models.InputJuniperJunosSyslogInputUnion = /* values here */
+```
+
+### `models.InputCiscoIosSyslogInputUnion`
+
+```python
+value: models.InputCiscoIosSyslogInputUnion = /* values here */
 ```
 

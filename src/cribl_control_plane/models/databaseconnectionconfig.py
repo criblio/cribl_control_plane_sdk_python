@@ -13,17 +13,43 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PemTypedDict(TypedDict):
-    r"""RSA private key configuration for Snowflake key-pair authentication."""
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
 
     key_name: str
-    r"""RSA private key (PEM format) for Snowflake key-pair authentication."""
+    r"""Name of the stored private key, as listed by <code>/lib/private-keys</code>, to authenticate with."""
+    passphrase: NotRequired[str]
+    r"""Server-resolved passphrase for the stored private key. Ignored on input and omitted from responses."""
+    priv_key_path: NotRequired[str]
+    r"""Server-resolved filesystem path to the stored private key. Ignored on input and omitted from responses."""
 
 
 class Pem(BaseModel):
-    r"""RSA private key configuration for Snowflake key-pair authentication."""
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
 
     key_name: Annotated[str, pydantic.Field(alias="keyName")]
-    r"""RSA private key (PEM format) for Snowflake key-pair authentication."""
+    r"""Name of the stored private key, as listed by <code>/lib/private-keys</code>, to authenticate with."""
+
+    passphrase: Optional[str] = None
+    r"""Server-resolved passphrase for the stored private key. Ignored on input and omitted from responses."""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Server-resolved filesystem path to the stored private key. Ignored on input and omitted from responses."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["passphrase", "privKeyPath"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class DatabaseConnectionConfigTypedDict(TypedDict):
@@ -34,7 +60,7 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     id: str
     r"""Unique identifier for the Database Connection."""
     account_identifier: NotRequired[str]
-    r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)."""
+    r"""Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>)."""
     config_obj: NotRequired[str]
     r"""JSON configuration object for advanced SQL Server connection settings."""
     connection_string: NotRequired[str]
@@ -54,7 +80,7 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     password: NotRequired[str]
     r"""Database password for authentication. Used with Oracle connections."""
     pem: NotRequired[PemTypedDict]
-    r"""RSA private key configuration for Snowflake key-pair authentication."""
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
     request_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only."""
     role: NotRequired[str]
@@ -89,7 +115,7 @@ class DatabaseConnectionConfig(BaseModel):
     account_identifier: Annotated[
         Optional[str], pydantic.Field(alias="accountIdentifier")
     ] = None
-    r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)."""
+    r"""Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>)."""
 
     config_obj: Annotated[Optional[str], pydantic.Field(alias="configObj")] = None
     r"""JSON configuration object for advanced SQL Server connection settings."""
@@ -127,7 +153,7 @@ class DatabaseConnectionConfig(BaseModel):
     r"""Database password for authentication. Used with Oracle connections."""
 
     pem: Optional[Pem] = None
-    r"""RSA private key configuration for Snowflake key-pair authentication."""
+    r"""Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication."""
 
     request_timeout: Annotated[
         Optional[int], pydantic.Field(alias="requestTimeout")

@@ -4,42 +4,46 @@ from __future__ import annotations
 from .paginatedgitlogresult import PaginatedGitLogResult, PaginatedGitLogResultTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
+import pydantic
 from pydantic import model_serializer
 from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetVersionRequestTypedDict(TypedDict):
-    count: NotRequired[int]
-    r"""Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
-    offset: NotRequired[int]
-    r"""Pagination offset"""
     limit: NotRequired[int]
-    r"""Maximum number of items to return"""
+    r"""Maximum number of commits to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+    offset: NotRequired[int]
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
+    count: NotRequired[int]
+    r"""Maximum number of commits to read from the commit history. <strong>Deprecated</strong> — use <code>limit</code> and <code>offset</code> instead. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
 
 
 class GetVersionRequest(BaseModel):
-    count: Annotated[
+    limit: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
+    r"""Maximum number of commits to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
 
     offset: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Pagination offset"""
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
-    limit: Annotated[
+    count: Annotated[
         Optional[int],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of items to return"""
+    r"""Maximum number of commits to read from the commit history. <strong>Deprecated</strong> — use <code>limit</code> and <code>offset</code> instead. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["count", "offset", "limit"])
+        optional_fields = set(["limit", "offset", "count"])
         serialized = handler(self)
         m = {}
 

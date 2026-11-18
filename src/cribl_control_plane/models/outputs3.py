@@ -15,12 +15,17 @@ from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .objectacloptions import ObjectACLOptions
+from .objecttagconfoutputs3 import ObjectTagConfOutputS3, ObjectTagConfOutputS3TypedDict
 from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
     OrphanFileRecoveryTypeTypedDict,
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
@@ -42,7 +47,7 @@ class OutputS3TypedDict(TypedDict):
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -51,6 +56,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
     enable_assume_role: NotRequired[bool]
@@ -114,7 +121,7 @@ class OutputS3TypedDict(TypedDict):
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    r"""Secret key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`. If empty, IAM roles will be used."""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -123,10 +130,12 @@ class OutputS3TypedDict(TypedDict):
     r"""Server-side encryption to use for uploaded objects"""
     kms_key_id: NotRequired[str]
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
+    object_tags: NotRequired[List[ObjectTagConfOutputS3TypedDict]]
+    r"""Key-value tags set on each uploaded object"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    r"""This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`. If empty, IAM roles will be used."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -216,7 +225,7 @@ class OutputS3(BaseModel):
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -231,6 +240,12 @@ class OutputS3(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     endpoint: Optional[str] = None
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
@@ -383,7 +398,7 @@ class OutputS3(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    r"""Secret key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`. If empty, IAM roles will be used."""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -404,11 +419,16 @@ class OutputS3(BaseModel):
     kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
+    object_tags: Annotated[
+        Optional[List[ObjectTagConfOutputS3]], pydantic.Field(alias="objectTags")
+    ] = None
+    r"""Key-value tags set on each uploaded object"""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    r"""This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`. If empty, IAM roles will be used."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -705,6 +725,7 @@ class OutputS3(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "endpoint",
                 "enableAssumeRole",
                 "assumeRoleArn",
@@ -741,6 +762,7 @@ class OutputS3(BaseModel):
                 "storageClass",
                 "serverSideEncryption",
                 "kmsKeyId",
+                "objectTags",
                 "description",
                 "awsApiKey",
                 "awsSecret",

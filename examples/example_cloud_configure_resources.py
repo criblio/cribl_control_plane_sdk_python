@@ -248,7 +248,7 @@ async def main():
         RouteConfInput.model_validate(r.model_dump()) for r in routes.routes
     ]
     cribl.routes.update(
-        id_param=routes.id, id=routes.id, routes=routes_input, server_url=group_url
+        id=routes.id, routes=routes_input, server_url=group_url
     )
     print(f"✅ Route added: {route.id}")
 

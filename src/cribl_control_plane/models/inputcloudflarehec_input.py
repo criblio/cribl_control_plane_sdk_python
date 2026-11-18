@@ -35,7 +35,7 @@ class InputCloudflareHecType(str, Enum):
     CLOUDFLARE_HEC = "cloudflare_hec"
 
 
-class TLSSettingsServerSideTypedDict(TypedDict):
+class InputCloudflareHecTLSSettingsServerSideTypedDict(TypedDict):
     r"""TLS settings (server side)"""
 
     disabled: NotRequired[bool]
@@ -62,7 +62,7 @@ class TLSSettingsServerSideTypedDict(TypedDict):
     r"""Maximum TLS version to accept from clients."""
 
 
-class TLSSettingsServerSide(BaseModel):
+class InputCloudflareHecTLSSettingsServerSide(BaseModel):
     r"""TLS settings (server side)"""
 
     disabled: Optional[bool] = None
@@ -169,7 +169,7 @@ class InputCloudflareHecInputTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -188,7 +188,7 @@ class InputCloudflareHecInputTypedDict(TypedDict):
     r"""Persistent queue settings for this Source."""
     auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[TLSSettingsServerSideTypedDict]
+    tls: NotRequired[InputCloudflareHecTLSSettingsServerSideTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -258,7 +258,7 @@ class InputCloudflareHecInput(BaseModel):
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -292,7 +292,7 @@ class InputCloudflareHecInput(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[TLSSettingsServerSide] = None
+    tls: Optional[InputCloudflareHecTLSSettingsServerSide] = None
     r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
@@ -479,7 +479,7 @@ class InputCloudflareHecInput(BaseModel):
 
 
 try:
-    TLSSettingsServerSide.model_rebuild()
+    InputCloudflareHecTLSSettingsServerSide.model_rebuild()
 except NameError:
     pass
 try:

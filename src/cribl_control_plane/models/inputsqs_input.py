@@ -40,7 +40,7 @@ class InputSqsInputTypedDict(TypedDict):
     queue_type: InputSqsQueueType
     r"""The queue type used (or created)"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -134,7 +134,7 @@ class InputSqsInput(BaseModel):
     r"""The queue type used (or created)"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

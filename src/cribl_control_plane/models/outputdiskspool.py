@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 from .compressionoptionspersistence import CompressionOptionsPersistence
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -21,7 +25,7 @@ class OutputDiskSpoolTypedDict(TypedDict):
     type: OutputDiskSpoolType
     r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -30,6 +34,8 @@ class OutputDiskSpoolTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     time_window: NotRequired[str]
     r"""Time period for grouping spooled events. Default is 10m."""
     max_data_size: NotRequired[str]
@@ -51,7 +57,7 @@ class OutputDiskSpool(BaseModel):
     r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -66,6 +72,12 @@ class OutputDiskSpool(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time period for grouping spooled events. Default is 10m."""
@@ -110,6 +122,7 @@ class OutputDiskSpool(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "timeWindow",
                 "maxDataSize",
                 "maxDataTime",

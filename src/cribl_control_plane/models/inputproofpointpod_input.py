@@ -46,7 +46,7 @@ class InputProofpointPodInputTypedDict(TypedDict):
     text_secret: str
     r"""Select or create a stored text secret"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -101,7 +101,7 @@ class InputProofpointPodInput(BaseModel):
     r"""Select or create a stored text secret"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

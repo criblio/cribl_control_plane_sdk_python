@@ -195,7 +195,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -393,7 +393,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -437,7 +437,7 @@ class Datasets(BaseSDK):
     ) -> models.CountedCriblLakeDataset:
         r"""Create Lake Datasets (Cribl.Cloud only)
 
-        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch.
+        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch. In v2, the <code>Location</code> response header is returned only when a single Lake Dataset object is created; an array request creates multiple resources and omits it.
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Datasets in.
         :param id: Unique identifier for the Dataset.
@@ -567,7 +567,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "422", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -611,7 +611,7 @@ class Datasets(BaseSDK):
     ) -> models.CountedCriblLakeDataset:
         r"""Create Lake Datasets (Cribl.Cloud only)
 
-        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch.
+        Creates one or more Lake Datasets in the specified Lake in a single transaction (Cribl.Cloud only). Send a single Lake Dataset object to create just one, or an array to bulk-create multiple. When an array is sent, the response is <code>{ items, errors }</code> — <code>items</code> contains the successfully created Lake Datasets, and <code>errors</code> contains an entry (<code>{ id, reason }</code>) for each Lake Dataset that failed validation, so a per-item failure does not fail the rest of the batch. In v2, the <code>Location</code> response header is returned only when a single Lake Dataset object is created; an array request creates multiple resources and omits it.
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Datasets in.
         :param id: Unique identifier for the Dataset.
@@ -741,7 +741,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "422", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -848,7 +848,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -955,7 +955,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1000,7 +1000,7 @@ class Datasets(BaseSDK):
     ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset (Cribl.Cloud only)
 
-        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only). Explicitly selecting Search v2 requires an Enterprise license and Search v2 enablement; an update that omits the search version repairs an existing unavailable v2 configuration to v1 where supported.
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
@@ -1132,7 +1132,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1177,7 +1177,7 @@ class Datasets(BaseSDK):
     ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset (Cribl.Cloud only)
 
-        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only). Explicitly selecting Search v2 requires an Enterprise license and Search v2 enablement; an update that omits the search version repairs an existing unavailable v2 configuration to v1 where supported.
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
@@ -1309,7 +1309,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1413,7 +1413,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1517,7 +1517,7 @@ class Datasets(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

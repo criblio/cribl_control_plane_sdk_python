@@ -1,12 +1,17 @@
 # SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
-| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `priv_protocol`                                                                                          | *Optional[str]*                                                                                          | :heavy_minus_sign:                                                                                       | Privacy protocol for SNMPv3 encryption.                                                                  |
-| `priv_key`                                                                                               | *str*                                                                                                    | :heavy_check_mark:                                                                                       | Privacy key for SNMPv3 encryption. Required when a privacy protocol is selected.                         |
-| `auth_protocol`                                                                                          | [Optional[models.AuthenticationProtocolOptionsV3User]](../models/authenticationprotocoloptionsv3user.md) | :heavy_minus_sign:                                                                                       | Authentication protocol for the SNMPv3 user.                                                             |
-| `auth_key`                                                                                               | *str*                                                                                                    | :heavy_check_mark:                                                                                       | Authentication key for SNMPv3 user. Required when an authentication protocol is selected.                |
-| `name`                                                                                                   | *str*                                                                                                    | :heavy_check_mark:                                                                                       | Username for the SNMPv3 user.                                                                            |
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeManual`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeManual = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeSecret`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeSecret = /* values here */
+```
+

@@ -11,6 +11,10 @@ from .orphanfilerecoverytype import (
     OrphanFileRecoveryTypeTypedDict,
 )
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -52,7 +56,7 @@ class OutputExabeamTypedDict(TypedDict):
 
     """
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -61,6 +65,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsArchiveColdline]
@@ -110,9 +116,9 @@ class OutputExabeamTypedDict(TypedDict):
     logtags: NotRequired[str]
     r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
     aws_api_key: NotRequired[str]
-    r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
+    r"""HMAC access key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     aws_secret_key: NotRequired[str]
-    r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
+    r"""HMAC secret. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     empty_dir_cleanup_sec: NotRequired[float]
@@ -161,7 +167,7 @@ class OutputExabeam(BaseModel):
     """
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -176,6 +182,12 @@ class OutputExabeam(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     object_acl: Annotated[
         Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
@@ -289,12 +301,12 @@ class OutputExabeam(BaseModel):
     r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
+    r"""HMAC access key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
-    r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
+    r"""HMAC secret. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -408,6 +420,7 @@ class OutputExabeam(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "objectACL",
                 "storageClass",
                 "reuseConnections",

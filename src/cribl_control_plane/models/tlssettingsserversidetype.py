@@ -19,7 +19,7 @@ class TLSSettingsServerSideTypeTypedDict(TypedDict):
     r"""TLS settings (server side)"""
 
     disabled: NotRequired[bool]
-    r"""If true, TLS is disabled on this connection."""
+    r"""Disabled"""
     request_cert: NotRequired[bool]
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     ca_path: NotRequired[str]
@@ -46,7 +46,7 @@ class TLSSettingsServerSideType(BaseModel):
     r"""TLS settings (server side)"""
 
     disabled: Optional[bool] = None
-    r"""If true, TLS is disabled on this connection."""
+    r"""Disabled"""
 
     request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""

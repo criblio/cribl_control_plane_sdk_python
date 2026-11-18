@@ -9,7 +9,7 @@
 
 ## clear
 
-Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+Asynchronously clears the persistent queue (PQ) for the specified Destination. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
 ### Example Usage
 
@@ -47,11 +47,12 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 400, 404                | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## get
 

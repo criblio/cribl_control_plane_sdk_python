@@ -129,7 +129,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the metadata for the specified HEC token for the specified Splunk HEC Source.
+Update the metadata for the specified HEC token for the specified Splunk HEC Source.<br/><br/>The v2 API supports partial updates: omitted fields keep their stored values, and an array in the request body replaces the stored array. To clear a field, send an empty value. <code>null</code> is rejected with <code>400</code>.<br/><br/>The v1 API accepts partial request bodies but resets omitted fields to their default values. For example, omitting <code>enabled</code> from the request body sets it to <code>true</code>.
 
 ### Example Usage: HecTokenExamplesHecToken
 

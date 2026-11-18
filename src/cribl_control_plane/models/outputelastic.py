@@ -19,6 +19,10 @@ from .saslextensionconfinputkafka import (
     SaslExtensionConfInputKafka,
     SaslExtensionConfInputKafkaTypedDict,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -36,17 +40,6 @@ class OutputElasticType(str, Enum):
     r"""Connector type identifier."""
 
     ELASTIC = "elastic"
-
-
-class ElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
-
-    # Auto
-    AUTO = "auto"
-    # 6.x
-    SIX = "6"
-    # 7.x
-    SEVEN = "7"
 
 
 class WriteAction(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -110,7 +103,7 @@ class OutputElasticTypedDict(TypedDict):
     index: str
     r"""Index or data stream to send events to. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be overwritten by an event's __index field."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -119,6 +112,8 @@ class OutputElasticTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     doc_type: NotRequired[str]
@@ -133,6 +128,7 @@ class OutputElasticTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -148,6 +144,8 @@ class OutputElasticTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
+    max_top_failure_reasons: NotRequired[float]
+    r"""Maximum number of distinct, most-frequent per-event failure reasons to surface in health status and warning logs when a request partially fails. Set to 0 to omit failure reasons from health status and warning logs."""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
@@ -160,7 +158,7 @@ class OutputElasticTypedDict(TypedDict):
     r"""Extra parameters"""
     auth: NotRequired[AuthTypeHTTPTypedDict]
     r"""Authentication settings for HTTP requests."""
-    elastic_version: NotRequired[ElasticVersion]
+    elastic_version: NotRequired[str]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
     r"""Optional Elasticsearch destination pipeline"""
@@ -201,7 +199,7 @@ class OutputElasticTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -234,7 +232,7 @@ class OutputElastic(BaseModel):
     r"""Index or data stream to send events to. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be overwritten by an event's __index field."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -249,6 +247,12 @@ class OutputElastic(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -278,6 +282,7 @@ class OutputElastic(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
@@ -312,6 +317,11 @@ class OutputElastic(BaseModel):
     ] = None
     r"""List of headers that are safe to log in plain text"""
 
+    max_top_failure_reasons: Annotated[
+        Optional[float], pydantic.Field(alias="maxTopFailureReasons")
+    ] = None
+    r"""Maximum number of distinct, most-frequent per-event failure reasons to surface in health status and warning logs when a request partially fails. Set to 0 to omit failure reasons from health status and warning logs."""
+
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
@@ -337,7 +347,7 @@ class OutputElastic(BaseModel):
     r"""Authentication settings for HTTP requests."""
 
     elastic_version: Annotated[
-        Optional[ElasticVersion], pydantic.Field(alias="elasticVersion")
+        Optional[str], pydantic.Field(alias="elasticVersion")
     ] = None
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
@@ -425,7 +435,7 @@ class OutputElastic(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -491,15 +501,6 @@ class OutputElastic(BaseModel):
                 return value
         return value
 
-    @field_serializer("elastic_version")
-    def serialize_elastic_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ElasticVersion(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("write_action")
     def serialize_write_action(self, value):
         if isinstance(value, str):
@@ -554,6 +555,7 @@ class OutputElastic(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "loadBalanced",
                 "docType",
                 "concurrency",
@@ -567,6 +569,7 @@ class OutputElastic(BaseModel):
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
                 "safeHeaders",
+                "maxTopFailureReasons",
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",

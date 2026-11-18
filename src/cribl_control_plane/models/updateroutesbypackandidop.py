@@ -3,28 +3,28 @@
 from __future__ import annotations
 from .routesinput import RoutesInput, RoutesInputTypedDict
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from cribl_control_plane.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_const,
+)
 import pydantic
+from pydantic.functional_validators import AfterValidator
+from typing import Literal
 from typing_extensions import Annotated, TypedDict
 
 
 class UpdateRoutesByPackAndIDRequestTypedDict(TypedDict):
-    id_param: str
-    r"""The <code>id</code> of the Routing table to update. The supported value is <code>default</code>."""
     pack: str
     r"""The <code>id</code> of the Pack."""
     routes_input: RoutesInputTypedDict
     r"""RoutesInput object."""
+    id: Literal["default"]
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
 
 
 class UpdateRoutesByPackAndIDRequest(BaseModel):
-    id_param: Annotated[
-        str,
-        pydantic.Field(alias="id"),
-        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
-    ]
-    r"""The <code>id</code> of the Routing table to update. The supported value is <code>default</code>."""
-
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
@@ -35,3 +35,16 @@ class UpdateRoutesByPackAndIDRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""RoutesInput object."""
+
+    ID: Annotated[
+        Annotated[Literal["default"], AfterValidator(validate_const("default"))],
+        pydantic.Field(alias="id"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ] = "default"
+    r"""The <code>id</code> of the Routing table. The only value is <code>default</code>."""
+
+
+try:
+    UpdateRoutesByPackAndIDRequest.model_rebuild()
+except NameError:
+    pass

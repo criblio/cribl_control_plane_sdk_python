@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.CreateInputSystemByPackInputCriblLakeHTTPInputHTTPAuthTokensExtItemsType`
+### `models.CreateInputSystemByPackInputHTTPAuthTokensExtItemsType`
 
 ```python
-value: models.CreateInputSystemByPackInputCriblLakeHTTPInputHTTPAuthTokensExtItemsType = /* values here */
+value: models.CreateInputSystemByPackInputHTTPAuthTokensExtItemsType = /* values here */
 ```
 
 ### `models.CreateInputSystemByPackInputCriblLakeHTTPInputHTTPAuthTypeSecretConstraint`

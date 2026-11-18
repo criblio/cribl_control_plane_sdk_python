@@ -137,7 +137,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -275,7 +275,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -287,7 +287,6 @@ class PacksRoutes(BaseSDK):
     def get(
         self,
         *,
-        id: str,
         pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -298,7 +297,6 @@ class PacksRoutes(BaseSDK):
 
         Get the specified Routing table within the specified Pack.
 
-        :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -316,7 +314,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetRoutesByPackAndIDRequest(
-            id=id,
             pack=pack,
         )
 
@@ -379,7 +376,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["404", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -391,7 +388,6 @@ class PacksRoutes(BaseSDK):
     async def get_async(
         self,
         *,
-        id: str,
         pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -402,7 +398,6 @@ class PacksRoutes(BaseSDK):
 
         Get the specified Routing table within the specified Pack.
 
-        :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -420,7 +415,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetRoutesByPackAndIDRequest(
-            id=id,
             pack=pack,
         )
 
@@ -483,7 +477,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["404", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -495,7 +489,6 @@ class PacksRoutes(BaseSDK):
     def update(
         self,
         *,
-        id_param: str,
         pack: str,
         id: str,
         routes: Union[
@@ -519,7 +512,6 @@ class PacksRoutes(BaseSDK):
 
         Update the specified Routing table within the specified Pack.<br/><br/>Provide a complete representation of the Routing table that you want to update in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
 
-        :param id_param: The <code>id</code> of the Routing table to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
         :param routes: Array of Route configurations that define how events are processed and routed.
@@ -541,7 +533,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdateRoutesByPackAndIDRequest(
-            id_param=id_param,
             pack=pack,
             routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
@@ -618,7 +609,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "404", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -630,7 +621,6 @@ class PacksRoutes(BaseSDK):
     async def update_async(
         self,
         *,
-        id_param: str,
         pack: str,
         id: str,
         routes: Union[
@@ -654,7 +644,6 @@ class PacksRoutes(BaseSDK):
 
         Update the specified Routing table within the specified Pack.<br/><br/>Provide a complete representation of the Routing table that you want to update in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
 
-        :param id_param: The <code>id</code> of the Routing table to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
         :param routes: Array of Route configurations that define how events are processed and routed.
@@ -676,7 +665,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdateRoutesByPackAndIDRequest(
-            id_param=id_param,
             pack=pack,
             routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
@@ -753,7 +741,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "404", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -765,7 +753,6 @@ class PacksRoutes(BaseSDK):
     def append(
         self,
         *,
-        id: str,
         pack: str,
         request_body: Union[
             Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
@@ -779,7 +766,6 @@ class PacksRoutes(BaseSDK):
 
         Add a Route to the end of the specified Routing table within the specified Pack.
 
-        :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param request_body: RouteDefinitions object.
         :param retries: Override the default retry configuration for this method
@@ -798,7 +784,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.CreateRoutesAppendByPackAndIDRequest(
-            id=id,
             pack=pack,
             request_body=utils.get_pydantic_model(
                 request_body, List[models.RouteConfInput]
@@ -867,7 +852,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "404", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -879,7 +864,6 @@ class PacksRoutes(BaseSDK):
     async def append_async(
         self,
         *,
-        id: str,
         pack: str,
         request_body: Union[
             Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
@@ -893,7 +877,6 @@ class PacksRoutes(BaseSDK):
 
         Add a Route to the end of the specified Routing table within the specified Pack.
 
-        :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack.
         :param request_body: RouteDefinitions object.
         :param retries: Override the default retry configuration for this method
@@ -912,7 +895,6 @@ class PacksRoutes(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.CreateRoutesAppendByPackAndIDRequest(
-            id=id,
             pack=pack,
             request_body=utils.get_pydantic_model(
                 request_body, List[models.RouteConfInput]
@@ -981,7 +963,7 @@ class PacksRoutes(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "404", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

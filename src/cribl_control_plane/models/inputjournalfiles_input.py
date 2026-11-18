@@ -63,7 +63,7 @@ class InputJournalFilesInputTypedDict(TypedDict):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -113,7 +113,7 @@ class InputJournalFilesInput(BaseModel):
     r"""The full path of discovered journals are matched against this wildcard list."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

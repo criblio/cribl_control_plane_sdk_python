@@ -141,7 +141,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -283,7 +283,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -333,7 +333,7 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
-        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
+        :param account_identifier: Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
@@ -343,7 +343,7 @@ class DatabaseConnections(BaseSDK):
         :param host: Hostname of the server to connect to.
         :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
-        :param pem: RSA private key configuration for Snowflake key-pair authentication.
+        :param pem: Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
         :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
@@ -462,7 +462,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -512,7 +512,7 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
-        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
+        :param account_identifier: Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
@@ -522,7 +522,7 @@ class DatabaseConnections(BaseSDK):
         :param host: Hostname of the server to connect to.
         :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
-        :param pem: RSA private key configuration for Snowflake key-pair authentication.
+        :param pem: Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
         :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
@@ -641,7 +641,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -749,7 +749,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -857,7 +857,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -909,7 +909,7 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
-        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
+        :param account_identifier: Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
@@ -919,7 +919,7 @@ class DatabaseConnections(BaseSDK):
         :param host: Hostname of the server to connect to.
         :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
-        :param pem: RSA private key configuration for Snowflake key-pair authentication.
+        :param pem: Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
         :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
@@ -1045,7 +1045,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -1097,7 +1097,7 @@ class DatabaseConnections(BaseSDK):
         :param database_type:
         :param description: Brief description of the Database Connection.
         :param id: Unique identifier for the Database Connection.
-        :param account_identifier: Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT).
+        :param account_identifier: Snowflake account identifier, either in org-account format (<code>ORGNAME-ACCTNAME</code>) or as a legacy account locator (<code>LOCATOR.REGION.CLOUD</code>).
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
@@ -1107,7 +1107,7 @@ class DatabaseConnections(BaseSDK):
         :param host: Hostname of the server to connect to.
         :param log_on_mechanism: Log On Mechanism for databases that support multiple, like Teradata.
         :param password: Database password for authentication. Used with Oracle connections.
-        :param pem: RSA private key configuration for Snowflake key-pair authentication.
+        :param pem: Reference to the stored RSA private key used for Snowflake authentication. Required for both <code>oauth</code> and <code>keypair</code> authentication.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param role: Snowflake role to use for the session. When set, requests a role-scoped token.
         :param sslmode: HTTPS/TLS connection mode for Teradata. Controls certificate verification behavior.
@@ -1233,7 +1233,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -1341,7 +1341,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "409", "423", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):
@@ -1449,7 +1449,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["409", "423", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "409", "423", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, ["503", "5XX"], "*"):

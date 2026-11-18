@@ -155,7 +155,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -292,7 +292,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""How often in seconds to scrape targets for metrics."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""

@@ -10,21 +10,11 @@ from typing_extensions import Annotated, TypedDict
 
 
 class ActiveHealthOverlayStatusTypedDict(TypedDict):
-    binary_version: str
-    r"""Binary version targeted by the active overlay."""
-    overlay_id: str
-    r"""Active overlay identifier."""
     state: Literal["active"]
     r"""Current overlay state."""
 
 
 class ActiveHealthOverlayStatus(BaseModel):
-    binary_version: Annotated[str, pydantic.Field(alias="binaryVersion")]
-    r"""Binary version targeted by the active overlay."""
-
-    overlay_id: Annotated[str, pydantic.Field(alias="overlayId")]
-    r"""Active overlay identifier."""
-
     STATE: Annotated[
         Annotated[Literal["active"], AfterValidator(validate_const("active"))],
         pydantic.Field(alias="state"),

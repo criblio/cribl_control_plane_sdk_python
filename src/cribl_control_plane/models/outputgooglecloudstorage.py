@@ -20,6 +20,10 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -31,12 +35,16 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleCloudStorageType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CLOUD_STORAGE = "google_cloud_storage"
 
 
 class OutputGoogleCloudStorageAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     # auto
     AUTO = "auto"
     # manual
@@ -47,6 +55,7 @@ class OutputGoogleCloudStorageAuthenticationMethod(
 
 class OutputGoogleCloudStorageTypedDict(TypedDict):
     type: OutputGoogleCloudStorageType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
@@ -56,7 +65,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -64,8 +73,11 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     aws_authentication_method: NotRequired[OutputGoogleCloudStorageAuthenticationMethod]
+    r"""Authentication method"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
@@ -111,8 +123,11 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -148,9 +163,9 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
     aws_api_key: NotRequired[str]
-    r"""HMAC access key. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
+    r"""HMAC access key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     aws_secret_key: NotRequired[str]
-    r"""HMAC secret. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
+    r"""HMAC secret. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_streamtags: NotRequired[str]
@@ -189,6 +204,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
 
 class OutputGoogleCloudStorage(BaseModel):
     type: OutputGoogleCloudStorageType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
@@ -203,7 +219,7 @@ class OutputGoogleCloudStorage(BaseModel):
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -217,12 +233,19 @@ class OutputGoogleCloudStorage(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     aws_authentication_method: Annotated[
         Optional[OutputGoogleCloudStorageAuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
@@ -337,10 +360,13 @@ class OutputGoogleCloudStorage(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -427,12 +453,12 @@ class OutputGoogleCloudStorage(BaseModel):
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""HMAC access key. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
+    r"""HMAC access key. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
-    r"""HMAC secret. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
+    r"""HMAC secret. This value can be a constant or a JavaScript expression. Store credentials as secrets and retrieve them with `C.Secret('mySecret')`."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -618,6 +644,7 @@ class OutputGoogleCloudStorage(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "awsAuthenticationMethod",
                 "destPath",
                 "verifyPermissions",

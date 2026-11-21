@@ -1,5 +1,7 @@
 # FunctionLakeExportID
 
+Identifier of the Function. Always <code>lake_export</code>
+
 ## Example Usage
 
 ```python

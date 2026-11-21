@@ -8,11 +8,11 @@ from typing_extensions import Annotated, TypedDict
 
 class GetPacksByIDRequestTypedDict(TypedDict):
     id: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack to get. Use the <code>id</code> field from the list response."""
 
 
 class GetPacksByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack to get. Use the <code>id</code> field from the list response."""

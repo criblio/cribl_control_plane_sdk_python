@@ -1,5 +1,7 @@
 # CreateInputSystemByPackAccountType
 
+Account type
+
 ## Example Usage
 
 ```python

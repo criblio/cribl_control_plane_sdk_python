@@ -13,9 +13,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PrometheusAuthTypeTypedDict(TypedDict):
+    r"""Authentication settings for Grafana Cloud requests."""
+
     auth_type: NotRequired[
         AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
     ]
+    r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""
     text_secret: NotRequired[str]
@@ -29,10 +32,13 @@ class PrometheusAuthTypeTypedDict(TypedDict):
 
 
 class PrometheusAuthType(BaseModel):
+    r"""Authentication settings for Grafana Cloud requests."""
+
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""

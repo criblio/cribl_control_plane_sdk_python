@@ -1,5 +1,7 @@
 # FunctionSerdeID
 
+Identifier of the Function. Always <code>serde</code>
+
 ## Example Usage
 
 ```python

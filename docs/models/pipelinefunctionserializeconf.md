@@ -1,5 +1,7 @@
 # PipelineFunctionSerializeConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Supported Types
 

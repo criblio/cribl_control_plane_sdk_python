@@ -8,11 +8,11 @@ from typing_extensions import Annotated, TypedDict
 
 class DeletePacksByIDRequestTypedDict(TypedDict):
     id: str
-    r"""The <code>id</code> of the Pack to uninstall."""
+    r"""The <code>id</code> of the Pack to uninstall. Use the <code>id</code> field from the list response."""
 
 
 class DeletePacksByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to uninstall."""
+    r"""The <code>id</code> of the Pack to uninstall. Use the <code>id</code> field from the list response."""

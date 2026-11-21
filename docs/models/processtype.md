@@ -1,5 +1,7 @@
 # ProcessType
 
+Process metric collection settings.
+
 
 ## Fields
 

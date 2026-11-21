@@ -1,5 +1,7 @@
 # CreateOutputTelemetryType
 
+Telemetry type
+
 ## Example Usage
 
 ```python

@@ -1,6 +1,6 @@
 # PipelineFunctionJoinID
 
-Function ID
+Identifier of the Function. Always <code>join</code>
 
 ## Example Usage
 

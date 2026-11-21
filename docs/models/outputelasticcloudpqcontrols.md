@@ -1,5 +1,7 @@
 # OutputElasticCloudPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

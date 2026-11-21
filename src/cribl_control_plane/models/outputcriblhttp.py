@@ -8,6 +8,8 @@ from .authtokenconfoutputcriblhttp import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
+from .endpointlisttype import EndpointListType, EndpointListTypeTypedDict
+from .endpointsourceoptions import EndpointSourceOptions
 from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElastic,
     ExtraHTTPHeaderConfInputElasticTypedDict,
@@ -18,6 +20,10 @@ from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
+)
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
 )
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
@@ -41,21 +47,24 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCriblHTTPType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL_HTTP = "cribl_http"
 
 
 class OutputCriblHTTPPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCriblHTTPPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCriblHTTPTypedDict(TypedDict):
     type: OutputCriblHTTPType
+    r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -63,10 +72,13 @@ class OutputCriblHTTPTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
@@ -81,11 +93,14 @@ class OutputCriblHTTPTypedDict(TypedDict):
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -96,11 +111,14 @@ class OutputCriblHTTPTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    throttle_burst_disabled: NotRequired[bool]
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[AuthTokenConfOutputCriblHTTPTypedDict]]
@@ -108,13 +126,19 @@ class OutputCriblHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+    endpoint_source: NotRequired[EndpointSourceOptions]
+    r"""Whether to use statically configured endpoints or an Endpoint List"""
+    urls: NotRequired[List[URLConfOutputCriblHTTPTypedDict]]
+    r"""Cribl Worker endpoints"""
+    endpoint_list: NotRequired[EndpointListTypeTypedDict]
+    r"""Endpoint List"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[URLConfOutputCriblHTTPTypedDict]]
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -134,7 +158,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -142,6 +166,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputCriblHTTPPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -154,9 +179,10 @@ class OutputCriblHTTPTypedDict(TypedDict):
 
 class OutputCriblHTTP(BaseModel):
     type: OutputCriblHTTPType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -170,7 +196,13 @@ class OutputCriblHTTP(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -178,6 +210,7 @@ class OutputCriblHTTP(BaseModel):
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -209,12 +242,18 @@ class OutputCriblHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -243,6 +282,11 @@ class OutputCriblHTTP(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
+    throttle_burst_disabled: Annotated[
+        Optional[bool], pydantic.Field(alias="throttleBurstDisabled")
+    ] = None
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
+
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
@@ -252,6 +296,7 @@ class OutputCriblHTTP(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -269,6 +314,7 @@ class OutputCriblHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
@@ -278,10 +324,21 @@ class OutputCriblHTTP(BaseModel):
     ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    endpoint_source: Annotated[
+        Optional[EndpointSourceOptions], pydantic.Field(alias="endpointSource")
+    ] = None
+    r"""Whether to use statically configured endpoints or an Endpoint List"""
 
     urls: Optional[List[URLConfOutputCriblHTTP]] = None
+    r"""Cribl Worker endpoints"""
+
+    endpoint_list: Annotated[
+        Optional[EndpointListType], pydantic.Field(alias="endpointList")
+    ] = None
+    r"""Endpoint List"""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -325,7 +382,7 @@ class OutputCriblHTTP(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -345,6 +402,7 @@ class OutputCriblHTTP(BaseModel):
     pq_controls: Annotated[
         Optional[OutputCriblHTTPPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -393,6 +451,15 @@ class OutputCriblHTTP(BaseModel):
                 return value
         return value
 
+    @field_serializer("endpoint_source")
+    def serialize_endpoint_source(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EndpointSourceOptions(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("pq_mode")
     def serialize_pq_mode(self, value):
         if isinstance(value, str):
@@ -429,6 +496,7 @@ class OutputCriblHTTP(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "loadBalanced",
                 "tls",
                 "tokenTTLMinutes",
@@ -439,11 +507,13 @@ class OutputCriblHTTP(BaseModel):
                 "maxPayloadEvents",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
                 "safeHeaders",
                 "throttleRatePerSec",
+                "throttleBurstDisabled",
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
@@ -452,8 +522,10 @@ class OutputCriblHTTP(BaseModel):
                 "description",
                 "url",
                 "useRoundRobinDns",
-                "excludeSelf",
+                "endpointSource",
                 "urls",
+                "endpointList",
+                "excludeSelf",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
                 "pqStrictOrdering",

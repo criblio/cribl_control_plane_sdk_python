@@ -1,6 +1,6 @@
 # PipelineFunctionLocalSearchRulesetRunnerID
 
-Function ID
+Identifier of the Function. Always <code>local_search_ruleset_runner</code>
 
 ## Example Usage
 

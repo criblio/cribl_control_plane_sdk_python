@@ -26,4 +26,3 @@ value = State.INITIALIZING
 | `FAILED`       | 6              |
 | `ORPHANED`     | 7              |
 | `UNKNOWN`      | 8              |
-| `LENGTH`       | 9              |

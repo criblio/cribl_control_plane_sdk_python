@@ -1,5 +1,7 @@
 # FunctionWindowID
 
+Identifier of the Function. Always <code>window</code>
+
 ## Example Usage
 
 ```python

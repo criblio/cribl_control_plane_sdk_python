@@ -9,13 +9,17 @@ from typing_extensions import NotRequired, TypedDict
 
 class ExtraHTTPHeaderConfInputElasticTypedDict(TypedDict):
     value: str
+    r"""Field Value"""
     name: NotRequired[str]
+    r"""Field Name"""
 
 
 class ExtraHTTPHeaderConfInputElastic(BaseModel):
     value: str
+    r"""Field Value"""
 
     name: Optional[str] = None
+    r"""Field Name"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

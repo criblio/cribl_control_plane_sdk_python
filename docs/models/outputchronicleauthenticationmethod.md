@@ -1,5 +1,7 @@
 # OutputChronicleAuthenticationMethod
 
+Authentication method
+
 ## Example Usage
 
 ```python

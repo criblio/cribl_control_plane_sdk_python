@@ -14,9 +14,9 @@
 
 Get a list of all Sources within the specified Pack.
 
-### Example Usage
+### Example Usage: InputResponseExamplesHttpSource2
 
-<!-- UsageSnippet language="python" operationID="getInputSystemByPack" method="get" path="/p/{pack}/system/inputs" -->
+<!-- UsageSnippet language="python" operationID="getInputSystemByPack" method="get" path="/p/{pack}/system/inputs" example="InputResponseExamplesHttpSource2" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -31,8 +31,79 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: InputResponseExamplesSplunkHecSource2
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPack" method="get" path="/p/{pack}/system/inputs" example="InputResponseExamplesSplunkHecSource2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: InputResponseExamplesSyslogSource2
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPack" method="get" path="/p/{pack}/system/inputs" example="InputResponseExamplesSyslogSource2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: InputResponseExamplesSyslogWithPQSource2
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPack" method="get" path="/p/{pack}/system/inputs" example="InputResponseExamplesSyslogWithPQSource2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -42,16 +113,19 @@ with CriblControlPlane(
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pack`                                                                                                                                                      | *str*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                          | The <code>id</code> of the Pack.                                                                                                                            |
 | `type`                                                                                                                                                      | List[*str*]                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                          | Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `offset`                                                                                                                                                    | *Optional[int]*                                                                                                                                             | :heavy_minus_sign:                                                                                                                                          | Pagination offset                                                                                                                                           |
+| `limit`                                                                                                                                                     | *Optional[int]*                                                                                                                                             | :heavy_minus_sign:                                                                                                                                          | Maximum number of items to return                                                                                                                           |
 | `retries`                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                            | :heavy_minus_sign:                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                         |
 
 ### Response
 
-**[models.CountedInputResponse](../../models/countedinputresponse.md)**
+**[models.GetInputSystemByPackResponse](../../models/getinputsystembypackresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -59,6 +133,35 @@ with CriblControlPlane(
 
 Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body within the specified Pack.
 
+### Example Usage: InputCreateExamplesAkamaiHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAkamaiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "akamai-hec-source",
+        "type": models.CreateInputSystemByPackInputAkamaiHecType.AKAMAI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAnthropicCompliance
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAnthropicCompliance" -->
@@ -76,21 +179,48 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "anthropic-compliance-source",
-        "type": models.CreateInputSystemByPackTypeAnthropicCompliance.ANTHROPIC_COMPLIANCE,
+        "type": models.CreateInputSystemByPackInputAnthropicComplianceType.ANTHROPIC_COMPLIANCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAnthropicEnterpriseAnalytics
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAnthropicEnterpriseAnalytics" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "anthropic-enterprise-analytics-source",
+        "type": models.CreateInputSystemByPackInputAnthropicEnterpriseAnalyticsType.ANTHROPIC_ENTERPRISE_ANALYTICS,
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "anthropic-api-key-secret",
         "content_config": [
             {
-                "content_type": "activities",
-                "content_description": "Compliance Activities",
-                "enabled": True,
+                "content_type": models.CreateInputSystemByPackContentType.USAGE_REPORT,
+                "disabled": False,
                 "state_tracking": True,
-                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
-                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
+                "state_update_expression": "data_refreshed_at && data_refreshed_at > (state.latestDataRefreshedAt || '') ? {latestDataRefreshedAt: data_refreshed_at} : state",
+                "state_merge_expression": "(prevState.latestDataRefreshedAt || '') >= (newState.latestDataRefreshedAt || '') ? prevState : newState",
+                "group_by": [],
+                "bucket_width": models.CreateInputSystemByPackBucketWidth.ONED,
+                "cron_schedule": "0 */4 * * *",
                 "earliest": "-7d@d",
-                "latest": "now",
                 "job_timeout": "300",
             },
         ],
@@ -117,7 +247,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "apple-unified-logs-source",
-        "type": models.CreateInputSystemByPackTypeAppleUnifiedLogs.APPLE_UNIFIED_LOGS,
+        "type": models.CreateInputSystemByPackInputAppleUnifiedLogsType.APPLE_UNIFIED_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "predicate": "subsystem == \"com.apple.security\"",
@@ -144,11 +274,40 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "appscope-source",
-        "type": models.CreateInputSystemByPackTypeAppscope.APPSCOPE,
+        "type": models.CreateInputSystemByPackInputAppscopeType.APPSCOPE,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9109,
+        "port": 9109.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAquaSecurityHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAquaSecurityHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "aqua-security-hec-source",
+        "type": models.CreateInputSystemByPackInputAquaSecurityHecType.AQUA_SECURITY_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -172,10 +331,239 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "azure-blob-source",
-        "type": models.CreateInputSystemByPackTypeAzureBlob.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "azure-blob-queue",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAzureVNetFlowLog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAzureVNetFlowLog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "azure-vnet-flow-log-source",
+        "type": models.CreateInputSystemByPackInputAzureVnetFlowLogType.AZURE_VNET_FLOW_LOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "queue_name": "vnet-flow-log-queue",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesBedrockS3
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesBedrockS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "bedrock-s3-source",
+        "type": models.CreateInputSystemByPackInputBedrockS3Type.BEDROCK_S3,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "queue_name": "s3-notifications-queue",
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesBeyondTrustHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesBeyondTrustHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "beyondtrust-hec-source",
+        "type": models.CreateInputSystemByPackInputBeyondtrustHecType.BEYONDTRUST_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesCheckPointSaseSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesCheckPointSaseSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "check-point-sase-syslog-source",
+        "type": models.CreateInputSystemByPackInputCheckPointSaseSyslogType.CHECK_POINT_SASE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "tcp_port": 6514.0,
+        "tls": {
+            "disabled": False,
+            "priv_key_path": "$CRIBL_HOME/local/cribl/auth/certs/check-point-sase.key",
+            "cert_path": "$CRIBL_HOME/local/cribl/auth/certs/check-point-sase.crt",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesCiscoAsaSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesCiscoAsaSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "cisco-asa-syslog-source",
+        "type": models.CreateInputSystemByPackInputCiscoAsaSyslogType1.CISCO_ASA_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesCiscoIosSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesCiscoIosSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "cisco-ios-syslog-source",
+        "type": models.CreateInputSystemByPackInputCiscoIosSyslogType1.CISCO_IOS_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesCiscoMerakiSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesCiscoMerakiSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "cisco-meraki-syslog-source",
+        "type": models.CreateInputSystemByPackInputCiscoMerakiSyslogType1.CISCO_MERAKI_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesCiscoSecureFirewallSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesCiscoSecureFirewallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "cisco-secure-firewall-syslog-source",
+        "type": models.CreateInputSystemByPackInputCiscoSecureFirewallSyslogType1.CISCO_SECURE_FIREWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -199,11 +587,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "cloudflare-hec-source",
-        "type": models.CreateInputSystemByPackTypeCloudflareHec.CLOUDFLARE_HEC,
+        "type": models.CreateInputSystemByPackInputCloudflareHecType.CLOUDFLARE_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
     })
 
@@ -228,7 +616,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "collection-source",
-        "type": models.CreateInputSystemByPackTypeCollection.COLLECTION,
+        "type": models.CreateInputSystemByPackInputCollectionType.COLLECTION,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -254,7 +642,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body=models.CreateInputSystemByPackInputConfluentCloud(
         id="confluent-cloud-source",
-        type=models.CreateInputSystemByPackTypeConfluentCloud.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -286,11 +674,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "cribl-http-source",
-        "type": models.CreateInputSystemByPackTypeCriblHTTP.CRIBL_HTTP,
+        "type": models.CreateInputSystemByPackInputCriblHTTPType.CRIBL_HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -314,11 +702,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "cribl-lake-http-source",
-        "type": models.CreateInputSystemByPackTypeCriblLakeHTTP.CRIBL_LAKE_HTTP,
+        "type": models.CreateInputSystemByPackInputCriblLakeHTTPType.CRIBL_LAKE_HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -342,11 +730,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "cribl-tcp-source",
-        "type": models.CreateInputSystemByPackTypeCriblTCP.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -370,7 +758,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "crowdstrike-source",
-        "type": models.CreateInputSystemByPackTypeCrowdstrike.CROWDSTRIKE,
+        "type": models.CreateInputSystemByPackInputCrowdstrikeType.CROWDSTRIKE,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "crowdstrike-queue",
@@ -398,11 +786,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "datadog-agent-source",
-        "type": models.CreateInputSystemByPackTypeDatadogAgent.DATADOG_AGENT,
+        "type": models.CreateInputSystemByPackInputDatadogAgentType.DATADOG_AGENT,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8126,
+        "port": 8126.0,
     })
 
     # Handle response
@@ -426,13 +814,13 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "datagen-source",
-        "type": models.CreateInputSystemByPackTypeDatagen.DATAGEN,
+        "type": models.CreateInputSystemByPackInputDatagenType.DATAGEN,
         "send_to_routes": True,
         "pq_enabled": False,
         "samples": [
             {
                 "sample": "sample.json",
-                "events_per_sec": 10,
+                "events_per_sec": 10.0,
             },
         ],
     })
@@ -458,11 +846,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "edge-prometheus-source",
-        "type": models.CreateInputSystemByPackTypeEdgePrometheus.EDGE_PROMETHEUS,
+        "type": models.CreateInputSystemByPackInputEdgePrometheusType.EDGE_PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
-        "discovery_type": models.CreateInputSystemByPackDiscoveryTypeEdgePrometheus.STATIC,
-        "interval": 60,
+        "discovery_type": models.CreateInputSystemByPackInputEdgePrometheusDiscoveryType.STATIC,
+        "interval": 60.0,
         "targets": [
             {
                 "host": "localhost",
@@ -491,11 +879,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "elastic-source",
-        "type": models.CreateInputSystemByPackTypeElastic.ELASTIC,
+        "type": models.CreateInputSystemByPackInputElasticType.ELASTIC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "localhost",
-        "port": 9200,
+        "port": 9200.0,
         "elastic_api": "/",
     })
 
@@ -520,7 +908,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "eventhub-source",
-        "type": models.CreateInputSystemByPackTypeEventhub.EVENTHUB,
+        "type": models.CreateInputSystemByPackInputEventhubType.EVENTHUB,
         "send_to_routes": True,
         "pq_enabled": False,
         "brokers": [
@@ -552,7 +940,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "eventhub-amqp-source",
-        "type": models.CreateInputSystemByPackTypeEventhubAmqp.EVENTHUB_AMQP,
+        "type": models.CreateInputSystemByPackInputEventhubAmqpType.EVENTHUB_AMQP,
         "send_to_routes": True,
         "pq_enabled": False,
         "event_hub_name": "my-event-hub",
@@ -589,7 +977,65 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "command": "echo \"Hello World\"",
-        "interval": 60,
+        "interval": 60.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesExtrahopRevealx360
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesExtrahopRevealx360" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "extrahop-revealx-360-source",
+        "type": models.CreateInputSystemByPackInputExtrahopRevealx360Type.EXTRAHOP_REVEALX_360,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesF5BigIp
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesF5BigIp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "f5-big-ip-source",
+        "type": models.CreateInputSystemByPackInputF5BigIPType.F5_BIG_IP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -640,11 +1086,68 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "firehose-source",
-        "type": models.CreateInputSystemByPackTypeFirehose.FIREHOSE,
+        "type": models.CreateInputSystemByPackInputFirehoseType.FIREHOSE,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesFortiGateSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesFortiGateSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "fortigate-syslog-source",
+        "type": models.CreateInputSystemByPackInputFortigateSyslogType1.FORTIGATE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesGigamonHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesGigamonHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "gigamon-hec-source",
+        "type": models.CreateInputSystemByPackInputGigamonHecType.GIGAMON_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -668,7 +1171,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "google-pubsub-source",
-        "type": models.CreateInputSystemByPackTypeGooglePubsub.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "send_to_routes": True,
         "pq_enabled": False,
         "topic_name": "my-topic",
@@ -700,8 +1203,37 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/api/prom/push",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesHashicorpHcpVaultDedicated
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesHashicorpHcpVaultDedicated" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "hashicorp-hcp-vault-dedicated-source",
+        "type": models.CreateInputSystemByPackInputHashicorpHcpVaultDedicatedType.HASHICORP_HCP_VAULT_DEDICATED,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -725,11 +1257,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "http-source",
-        "type": models.CreateInputSystemByPackTypeHTTP.HTTP,
+        "type": models.CreateInputSystemByPackInputHTTPType.HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -753,11 +1285,39 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "http-raw-source",
-        "type": models.CreateInputSystemByPackTypeHTTPRaw.HTTP_RAW,
+        "type": models.CreateInputSystemByPackInputHTTPRawType.HTTP_RAW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesInfobloxSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesInfobloxSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "infoblox-syslog-source",
+        "type": models.CreateInputSystemByPackInputInfobloxSyslogType1.INFOBLOX_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -794,6 +1354,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesJuniperJunosSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesJuniperJunosSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "juniper-junos-syslog-source",
+        "type": models.CreateInputSystemByPackInputJuniperJunosSyslogType1.JUNIPER_JUNOS_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesKafka
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesKafka" -->
@@ -811,7 +1399,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body=models.CreateInputSystemByPackInputKafka(
         id="kafka-source",
-        type=models.CreateInputSystemByPackTypeKafka.KAFKA,
+        type=models.TypeOptions.KAFKA,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -843,7 +1431,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "kinesis-source",
-        "type": models.CreateInputSystemByPackTypeKinesis.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "send_to_routes": True,
         "pq_enabled": False,
         "stream_name": "my-stream",
@@ -871,7 +1459,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "kube-events-source",
-        "type": models.CreateInputSystemByPackTypeKubeEvents.KUBE_EVENTS,
+        "type": models.CreateInputSystemByPackInputKubeEventsType.KUBE_EVENTS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -897,7 +1485,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "kube-logs-source",
-        "type": models.CreateInputSystemByPackTypeKubeLogs.KUBE_LOGS,
+        "type": models.CreateInputSystemByPackInputKubeLogsType.KUBE_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -923,9 +1511,38 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "kube-metrics-source",
-        "type": models.CreateInputSystemByPackTypeKubeMetrics.KUBE_METRICS,
+        "type": models.CreateInputSystemByPackInputKubeMetricsType.KUBE_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesLiteLLM
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesLiteLLM" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "litellm-source",
+        "type": models.CreateInputSystemByPackInputLitellmType.LITELLM,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 10080.0,
+        "cribl_api": "/cribl",
     })
 
     # Handle response
@@ -949,11 +1566,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "loki-source",
-        "type": models.CreateInputSystemByPackTypeLoki.LOKI,
+        "type": models.CreateInputSystemByPackInputLokiType.LOKI,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "loki_api": "/loki/api/v1/push",
     })
 
@@ -978,11 +1595,44 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "metrics-source",
-        "type": models.CreateInputSystemByPackTypeMetrics.METRICS,
+        "type": models.CreateInputSystemByPackInputMetricsType.METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 8125,
+        "udp_port": 8125.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesMicrosoftCopilot
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesMicrosoftCopilot" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "microsoft-copilot-source",
+        "type": models.CreateInputSystemByPackInputMicrosoftCopilotType.MICROSOFT_COPILOT,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "tenant_id": "00000000-0000-0000-0000-000000000000",
+        "client_id": "00000000-0000-0000-0000-000000000001",
+        "auth_type": models.CreateInputSystemByPackInputMicrosoftCopilotAuthenticationMethod.OAUTH_SECRET,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-7d",
+        "latest": "now",
+        "text_secret": "microsoft-copilot-secret",
     })
 
     # Handle response
@@ -1006,11 +1656,40 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "microsoft-graph-source",
-        "type": models.CreateInputSystemByPackTypeMicrosoftGraph.MICROSOFT_GRAPH,
+        "type": models.CreateInputSystemByPackInputMicrosoftGraphType.MICROSOFT_GRAPH,
         "send_to_routes": True,
         "pq_enabled": False,
         "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces",
         "interval": 15,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesMimecastHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesMimecastHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "mimecast-hec-source",
+        "type": models.CreateInputSystemByPackInputMimecastHecType.MIMECAST_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -1034,11 +1713,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "mdt-source",
-        "type": models.CreateInputSystemByPackTypeModelDrivenTelemetry.MODEL_DRIVEN_TELEMETRY,
+        "type": models.CreateInputSystemByPackInputModelDrivenTelemetryType.MODEL_DRIVEN_TELEMETRY,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 57000,
+        "port": 57000.0,
     })
 
     # Handle response
@@ -1062,7 +1741,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body=models.CreateInputSystemByPackInputMsk(
         id="msk-source",
-        type=models.CreateInputSystemByPackTypeMsk.MSK,
+        type=models.TypeOptionsMsk.MSK,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -1096,11 +1775,83 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "netflow-source",
-        "type": models.CreateInputSystemByPackTypeNetflow.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 2055,
+        "port": 2055.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesNetgatePfSenseSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesNetgatePfSenseSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "netgate-pfsense-syslog-source",
+        "type": models.CreateInputSystemByPackInputNetgatePfsenseSyslogType1.NETGATE_PFSENSE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesNetskope
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesNetskope" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "netskope-source",
+        "type": models.CreateInputSystemByPackInputNetskopeType.NETSKOPE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "tenant_url": "https://your-tenant.goskope.com",
+        "text_secret": "netskope-api-token-secret",
+        "content_config": [
+            {
+                "disabled": False,
+                "cursor_index": "cribl_netskope_collector_alerts_index",
+                "cron_schedule": "*/15 * * * *",
+                "job_timeout": "300",
+                "log_level": models.LogLevelOptionsContentConfigItemsDebugError.INFO,
+            },
+            {
+                "disabled": False,
+                "cursor_index": "cribl_netskope_collector_events_index",
+                "cron_schedule": "*/5 * * * *",
+                "job_timeout": "300",
+                "log_level": models.LogLevelOptionsContentConfigItemsDebugError.INFO,
+            },
+        ],
     })
 
     # Handle response
@@ -1124,7 +1875,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "office365-mgmt-source",
-        "type": models.CreateInputSystemByPackTypeOffice365Mgmt.OFFICE365_MGMT,
+        "type": models.CreateInputSystemByPackInputOffice365MgmtType.OFFICE365_MGMT,
         "send_to_routes": True,
         "pq_enabled": False,
         "plan_type": models.SubscriptionPlanOptions.ENTERPRISE_GCC,
@@ -1153,7 +1904,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "office365-msg-trace-source",
-        "type": models.CreateInputSystemByPackTypeOffice365MsgTrace.OFFICE365_MSG_TRACE,
+        "type": models.CreateInputSystemByPackInputOffice365MsgTraceType.OFFICE365_MSG_TRACE,
         "send_to_routes": True,
         "pq_enabled": False,
         "url": "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace",
@@ -1181,7 +1932,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "office365-service-source",
-        "type": models.CreateInputSystemByPackTypeOffice365Service.OFFICE365_SERVICE,
+        "type": models.CreateInputSystemByPackInputOffice365ServiceType.OFFICE365_SERVICE,
         "send_to_routes": True,
         "pq_enabled": False,
         "tenant_id": "tenant-id",
@@ -1209,7 +1960,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "okta-source",
-        "type": models.CreateInputSystemByPackTypeOkta.OKTA,
+        "type": models.CreateInputSystemByPackInputOktaType.OKTA,
         "send_to_routes": True,
         "pq_enabled": False,
         "okta_domain": "your-org",
@@ -1240,7 +1991,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "openai-source",
-        "type": models.CreateInputSystemByPackTypeOpenai.OPENAI,
+        "type": models.CreateInputSystemByPackInputOpenaiType.OPENAI,
         "send_to_routes": True,
         "pq_enabled": False,
         "content_config": [
@@ -1290,7 +2041,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "openai-compliance-logs-source",
-        "type": models.CreateInputSystemByPackTypeOpenaiComplianceLogs.OPENAI_COMPLIANCE_LOGS,
+        "type": models.CreateInputSystemByPackInputOpenaiComplianceLogsType.OPENAI_COMPLIANCE_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
@@ -1326,11 +2077,40 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "otel-source",
-        "type": models.CreateInputSystemByPackTypeOpenTelemetry.OPEN_TELEMETRY,
+        "type": models.CreateInputSystemByPackInputOpenTelemetryType.OPEN_TELEMETRY,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 4317,
+        "port": 4317.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesPingIdentityPingone
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesPingIdentityPingone" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "ping-identity-pingone-source",
+        "type": models.CreateInputSystemByPackInputPingIdentityPingoneType.PING_IDENTITY_PINGONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -1354,11 +2134,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "prometheus-source",
-        "type": models.CreateInputSystemByPackTypePrometheus.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
-        "discovery_type": models.CreateInputSystemByPackDiscoveryTypePrometheus.STATIC,
-        "interval": 60,
+        "discovery_type": models.CreateInputSystemByPackInputPrometheusDiscoveryType.STATIC,
+        "interval": 60.0,
         "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
@@ -1386,12 +2166,41 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "prometheus-rw-source",
-        "type": models.CreateInputSystemByPackTypePrometheusRw.PROMETHEUS_RW,
+        "type": models.CreateInputSystemByPackInputPrometheusRwType.PROMETHEUS_RW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/write",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesProofpointPod
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesProofpointPod" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "proofpoint-pod-source",
+        "type": models.CreateInputSystemByPackInputProofpointPodType.PROOFPOINT_POD,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "cluster_id": "my-pod-cluster",
+        "feed_type": models.CreateInputSystemByPackFeedType.MESSAGE,
+        "text_secret": "proofpoint-pod-token-secret",
     })
 
     # Handle response
@@ -1415,11 +2224,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "raw-udp-source",
-        "type": models.CreateInputSystemByPackTypeRawUDP.RAW_UDP,
+        "type": models.CreateInputSystemByPackInputRawUDPType.RAW_UDP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -1443,7 +2252,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "s3-source",
-        "type": models.CreateInputSystemByPackTypeS3.S3,
+        "type": models.TypeOptionsS3.S3,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-notifications-queue",
@@ -1471,11 +2280,100 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "s3-inventory-source",
-        "type": models.CreateInputSystemByPackTypeS3Inventory.S3_INVENTORY,
+        "type": models.CreateInputSystemByPackInputS3InventoryType.S3_INVENTORY,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-inventory-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSailpointHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSailpointHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sailpoint-hec-source",
+        "type": models.CreateInputSystemByPackInputSailpointHecType.SAILPOINT_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSalesforce
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSalesforce" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "salesforce-source",
+        "type": models.CreateInputSystemByPackInputSalesforceType.SALESFORCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "salesforce_subdomain": "mycompany",
+        "salesforce_cloud": ".my.salesforce.com",
+        "salesforce_oauth_client_id": "your-connected-app-client-id",
+        "text_secret": "salesforce-client-secret",
+        "salesforce_api_version": "v64.0",
+        "content_config": [
+            {
+                "disabled": True,
+                "state_tracking": True,
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "60m",
+            },
+            {
+                "disabled": False,
+                "state_tracking": True,
+                "object_name": "LoginHistory",
+                "fields": [
+                    "Id",
+                    "LoginTime",
+                    "UserId",
+                    "LoginType",
+                    "Status",
+                    "SourceIp",
+                ],
+                "cursor": "LoginTime",
+                "filter_": "`CountryIso = 'US'`",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "60m",
+            },
+        ],
     })
 
     # Handle response
@@ -1499,11 +2397,53 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "security-lake-source",
-        "type": models.CreateInputSystemByPackTypeSecurityLake.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSentinelOneSearch
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSentinelOneSearch" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sentinelone-source",
+        "type": models.CreateInputSystemByPackInputSentineloneType.SENTINELONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "management_host": "usea1-yourorg",
+        "management_domain_suffix": "sentinelone.net",
+        "text_secret": "sentinelone-api-token-secret",
+        "content_config": [
+            {
+                "collect_method": "get",
+                "disabled": False,
+                "pagination_type": "response_body",
+                "pagination_attribute": [
+                    "nextCursor",
+                ],
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-6m@m",
+                "latest": "-1m@m",
+            },
+        ],
     })
 
     # Handle response
@@ -1527,7 +2467,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "servicenow-table-source",
-        "type": models.CreateInputSystemByPackTypeServicenowTable.SERVICENOW_TABLE,
+        "type": models.CreateInputSystemByPackInputServicenowTableType.SERVICENOW_TABLE,
         "send_to_routes": True,
         "pq_enabled": False,
         "instance": "https://example.service-now.com",
@@ -1564,11 +2504,67 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "snmp-source",
-        "type": models.CreateInputSystemByPackTypeSnmp.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "192.168.1.1",
-        "port": 161,
+        "port": 161.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSonicWallSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSonicWallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sonicwall-syslog-source",
+        "type": models.CreateInputSystemByPackInputSonicwallSyslogType1.SONICWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSophosXgXgsFirewallSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSophosXgXgsFirewallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sophos-xg-xgs-firewall-syslog-source",
+        "type": models.CreateInputSystemByPackInputSophosXgXgsFirewallSyslogType1.SOPHOS_XG_XGS_FIREWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -1592,11 +2588,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "splunk-source",
-        "type": models.CreateInputSystemByPackTypeSplunk.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -1620,11 +2616,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "splunk-hec-source",
-        "type": models.CreateInputSystemByPackTypeSplunkHec.SPLUNK_HEC,
+        "type": models.CreateInputSystemByPackInputSplunkHecType.SPLUNK_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "splunk_hec_api": "/services/collector",
     })
 
@@ -1649,7 +2645,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "splunk-search-source",
-        "type": models.CreateInputSystemByPackTypeSplunkSearch.SPLUNK_SEARCH,
+        "type": models.CreateInputSystemByPackInputSplunkSearchType.SPLUNK_SEARCH,
         "send_to_routes": True,
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
@@ -1657,7 +2653,7 @@ with CriblControlPlane(
         "cron_schedule": "*/15 * * * *",
         "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
-        "auth_type": models.CreateInputSystemByPackAuthenticationTypeSplunkSearch.BASIC,
+        "auth_type": models.CreateInputSystemByPackInputSplunkSearchAuthenticationType.BASIC,
     })
 
     # Handle response
@@ -1681,12 +2677,41 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "sqs-source",
-        "type": models.CreateInputSystemByPackTypeSqs.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "my-queue",
         "queue_type": models.CreateInputSystemByPackQueueType.STANDARD,
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSysdigHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSysdigHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sysdig-hec-source",
+        "type": models.CreateInputSystemByPackInputSysdigHecType.SYSDIG_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -1710,11 +2735,48 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "syslog-source",
-        "type": models.CreateInputSystemByPackInputSyslogType1.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 514,
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSyslogWithPQ
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSyslogWithPQ" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "syslog-pq-source",
+        "type": models.TypeOptionsSyslog.SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": True,
+        "pq": {
+            "mode": models.ModeOptionsPq.ALWAYS,
+            "max_buffer_size_bytes": "1MB",
+            "max_file_size": "10MB",
+            "max_size": "5GB",
+            "path": "$CRIBL_HOME/state/queues",
+            "compress": models.CompressionOptionsPq.NONE,
+            "on_backpressure": models.QueueFullBehaviorOptionsPq.DROP,
+        },
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -1738,7 +2800,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "system-metrics-source",
-        "type": models.CreateInputSystemByPackTypeSystemMetrics.SYSTEM_METRICS,
+        "type": models.CreateInputSystemByPackInputSystemMetricsType.SYSTEM_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1764,7 +2826,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "system-state-source",
-        "type": models.CreateInputSystemByPackTypeSystemState.SYSTEM_STATE,
+        "type": models.CreateInputSystemByPackInputSystemStateType.SYSTEM_STATE,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1790,11 +2852,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "tcp-source",
-        "type": models.CreateInputSystemByPackTypeTCP.TCP,
+        "type": models.CreateInputSystemByPackInputTCPType.TCP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -1818,11 +2880,211 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "tcpjson-source",
-        "type": models.CreateInputSystemByPackTypeTcpjson.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesTrellixHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesTrellixHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "trellix-hec-source",
+        "type": models.CreateInputSystemByPackInputTrellixHecType.TRELLIX_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesTrendMicroVisionOne
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesTrendMicroVisionOne" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "trend-micro-vision-one-source",
+        "type": models.CreateInputSystemByPackInputTrendMicroVisionOneType.TREND_MICRO_VISION_ONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesUbiquitiUnifiSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesUbiquitiUnifiSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "ubiquiti-unifi-syslog-source",
+        "type": models.CreateInputSystemByPackInputUbiquitiUnifiSyslogType1.UBIQUITI_UNIFI_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesUpwindHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesUpwindHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "upwind-hec-source",
+        "type": models.CreateInputSystemByPackInputUpwindHecType.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesVMwareEsxiVCenterSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesVMwareEsxiVCenterSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "vmware-esxi-vcenter-syslog-source",
+        "type": models.CreateInputSystemByPackInputVmwareEsxiVcenterSyslogType1.VMWARE_ESXI_VCENTER_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesVectraAiHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesVectraAiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "vectra-ai-hec-source",
+        "type": models.CreateInputSystemByPackInputVectraAiHecType.VECTRA_AI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesWatchGuardFireboxSyslog
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesWatchGuardFireboxSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "watchguard-firebox-syslog-source",
+        "type": models.CreateInputSystemByPackInputWatchguardFireboxSyslogType1.WATCHGUARD_FIREBOX_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -1846,17 +3108,17 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "wef-source",
-        "type": models.CreateInputSystemByPackTypeWef.WEF,
+        "type": models.CreateInputSystemByPackInputWefType.WEF,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 5985,
+        "port": 5985.0,
         "subscriptions": [
             {
                 "subscription_name": "subscription-1",
                 "content_format": models.CreateInputSystemByPackFormat.RENDERED_TEXT,
-                "heartbeat_interval": 60,
-                "batch_timeout": 5,
+                "heartbeat_interval": 60.0,
+                "batch_timeout": 5.0,
                 "targets": [],
             },
         ],
@@ -1883,7 +3145,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "win-event-logs-source",
-        "type": models.CreateInputSystemByPackTypeWinEventLogs.WIN_EVENT_LOGS,
+        "type": models.CreateInputSystemByPackInputWinEventLogsType.WIN_EVENT_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "log_names": [
@@ -1913,7 +3175,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "windows-metrics-source",
-        "type": models.CreateInputSystemByPackTypeWindowsMetrics.WINDOWS_METRICS,
+        "type": models.CreateInputSystemByPackInputWindowsMetricsType.WINDOWS_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1939,7 +3201,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "wiz-source",
-        "type": models.CreateInputSystemByPackTypeWiz.WIZ,
+        "type": models.CreateInputSystemByPackInputWizType.WIZ,
         "send_to_routes": True,
         "pq_enabled": False,
         "endpoint": "https://api.wiz.io",
@@ -1969,11 +3231,40 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "wiz-webhook-source",
-        "type": models.CreateInputSystemByPackTypeWizWebhook.WIZ_WEBHOOK,
+        "type": models.CreateInputSystemByPackInputWizWebhookType.WIZ_WEBHOOK,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesZoomWebhook
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesZoomWebhook" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "zoom-webhook-source",
+        "type": models.CreateInputSystemByPackInputZoomWebhookType.ZOOM_WEBHOOK,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 10080.0,
+        "text_secret": "zoom-webhook-secret",
     })
 
     # Handle response
@@ -1997,12 +3288,147 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "zscaler-hec-source",
-        "type": models.CreateInputSystemByPackTypeZscalerHec.ZSCALER_HEC,
+        "type": models.CreateInputSystemByPackInputZscalerHecType.ZSCALER_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesHttpSource
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputResponseExamplesHttpSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.CreateInputSystemByPackInputUbiquitiUnifiSyslogType1.UBIQUITI_UNIFI_SYSLOG,
+        "host": "kooky-humidity.biz",
+        "udp_port": 7257.01,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSplunkHecSource
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputResponseExamplesSplunkHecSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.TypeOptionsSqs.SQS,
+        "queue_name": "<value>",
+        "queue_type": models.CreateInputSystemByPackQueueType.STANDARD,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogSource
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputResponseExamplesSyslogSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
+        "interval": 5473.3,
+        "log_level": models.LogLevelOptions.INFO,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogWithPQSource
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputResponseExamplesSyslogWithPQSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.CreateInputSystemByPackInputDatagenType.DATAGEN,
+        "samples": [
+            {
+                "sample": "<value>",
+                "events_per_sec": 4309.15,
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.CreateInputSystemByPackInputSplunkHecType.SPLUNK_HEC,
+        "host": "nocturnal-declaration.biz",
+        "port": 5303.65,
+        "splunk_hec_api": "<value>",
     })
 
     # Handle response
@@ -2012,11 +3438,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `pack`                                                                                          | *str*                                                                                           | :heavy_check_mark:                                                                              | The <code>id</code> of the Pack.                                                                |
-| `request_body`                                                                                  | [models.CreateInputSystemByPackRequestBody](../../models/createinputsystembypackrequestbody.md) | :heavy_check_mark:                                                                              | Input object.                                                                                   |
-| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `pack`                                                                              | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the Pack.                                                    |
+| `request_body`                                                                      | [models.CreateInputSystemByPackInput](../../models/createinputsystembypackinput.md) | :heavy_check_mark:                                                                  | Input object.                                                                       |
+| `retries`                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                    | :heavy_minus_sign:                                                                  | Configuration to override the default retry behavior of the client.                 |
 
 ### Response
 
@@ -2026,6 +3452,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -2033,9 +3460,72 @@ with CriblControlPlane(
 
 Get the specified Source within the specified Pack.
 
-### Example Usage
+### Example Usage: InputResponseExamplesHttpSource
 
-<!-- UsageSnippet language="python" operationID="getInputSystemByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getInputSystemByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesHttpSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSplunkHecSource
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSplunkHecSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogSource
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogWithPQSource
+
+<!-- UsageSnippet language="python" operationID="getInputSystemByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogWithPQSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -2071,6 +3561,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -2099,20 +3590,6 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "anthropic-api-key-secret",
-        "content_config": [
-            {
-                "content_type": "activities",
-                "content_description": "Compliance Activities",
-                "enabled": True,
-                "state_tracking": True,
-                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
-                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
-                "earliest": "-7d@d",
-                "latest": "now",
-                "job_timeout": "300",
-            },
-        ],
     })
 
     # Handle response
@@ -2167,7 +3644,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9109,
+        "port": 9109.0,
     })
 
     # Handle response
@@ -2191,7 +3668,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "azure-blob-source",
-        "type": models.InputAzureBlobType.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "azure-blob-queue",
@@ -2222,7 +3699,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
     })
 
@@ -2273,7 +3750,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputConfluentCloudInput(
         id="confluent-cloud-source",
-        type=models.InputConfluentCloudType.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -2309,7 +3786,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -2337,7 +3814,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -2361,11 +3838,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "cribl-tcp-source",
-        "type": models.InputCriblTCPType.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -2421,7 +3898,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8126,
+        "port": 8126.0,
     })
 
     # Handle response
@@ -2451,7 +3928,7 @@ with CriblControlPlane(
         "samples": [
             {
                 "sample": "sample.json",
-                "events_per_sec": 10,
+                "events_per_sec": 10.0,
             },
         ],
     })
@@ -2481,7 +3958,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "discovery_type": models.InputEdgePrometheusDiscoveryType.STATIC,
-        "interval": 60,
+        "interval": 60.0,
         "targets": [
             {
                 "host": "localhost",
@@ -2514,7 +3991,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "localhost",
-        "port": 9200,
+        "port": 9200.0,
         "elastic_api": "/",
     })
 
@@ -2608,7 +4085,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "command": "echo \"Hello World\"",
-        "interval": 60,
+        "interval": 60.0,
     })
 
     # Handle response
@@ -2663,7 +4140,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -2687,7 +4164,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "google-pubsub-source",
-        "type": models.InputGooglePubsubType.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "send_to_routes": True,
         "pq_enabled": False,
         "topic_name": "my-topic",
@@ -2719,7 +4196,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/api/prom/push",
     })
 
@@ -2748,7 +4225,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -2776,7 +4253,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -2830,7 +4307,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputKafkaInput(
         id="kafka-source",
-        type=models.InputKafkaType.KAFKA,
+        type=models.TypeOptions.KAFKA,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -2862,7 +4339,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "kinesis-source",
-        "type": models.InputKinesisType.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "send_to_routes": True,
         "pq_enabled": False,
         "stream_name": "my-stream",
@@ -2972,7 +4449,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "loki_api": "/loki/api/v1/push",
     })
 
@@ -3001,7 +4478,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 8125,
+        "udp_port": 8125.0,
     })
 
     # Handle response
@@ -3057,7 +4534,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 57000,
+        "port": 57000.0,
     })
 
     # Handle response
@@ -3081,7 +4558,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputMskInput(
         id="msk-source",
-        type=models.InputMskType.MSK,
+        type=models.TypeOptionsMsk.MSK,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -3115,11 +4592,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "netflow-source",
-        "type": models.InputNetflowType.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 2055,
+        "port": 2055.0,
     })
 
     # Handle response
@@ -3275,7 +4752,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -3313,7 +4790,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
+        "account_type": models.AccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -3349,7 +4826,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 4317,
+        "port": 4317.0,
     })
 
     # Handle response
@@ -3373,11 +4850,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "prometheus-source",
-        "type": models.InputPrometheusType.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
         "discovery_type": models.InputPrometheusDiscoveryType.STATIC,
-        "interval": 60,
+        "interval": 60.0,
         "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
@@ -3409,7 +4886,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/write",
     })
 
@@ -3438,7 +4915,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -3462,7 +4939,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "s3-source",
-        "type": models.InputS3Type.S3,
+        "type": models.TypeOptionsS3.S3,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-notifications-queue",
@@ -3518,7 +4995,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "security-lake-source",
-        "type": models.InputSecurityLakeType.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
@@ -3583,11 +5060,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "snmp-source",
-        "type": models.InputSnmpType.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "192.168.1.1",
-        "port": 161,
+        "port": 161.0,
     })
 
     # Handle response
@@ -3611,11 +5088,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "splunk-source",
-        "type": models.InputSplunkType.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -3643,7 +5120,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "splunk_hec_api": "/services/collector",
     })
 
@@ -3700,7 +5177,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "sqs-source",
-        "type": models.InputSqsType.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "my-queue",
@@ -3729,11 +5206,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "syslog-source",
-        "type": models.InputSyslogType1.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 514,
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -3813,7 +5290,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -3837,11 +5314,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "tcpjson-source",
-        "type": models.InputTcpjsonType.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -3869,13 +5346,13 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 5985,
+        "port": 5985.0,
         "subscriptions": [
             {
                 "subscription_name": "subscription-1",
                 "content_format": models.InputWefFormat.RENDERED_TEXT,
-                "heartbeat_interval": 60,
-                "batch_timeout": 5,
+                "heartbeat_interval": 60.0,
+                "batch_timeout": 5.0,
                 "targets": [],
             },
         ],
@@ -3992,7 +5469,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -4020,7 +5497,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
     })
 
@@ -4080,6 +5557,142 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputResponseExamplesHttpSource
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesHttpSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "type": models.InputElasticType.ELASTIC,
+        "host": "wilted-ecliptic.biz",
+        "port": 5004.69,
+        "elastic_api": "<value>",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSplunkHecSource
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSplunkHecSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "type": models.InputCiscoMerakiSyslogType2.CISCO_MERAKI_SYSLOG,
+        "host": "vast-suspension.net",
+        "tcp_port": 4483.95,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogSource
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "type": models.InputFirehoseType.FIREHOSE,
+        "host": "circular-diagram.org",
+        "port": 7131.95,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogWithPQSource
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogWithPQSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "type": models.InputEventhubType.EVENTHUB,
+        "brokers": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "topics": [
+            "<value 1>",
+            "<value 2>",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesAkamaiHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAkamaiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "akamai-hec-source",
+        "type": models.InputAkamaiHecType.AKAMAI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesAnthropicCompliance
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAnthropicCompliance" -->
@@ -4101,17 +5714,44 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "anthropic-api-key-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesAnthropicEnterpriseAnalytics
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAnthropicEnterpriseAnalytics" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "anthropic-enterprise-analytics-source",
+        "type": models.InputAnthropicEnterpriseAnalyticsType.ANTHROPIC_ENTERPRISE_ANALYTICS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
         "content_config": [
             {
-                "content_type": "activities",
-                "content_description": "Compliance Activities",
-                "enabled": True,
+                "content_type": models.ContentType.USAGE_REPORT,
+                "disabled": False,
                 "state_tracking": True,
-                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
-                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
+                "state_update_expression": "data_refreshed_at && data_refreshed_at > (state.latestDataRefreshedAt || '') ? {latestDataRefreshedAt: data_refreshed_at} : state",
+                "state_merge_expression": "(prevState.latestDataRefreshedAt || '') >= (newState.latestDataRefreshedAt || '') ? prevState : newState",
+                "group_by": [],
+                "bucket_width": models.BucketWidth.ONED,
+                "cron_schedule": "0 */4 * * *",
                 "earliest": "-7d@d",
-                "latest": "now",
                 "job_timeout": "300",
             },
         ],
@@ -4169,7 +5809,36 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9109,
+        "port": 9109.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesAquaSecurityHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAquaSecurityHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "aqua-security-hec-source",
+        "type": models.InputAquaSecurityHecType.AQUA_SECURITY_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -4193,10 +5862,239 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "azure-blob-source",
-        "type": models.InputAzureBlobType.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "azure-blob-queue",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesAzureVNetFlowLog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAzureVNetFlowLog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "azure-vnet-flow-log-source",
+        "type": models.InputAzureVnetFlowLogType.AZURE_VNET_FLOW_LOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "queue_name": "vnet-flow-log-queue",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesBedrockS3
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesBedrockS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "bedrock-s3-source",
+        "type": models.InputBedrockS3Type.BEDROCK_S3,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "queue_name": "s3-notifications-queue",
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesBeyondTrustHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesBeyondTrustHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "beyondtrust-hec-source",
+        "type": models.InputBeyondtrustHecType.BEYONDTRUST_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesCheckPointSaseSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesCheckPointSaseSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "check-point-sase-syslog-source",
+        "type": models.InputCheckPointSaseSyslogType.CHECK_POINT_SASE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "tcp_port": 6514.0,
+        "tls": {
+            "disabled": False,
+            "priv_key_path": "$CRIBL_HOME/local/cribl/auth/certs/check-point-sase.key",
+            "cert_path": "$CRIBL_HOME/local/cribl/auth/certs/check-point-sase.crt",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesCiscoAsaSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesCiscoAsaSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "cisco-asa-syslog-source",
+        "type": models.InputCiscoAsaSyslogType1.CISCO_ASA_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesCiscoIosSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesCiscoIosSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "cisco-ios-syslog-source",
+        "type": models.InputCiscoIosSyslogType1.CISCO_IOS_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesCiscoMerakiSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesCiscoMerakiSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "cisco-meraki-syslog-source",
+        "type": models.InputCiscoMerakiSyslogType1.CISCO_MERAKI_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesCiscoSecureFirewallSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesCiscoSecureFirewallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "cisco-secure-firewall-syslog-source",
+        "type": models.InputCiscoSecureFirewallSyslogType1.CISCO_SECURE_FIREWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -4224,7 +6122,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
     })
 
@@ -4275,7 +6173,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputConfluentCloudInput(
         id="confluent-cloud-source",
-        type=models.InputConfluentCloudType.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -4337,7 +6235,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -4365,7 +6263,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -4415,11 +6313,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "cribl-tcp-source",
-        "type": models.InputCriblTCPType.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -4475,7 +6373,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8126,
+        "port": 8126.0,
     })
 
     # Handle response
@@ -4505,7 +6403,7 @@ with CriblControlPlane(
         "samples": [
             {
                 "sample": "sample.json",
-                "events_per_sec": 10,
+                "events_per_sec": 10.0,
             },
         ],
     })
@@ -4535,7 +6433,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "discovery_type": models.InputEdgePrometheusDiscoveryType.STATIC,
-        "interval": 60,
+        "interval": 60.0,
         "targets": [
             {
                 "host": "localhost",
@@ -4568,7 +6466,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "localhost",
-        "port": 9200,
+        "port": 9200.0,
         "elastic_api": "/",
     })
 
@@ -4662,7 +6560,65 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "command": "echo \"Hello World\"",
-        "interval": 60,
+        "interval": 60.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesExtrahopRevealx360
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesExtrahopRevealx360" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "extrahop-revealx-360-source",
+        "type": models.InputExtrahopRevealx360Type.EXTRAHOP_REVEALX_360,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesF5BigIp
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesF5BigIp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "f5-big-ip-source",
+        "type": models.InputF5BigIPType.F5_BIG_IP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -4717,7 +6673,64 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesFortiGateSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesFortiGateSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "fortigate-syslog-source",
+        "type": models.InputFortigateSyslogType1.FORTIGATE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesGigamonHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesGigamonHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "gigamon-hec-source",
+        "type": models.InputGigamonHecType.GIGAMON_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -4741,7 +6754,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "google-pubsub-source",
-        "type": models.InputGooglePubsubType.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "send_to_routes": True,
         "pq_enabled": False,
         "topic_name": "my-topic",
@@ -4773,8 +6786,37 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/api/prom/push",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesHashicorpHcpVaultDedicated
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesHashicorpHcpVaultDedicated" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "hashicorp-hcp-vault-dedicated-source",
+        "type": models.InputHashicorpHcpVaultDedicatedType.HASHICORP_HCP_VAULT_DEDICATED,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -4802,7 +6844,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
     })
 
     # Handle response
@@ -4830,7 +6872,35 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesInfobloxSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesInfobloxSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "infoblox-syslog-source",
+        "type": models.InputInfobloxSyslogType1.INFOBLOX_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -4867,6 +6937,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesJuniperJunosSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesJuniperJunosSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "juniper-junos-syslog-source",
+        "type": models.InputJuniperJunosSyslogType1.JUNIPER_JUNOS_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesKafka
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesKafka" -->
@@ -4884,7 +6982,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputKafkaInput(
         id="kafka-source",
-        type=models.InputKafkaType.KAFKA,
+        type=models.TypeOptions.KAFKA,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -4916,7 +7014,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "kinesis-source",
-        "type": models.InputKinesisType.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "send_to_routes": True,
         "pq_enabled": False,
         "stream_name": "my-stream",
@@ -5005,6 +7103,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesLiteLLM
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesLiteLLM" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "litellm-source",
+        "type": models.InputLitellmType.LITELLM,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 10080.0,
+        "cribl_api": "/cribl",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesLoki
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesLoki" -->
@@ -5026,7 +7153,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "loki_api": "/loki/api/v1/push",
     })
 
@@ -5055,7 +7182,40 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 8125,
+        "udp_port": 8125.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesMicrosoftCopilot
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesMicrosoftCopilot" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "microsoft-copilot-source",
+        "type": models.InputMicrosoftCopilotType.MICROSOFT_COPILOT,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "tenant_id": "00000000-0000-0000-0000-000000000000",
+        "client_id": "00000000-0000-0000-0000-000000000001",
+        "auth_type": models.InputMicrosoftCopilotAuthenticationMethod.OAUTH_SECRET,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-7d",
+        "latest": "now",
+        "text_secret": "microsoft-copilot-secret",
     })
 
     # Handle response
@@ -5090,6 +7250,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesMimecastHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesMimecastHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "mimecast-hec-source",
+        "type": models.InputMimecastHecType.MIMECAST_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesModelDrivenTelemetry
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesModelDrivenTelemetry" -->
@@ -5111,7 +7300,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 57000,
+        "port": 57000.0,
     })
 
     # Handle response
@@ -5135,7 +7324,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputMskInput(
         id="msk-source",
-        type=models.InputMskType.MSK,
+        type=models.TypeOptionsMsk.MSK,
         send_to_routes=True,
         pq_enabled=False,
         brokers=[
@@ -5169,11 +7358,83 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "netflow-source",
-        "type": models.InputNetflowType.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 2055,
+        "port": 2055.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesNetgatePfSenseSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesNetgatePfSenseSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "netgate-pfsense-syslog-source",
+        "type": models.InputNetgatePfsenseSyslogType1.NETGATE_PFSENSE_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesNetskope
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesNetskope" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "netskope-source",
+        "type": models.InputNetskopeType.NETSKOPE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "tenant_url": "https://your-tenant.goskope.com",
+        "text_secret": "netskope-api-token-secret",
+        "content_config": [
+            {
+                "disabled": False,
+                "cursor_index": "cribl_netskope_collector_alerts_index",
+                "cron_schedule": "*/15 * * * *",
+                "job_timeout": "300",
+                "log_level": models.LogLevelOptionsContentConfigItemsDebugError.INFO,
+            },
+            {
+                "disabled": False,
+                "cursor_index": "cribl_netskope_collector_events_index",
+                "cron_schedule": "*/5 * * * *",
+                "job_timeout": "300",
+                "log_level": models.LogLevelOptionsContentConfigItemsDebugError.INFO,
+            },
+        ],
     })
 
     # Handle response
@@ -5329,7 +7590,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -5367,7 +7628,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
+        "account_type": models.AccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -5403,7 +7664,36 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 4317,
+        "port": 4317.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesPingIdentityPingone
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesPingIdentityPingone" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "ping-identity-pingone-source",
+        "type": models.InputPingIdentityPingoneType.PING_IDENTITY_PINGONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -5427,11 +7717,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "prometheus-source",
-        "type": models.InputPrometheusType.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
         "discovery_type": models.InputPrometheusDiscoveryType.STATIC,
-        "interval": 60,
+        "interval": 60.0,
         "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
@@ -5463,8 +7753,37 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
         "prometheus_api": "/write",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesProofpointPod
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesProofpointPod" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "proofpoint-pod-source",
+        "type": models.InputProofpointPodType.PROOFPOINT_POD,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "cluster_id": "my-pod-cluster",
+        "feed_type": models.FeedType.MESSAGE,
+        "text_secret": "proofpoint-pod-token-secret",
     })
 
     # Handle response
@@ -5492,7 +7811,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 514,
+        "port": 514.0,
     })
 
     # Handle response
@@ -5516,7 +7835,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "s3-source",
-        "type": models.InputS3Type.S3,
+        "type": models.TypeOptionsS3.S3,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-notifications-queue",
@@ -5555,6 +7874,95 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesSailpointHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSailpointHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sailpoint-hec-source",
+        "type": models.InputSailpointHecType.SAILPOINT_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSalesforce
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSalesforce" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "salesforce-source",
+        "type": models.InputSalesforceType.SALESFORCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "salesforce_subdomain": "mycompany",
+        "salesforce_cloud": ".my.salesforce.com",
+        "salesforce_oauth_client_id": "your-connected-app-client-id",
+        "text_secret": "salesforce-client-secret",
+        "salesforce_api_version": "v64.0",
+        "content_config": [
+            {
+                "disabled": True,
+                "state_tracking": True,
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "60m",
+            },
+            {
+                "disabled": False,
+                "state_tracking": True,
+                "object_name": "LoginHistory",
+                "fields": [
+                    "Id",
+                    "LoginTime",
+                    "UserId",
+                    "LoginType",
+                    "Status",
+                    "SourceIp",
+                ],
+                "cursor": "LoginTime",
+                "filter_": "`CountryIso = 'US'`",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "60m",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesSecurityLake
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSecurityLake" -->
@@ -5572,11 +7980,53 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "security-lake-source",
-        "type": models.InputSecurityLakeType.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSentinelOneSearch
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSentinelOneSearch" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sentinelone-source",
+        "type": models.InputSentineloneType.SENTINELONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "management_host": "usea1-yourorg",
+        "management_domain_suffix": "sentinelone.net",
+        "text_secret": "sentinelone-api-token-secret",
+        "content_config": [
+            {
+                "collect_method": "get",
+                "disabled": False,
+                "pagination_type": "response_body",
+                "pagination_attribute": [
+                    "nextCursor",
+                ],
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-6m@m",
+                "latest": "-1m@m",
+            },
+        ],
     })
 
     # Handle response
@@ -5637,11 +8087,67 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "snmp-source",
-        "type": models.InputSnmpType.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "192.168.1.1",
-        "port": 161,
+        "port": 161.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSonicWallSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSonicWallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sonicwall-syslog-source",
+        "type": models.InputSonicwallSyslogType1.SONICWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSophosXgXgsFirewallSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSophosXgXgsFirewallSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sophos-xg-xgs-firewall-syslog-source",
+        "type": models.InputSophosXgXgsFirewallSyslogType1.SOPHOS_XG_XGS_FIREWALL_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -5665,11 +8171,11 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "splunk-source",
-        "type": models.InputSplunkType.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 9997,
+        "port": 9997.0,
     })
 
     # Handle response
@@ -5697,7 +8203,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "splunk_hec_api": "/services/collector",
     })
 
@@ -5754,12 +8260,41 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "sqs-source",
-        "type": models.InputSqsType.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "my-queue",
         "queue_type": models.InputSqsQueueType.STANDARD,
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSysdigHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSysdigHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sysdig-hec-source",
+        "type": models.InputSysdigHecType.SYSDIG_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -5783,11 +8318,48 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "syslog-source",
-        "type": models.InputSyslogType1.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "udp_port": 514,
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSyslogWithPQ
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSyslogWithPQ" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "syslog-pq-source",
+        "type": models.TypeOptionsSyslog.SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": True,
+        "pq": {
+            "mode": models.ModeOptionsPq.ALWAYS,
+            "max_buffer_size_bytes": "1MB",
+            "max_file_size": "10MB",
+            "max_size": "5GB",
+            "path": "$CRIBL_HOME/state/queues",
+            "compress": models.CompressionOptionsPq.NONE,
+            "on_backpressure": models.QueueFullBehaviorOptionsPq.DROP,
+        },
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -5867,7 +8439,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
     })
 
     # Handle response
@@ -5891,11 +8463,211 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "tcpjson-source",
-        "type": models.InputTcpjsonType.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10090,
+        "port": 10090.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesTrellixHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesTrellixHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "trellix-hec-source",
+        "type": models.InputTrellixHecType.TRELLIX_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesTrendMicroVisionOne
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesTrendMicroVisionOne" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "trend-micro-vision-one-source",
+        "type": models.InputTrendMicroVisionOneType.TREND_MICRO_VISION_ONE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesUbiquitiUnifiSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesUbiquitiUnifiSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "ubiquiti-unifi-syslog-source",
+        "type": models.InputUbiquitiUnifiSyslogType1.UBIQUITI_UNIFI_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesUpwindHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesUpwindHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "upwind-hec-source",
+        "type": models.InputUpwindHecType.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesVMwareEsxiVCenterSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesVMwareEsxiVCenterSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "vmware-esxi-vcenter-syslog-source",
+        "type": models.InputVmwareEsxiVcenterSyslogType1.VMWARE_ESXI_VCENTER_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesVectraAiHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesVectraAiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "vectra-ai-hec-source",
+        "type": models.InputVectraAiHecType.VECTRA_AI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088.0,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesWatchGuardFireboxSyslog
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesWatchGuardFireboxSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "watchguard-firebox-syslog-source",
+        "type": models.InputWatchguardFireboxSyslogType1.WATCHGUARD_FIREBOX_SYSLOG,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "udp_port": 514.0,
     })
 
     # Handle response
@@ -5923,13 +8695,13 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 5985,
+        "port": 5985.0,
         "subscriptions": [
             {
                 "subscription_name": "subscription-1",
                 "content_format": models.InputWefFormat.RENDERED_TEXT,
-                "heartbeat_interval": 60,
-                "batch_timeout": 5,
+                "heartbeat_interval": 60.0,
+                "batch_timeout": 5.0,
                 "targets": [],
             },
         ],
@@ -6046,7 +8818,36 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 10080,
+        "port": 10080.0,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesZoomWebhook
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesZoomWebhook" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "zoom-webhook-source",
+        "type": models.InputZoomWebhookType.ZOOM_WEBHOOK,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 10080.0,
+        "text_secret": "zoom-webhook-secret",
     })
 
     # Handle response
@@ -6074,9 +8875,39 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
-        "port": 8088,
+        "port": 8088.0,
         "hec_api": "/services/collector",
     })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputMskInput(
+        type=models.TypeOptionsMsk.MSK,
+        brokers=[
+            "<value 1>",
+            "<value 2>",
+        ],
+        topics=[],
+        aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.MANUAL,
+        region="<value>",
+    ))
 
     # Handle response
     print(res)
@@ -6100,6 +8931,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -6107,9 +8939,72 @@ with CriblControlPlane(
 
 Delete the specified Source within the specified Pack.
 
-### Example Usage
+### Example Usage: InputResponseExamplesHttpSource
 
-<!-- UsageSnippet language="python" operationID="deleteInputSystemByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteInputSystemByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesHttpSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.delete(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSplunkHecSource
+
+<!-- UsageSnippet language="python" operationID="deleteInputSystemByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSplunkHecSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.delete(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogSource
+
+<!-- UsageSnippet language="python" operationID="deleteInputSystemByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.delete(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputResponseExamplesSyslogWithPQSource
+
+<!-- UsageSnippet language="python" operationID="deleteInputSystemByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}" example="InputResponseExamplesSyslogWithPQSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -6145,5 +9040,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

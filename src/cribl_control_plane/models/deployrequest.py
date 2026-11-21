@@ -10,13 +10,17 @@ from typing_extensions import NotRequired, TypedDict
 
 class DeployRequestTypedDict(TypedDict):
     version: str
+    r"""Commit hash to deploy to the Worker Group, Outpost Group, or Edge Fleet."""
     lookups: NotRequired[List[DeployRequestLookupsTypedDict]]
+    r"""Optional list of lookup file deployments to include with the commit deployment."""
 
 
 class DeployRequest(BaseModel):
     version: str
+    r"""Commit hash to deploy to the Worker Group, Outpost Group, or Edge Fleet."""
 
     lookups: Optional[List[DeployRequestLookups]] = None
+    r"""Optional list of lookup file deployments to include with the commit deployment."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

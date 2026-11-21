@@ -1,5 +1,7 @@
 # FunctionCommentID
 
+Identifier of the Function. Always <code>comment</code>
+
 ## Example Usage
 
 ```python

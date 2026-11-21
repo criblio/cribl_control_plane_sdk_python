@@ -14,6 +14,10 @@ from .recorddataformatoptions import RecordDataFormatOptions
 from .saslmechanismoptionssasloauthbearerplain import (
     SaslMechanismOptionsSaslOauthbearerPlain,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
@@ -28,6 +32,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputMicrosoftFabricType(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
@@ -35,19 +41,25 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
     mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
+    r"""SASL mechanism"""
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate_name: NotRequired[str]
     r"""Select or create a stored certificate"""
     cert_path: NotRequired[str]
+    r"""Path to the client certificate file."""
     priv_key_path: NotRequired[str]
+    r"""Path to the client private key file."""
     passphrase: NotRequired[str]
+    r"""Passphrase used to decrypt the client private key."""
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -72,8 +84,10 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
 
     mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
+    r"""SASL mechanism"""
 
     username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -85,6 +99,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -97,10 +112,13 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Select or create a stored certificate"""
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path to the client certificate file."""
 
     priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path to the client private key file."""
 
     passphrase: Optional[str] = None
+    r"""Passphrase used to decrypt the client private key."""
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
@@ -208,21 +226,22 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
 
 
 class OutputMicrosoftFabricPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMicrosoftFabricPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMicrosoftFabricTypedDict(TypedDict):
     type: OutputMicrosoftFabricType
+    r"""Connector type identifier."""
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
     bootstrap_server: str
     r"""Bootstrap server from Fabric Eventstream's endpoint"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -230,7 +249,9 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     ack: NotRequired[AcknowledgmentsOptions]
     r"""Control the number of required acknowledgments"""
     format_: NotRequired[RecordDataFormatOptions]
@@ -260,9 +281,11 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     sasl: NotRequired[OutputMicrosoftFabricAuthenticationTypedDict]
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -278,7 +301,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -286,6 +309,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
@@ -300,6 +324,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
 
 class OutputMicrosoftFabric(BaseModel):
     type: OutputMicrosoftFabricType
+    r"""Connector type identifier."""
 
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
@@ -308,7 +333,7 @@ class OutputMicrosoftFabric(BaseModel):
     r"""Bootstrap server from Fabric Eventstream's endpoint"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -322,7 +347,13 @@ class OutputMicrosoftFabric(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     ack: Optional[AcknowledgmentsOptions] = None
     r"""Control the number of required acknowledgments"""
@@ -385,6 +416,7 @@ class OutputMicrosoftFabric(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -392,6 +424,7 @@ class OutputMicrosoftFabric(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -425,7 +458,7 @@ class OutputMicrosoftFabric(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -445,6 +478,7 @@ class OutputMicrosoftFabric(BaseModel):
     pq_controls: Annotated[
         Optional[OutputMicrosoftFabricPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -534,6 +568,7 @@ class OutputMicrosoftFabric(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "ack",
                 "format",
                 "maxRecordSizeKB",

@@ -21,32 +21,30 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsmsk import TypeOptionsMsk
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputMskType(str, Enum):
-    MSK = "msk"
-
-
 class InputMskInputTypedDict(TypedDict):
-    type: InputMskType
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
-    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    r"""Topic to subscribe to. Warning: Multiple entries are supported, but will degrade throughput. To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     aws_authentication_method: AuthenticationMethodOptionsS3CollectorConf
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     region: str
     r"""Region where the MSK cluster is located"""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -56,10 +54,11 @@ class InputMskInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -83,6 +82,7 @@ class InputMskInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -99,7 +99,10 @@ class InputMskInputTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -115,6 +118,7 @@ class InputMskInputTypedDict(TypedDict):
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -125,8 +129,12 @@ class InputMskInputTypedDict(TypedDict):
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -154,13 +162,14 @@ class InputMskInputTypedDict(TypedDict):
 
 
 class InputMskInput(BaseModel):
-    type: InputMskType
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
 
     topics: List[str]
-    r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
+    r"""Topic to subscribe to. Warning: Multiple entries are supported, but will degrade throughput. To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
     aws_authentication_method: Annotated[
         AuthenticationMethodOptionsS3CollectorConf,
@@ -172,9 +181,10 @@ class InputMskInput(BaseModel):
     r"""Region where the MSK cluster is located"""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -191,12 +201,13 @@ class InputMskInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -238,6 +249,7 @@ class InputMskInput(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -273,9 +285,15 @@ class InputMskInput(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
+
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -311,6 +329,7 @@ class InputMskInput(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -335,9 +354,14 @@ class InputMskInput(BaseModel):
     ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -434,6 +458,7 @@ class InputMskInput(BaseModel):
                 "backoffRate",
                 "authenticationTimeout",
                 "reauthenticationThreshold",
+                "dynamicHeadersField",
                 "awsSecretKey",
                 "endpoint",
                 "reuseConnections",
@@ -448,6 +473,7 @@ class InputMskInput(BaseModel):
                 "maxBytesPerPartition",
                 "maxBytes",
                 "maxSocketErrors",
+                "autoParse",
                 "description",
                 "awsApiKey",
                 "awsSecret",

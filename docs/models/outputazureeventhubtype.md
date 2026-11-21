@@ -1,5 +1,7 @@
 # OutputAzureEventhubType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

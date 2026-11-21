@@ -1,5 +1,7 @@
 # FunctionSerializeID
 
+Identifier of the Function. Always <code>serialize</code>
+
 ## Example Usage
 
 ```python

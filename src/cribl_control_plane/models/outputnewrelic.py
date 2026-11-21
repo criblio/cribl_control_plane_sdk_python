@@ -16,6 +16,10 @@ from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -30,24 +34,30 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputNewrelicType(str, Enum):
+    r"""Connector type identifier."""
+
     NEWRELIC = "newrelic"
 
 
-class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+class FieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Name of the metadata field."""
+
     SERVICE = "service"
     HOSTNAME = "hostname"
     TIMESTAMP = "timestamp"
     AUDIT_ID = "auditId"
 
 
-class OutputNewrelicMetadatumTypedDict(TypedDict):
-    name: OutputNewrelicFieldName
+class MetadatumTypedDict(TypedDict):
+    name: FieldName
+    r"""Name of the metadata field."""
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class OutputNewrelicMetadatum(BaseModel):
-    name: OutputNewrelicFieldName
+class Metadatum(BaseModel):
+    name: FieldName
+    r"""Name of the metadata field."""
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
@@ -56,24 +66,25 @@ class OutputNewrelicMetadatum(BaseModel):
     def serialize_name(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputNewrelicFieldName(value)
+                return models.FieldName(value)
             except ValueError:
                 return value
         return value
 
 
 class OutputNewrelicPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicTypedDict(TypedDict):
     type: OutputNewrelicType
+    r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -81,14 +92,16 @@ class OutputNewrelicTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     region: NotRequired[RegionOptions]
     r"""Which New Relic region endpoint to use."""
     log_type: NotRequired[str]
     r"""Name of the logtype to send with events, e.g.: observability, access_log. The event's 'sourcetype' field (if set) will override this value."""
     message_field: NotRequired[str]
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
-    metadata: NotRequired[List[OutputNewrelicMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumTypedDict]]
     r"""Fields to add to events from this input"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -100,11 +113,14 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -120,6 +136,7 @@ class OutputNewrelicTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -129,7 +146,9 @@ class OutputNewrelicTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
+    r"""Custom New Relic Logs API endpoint URL."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -145,7 +164,7 @@ class OutputNewrelicTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -153,6 +172,7 @@ class OutputNewrelicTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputNewrelicPqControlsTypedDict]
+    r"""Persistent queue controls."""
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
@@ -173,9 +193,10 @@ class OutputNewrelicTypedDict(TypedDict):
 
 class OutputNewrelic(BaseModel):
     type: OutputNewrelicType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -189,7 +210,13 @@ class OutputNewrelic(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     region: Optional[RegionOptions] = None
     r"""Which New Relic region endpoint to use."""
@@ -200,7 +227,7 @@ class OutputNewrelic(BaseModel):
     message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
 
-    metadata: Optional[List[OutputNewrelicMetadatum]] = None
+    metadata: Optional[List[Metadatum]] = None
     r"""Fields to add to events from this input"""
 
     concurrency: Optional[float] = None
@@ -223,12 +250,18 @@ class OutputNewrelic(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -266,6 +299,7 @@ class OutputNewrelic(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -288,8 +322,10 @@ class OutputNewrelic(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
+    r"""Custom New Relic Logs API endpoint URL."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -323,7 +359,7 @@ class OutputNewrelic(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -343,6 +379,7 @@ class OutputNewrelic(BaseModel):
     pq_controls: Annotated[
         Optional[OutputNewrelicPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -452,6 +489,7 @@ class OutputNewrelic(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "region",
                 "logType",
                 "messageField",
@@ -462,6 +500,7 @@ class OutputNewrelic(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

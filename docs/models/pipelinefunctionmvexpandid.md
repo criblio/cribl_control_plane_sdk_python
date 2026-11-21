@@ -1,6 +1,6 @@
 # PipelineFunctionMvExpandID
 
-Function ID
+Identifier of the Function. Always <code>mv_expand</code>
 
 ## Example Usage
 

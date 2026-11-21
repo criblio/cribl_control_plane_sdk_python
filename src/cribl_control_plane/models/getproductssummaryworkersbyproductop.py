@@ -19,7 +19,7 @@ class GetProductsSummaryWorkersByProductRequestTypedDict(TypedDict):
     product: ProductsCore
     r"""Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for."""
     filter_exp: NotRequired[str]
-    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>)."""
 
 
 class GetProductsSummaryWorkersByProductRequest(BaseModel):
@@ -34,7 +34,7 @@ class GetProductsSummaryWorkersByProductRequest(BaseModel):
         pydantic.Field(alias="filterExp"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>)."""
 
     @field_serializer("product")
     def serialize_product(self, value):

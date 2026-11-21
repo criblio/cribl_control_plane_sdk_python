@@ -11,10 +11,14 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
-    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+from .typeoptionssnmp import TypeOptionsSnmp
+from .v3authenticationkeytypeoptionssnmptrapserializev3userauthprotocolnotnone import (
+    V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
-from cribl_control_plane import models
+from .v3privacykeytypeoptionssnmptrapserializev3userauthprotocolnotnoneprivprotocolnotnone import (
+    V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+)
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -23,36 +27,92 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputSnmpType(str, Enum):
-    SNMP = "snmp"
+class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Privacy protocol"""
+
+    # None
+    NONE = "none"
+    # DES
+    DES = "des"
+    # AES128
+    AES = "aes"
+    # AES256b (Blumenthal)
+    AES256B = "aes256b"
+    # AES256r (Reeder)
+    AES256R = "aes256r"
 
 
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
+    r"""SNMPv3 security name."""
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
-    auth_key: NotRequired[str]
-    priv_protocol: NotRequired[
-        PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    r"""Authentication protocol for the SNMPv3 user."""
+    auth_key_type: NotRequired[
+        V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
     ]
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
+    auth_key: NotRequired[str]
+    r"""Authentication key for the SNMPv3 user."""
+    auth_key_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    priv_protocol: NotRequired[PrivacyProtocol]
+    r"""Privacy protocol"""
+    priv_key_type: NotRequired[
+        V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
+    ]
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
     priv_key: NotRequired[str]
+    r"""Privacy key for the SNMPv3 user."""
+    priv_key_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
 
 
 class InputSnmpV3User(BaseModel):
     name: str
+    r"""SNMPv3 security name."""
 
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
+    r"""Authentication protocol for the SNMPv3 user."""
+
+    auth_key_type: Annotated[
+        Optional[
+            V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+        ],
+        pydantic.Field(alias="authKeyType"),
+    ] = None
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
+    r"""Authentication key for the SNMPv3 user."""
+
+    auth_key_secret: Annotated[Optional[str], pydantic.Field(alias="authKeySecret")] = (
+        None
+    )
+    r"""Select or create a stored text secret"""
 
     priv_protocol: Annotated[
-        Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
-        pydantic.Field(alias="privProtocol"),
+        Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
     ] = None
+    r"""Privacy protocol"""
+
+    priv_key_type: Annotated[
+        Optional[
+            V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
+        ],
+        pydantic.Field(alias="privKeyType"),
+    ] = None
+    r"""Select Manual to enter the key directly, or Secret to use a stored text secret"""
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
+    r"""Privacy key for the SNMPv3 user."""
+
+    priv_key_secret: Annotated[Optional[str], pydantic.Field(alias="privKeySecret")] = (
+        None
+    )
+    r"""Select or create a stored text secret"""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -63,11 +123,31 @@ class InputSnmpV3User(BaseModel):
                 return value
         return value
 
+    @field_serializer("auth_key_type")
+    def serialize_auth_key_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.V3AuthenticationKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("priv_protocol")
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                return models.PrivacyProtocol(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("priv_key_type")
+    def serialize_priv_key_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.V3PrivacyKeyTypeOptionsSnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(
                     value
                 )
             except ValueError:
@@ -76,7 +156,18 @@ class InputSnmpV3User(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["authProtocol", "authKey", "privProtocol", "privKey"])
+        optional_fields = set(
+            [
+                "authProtocol",
+                "authKeyType",
+                "authKey",
+                "authKeySecret",
+                "privProtocol",
+                "privKeyType",
+                "privKey",
+                "privKeySecret",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -91,20 +182,22 @@ class InputSnmpV3User(BaseModel):
         return m
 
 
-class InputSnmpSNMPv3AuthenticationTypedDict(TypedDict):
+class SNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: bool
+    r"""Enabled"""
     allow_unmatched_trap: NotRequired[bool]
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
     v3_users: NotRequired[List[InputSnmpV3UserTypedDict]]
     r"""User credentials for receiving v3 traps"""
 
 
-class InputSnmpSNMPv3Authentication(BaseModel):
+class SNMPv3Authentication(BaseModel):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: Annotated[bool, pydantic.Field(alias="v3AuthEnabled")]
+    r"""Enabled"""
 
     allow_unmatched_trap: Annotated[
         Optional[bool], pydantic.Field(alias="allowUnmatchedTrap")
@@ -134,14 +227,16 @@ class InputSnmpSNMPv3Authentication(BaseModel):
 
 
 class InputSnmpInputTypedDict(TypedDict):
-    type: InputSnmpType
+    type: TypeOptionsSnmp
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -151,11 +246,12 @@ class InputSnmpInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    snmp_v3_auth: NotRequired[InputSnmpSNMPv3AuthenticationTypedDict]
+    r"""Persistent queue settings for this Source."""
+    snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
@@ -170,6 +266,7 @@ class InputSnmpInputTypedDict(TypedDict):
     best_effort_parsing: NotRequired[bool]
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -181,7 +278,8 @@ class InputSnmpInputTypedDict(TypedDict):
 
 
 class InputSnmpInput(BaseModel):
-    type: InputSnmpType
+    type: TypeOptionsSnmp
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -190,9 +288,10 @@ class InputSnmpInput(BaseModel):
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -209,15 +308,16 @@ class InputSnmpInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     snmp_v3_auth: Annotated[
-        Optional[InputSnmpSNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
+        Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
     ] = None
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
@@ -250,6 +350,7 @@ class InputSnmpInput(BaseModel):
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -317,7 +418,7 @@ try:
 except NameError:
     pass
 try:
-    InputSnmpSNMPv3Authentication.model_rebuild()
+    SNMPv3Authentication.model_rebuild()
 except NameError:
     pass
 try:

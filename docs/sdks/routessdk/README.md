@@ -8,16 +8,16 @@ Actions related to Routes
 
 * [list](#list) - List all Routes
 * [get](#get) - Get a Routing table
-* [update](#update) - Update a Route
+* [update](#update) - Update a Routing table
 * [append](#append) - Add a Route to the end of the Routing table
 
 ## list
 
 Get a list of all Routes.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable2
 
-<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" -->
+<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" example="RoutesResponseExamplesDefaultRoutingTable2" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -31,6 +31,98 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.routes.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable2
+
+<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" example="RoutesResponseExamplesMultiRouteTable2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
+| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.GetRoutesResponse](../../models/getroutesresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## get
+
+Get the specified Routing table.
+
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.get()
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.get()
 
     # Handle response
     print(res)
@@ -51,16 +143,17 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## get
+## update
 
-Get the specified Routing table.
+Update the specified Routing table.<br/><br/>Provide a complete representation of the Routing table that you want to update in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
 
-<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" -->
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -73,35 +166,33 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.get(id="<id>")
+    res = ccp_client.routes.update(id="<id>", routes=[])
 
     # Handle response
     print(res)
 
 ```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
 
-### Parameters
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Routing table to get. The supported value is <code>default</code>. |
-| `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
 
-### Response
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
 
-**[models.CountedRoutes](../../models/countedroutes.md)**
+    res = ccp_client.routes.update(id="<id>", routes=[])
 
-### Errors
+    # Handle response
+    print(res)
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## update
-
-Update a Route in the specified Routing table.<br/><br/>\1 This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
-
+```
 ### Example Usage: RoutesUpdateExamplesBasicRoute
 
 <!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesUpdateExamplesBasicRoute" -->
@@ -117,7 +208,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
+    res = ccp_client.routes.update(id="default", routes=[
         {
             "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
@@ -147,7 +238,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
+    res = ccp_client.routes.update(id="default", routes=[
         {
             "description": "Route speedtest logs",
             "filter_": "source == \"speedtest.log\"",
@@ -205,7 +296,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
+    res = ccp_client.routes.update(id="default", routes=[
         {
             "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
@@ -233,7 +324,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
+    res = ccp_client.routes.update(id="default", routes=[
         {
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
@@ -250,17 +341,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.update(id="<id>", routes=[])
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
-| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
-| `id`                                                                                                                     | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | Unique identifier for the Routing table. The supported value is <code>default</code>.                                    |
-| `routes`                                                                                                                 | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                                            | :heavy_check_mark:                                                                                                       | Array of Route configurations that define how events are processed and routed.                                           |
-| `comments`                                                                                                               | List[[models.RouteComment](../../models/routecomment.md)]                                                                | :heavy_minus_sign:                                                                                                       | Array of user-provided comments that describe or annotate Routes.                                                        |
-| `groups`                                                                                                                 | Dict[str, [models.AdditionalPropertiesTypeRoutesGroups](../../models/additionalpropertiestyperoutesgroups.md)]           | :heavy_minus_sign:                                                                                                       | Information about the Route Groups that the Route is associated with.                                                    |
-| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                           | *str*                                                                                                          | :heavy_check_mark:                                                                                             | Unique identifier for the Routing table. The supported value is <code>default</code>.                          |
+| `routes`                                                                                                       | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                                  | :heavy_check_mark:                                                                                             | Array of Route configurations that define how events are processed and routed.                                 |
+| `comments`                                                                                                     | List[[models.RouteComment](../../models/routecomment.md)]                                                      | :heavy_minus_sign:                                                                                             | Array of user-provided comments that describe or annotate Routes.                                              |
+| `groups`                                                                                                       | Dict[str, [models.AdditionalPropertiesTypeRoutesGroups](../../models/additionalpropertiestyperoutesgroups.md)] | :heavy_minus_sign:                                                                                             | Information about the Route Groups that the Route is associated with.                                          |
+| `retries`                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                               | :heavy_minus_sign:                                                                                             | Configuration to override the default retry behavior of the client.                                            |
 
 ### Response
 
@@ -270,6 +381,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -292,7 +404,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[
+    res = ccp_client.routes.append(request_body=[
         {
             "description": "Route audit logs",
             "filter_": "source == \"audit.log\"",
@@ -332,7 +444,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[
+    res = ccp_client.routes.append(request_body=[
         {
             "description": "Route with server-generated id and default final value",
             "filter_": "source == \"new.log\"",
@@ -360,7 +472,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[
+    res = ccp_client.routes.append(request_body=[
         {
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
@@ -392,7 +504,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[
+    res = ccp_client.routes.append(request_body=[
         {
             "description": "Route new logs to main pipeline",
             "filter_": "source == \"new.log\"",
@@ -407,14 +519,76 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.append(request_body=[])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.append(request_body=[])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.append(request_body=[])
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
-| Parameter                                                                                                  | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                       | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>. |
-| `request_body`                                                                                             | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                              | :heavy_check_mark:                                                                                         | RouteDefinitions object.                                                                                   |
-| `retries`                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                           | :heavy_minus_sign:                                                                                         | Configuration to override the default retry behavior of the client.                                        |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request_body`                                                      | List[[models.RouteConfInput](../../models/routeconfinput.md)]       | :heavy_check_mark:                                                  | RouteDefinitions object.                                            |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -424,5 +598,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

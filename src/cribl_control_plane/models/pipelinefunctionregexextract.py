@@ -14,15 +14,18 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionRegexExtractID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
 
     REGEX_EXTRACT = "regex_extract"
 
 
 class PipelineFunctionRegexExtractConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     regex: str
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     source: NotRequired[str]
     r"""Field on which to perform regex field extraction"""
     iterations: NotRequired[float]
@@ -34,12 +37,15 @@ class PipelineFunctionRegexExtractConfTypedDict(TypedDict):
 
 
 class PipelineFunctionRegexExtractConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     regex: str
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
 
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     source: Optional[str] = None
     r"""Field on which to perform regex field extraction"""
@@ -76,40 +82,42 @@ class PipelineFunctionRegexExtractConf(BaseModel):
 
 class PipelineFunctionRegexExtractTypedDict(TypedDict):
     id: PipelineFunctionRegexExtractID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
     conf: PipelineFunctionRegexExtractConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionRegexExtract(BaseModel):
     id: PipelineFunctionRegexExtractID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
 
     conf: PipelineFunctionRegexExtractConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

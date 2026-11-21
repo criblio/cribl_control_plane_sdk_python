@@ -1,5 +1,7 @@
 # PqTypePqControls
 
+Management controls for the persistent queue.
+
 
 ## Fields
 

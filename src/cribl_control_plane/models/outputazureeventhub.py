@@ -8,6 +8,10 @@ from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
@@ -22,25 +26,28 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAzureEventhubType(str, Enum):
+    r"""Connector type identifier."""
+
     AZURE_EVENTHUB = "azure_eventhub"
 
 
 class OutputAzureEventhubPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureEventhubPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureEventhubTypedDict(TypedDict):
     type: OutputAzureEventhubType
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to, eg. yourdomain.servicebus.windows.net:9093. The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topic: str
     r"""The name of the Event Hub (Kafka Topic) to publish events. Can be overwritten using field __topicOut."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -48,7 +55,9 @@ class OutputAzureEventhubTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     ack: NotRequired[AcknowledgmentsOptions]
     r"""Control the number of required acknowledgments"""
     format_: NotRequired[RecordDataFormatOptions]
@@ -78,9 +87,11 @@ class OutputAzureEventhubTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -96,7 +107,7 @@ class OutputAzureEventhubTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -104,6 +115,7 @@ class OutputAzureEventhubTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputAzureEventhubPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_brokers: NotRequired[str]
@@ -118,6 +130,7 @@ class OutputAzureEventhubTypedDict(TypedDict):
 
 class OutputAzureEventhub(BaseModel):
     type: OutputAzureEventhubType
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to, eg. yourdomain.servicebus.windows.net:9093. The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -126,7 +139,7 @@ class OutputAzureEventhub(BaseModel):
     r"""The name of the Event Hub (Kafka Topic) to publish events. Can be overwritten using field __topicOut."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -140,7 +153,13 @@ class OutputAzureEventhub(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     ack: Optional[AcknowledgmentsOptions] = None
     r"""Control the number of required acknowledgments"""
@@ -203,6 +222,7 @@ class OutputAzureEventhub(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -210,6 +230,7 @@ class OutputAzureEventhub(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -243,7 +264,7 @@ class OutputAzureEventhub(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -263,6 +284,7 @@ class OutputAzureEventhub(BaseModel):
     pq_controls: Annotated[
         Optional[OutputAzureEventhubPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -352,6 +374,7 @@ class OutputAzureEventhub(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "ack",
                 "format",
                 "maxRecordSizeKB",

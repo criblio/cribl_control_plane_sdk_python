@@ -1,5 +1,7 @@
 # FunctionEventBreakerID
 
+Identifier of the Function. Always <code>event_breaker</code>
+
 ## Example Usage
 
 ```python

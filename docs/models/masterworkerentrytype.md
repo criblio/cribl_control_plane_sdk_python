@@ -1,5 +1,7 @@
 # MasterWorkerEntryType
 
+RPC message type reported by the node.
+
 ## Example Usage
 
 ```python

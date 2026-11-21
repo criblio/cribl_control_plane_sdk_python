@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OrphanFileRecoveryTypeTypedDict(TypedDict):
+    r"""Orphan file recovery"""
+
     disabled: NotRequired[bool]
     r"""Periodically scan the staging directory for files not tracked by any Worker manifest to recover them"""
     period_min: NotRequired[float]
@@ -16,6 +18,8 @@ class OrphanFileRecoveryTypeTypedDict(TypedDict):
 
 
 class OrphanFileRecoveryType(BaseModel):
+    r"""Orphan file recovery"""
+
     disabled: Optional[bool] = None
     r"""Periodically scan the staging directory for files not tracked by any Worker manifest to recover them"""
 

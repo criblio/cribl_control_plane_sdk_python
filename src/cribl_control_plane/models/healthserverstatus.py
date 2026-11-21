@@ -34,6 +34,8 @@ class HealthServerStatusTypedDict(TypedDict):
     r"""Timestamp (in Unix time) when the Cribl process started."""
     status: HealthServerStatusStatus
     r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
+    is_captain: NotRequired[bool]
+    r"""Whether this node is currently the captain (job scheduling coordinator) in a Collectors HA deployment."""
     role: NotRequired[Role]
     r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
 
@@ -48,6 +50,9 @@ class HealthServerStatus(BaseModel):
 
     status: HealthServerStatusStatus
     r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
+
+    is_captain: Annotated[Optional[bool], pydantic.Field(alias="isCaptain")] = None
+    r"""Whether this node is currently the captain (job scheduling coordinator) in a Collectors HA deployment."""
 
     role: Optional[Role] = None
     r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
@@ -72,7 +77,7 @@ class HealthServerStatus(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["role"])
+        optional_fields = set(["isCaptain", "role"])
         serialized = handler(self)
         m = {}
 

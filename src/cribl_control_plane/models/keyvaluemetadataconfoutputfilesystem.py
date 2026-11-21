@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class KeyValueMetadataConfOutputFilesystemTypedDict(TypedDict):
     key: str
+    r"""Key"""
     value: str
+    r"""Value"""
 
 
 class KeyValueMetadataConfOutputFilesystem(BaseModel):
     key: str
+    r"""Key"""
 
     value: str
+    r"""Value"""

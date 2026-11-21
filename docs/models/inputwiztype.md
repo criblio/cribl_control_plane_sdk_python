@@ -1,5 +1,7 @@
 # InputWizType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

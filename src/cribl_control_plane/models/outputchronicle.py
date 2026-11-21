@@ -14,6 +14,10 @@ from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -28,25 +32,33 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputChronicleType(str, Enum):
+    r"""Connector type identifier."""
+
     CHRONICLE = "chronicle"
 
 
 class OutputChronicleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
     SERVICE_ACCOUNT = "serviceAccount"
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputChronicleCustomLabelTypedDict(TypedDict):
+class CustomLabelTypedDict(TypedDict):
     key: str
+    r"""Key"""
     value: str
+    r"""Value"""
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
-class OutputChronicleCustomLabel(BaseModel):
+class CustomLabel(BaseModel):
     key: str
+    r"""Key"""
 
     value: str
+    r"""Value"""
 
     rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = None
     r"""Designate this label for role-based access control and filtering"""
@@ -69,15 +81,16 @@ class OutputChronicleCustomLabel(BaseModel):
 
 
 class OutputChroniclePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputChroniclePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputChronicleTypedDict(TypedDict):
     type: OutputChronicleType
+    r"""Connector type identifier."""
     region: str
     r"""Regional endpoint to send events to"""
     log_type: str
@@ -87,7 +100,7 @@ class OutputChronicleTypedDict(TypedDict):
     gcp_instance: str
     r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -95,14 +108,19 @@ class OutputChronicleTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     api_version: NotRequired[str]
+    r"""API version"""
     authentication_method: NotRequired[OutputChronicleAuthenticationMethod]
+    r"""Authentication method"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     concurrency: NotRequired[float]
@@ -115,11 +133,14 @@ class OutputChronicleTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -135,15 +156,17 @@ class OutputChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     ingestion_method: NotRequired[str]
+    r"""Chronicle API ingestion method"""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[OutputChronicleCustomLabelTypedDict]]
+    custom_labels: NotRequired[List[CustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
     service_account_credentials_secret: NotRequired[str]
@@ -163,7 +186,7 @@ class OutputChronicleTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -171,6 +194,7 @@ class OutputChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputChroniclePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
@@ -195,6 +219,7 @@ class OutputChronicleTypedDict(TypedDict):
 
 class OutputChronicle(BaseModel):
     type: OutputChronicleType
+    r"""Connector type identifier."""
 
     region: str
     r"""Regional endpoint to send events to"""
@@ -209,7 +234,7 @@ class OutputChronicle(BaseModel):
     r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -223,14 +248,22 @@ class OutputChronicle(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = None
+    r"""API version"""
 
     authentication_method: Annotated[
         Optional[OutputChronicleAuthenticationMethod],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
@@ -241,6 +274,7 @@ class OutputChronicle(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -267,12 +301,18 @@ class OutputChronicle(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -314,6 +354,7 @@ class OutputChronicle(BaseModel):
     ingestion_method: Annotated[
         Optional[str], pydantic.Field(alias="ingestionMethod")
     ] = None
+    r"""Chronicle API ingestion method"""
 
     namespace: Optional[str] = None
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
@@ -324,7 +365,7 @@ class OutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[OutputChronicleCustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[CustomLabel]], pydantic.Field(alias="customLabels")
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -332,6 +373,7 @@ class OutputChronicle(BaseModel):
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
@@ -375,7 +417,7 @@ class OutputChronicle(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -395,6 +437,7 @@ class OutputChronicle(BaseModel):
     pq_controls: Annotated[
         Optional[OutputChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -509,6 +552,7 @@ class OutputChronicle(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "apiVersion",
                 "authenticationMethod",
                 "responseRetrySettings",
@@ -520,6 +564,7 @@ class OutputChronicle(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -574,7 +619,7 @@ class OutputChronicle(BaseModel):
 
 
 try:
-    OutputChronicleCustomLabel.model_rebuild()
+    CustomLabel.model_rebuild()
 except NameError:
     pass
 try:

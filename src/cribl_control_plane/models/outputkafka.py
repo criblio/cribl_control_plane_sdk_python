@@ -13,39 +13,40 @@ from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import 
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptions import TypeOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputKafkaType(str, Enum):
-    KAFKA = "kafka"
-
-
 class OutputKafkaPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputKafkaPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputKafkaTypedDict(TypedDict):
-    type: OutputKafkaType
+    type: TypeOptions
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -53,7 +54,9 @@ class OutputKafkaTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
     format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
@@ -69,6 +72,7 @@ class OutputKafkaTypedDict(TypedDict):
     kafka_schema_registry: NotRequired[
         KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -88,9 +92,13 @@ class OutputKafkaTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -110,7 +118,7 @@ class OutputKafkaTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -118,6 +126,7 @@ class OutputKafkaTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputKafkaPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
@@ -131,7 +140,8 @@ class OutputKafkaTypedDict(TypedDict):
 
 
 class OutputKafka(BaseModel):
-    type: OutputKafkaType
+    type: TypeOptions
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
@@ -140,7 +150,7 @@ class OutputKafka(BaseModel):
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -154,7 +164,13 @@ class OutputKafka(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
@@ -186,6 +202,7 @@ class OutputKafka(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -225,6 +242,12 @@ class OutputKafka(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
+
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -232,6 +255,7 @@ class OutputKafka(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")
@@ -275,7 +299,7 @@ class OutputKafka(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -295,6 +319,7 @@ class OutputKafka(BaseModel):
     pq_controls: Annotated[
         Optional[OutputKafkaPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -393,6 +418,7 @@ class OutputKafka(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "ack",
                 "format",
                 "compression",
@@ -410,6 +436,7 @@ class OutputKafka(BaseModel):
                 "reauthenticationThreshold",
                 "sasl",
                 "tls",
+                "dynamicHeadersField",
                 "onBackpressure",
                 "description",
                 "protobufLibraryId",

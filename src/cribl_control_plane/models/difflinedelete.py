@@ -8,21 +8,33 @@ from typing_extensions import Annotated, TypedDict
 
 
 class DiffLineDeleteType(str, Enum):
+    r"""Line change type. Always <code>delete</code> for deleted lines."""
+
     DELETE = "delete"
 
 
 class DiffLineDeleteTypedDict(TypedDict):
+    r"""Deleted line in a Git diff hunk."""
+
     type: DiffLineDeleteType
-    old_number: float
+    r"""Line change type. Always <code>delete</code> for deleted lines."""
+    old_number: int
+    r"""Line number in the original file."""
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 class DiffLineDelete(BaseModel):
-    type: DiffLineDeleteType
+    r"""Deleted line in a Git diff hunk."""
 
-    old_number: Annotated[float, pydantic.Field(alias="oldNumber")]
+    type: DiffLineDeleteType
+    r"""Line change type. Always <code>delete</code> for deleted lines."""
+
+    old_number: Annotated[int, pydantic.Field(alias="oldNumber")]
+    r"""Line number in the original file."""
 
     content: str
+    r"""Full content of the line, including the diff prefix character."""
 
 
 try:

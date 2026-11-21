@@ -1,5 +1,7 @@
 # FunctionChainID
 
+Identifier of the Function. Always <code>chain</code>
+
 ## Example Usage
 
 ```python

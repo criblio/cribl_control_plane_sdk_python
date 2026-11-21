@@ -1,5 +1,7 @@
 # FunctionJoinID
 
+Identifier of the Function. Always <code>join</code>
+
 ## Example Usage
 
 ```python

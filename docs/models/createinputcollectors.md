@@ -1,5 +1,7 @@
 # CreateInputCollectors
 
+System state collectors to enable and configure.
+
 
 ## Fields
 

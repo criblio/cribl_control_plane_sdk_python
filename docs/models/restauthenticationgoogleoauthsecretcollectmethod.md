@@ -1,5 +1,7 @@
 # RestAuthenticationGoogleOauthSecretCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

@@ -8,4 +8,6 @@ from enum import Enum
 class HiddenDefaultBreakersOptionsDatabaseCollectorConf(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Hidden Default Breakers"""
+
     CRIBL = "Cribl"

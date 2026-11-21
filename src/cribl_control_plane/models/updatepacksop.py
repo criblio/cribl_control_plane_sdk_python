@@ -12,6 +12,7 @@ class UpdatePacksRequestTypedDict(TypedDict):
     filename: str
     r"""Filename of the Pack file to upload."""
     request_body: Union[bytes, IO[bytes], io.IOBase]
+    r"""Binary contents of the <code>.crbl</code> Pack file to stage for installation"""
 
 
 class UpdatePacksRequest(BaseModel):
@@ -23,3 +24,4 @@ class UpdatePacksRequest(BaseModel):
     request_body: Annotated[
         Union[bytes, IO[bytes], io.IOBase], FieldMetadata(request=True)
     ]
+    r"""Binary contents of the <code>.crbl</code> Pack file to stage for installation"""

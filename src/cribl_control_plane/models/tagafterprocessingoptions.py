@@ -6,5 +6,7 @@ from enum import Enum
 
 
 class TagAfterProcessingOptions(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Whether to add a tag to each S3 object after processing."""
+
     FALSE = "false"
     TRUE = "true"

@@ -1,5 +1,7 @@
 # InputElasticProxyMode
 
+Proxy mode settings for Elasticsearch requests.
+
 
 ## Fields
 

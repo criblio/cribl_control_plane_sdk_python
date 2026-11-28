@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackOutputCriblLakeFormat
 
+Data format to use for files written to the Lake Dataset.
+
 ## Example Usage
 
 ```python

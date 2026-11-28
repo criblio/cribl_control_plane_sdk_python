@@ -40,7 +40,7 @@ class InputLokiInputTypedDict(TypedDict):
     loki_api: str
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -56,6 +56,7 @@ class InputLokiInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
@@ -122,7 +123,7 @@ class InputLokiInput(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -148,6 +149,7 @@ class InputLokiInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     tls: Optional[TLSSettingsServerSideType] = None
     r"""TLS settings (server side)"""

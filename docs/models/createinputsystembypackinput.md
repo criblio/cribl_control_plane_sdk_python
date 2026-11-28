@@ -305,6 +305,72 @@ value: models.CreateInputSystemByPackInputSqs = /* values here */
 value: models.CreateInputSystemByPackInputSyslogUnion = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputCheckPointSaseSyslog`
+
+```python
+value: models.CreateInputSystemByPackInputCheckPointSaseSyslog = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputCiscoAsaSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputCiscoAsaSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputCiscoMerakiSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputCiscoMerakiSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputFortigateSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputFortigateSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputVmwareEsxiVcenterSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputVmwareEsxiVcenterSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputNetgatePfsenseSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputNetgatePfsenseSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputWatchguardFireboxSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputWatchguardFireboxSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputInfobloxSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputInfobloxSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputUbiquitiUnifiSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputUbiquitiUnifiSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSonicwallSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputSonicwallSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSophosXgXgsFirewallSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputSophosXgXgsFirewallSyslogUnion = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputFile`
 
 ```python
@@ -395,6 +461,12 @@ value: models.CreateInputSystemByPackInputBedrockS3 = /* values here */
 value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputProofpointPod`
+
+```python
+value: models.CreateInputSystemByPackInputProofpointPod = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputZscalerHec`
 
 ```python
@@ -419,6 +491,36 @@ value: models.CreateInputSystemByPackInputSysdigHec = /* values here */
 value: models.CreateInputSystemByPackInputUpwindHec = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputTrellixHec`
+
+```python
+value: models.CreateInputSystemByPackInputTrellixHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSalesforce`
+
+```python
+value: models.CreateInputSystemByPackInputSalesforce = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSailpointHec`
+
+```python
+value: models.CreateInputSystemByPackInputSailpointHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputExtrahopRevealx360`
+
+```python
+value: models.CreateInputSystemByPackInputExtrahopRevealx360 = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAquaSecurityHec`
+
+```python
+value: models.CreateInputSystemByPackInputAquaSecurityHec = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
 
 ```python
@@ -431,9 +533,117 @@ value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here 
 value: models.CreateInputSystemByPackInputAnthropicCompliance = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputAnthropicEnterpriseAnalytics`
+
+```python
+value: models.CreateInputSystemByPackInputAnthropicEnterpriseAnalytics = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputMicrosoftCopilot`
+
+```python
+value: models.CreateInputSystemByPackInputMicrosoftCopilot = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOkta`
 
 ```python
 value: models.CreateInputSystemByPackInputOkta = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSentinelone`
+
+```python
+value: models.CreateInputSystemByPackInputSentinelone = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAkamaiHec`
+
+```python
+value: models.CreateInputSystemByPackInputAkamaiHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputPingIdentityPingone`
+
+```python
+value: models.CreateInputSystemByPackInputPingIdentityPingone = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputGigamonHec`
+
+```python
+value: models.CreateInputSystemByPackInputGigamonHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputVectraAiHec`
+
+```python
+value: models.CreateInputSystemByPackInputVectraAiHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputF5BigIP`
+
+```python
+value: models.CreateInputSystemByPackInputF5BigIP = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputBeyondtrustHec`
+
+```python
+value: models.CreateInputSystemByPackInputBeyondtrustHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputHashicorpHcpVaultDedicated`
+
+```python
+value: models.CreateInputSystemByPackInputHashicorpHcpVaultDedicated = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputMimecastHec`
+
+```python
+value: models.CreateInputSystemByPackInputMimecastHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputTrendMicroVisionOne`
+
+```python
+value: models.CreateInputSystemByPackInputTrendMicroVisionOne = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputZoomWebhook`
+
+```python
+value: models.CreateInputSystemByPackInputZoomWebhook = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputNetskope`
+
+```python
+value: models.CreateInputSystemByPackInputNetskope = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputLitellm`
+
+```python
+value: models.CreateInputSystemByPackInputLitellm = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputCiscoSecureFirewallSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputCiscoSecureFirewallSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputJuniperJunosSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputJuniperJunosSyslogUnion = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputCiscoIosSyslogUnion`
+
+```python
+value: models.CreateInputSystemByPackInputCiscoIosSyslogUnion = /* values here */
 ```
 

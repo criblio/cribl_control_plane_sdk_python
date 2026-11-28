@@ -19,7 +19,7 @@ class PipelineGroupsTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Brief description of the group."""
     disabled: NotRequired[bool]
-    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
+    r"""Disable all items in the group."""
 
 
 class PipelineGroups(BaseModel):
@@ -30,7 +30,7 @@ class PipelineGroups(BaseModel):
     r"""Brief description of the group."""
 
     disabled: Optional[bool] = None
-    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
+    r"""Disable all items in the group."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -52,14 +52,14 @@ class PipelineGroups(BaseModel):
 class PipelineConfTypedDict(TypedDict):
     r"""Configuration for the Pipeline, including functions and settings."""
 
-    async_func_timeout: NotRequired[int]
-    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
-    output: NotRequired[str]
-    r"""The output destination for events processed by this Pipeline."""
     description: NotRequired[str]
     r"""Brief description of the Pipeline."""
+    output: NotRequired[str]
+    r"""The output destination for events processed by this Pipeline."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    async_func_timeout: NotRequired[int]
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
     functions: NotRequired[List[PipelineFunctionConfTypedDict]]
     r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
@@ -71,19 +71,19 @@ class PipelineConfTypedDict(TypedDict):
 class PipelineConf(BaseModel):
     r"""Configuration for the Pipeline, including functions and settings."""
 
-    async_func_timeout: Annotated[
-        Optional[int], pydantic.Field(alias="asyncFuncTimeout")
-    ] = None
-    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
+    description: Optional[str] = None
+    r"""Brief description of the Pipeline."""
 
     output: Optional[str] = None
     r"""The output destination for events processed by this Pipeline."""
 
-    description: Optional[str] = None
-    r"""Brief description of the Pipeline."""
-
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    async_func_timeout: Annotated[
+        Optional[int], pydantic.Field(alias="asyncFuncTimeout")
+    ] = None
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
 
     functions: Optional[List[PipelineFunctionConf]] = None
     r"""List of Functions to pass data through the Pipeline."""
@@ -100,10 +100,10 @@ class PipelineConf(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "asyncFuncTimeout",
-                "output",
                 "description",
+                "output",
                 "streamtags",
+                "asyncFuncTimeout",
                 "functions",
                 "groups",
                 "__template_streamtags",
@@ -141,14 +141,14 @@ class Pipeline(BaseModel):
 class ConfInputTypedDict(TypedDict):
     r"""Configuration for the Pipeline, including functions and settings."""
 
-    async_func_timeout: NotRequired[int]
-    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
-    output: NotRequired[str]
-    r"""The output destination for events processed by this Pipeline."""
     description: NotRequired[str]
     r"""Brief description of the Pipeline."""
+    output: NotRequired[str]
+    r"""The output destination for events processed by this Pipeline."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    async_func_timeout: NotRequired[int]
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
     functions: NotRequired[List[PipelineFunctionConfInputTypedDict]]
     r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
@@ -160,19 +160,19 @@ class ConfInputTypedDict(TypedDict):
 class ConfInput(BaseModel):
     r"""Configuration for the Pipeline, including functions and settings."""
 
-    async_func_timeout: Annotated[
-        Optional[int], pydantic.Field(alias="asyncFuncTimeout")
-    ] = None
-    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
+    description: Optional[str] = None
+    r"""Brief description of the Pipeline."""
 
     output: Optional[str] = None
     r"""The output destination for events processed by this Pipeline."""
 
-    description: Optional[str] = None
-    r"""Brief description of the Pipeline."""
-
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    async_func_timeout: Annotated[
+        Optional[int], pydantic.Field(alias="asyncFuncTimeout")
+    ] = None
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
 
     functions: Optional[List[PipelineFunctionConfInput]] = None
     r"""List of Functions to pass data through the Pipeline."""
@@ -189,10 +189,10 @@ class ConfInput(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "asyncFuncTimeout",
-                "output",
                 "description",
+                "output",
                 "streamtags",
+                "asyncFuncTimeout",
                 "functions",
                 "groups",
                 "__template_streamtags",

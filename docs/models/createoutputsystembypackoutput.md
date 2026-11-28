@@ -197,6 +197,12 @@ value: models.CreateOutputSystemByPackOutputElastic = /* values here */
 value: models.CreateOutputSystemByPackOutputElasticCloud = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputElasticServerless`
+
+```python
+value: models.CreateOutputSystemByPackOutputElasticServerless = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputNewrelic`
 
 ```python
@@ -425,6 +431,12 @@ value: models.CreateOutputSystemByPackOutputDynatraceHTTP = /* values here */
 value: models.CreateOutputSystemByPackOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputTraversalOtlp`
+
+```python
+value: models.CreateOutputSystemByPackOutputTraversalOtlp = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputSentinelOneAiSiem`
 
 ```python
@@ -467,6 +479,12 @@ value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputBackblazeB2`
+
+```python
+value: models.CreateOutputSystemByPackOutputBackblazeB2 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputStorjS3`
 
 ```python
@@ -485,6 +503,18 @@ value: models.CreateOutputSystemByPackOutputAlphasocS3 = /* values here */
 value: models.CreateOutputSystemByPackOutputDellS3 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputWasabi`
+
+```python
+value: models.CreateOutputSystemByPackOutputWasabi = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputSeagateLyveCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputSeagateLyveCloudS3 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputCloudianS3`
 
 ```python
@@ -497,15 +527,237 @@ value: models.CreateOutputSystemByPackOutputCloudianS3 = /* values here */
 value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputAkamaiObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputAkamaiObjectStorageS3 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputAlibabaCloudS3`
 
 ```python
 value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputExoscaleSosS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputExoscaleSosS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputIonosS3ObjectStorage`
+
+```python
+value: models.CreateOutputSystemByPackOutputIonosS3ObjectStorage = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFastlyObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputFastlyObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputImpossibleCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputImpossibleCloudS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDreamobjectsS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputDreamobjectsS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFilebaseS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputFilebaseS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputTencentCloudCosS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputTencentCloudCosS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputOvhcloudObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputOvhcloudObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputScalewayObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputScalewayObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputNetappStoragegridS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputNetappStoragegridS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDigitaloceanSpacesS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputDigitaloceanSpacesS3 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputIbmCloudS3`
 
 ```python
 value: models.CreateOutputSystemByPackOutputIbmCloudS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputOracleCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputOracleCloudS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputHitachiVspOneObjectS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputHitachiVspOneObjectS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDatabricksZerobus`
+
+```python
+value: models.CreateOutputSystemByPackOutputDatabricksZerobus = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputSecuronix`
+
+```python
+value: models.CreateOutputSystemByPackOutputSecuronix = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFortisiem`
+
+```python
+value: models.CreateOutputSystemByPackOutputFortisiem = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFileOutDev`
+
+```python
+value: models.CreateOutputSystemByPackOutputFileOutDev = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputVastS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputVastS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputQuantumActivescaleS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputQuantumActivescaleS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputHuaweiCloudObsS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputHuaweiCloudObsS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputCubbitS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputCubbitS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputCloudChangeEnrichment`
+
+```python
+value: models.CreateOutputSystemByPackOutputCloudChangeEnrichment = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputIdriveE2S3`
+
+```python
+value: models.CreateOutputSystemByPackOutputIdriveE2S3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputHpeAlletraStorageMpX10000S3`
+
+```python
+value: models.CreateOutputSystemByPackOutputHpeAlletraStorageMpX10000S3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputQumuloS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputQumuloS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputInfinidatS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputInfinidatS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputEverpureFlashbladeS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputEverpureFlashbladeS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputHetznerObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputHetznerObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputHitachiContentPlatformS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputHitachiContentPlatformS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputCephS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputCephS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputNetappOntapS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputNetappOntapS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputVultrObjectStorageS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputVultrObjectStorageS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputZadaraS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputZadaraS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputFujitsuEternusS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputFujitsuEternusS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDatacoreSwarmS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputDatacoreSwarmS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputXskyXeosS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputXskyXeosS3 = /* values here */
 ```
 

@@ -17,7 +17,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetProductsGroupsACLByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
     id: str
     r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the ACL for."""
     type: NotRequired[RbacResource]
@@ -29,7 +29,7 @@ class GetProductsGroupsACLByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))

@@ -1,5 +1,7 @@
 # Collectors
 
+System state collectors to enable and configure.
+
 
 ## Fields
 

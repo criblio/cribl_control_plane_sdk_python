@@ -39,6 +39,29 @@ with CriblControlPlane(
         res = res.next()
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline2
+
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEmptyPipeline2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
 ### Example Usage: PipelineResponseExamplesEvalPipeline
 
 <!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
@@ -62,14 +85,37 @@ with CriblControlPlane(
         res = res.next()
 
 ```
+### Example Usage: PipelineResponseExamplesEvalPipeline2
+
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEvalPipeline2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
-| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                              | Type                                                                                                                                                   | Required                                                                                                                                               | Description                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `offset`                                                                                                                                               | *Optional[int]*                                                                                                                                        | :heavy_minus_sign:                                                                                                                                     | Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.          |
+| `limit`                                                                                                                                                | *Optional[int]*                                                                                                                                        | :heavy_minus_sign:                                                                                                                                     | Maximum number of Pipelines to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. |
+| `retries`                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                       | :heavy_minus_sign:                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                    |
 
 ### Response
 
@@ -103,10 +149,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="aggregate-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
@@ -164,10 +210,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="aggregation-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates rejected bytes grouped by source address every 10 seconds",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -215,10 +261,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="auto-timestamp-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts timestamps from event data using auto timestamp function",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -228,8 +274,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -267,10 +313,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="cef-serializer-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that formats events in CEF format with custom header and extension fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -334,10 +380,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="chain-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that chains to another pipeline for sequential data processing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -372,10 +418,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="clone-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that creates cloned events with additional fields for comparison or routing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -417,10 +463,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="comment-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline with comment function for documentation",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -455,10 +501,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="dns-lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that performs DNS lookups to resolve hostnames and IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionDNSLookup(
                 filter_="true",
@@ -477,8 +523,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -510,10 +556,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="drop-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops events containing success messages",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "_raw.search(/success/i)>=0",
@@ -546,10 +592,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="drop-dimensions-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops specified dimensions from metrics to reduce cardinality",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))",
@@ -590,10 +636,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="dynamic-sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that dynamically samples events based on volume using square root mode",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -601,9 +647,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -632,10 +678,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="empty-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [],
         "groups": {
 
@@ -662,10 +708,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="eval-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that evaluates JavaScript expressions to add, modify, and remove fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -718,10 +764,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="event-breaker-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that breaks large event streams into discrete events using regex",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionEventBreaker(
                 filter_="true",
@@ -730,11 +776,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -768,10 +814,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="flatten-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that flattens nested JSON structures into top-level fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -779,7 +825,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -809,10 +855,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="fold-keys-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that transforms flat field names with separators into nested structures",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -849,10 +895,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="geoip-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with geolocation data from IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -895,10 +941,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="grok-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using Grok patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -935,10 +981,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="guard-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that scans for sensitive data and applies mitigation expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -990,10 +1036,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="json-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls JSON arrays into individual events while retaining parent fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1029,10 +1075,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with location data from IP address lookups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1041,7 +1087,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -1085,10 +1131,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="mask-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that masks Social Security numbers and other sensitive data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1133,10 +1179,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="numerify-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts string numbers to numeric type for mathematical operations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1174,10 +1220,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="otlp-logs-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -1185,11 +1231,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1218,10 +1264,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="otlp-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
@@ -1239,11 +1285,11 @@ with CriblControlPlane(
                     "drop_non_metric_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1272,10 +1318,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="otlp-traces-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -1284,11 +1330,11 @@ with CriblControlPlane(
                     "drop_non_trace_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -1317,10 +1363,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="parser-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts fields from key-value pair formatted data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1366,10 +1412,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="publish-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts metrics from events and formats them for metrics aggregation platforms",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1423,10 +1469,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="redis-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that retrieves values from Redis using GET command",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionRedis(
                 filter_="true",
@@ -1442,7 +1488,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -1472,10 +1518,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="regex-extract-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using regex patterns with named capture groups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1483,7 +1529,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -1513,10 +1559,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="regex-filter-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that filters out events matching specific regex patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1552,10 +1598,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="rename-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that renames fields using key-value pairs and expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1598,10 +1644,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="rollup-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that consolidates high-frequency metrics into manageable time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1640,19 +1686,19 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="snmp-trap-serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -1679,10 +1725,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that samples events at specified rates based on filter criteria",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1722,10 +1768,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes event fields into JSON format",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1760,22 +1806,22 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="suppress-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that suppresses duplicate events based on a key expression",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -1804,10 +1850,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="tee-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that sends events to a command via stdin for debugging purposes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1849,10 +1895,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls array fields into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -1888,10 +1934,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.create(id="xml-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls XML elements into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2170,10 +2216,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="aggregate-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
@@ -2231,10 +2277,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="aggregation-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates rejected bytes grouped by source address every 10 seconds",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2282,10 +2328,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="auto-timestamp-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts timestamps from event data using auto timestamp function",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2295,8 +2341,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -2334,10 +2380,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="cef-serializer-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that formats events in CEF format with custom header and extension fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2401,10 +2447,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="chain-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that chains to another pipeline for sequential data processing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2439,10 +2485,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="clone-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that creates cloned events with additional fields for comparison or routing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2484,10 +2530,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="comment-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline with comment function for documentation",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2522,10 +2568,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="dns-lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that performs DNS lookups to resolve hostnames and IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionDNSLookup(
                 filter_="true",
@@ -2544,8 +2590,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -2577,10 +2623,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="drop-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops events containing success messages",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "_raw.search(/success/i)>=0",
@@ -2613,10 +2659,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="drop-dimensions-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops specified dimensions from metrics to reduce cardinality",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))",
@@ -2657,10 +2703,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="dynamic-sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that dynamically samples events based on volume using square root mode",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2668,9 +2714,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -2699,10 +2745,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="empty-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [],
         "groups": {
 
@@ -2729,10 +2775,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="eval-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that evaluates JavaScript expressions to add, modify, and remove fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2785,10 +2831,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="event-breaker-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that breaks large event streams into discrete events using regex",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionEventBreaker(
                 filter_="true",
@@ -2797,11 +2843,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -2835,10 +2881,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="flatten-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that flattens nested JSON structures into top-level fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2846,7 +2892,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -2876,10 +2922,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="fold-keys-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that transforms flat field names with separators into nested structures",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2916,10 +2962,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="geoip-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with geolocation data from IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -2962,10 +3008,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="grok-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using Grok patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3002,10 +3048,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="guard-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that scans for sensitive data and applies mitigation expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3057,10 +3103,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="json-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls JSON arrays into individual events while retaining parent fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3096,10 +3142,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with location data from IP address lookups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3108,7 +3154,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -3152,10 +3198,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="mask-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that masks Social Security numbers and other sensitive data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3200,10 +3246,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="numerify-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts string numbers to numeric type for mathematical operations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3241,10 +3287,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-logs-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -3252,11 +3298,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3285,10 +3331,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
@@ -3306,11 +3352,11 @@ with CriblControlPlane(
                     "drop_non_metric_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3339,10 +3385,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-traces-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -3351,11 +3397,11 @@ with CriblControlPlane(
                     "drop_non_trace_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -3384,10 +3430,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="parser-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts fields from key-value pair formatted data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3433,10 +3479,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="publish-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts metrics from events and formats them for metrics aggregation platforms",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3490,10 +3536,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="redis-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that retrieves values from Redis using GET command",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionRedis(
                 filter_="true",
@@ -3509,7 +3555,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -3539,10 +3585,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="regex-extract-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using regex patterns with named capture groups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3550,7 +3596,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -3580,10 +3626,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="regex-filter-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that filters out events matching specific regex patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3619,10 +3665,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="rename-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that renames fields using key-value pairs and expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3665,10 +3711,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="rollup-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that consolidates high-frequency metrics into manageable time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3707,19 +3753,19 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="snmp-trap-serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -3746,10 +3792,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that samples events at specified rates based on filter criteria",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3789,10 +3835,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes event fields into JSON format",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3827,22 +3873,22 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="suppress-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that suppresses duplicate events based on a key expression",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -3871,10 +3917,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="tee-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that sends events to a command via stdin for debugging purposes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3916,10 +3962,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls array fields into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3955,10 +4001,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="xml-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls XML elements into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -3997,10 +4043,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 
@@ -4025,10 +4071,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 
@@ -4052,10 +4098,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="aggregate-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
@@ -4113,10 +4159,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="aggregation-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that aggregates rejected bytes grouped by source address every 10 seconds",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4164,10 +4210,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="auto-timestamp-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts timestamps from event data using auto timestamp function",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4177,8 +4223,8 @@ with CriblControlPlane(
                     "dst_field": "_time",
                     "default_timezone": "local",
                     "time_expression": "time.getTime() / 1000",
-                    "offset": 0,
-                    "max_len": 150,
+                    "offset": 0.0,
+                    "max_len": 150.0,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
                     "earliest_date_allowed": "-420weeks",
@@ -4216,10 +4262,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="cef-serializer-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that formats events in CEF format with custom header and extension fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4283,10 +4329,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="chain-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that chains to another pipeline for sequential data processing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4321,10 +4367,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="clone-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that creates cloned events with additional fields for comparison or routing",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4366,10 +4412,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="comment-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline with comment function for documentation",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4404,10 +4450,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="dns-lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that performs DNS lookups to resolve hostnames and IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionDNSLookup(
                 filter_="true",
@@ -4426,8 +4472,8 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    cache_ttl=30,
-                    max_cache_size=5000,
+                    cache_ttl=30.0,
+                    max_cache_size=5000.0,
                     use_resolv_conf=False,
                     lookup_fallback=False,
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
@@ -4459,10 +4505,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="drop-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops events containing success messages",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "_raw.search(/success/i)>=0",
@@ -4495,10 +4541,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="drop-dimensions-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that drops specified dimensions from metrics to reduce cardinality",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))",
@@ -4539,10 +4585,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="dynamic-sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that dynamically samples events based on volume using square root mode",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4550,9 +4596,9 @@ with CriblControlPlane(
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
-                    "sample_period": 20,
-                    "min_events": 3,
-                    "max_sample_rate": 3,
+                    "sample_period": 20.0,
+                    "min_events": 3.0,
+                    "max_sample_rate": 3.0,
                 },
             },
         ],
@@ -4581,10 +4627,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="empty-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [],
         "groups": {
 
@@ -4611,10 +4657,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="eval-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that evaluates JavaScript expressions to add, modify, and remove fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4667,10 +4713,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="event-breaker-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that breaks large event streams into discrete events using regex",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionEventBreaker(
                 filter_="true",
@@ -4679,11 +4725,11 @@ with CriblControlPlane(
                     rule_type=models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX,
                     event_breaker_regex="/[\\n\\r]+(?!\\s)/",
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
-                    max_event_bytes=51200,
+                    max_event_bytes=51200.0,
                     timestamp_anchor_regex="/^/",
                     timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
-                        length=150,
+                        length=150.0,
                     ),
                     timestamp_timezone="local",
                     timestamp_earliest="-420weeks",
@@ -4717,10 +4763,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="flatten-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that flattens nested JSON structures into top-level fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4728,7 +4774,7 @@ with CriblControlPlane(
                 "conf": {
                     "fields": [],
                     "prefix": "",
-                    "depth": 5,
+                    "depth": 5.0,
                     "delimiter": "_",
                 },
             },
@@ -4758,10 +4804,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="fold-keys-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that transforms flat field names with separators into nested structures",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4798,10 +4844,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="geoip-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with geolocation data from IP addresses",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4844,10 +4890,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="grok-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using Grok patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4884,10 +4930,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="guard-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that scans for sensitive data and applies mitigation expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4939,10 +4985,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="json-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls JSON arrays into individual events while retaining parent fields",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4978,10 +5024,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="lookup-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that enriches events with location data from IP address lookups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -4990,7 +5036,7 @@ with CriblControlPlane(
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": models.MatchMode.EXACT,
-                    "reload_period_sec": -1,
+                    "reload_period_sec": -1.0,
                     "in_fields": [
                         {
                             "event_field": "destination_ip",
@@ -5034,10 +5080,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="mask-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that masks Social Security numbers and other sensitive data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5082,10 +5128,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="numerify-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts string numbers to numeric type for mathematical operations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5123,10 +5169,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-logs-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -5134,11 +5180,11 @@ with CriblControlPlane(
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -5167,10 +5213,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
@@ -5188,11 +5234,11 @@ with CriblControlPlane(
                     "drop_non_metric_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -5221,10 +5267,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="otlp-traces-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
@@ -5233,11 +5279,11 @@ with CriblControlPlane(
                     "drop_non_trace_events": False,
                     "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
-                    "send_batch_size": 8192,
-                    "timeout": 200,
-                    "send_batch_max_size": 0,
+                    "send_batch_size": 8192.0,
+                    "timeout": 200.0,
+                    "send_batch_max_size": 0.0,
                     "metadata_keys": [],
-                    "metadata_cardinality_limit": 1000,
+                    "metadata_cardinality_limit": 1000.0,
                 },
             },
         ],
@@ -5266,10 +5312,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="parser-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts fields from key-value pair formatted data",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5315,10 +5361,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="publish-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts metrics from events and formats them for metrics aggregation platforms",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5372,10 +5418,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="redis-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that retrieves values from Redis using GET command",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             models.PipelineFunctionRedis(
                 filter_="true",
@@ -5391,7 +5437,7 @@ with CriblControlPlane(
                         ),
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
-                    max_block_secs=60,
+                    max_block_secs=60.0,
                     url="'redis://localhost:6379/0'",
                 ),
             ),
@@ -5421,10 +5467,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="regex-extract-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that extracts structured fields from log data using regex patterns with named capture groups",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5432,7 +5478,7 @@ with CriblControlPlane(
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
                     "source": "_raw",
-                    "iterations": 100,
+                    "iterations": 100.0,
                     "overwrite": False,
                 },
             },
@@ -5462,10 +5508,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="regex-filter-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that filters out events matching specific regex patterns",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5501,10 +5547,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="rename-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that renames fields using key-value pairs and expressions",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5547,10 +5593,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="rollup-metrics-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that consolidates high-frequency metrics into manageable time windows",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5589,19 +5635,19 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="snmp-trap-serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -5628,10 +5674,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="sampling-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that samples events at specified rates based on filter criteria",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5671,10 +5717,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="serialize-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that serializes event fields into JSON format",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5709,22 +5755,22 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="suppress-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that suppresses duplicate events based on a key expression",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
-                    "allow": 1,
-                    "suppress_period_sec": 30,
+                    "allow": 1.0,
+                    "suppress_period_sec": 30.0,
                     "drop_events_mode": True,
-                    "max_cache_size": 50000,
-                    "cache_idle_timeout_periods": 2,
-                    "num_events_idle_timeout_trigger": 10000,
+                    "max_cache_size": 50000.0,
+                    "cache_idle_timeout_periods": 2.0,
+                    "num_events_idle_timeout_trigger": 10000.0,
                 },
             },
         ],
@@ -5753,10 +5799,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="tee-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that sends events to a command via stdin for debugging purposes",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5798,10 +5844,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls array fields into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5837,10 +5883,10 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.pipelines.update(id_param="<value>", id="xml-unroll-pipeline", conf={
-        "async_func_timeout": 1000,
-        "output": "default",
         "description": "Pipeline that unrolls XML elements into separate events",
+        "output": "default",
         "streamtags": [],
+        "async_func_timeout": 1000,
         "functions": [
             {
                 "filter_": "true",
@@ -5879,10 +5925,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            {
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {},
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
         ],
     })
 

@@ -1,5 +1,7 @@
 # CreateInputInputSystemMetricsCPU
 
+Select the level of detail for CPU metrics
+
 
 ## Fields
 

@@ -1,5 +1,7 @@
 # InputWindowsMetricsMemory
 
+Select the level of details for memory metrics
+
 
 ## Fields
 

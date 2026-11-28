@@ -1,6 +1,6 @@
 # Impact
 
-Impact
+Impact level to assign to the Detection Rule.
 
 ## Example Usage
 

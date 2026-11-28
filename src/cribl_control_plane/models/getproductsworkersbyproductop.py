@@ -31,9 +31,9 @@ class GetProductsWorkersByProductRequestTypedDict(TypedDict):
     sort: NotRequired[str]
     r"""JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response."""
     limit: NotRequired[int]
-    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. In API v2, if omitted, defaults to <code>100</code>. Values greater than <code>1000</code> are clamped to <code>1000</code>. A negative value such as <code>-1</code> returns a 400 error."""
     offset: NotRequired[int]
-    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches. In API v2, a negative value returns a 400 error."""
 
 
 class GetProductsWorkersByProductRequest(BaseModel):
@@ -74,13 +74,13 @@ class GetProductsWorkersByProductRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+    r"""Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. In API v2, if omitted, defaults to <code>100</code>. Values greater than <code>1000</code> are clamped to <code>1000</code>. A negative value such as <code>-1</code> returns a 400 error."""
 
     offset: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches. In API v2, a negative value returns a 400 error."""
 
     @field_serializer("product")
     def serialize_product(self, value):

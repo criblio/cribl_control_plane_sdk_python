@@ -11,7 +11,7 @@ from typing_extensions import Annotated, TypedDict
 
 class NoActiveHealthOverlayStatusTypedDict(TypedDict):
     state: Literal["inactive"]
-    r"""Current overlay state."""
+    r"""No hotfix is applied to the server."""
 
 
 class NoActiveHealthOverlayStatus(BaseModel):
@@ -19,7 +19,7 @@ class NoActiveHealthOverlayStatus(BaseModel):
         Annotated[Literal["inactive"], AfterValidator(validate_const("inactive"))],
         pydantic.Field(alias="state"),
     ] = "inactive"
-    r"""Current overlay state."""
+    r"""No hotfix is applied to the server."""
 
 
 try:

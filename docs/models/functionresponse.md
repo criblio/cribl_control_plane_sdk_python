@@ -183,6 +183,12 @@ value: models.FunctionLimit = /* values here */
 value: models.FunctionLocalSearchDatatypeParser = /* values here */
 ```
 
+### `models.FunctionLocalSearchDatatypeSchemaMapper`
+
+```python
+value: models.FunctionLocalSearchDatatypeSchemaMapper = /* values here */
+```
+
 ### `models.FunctionLocalSearchRulesetRunner`
 
 ```python
@@ -223,6 +229,12 @@ value: models.FunctionMask = /* values here */
 
 ```python
 value: models.FunctionMetricsExport = /* values here */
+```
+
+### `models.FunctionMetricsTimeRangeGate`
+
+```python
+value: models.FunctionMetricsTimeRangeGate = /* values here */
 ```
 
 ### `models.FunctionMvExpand`

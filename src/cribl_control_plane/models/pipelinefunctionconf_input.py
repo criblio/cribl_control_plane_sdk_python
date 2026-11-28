@@ -94,6 +94,10 @@ from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
 )
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -118,6 +122,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -267,6 +275,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -274,6 +283,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -351,6 +361,10 @@ PipelineFunctionConfInput = Annotated[
             Tag("local_search_datatype_parser"),
         ],
         Annotated[
+            PipelineFunctionLocalSearchDatatypeSchemaMapper,
+            Tag("local_search_datatype_schema_mapper"),
+        ],
+        Annotated[
             PipelineFunctionLocalSearchRulesetRunner, Tag("local_search_ruleset_runner")
         ],
         Annotated[
@@ -366,6 +380,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionLookup, Tag("lookup")],
         Annotated[PipelineFunctionMask, Tag("mask")],
         Annotated[PipelineFunctionMetricsExport, Tag("metrics_export")],
+        Annotated[PipelineFunctionMetricsTimeRangeGate, Tag("metrics_time_range_gate")],
         Annotated[PipelineFunctionMvExpand, Tag("mv_expand")],
         Annotated[PipelineFunctionMvPull, Tag("mv_pull")],
         Annotated[PipelineFunctionNotificationPolicies, Tag("notification_policies")],

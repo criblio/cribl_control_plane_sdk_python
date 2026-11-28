@@ -11,13 +11,16 @@ from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystem,
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
-from .objectacloptions import ObjectACLOptions
 from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
     OrphanFileRecoveryTypeTypedDict,
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -42,6 +45,21 @@ class OutputAlibabaCloudS3AuthenticationMethod(str, Enum, metaclass=utils.OpenEn
     SECRET = "secret"
 
 
+class OutputAlibabaCloudS3ObjectACL(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Object ACL to assign to uploaded objects"""
+
+    # Private
+    PRIVATE = "private"
+    # Public Read Only
+    PUBLIC_READ = "public-read"
+    # Public Read/Write
+    PUBLIC_READ_WRITE = "public-read-write"
+    # Authenticated Read Only
+    AUTHENTICATED_READ = "authenticated-read"
+    # Bucket Owner Full Control
+    BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control"
+
+
 class OutputAlibabaCloudS3TypedDict(TypedDict):
     type: OutputAlibabaCloudS3Type
     r"""Connector type identifier."""
@@ -52,7 +70,7 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     endpoint: str
     r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -61,6 +79,8 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     aws_authentication_method: NotRequired[OutputAlibabaCloudS3AuthenticationMethod]
     r"""Authentication method."""
     reuse_connections: NotRequired[bool]
@@ -108,9 +128,10 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     r"""Orphan file recovery"""
-    object_acl: NotRequired[ObjectACLOptions]
+    object_acl: NotRequired[OutputAlibabaCloudS3ObjectACL]
     r"""Object ACL to assign to uploaded objects"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access Alibaba OSS"""
@@ -202,7 +223,7 @@ class OutputAlibabaCloudS3(BaseModel):
     r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -217,6 +238,12 @@ class OutputAlibabaCloudS3(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     aws_authentication_method: Annotated[
         Optional[OutputAlibabaCloudS3AuthenticationMethod],
@@ -335,12 +362,13 @@ class OutputAlibabaCloudS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
     r"""Orphan file recovery"""
 
     object_acl: Annotated[
-        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
+        Optional[OutputAlibabaCloudS3ObjectACL], pydantic.Field(alias="objectACL")
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
@@ -564,7 +592,7 @@ class OutputAlibabaCloudS3(BaseModel):
     def serialize_object_acl(self, value):
         if isinstance(value, str):
             try:
-                return models.ObjectACLOptions(value)
+                return models.OutputAlibabaCloudS3ObjectACL(value)
             except ValueError:
                 return value
         return value
@@ -614,6 +642,7 @@ class OutputAlibabaCloudS3(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "awsAuthenticationMethod",
                 "reuseConnections",
                 "rejectUnauthorized",

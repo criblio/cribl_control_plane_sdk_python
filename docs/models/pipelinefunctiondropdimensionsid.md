@@ -1,6 +1,6 @@
 # PipelineFunctionDropDimensionsID
 
-Function ID
+Identifier of the Function. Always <code>drop_dimensions</code>
 
 ## Example Usage
 

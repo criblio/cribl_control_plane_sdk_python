@@ -1,6 +1,6 @@
 # PipelineFunctionExternaldataID
 
-Function ID
+Identifier of the Function. Always <code>externaldata</code>
 
 ## Example Usage
 

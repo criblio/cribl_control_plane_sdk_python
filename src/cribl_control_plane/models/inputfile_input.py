@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputFileType(str, Enum):
+    r"""Connector type identifier."""
+
     FILE = "file"
 
 
@@ -34,9 +36,11 @@ class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputFileInputTypedDict(TypedDict):
     type: InputFileType
+    r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -46,10 +50,11 @@ class InputFileInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    r"""Persistent queue settings for this Source."""
     mode: NotRequired[InputFileMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
@@ -71,7 +76,9 @@ class InputFileInputTypedDict(TypedDict):
     force_text: NotRequired[bool]
     r"""Forces files containing binary data to be streamed as text"""
     hash_len: NotRequired[float]
-    r"""Length of file header bytes to use in hash for unique file identification"""
+    r"""Length of file header bytes to use in hash for unique file identification. Values above 16384 may cause issues with re-ingesting files."""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
@@ -80,18 +87,32 @@ class InputFileInputTypedDict(TypedDict):
     r"""When enabled, no Event Breaker channel flush timeout applies and the timeout below is ignored. Prefer this option when using header-based breakers for file types such as CSV or IIS."""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    auto_parse: NotRequired[bool]
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     path: NotRequired[str]
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
     depth: NotRequired[float]
     r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
     suppress_missing_path_errors: NotRequired[bool]
+    r"""Suppress errors when search path does not exist"""
     delete_files: NotRequired[bool]
     r"""Delete files after they have been collected"""
     salt_hash: NotRequired[bool]
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
     optimize_leaf_directories: NotRequired[bool]
     r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+    enable_discovery_throttle: NotRequired[bool]
+    r"""When enabled, discovery will throttle CPU usage to the configured target percentage."""
+    discovery_throttle_cpu_percent: NotRequired[float]
+    r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
+    recursive_watch: NotRequired[bool]
+    r"""Watch the search path recursively, so new and updated files are detected as the filesystem reports them. When disabled, file discovery relies on repeated directory scans only. Intended for large search paths, where it removes the cost of scanning the whole tree on every interval.It offers little benefit for search paths containing few files or a single file."""
+    rescan_interval: NotRequired[float]
+    r"""Time, in seconds, between restarting the recursive watch and rescanning the directory tree. The rescan recovers discovered changes when the operating system fails to send filesystem notifications. A shorter interval reduces the time window during which changes can go unnoticed, but at the expense of performing a full directory walk each time. An interval is always in force: clearing the field falls back to one hour rather than turning rescans off."""
+    max_watches: NotRequired[float]
+    r"""Maximum number of directories this Source watches at one time. Applies on Linux, where the operating system needs one watch per directory; macOS and Windows use a single recursive watch and ignore this. Reaching the limit stops the watch from descending further and reports the Source as unhealthy, rather than quietly missing files below that point. Raise the limit for a tree with many directories, or lower it to leave room for other Sources sharing the host's fs.inotify.max_user_watches budget."""
     include_unidentifiable_binary: NotRequired[bool]
     r"""Stream binary files as Base64-encoded chunks"""
     template_environment: NotRequired[str]
@@ -102,11 +123,13 @@ class InputFileInputTypedDict(TypedDict):
 
 class InputFileInput(BaseModel):
     type: InputFileType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this input"""
+    r"""Unique name for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -123,12 +146,13 @@ class InputFileInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+    r"""Persistent queue settings for this Source."""
 
     mode: Optional[InputFileMode] = None
     r"""Choose how to discover files to monitor"""
@@ -165,7 +189,12 @@ class InputFileInput(BaseModel):
     r"""Forces files containing binary data to be streamed as text"""
 
     hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
-    r"""Length of file header bytes to use in hash for unique file identification"""
+    r"""Length of file header bytes to use in hash for unique file identification. Values above 16384 may cause issues with re-ingesting files."""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = None
+    r"""Load balance traffic across all Worker Processes"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -185,7 +214,11 @@ class InputFileInput(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
+    auto_parse: Annotated[Optional[bool], pydantic.Field(alias="autoParse")] = None
+    r"""Detect the datatype of each event and extract its top-level fields before the data reaches any of the processing pipelines (pre-processing, main processing, post-processing)."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     path: Optional[str] = None
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
@@ -196,6 +229,7 @@ class InputFileInput(BaseModel):
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
     ] = None
+    r"""Suppress errors when search path does not exist"""
 
     delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
@@ -207,6 +241,29 @@ class InputFileInput(BaseModel):
         Optional[bool], pydantic.Field(alias="optimizeLeafDirectories")
     ] = None
     r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+
+    enable_discovery_throttle: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoveryThrottle")
+    ] = None
+    r"""When enabled, discovery will throttle CPU usage to the configured target percentage."""
+
+    discovery_throttle_cpu_percent: Annotated[
+        Optional[float], pydantic.Field(alias="discoveryThrottleCpuPercent")
+    ] = None
+    r"""Target CPU utilization percentage during file discovery. Discovery alternates between work and yield periods within a 200ms cycle. For example, 25% processes entries for 50ms then yields for 150ms. Lower values reduce CPU usage at the cost of longer discovery times."""
+
+    recursive_watch: Annotated[
+        Optional[bool], pydantic.Field(alias="recursiveWatch")
+    ] = None
+    r"""Watch the search path recursively, so new and updated files are detected as the filesystem reports them. When disabled, file discovery relies on repeated directory scans only. Intended for large search paths, where it removes the cost of scanning the whole tree on every interval.It offers little benefit for search paths containing few files or a single file."""
+
+    rescan_interval: Annotated[
+        Optional[float], pydantic.Field(alias="rescanInterval")
+    ] = None
+    r"""Time, in seconds, between restarting the recursive watch and rescanning the directory tree. The rescan recovers discovered changes when the operating system fails to send filesystem notifications. A shorter interval reduces the time window during which changes can go unnoticed, but at the expense of performing a full directory walk each time. An interval is always in force: clearing the field falls back to one hour rather than turning rescans off."""
+
+    max_watches: Annotated[Optional[float], pydantic.Field(alias="maxWatches")] = None
+    r"""Maximum number of directories this Source watches at one time. Applies on Linux, where the operating system needs one watch per directory; macOS and Windows use a single recursive watch and ignore this. Reaching the limit stops the watch from descending further and reports the Source as unhealthy, rather than quietly missing files below that point. Raise the limit for a tree with many directories, or lower it to leave room for other Sources sharing the host's fs.inotify.max_user_watches budget."""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
@@ -256,10 +313,12 @@ class InputFileInput(BaseModel):
                 "checkFileModTime",
                 "forceText",
                 "hashLen",
+                "enableLoadBalancing",
                 "metadata",
                 "breakerRulesets",
                 "disableStaleChannelFlush",
                 "staleChannelFlushMs",
+                "autoParse",
                 "description",
                 "path",
                 "depth",
@@ -267,6 +326,11 @@ class InputFileInput(BaseModel):
                 "deleteFiles",
                 "saltHash",
                 "optimizeLeafDirectories",
+                "enableDiscoveryThrottle",
+                "discoveryThrottleCpuPercent",
+                "recursiveWatch",
+                "rescanInterval",
+                "maxWatches",
                 "includeUnidentifiableBinary",
                 "__template_environment",
                 "__template_streamtags",

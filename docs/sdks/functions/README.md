@@ -15,7 +15,7 @@ Get a list of all Functions.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getFunctions" method="get" path="/functions" -->
+<!-- UsageSnippet language="python" operationID="getFunctions" method="get" path="/functions" example="FunctionListResponseExamplesFunctionList" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -30,25 +30,31 @@ with CriblControlPlane(
 
     res = ccp_client.functions.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                 | Type                                                                                                      | Required                                                                                                  | Description                                                                                               |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `show_hidden`                                                                                             | *Optional[bool]*                                                                                          | :heavy_minus_sign:                                                                                        | If <code>true</code>, include hidden Functions in the response. Otherwise, hidden Functions are excluded. |
+| `offset`                                                                                                  | *Optional[int]*                                                                                           | :heavy_minus_sign:                                                                                        | Pagination offset                                                                                         |
+| `limit`                                                                                                   | *Optional[int]*                                                                                           | :heavy_minus_sign:                                                                                        | Maximum number of items to return                                                                         |
+| `retries`                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                          | :heavy_minus_sign:                                                                                        | Configuration to override the default retry behavior of the client.                                       |
 
 ### Response
 
-**[models.CountedFunctionResponse](../../models/countedfunctionresponse.md)**
+**[models.GetFunctionsResponse](../../models/getfunctionsresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -56,9 +62,30 @@ with CriblControlPlane(
 
 Get the specified Function.
 
-### Example Usage
+### Example Usage: FunctionResponseExamplesDropFunction
 
-<!-- UsageSnippet language="python" operationID="getFunctionsById" method="get" path="/functions/{id}" -->
+<!-- UsageSnippet language="python" operationID="getFunctionsById" method="get" path="/functions/{id}" example="FunctionResponseExamplesDropFunction" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.functions.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: FunctionResponseExamplesEvalFunction
+
+<!-- UsageSnippet language="python" operationID="getFunctionsById" method="get" path="/functions/{id}" example="FunctionResponseExamplesEvalFunction" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -93,5 +120,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

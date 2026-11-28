@@ -11,14 +11,22 @@ from typing_extensions import TypedDict
 
 
 class SystemTypeSystemSettingsConfTypedDict(TypedDict):
+    r"""System-level operational settings for the Cribl instance."""
+
     intercom: bool
+    r"""If <code>true</code>, enable Intercom integration for in-product messaging. Otherwise, <code>false</code>."""
     upgrade: UpgradeOptionsSystemSettingsConfSystem
+    r"""Upgrade permission policy: <code>api</code> to allow upgrades from the UI or API or <code>false</code> to disable."""
 
 
 class SystemTypeSystemSettingsConf(BaseModel):
+    r"""System-level operational settings for the Cribl instance."""
+
     intercom: bool
+    r"""If <code>true</code>, enable Intercom integration for in-product messaging. Otherwise, <code>false</code>."""
 
     upgrade: UpgradeOptionsSystemSettingsConfSystem
+    r"""Upgrade permission policy: <code>api</code> to allow upgrades from the UI or API or <code>false</code> to disable."""
 
     @field_serializer("upgrade")
     def serialize_upgrade(self, value):

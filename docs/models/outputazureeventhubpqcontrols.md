@@ -1,5 +1,7 @@
 # OutputAzureEventhubPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

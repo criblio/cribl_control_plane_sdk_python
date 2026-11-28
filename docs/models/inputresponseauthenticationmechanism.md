@@ -1,5 +1,7 @@
 # InputResponseAuthenticationMechanism
 
+Authentication mechanism
+
 ## Example Usage
 
 ```python

@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .datasetmetadata import DatasetMetadata, DatasetMetadataTypedDict
 from .objectstoragefilter import ObjectStorageFilter, ObjectStorageFilterTypedDict
+from .searchexecutionconfig import SearchExecutionConfig, SearchExecutionConfigTypedDict
 from .searchversion import SearchVersion
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -20,6 +21,7 @@ class LakeDatasetSearchConfigTypedDict(TypedDict):
     metadata: NotRequired[DatasetMetadataTypedDict]
     path_filters: NotRequired[List[ObjectStorageFilterTypedDict]]
     r"""Glob-to-Datatype mappings for the Lake bucket path. Used only for search execution v2."""
+    search_execution: NotRequired[SearchExecutionConfigTypedDict]
     search_version: NotRequired[SearchVersion]
     tags: NotRequired[str]
     r"""Comma-separated tags for the Dataset search configuration."""
@@ -38,6 +40,10 @@ class LakeDatasetSearchConfig(BaseModel):
         Optional[List[ObjectStorageFilter]], pydantic.Field(alias="pathFilters")
     ] = None
     r"""Glob-to-Datatype mappings for the Lake bucket path. Used only for search execution v2."""
+
+    search_execution: Annotated[
+        Optional[SearchExecutionConfig], pydantic.Field(alias="searchExecution")
+    ] = None
 
     search_version: Annotated[
         Optional[SearchVersion], pydantic.Field(alias="searchVersion")
@@ -63,6 +69,7 @@ class LakeDatasetSearchConfig(BaseModel):
                 "description",
                 "metadata",
                 "pathFilters",
+                "searchExecution",
                 "searchVersion",
                 "tags",
             ]

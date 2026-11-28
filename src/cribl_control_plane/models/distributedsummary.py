@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DistributedSummaryGroupsTypedDict(TypedDict):
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
+
     count: int
     r"""Total number of Worker Groups or Edge Fleets."""
     destinations: int
@@ -26,6 +28,8 @@ class DistributedSummaryGroupsTypedDict(TypedDict):
 
 
 class DistributedSummaryGroups(BaseModel):
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
+
     count: int
     r"""Total number of Worker Groups or Edge Fleets."""
 
@@ -49,6 +53,8 @@ class DistributedSummaryGroups(BaseModel):
 
 
 class DistributedSummaryWorkersTypedDict(TypedDict):
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
+
     alive: int
     r"""Total number of Worker or Edge Nodes that are connected with <code>healthy</code> status."""
     conf_versions: int
@@ -56,16 +62,20 @@ class DistributedSummaryWorkersTypedDict(TypedDict):
     count: int
     r"""Total number of Worker or Edge Nodes."""
     disconnected_count: int
-    r"""Total number of Worker or Edge Nodes in a disconnected state."""
+    r"""Total number of Worker or Edge Nodes in a disconnected state. Excludes Nodes counted in <code>awayCount</code>."""
     groups: int
     r"""Total number of distinct Worker Groups or Edge Fleets that the Workers or Edge Nodes belong to."""
     software_versions: int
     r"""Total number of unique Cribl software versions across all Worker or Edge Nodes."""
     unhealthy: int
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
+    away_count: NotRequired[int]
+    r"""Total number of Worker or Edge Nodes that are disconnected but still within their ephemeral reconnect window."""
 
 
 class DistributedSummaryWorkers(BaseModel):
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
+
     alive: int
     r"""Total number of Worker or Edge Nodes that are connected with <code>healthy</code> status."""
 
@@ -76,7 +86,7 @@ class DistributedSummaryWorkers(BaseModel):
     r"""Total number of Worker or Edge Nodes."""
 
     disconnected_count: Annotated[int, pydantic.Field(alias="disconnectedCount")]
-    r"""Total number of Worker or Edge Nodes in a disconnected state."""
+    r"""Total number of Worker or Edge Nodes in a disconnected state. Excludes Nodes counted in <code>awayCount</code>."""
 
     groups: int
     r"""Total number of distinct Worker Groups or Edge Fleets that the Workers or Edge Nodes belong to."""
@@ -87,20 +97,43 @@ class DistributedSummaryWorkers(BaseModel):
     unhealthy: int
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
 
+    away_count: Annotated[Optional[int], pydantic.Field(alias="awayCount")] = None
+    r"""Total number of Worker or Edge Nodes that are disconnected but still within their ephemeral reconnect window."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["awayCount"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class DistributedSummaryTypedDict(TypedDict):
     r"""Summary of the deployment for the specified Cribl product (Stream or Edge)."""
 
     groups: DistributedSummaryGroupsTypedDict
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
     workers: NotRequired[DistributedSummaryWorkersTypedDict]
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
 
 class DistributedSummary(BaseModel):
     r"""Summary of the deployment for the specified Cribl product (Stream or Edge)."""
 
     groups: DistributedSummaryGroups
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
 
     workers: Optional[DistributedSummaryWorkers] = None
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

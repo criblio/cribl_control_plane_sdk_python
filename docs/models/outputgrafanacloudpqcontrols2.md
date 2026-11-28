@@ -1,5 +1,7 @@
 # OutputGrafanaCloudPqControls2
 
+Persistent queue controls.
+
 
 ## Fields
 

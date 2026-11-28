@@ -1,5 +1,7 @@
 # OutputResponseSendEventsAs
 
+Send events as
+
 ## Example Usage
 
 ```python

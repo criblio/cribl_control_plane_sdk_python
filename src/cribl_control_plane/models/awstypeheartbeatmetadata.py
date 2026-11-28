@@ -10,25 +10,37 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class AwsTypeHeartbeatMetadataTypedDict(TypedDict):
     enabled: bool
+    r"""If <code>true</code>, the AWS metadata collector is enabled on the node. Otherwise, <code>false</code>."""
     instance_id: str
+    r"""AWS EC2 instance ID."""
     region: str
+    r"""AWS region name."""
     type: str
+    r"""AWS EC2 instance type."""
     zone: str
+    r"""AWS availability zone name."""
     tags: NotRequired[Dict[str, str]]
+    r"""String-keyed tag map. Each property name is a tag key and the corresponding value is the tag's string value."""
 
 
 class AwsTypeHeartbeatMetadata(BaseModel):
     enabled: bool
+    r"""If <code>true</code>, the AWS metadata collector is enabled on the node. Otherwise, <code>false</code>."""
 
     instance_id: Annotated[str, pydantic.Field(alias="instanceId")]
+    r"""AWS EC2 instance ID."""
 
     region: str
+    r"""AWS region name."""
 
     type: str
+    r"""AWS EC2 instance type."""
 
     zone: str
+    r"""AWS availability zone name."""
 
     tags: Optional[Dict[str, str]] = None
+    r"""String-keyed tag map. Each property name is a tag key and the corresponding value is the tag's string value."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

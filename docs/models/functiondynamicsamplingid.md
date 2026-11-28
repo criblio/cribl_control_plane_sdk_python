@@ -1,5 +1,7 @@
 # FunctionDynamicSamplingID
 
+Identifier of the Function. Always <code>dynamic_sampling</code>
+
 ## Example Usage
 
 ```python

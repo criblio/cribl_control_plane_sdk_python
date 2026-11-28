@@ -8,11 +8,17 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class SocketsTypeSystemSettingsConfTypedDict(TypedDict):
+    r"""Unix domain socket configuration."""
+
     directory: NotRequired[str]
+    r"""Filesystem directory path where Unix domain socket files are created."""
 
 
 class SocketsTypeSystemSettingsConf(BaseModel):
+    r"""Unix domain socket configuration."""
+
     directory: Optional[str] = None
+    r"""Filesystem directory path where Unix domain socket files are created."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

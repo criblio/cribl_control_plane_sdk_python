@@ -16,7 +16,7 @@ class CaptureParamsReqTypedDict(TypedDict):
     filter_: NotRequired[str]
     r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured."""
     level: NotRequired[CaptureLevel]
-    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination."""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination <br><code>4</code> == Before the event breaker, i.e. raw incoming data (TCP Sources only)."""
     max_events: NotRequired[int]
     r"""Maximum number of events to capture. If not provided, the default is 100."""
     step_duration: NotRequired[int]
@@ -35,7 +35,7 @@ class CaptureParamsReq(BaseModel):
     r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured."""
 
     level: Optional[CaptureLevel] = None
-    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination."""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination <br><code>4</code> == Before the event breaker, i.e. raw incoming data (TCP Sources only)."""
 
     max_events: Annotated[Optional[int], pydantic.Field(alias="maxEvents")] = None
     r"""Maximum number of events to capture. If not provided, the default is 100."""

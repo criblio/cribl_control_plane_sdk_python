@@ -10,11 +10,13 @@ from typing_extensions import Annotated, TypedDict
 
 class GitShowResultTypedDict(TypedDict):
     commit_message: str
+    r"""Full commit message of the specified commit."""
     diff_json: List[DiffFilesTypedDict]
 
 
 class GitShowResult(BaseModel):
     commit_message: Annotated[str, pydantic.Field(alias="commitMessage")]
+    r"""Full commit message of the specified commit."""
 
     diff_json: Annotated[List[DiffFiles], pydantic.Field(alias="diffJson")]
 

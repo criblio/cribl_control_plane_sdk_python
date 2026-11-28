@@ -1,5 +1,7 @@
 # CertOptionsType
 
+Certificate credentials for Microsoft OAuth authentication.
+
 
 ## Fields
 

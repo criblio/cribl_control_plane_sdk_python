@@ -1,5 +1,7 @@
 # FunctionStoreID
 
+Identifier of the Function. Always <code>store</code>
+
 ## Example Usage
 
 ```python

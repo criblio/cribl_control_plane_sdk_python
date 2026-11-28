@@ -41,6 +41,10 @@ from .healthcheckauthenticationnone_healthcheckretryrulestypebackoff import (
 from .hiddendefaultbreakersoptionsdatabasecollectorconf import (
     HiddenDefaultBreakersOptionsDatabaseCollectorConf,
 )
+from .refreshrequestparamconfhealthcheckauthenticationoauth import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauth,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict,
+)
 from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
@@ -140,6 +144,7 @@ HealthCheckAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationNoneRetryRules(BaseModel):
@@ -176,6 +181,7 @@ HealthCheckAuthenticationNoneRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationNoneTypedDict(TypedDict):
@@ -186,6 +192,7 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationNoneHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationNoneDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationNoneCollectRequestHeaderTypedDict]
     ]
@@ -197,9 +204,11 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -234,6 +243,18 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
         List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -254,6 +275,7 @@ class HealthCheckAuthenticationNone(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationNoneDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationNoneCollectRequestHeader]],
@@ -278,6 +300,7 @@ class HealthCheckAuthenticationNone(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -288,6 +311,7 @@ class HealthCheckAuthenticationNone(BaseModel):
         Optional[HealthCheckAuthenticationNoneRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -358,6 +382,30 @@ class HealthCheckAuthenticationNone(BaseModel):
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
@@ -420,6 +468,11 @@ class HealthCheckAuthenticationNone(BaseModel):
                 "clientSecretParamName",
                 "clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -1356,6 +1409,7 @@ HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodPostWithBodyDiscovery(BaseModel):
@@ -1394,6 +1448,7 @@ HealthCheckCollectMethodPostWithBodyDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict(TypedDict):
@@ -1579,6 +1634,7 @@ HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
@@ -1615,6 +1671,7 @@ HealthCheckCollectMethodPostWithBodyRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
@@ -1627,6 +1684,7 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     collect_body: NotRequired[str]
     r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
     discovery: NotRequired[HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict]
     ]
@@ -1638,9 +1696,11 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -1675,6 +1735,18 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
         List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -1698,6 +1770,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
 
     discovery: Optional[HealthCheckCollectMethodPostWithBodyDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostWithBodyCollectRequestHeader]],
@@ -1722,6 +1795,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -1732,6 +1806,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         Optional[HealthCheckCollectMethodPostWithBodyRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1802,6 +1877,30 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
@@ -1867,6 +1966,11 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
                 "clientSecretParamName",
                 "clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -2803,6 +2907,7 @@ HealthCheckCollectMethodPostDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodPostDiscovery(BaseModel):
@@ -2841,6 +2946,7 @@ HealthCheckCollectMethodPostDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodPostCollectRequestHeaderTypedDict(TypedDict):
@@ -3020,6 +3126,7 @@ HealthCheckCollectMethodPostRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodPostRetryRules(BaseModel):
@@ -3056,6 +3163,7 @@ HealthCheckCollectMethodPostRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodPostTypedDict(TypedDict):
@@ -3070,6 +3178,7 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     ]
     r"""Optional health check request parameters."""
     discovery: NotRequired[HealthCheckCollectMethodPostDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostCollectRequestHeaderTypedDict]
     ]
@@ -3081,9 +3190,11 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -3118,6 +3229,18 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
         List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -3144,6 +3267,7 @@ class HealthCheckCollectMethodPost(BaseModel):
     r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodPostDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostCollectRequestHeader]],
@@ -3168,6 +3292,7 @@ class HealthCheckCollectMethodPost(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -3178,6 +3303,7 @@ class HealthCheckCollectMethodPost(BaseModel):
         Optional[HealthCheckCollectMethodPostRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -3248,6 +3374,30 @@ class HealthCheckCollectMethodPost(BaseModel):
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
@@ -3311,6 +3461,11 @@ class HealthCheckCollectMethodPost(BaseModel):
                 "clientSecretParamName",
                 "clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -4260,6 +4415,7 @@ HealthCheckCollectMethodGetDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodGetDiscovery(BaseModel):
@@ -4298,6 +4454,7 @@ HealthCheckCollectMethodGetDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodGetCollectRequestHeaderTypedDict(TypedDict):
@@ -4477,6 +4634,7 @@ HealthCheckCollectMethodGetRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodGetRetryRules(BaseModel):
@@ -4513,6 +4671,7 @@ HealthCheckCollectMethodGetRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodGetTypedDict(TypedDict):
@@ -4527,6 +4686,7 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     ]
     r"""Optional health check request parameters."""
     discovery: NotRequired[HealthCheckCollectMethodGetDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodGetCollectRequestHeaderTypedDict]
     ]
@@ -4538,9 +4698,11 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -4575,6 +4737,18 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
         List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -4601,6 +4775,7 @@ class HealthCheckCollectMethodGet(BaseModel):
     r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodGetDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodGetCollectRequestHeader]],
@@ -4625,6 +4800,7 @@ class HealthCheckCollectMethodGet(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -4635,6 +4811,7 @@ class HealthCheckCollectMethodGet(BaseModel):
         Optional[HealthCheckCollectMethodGetRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -4705,6 +4882,30 @@ class HealthCheckCollectMethodGet(BaseModel):
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
@@ -4768,6 +4969,11 @@ class HealthCheckCollectMethodGet(BaseModel):
                 "clientSecretParamName",
                 "clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]

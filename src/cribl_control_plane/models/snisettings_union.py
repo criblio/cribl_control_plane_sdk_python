@@ -10,10 +10,12 @@ from typing_extensions import Annotated, TypeAliasType, TypedDict
 
 class SniSettingsTypedDict(TypedDict):
     disable_sni_routing: bool
+    r"""If <code>true</code>, disable Server Name Indication (SNI) routing. Otherwise, <code>false</code>."""
 
 
 class SniSettings(BaseModel):
     disable_sni_routing: Annotated[bool, pydantic.Field(alias="disableSNIRouting")]
+    r"""If <code>true</code>, disable Server Name Indication (SNI) routing. Otherwise, <code>false</code>."""
 
 
 SniSettingsUnionTypedDict = TypeAliasType(

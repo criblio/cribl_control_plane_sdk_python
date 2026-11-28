@@ -13,39 +13,40 @@ from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import 
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputConfluentCloudType(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class OutputConfluentCloudPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputConfluentCloudPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputConfluentCloudTypedDict(TypedDict):
-    type: OutputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -53,8 +54,11 @@ class OutputConfluentCloudTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
     format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
@@ -70,6 +74,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     kafka_schema_registry: NotRequired[
         KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -88,9 +93,12 @@ class OutputConfluentCloudTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -110,7 +118,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -118,6 +126,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputConfluentCloudPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_brokers: NotRequired[str]
@@ -133,7 +142,8 @@ class OutputConfluentCloudTypedDict(TypedDict):
 
 
 class OutputConfluentCloud(BaseModel):
-    type: OutputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092."""
@@ -142,7 +152,7 @@ class OutputConfluentCloud(BaseModel):
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -156,9 +166,16 @@ class OutputConfluentCloud(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
@@ -190,6 +207,7 @@ class OutputConfluentCloud(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -228,12 +246,18 @@ class OutputConfluentCloud(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
+
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")
@@ -277,7 +301,7 @@ class OutputConfluentCloud(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -297,6 +321,7 @@ class OutputConfluentCloud(BaseModel):
     pq_controls: Annotated[
         Optional[OutputConfluentCloudPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -400,6 +425,7 @@ class OutputConfluentCloud(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "tls",
                 "ack",
                 "format",
@@ -417,6 +443,7 @@ class OutputConfluentCloud(BaseModel):
                 "authenticationTimeout",
                 "reauthenticationThreshold",
                 "sasl",
+                "dynamicHeadersField",
                 "onBackpressure",
                 "description",
                 "protobufLibraryId",

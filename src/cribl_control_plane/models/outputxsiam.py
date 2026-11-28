@@ -14,6 +14,10 @@ from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
 )
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -28,6 +32,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputXsiamType(str, Enum):
+    r"""Connector type identifier."""
+
     XSIAM = "xsiam"
 
 
@@ -65,17 +71,18 @@ class OutputXsiamURL(BaseModel):
 
 
 class OutputXsiamPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputXsiamPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputXsiamTypedDict(TypedDict):
     type: OutputXsiamType
+    r"""Connector type identifier."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -83,7 +90,9 @@ class OutputXsiamTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     concurrency: NotRequired[float]
@@ -96,11 +105,14 @@ class OutputXsiamTypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -116,15 +128,21 @@ class OutputXsiamTypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     throttle_rate_req_per_sec: NotRequired[int]
     r"""Maximum number of requests to limit to per second"""
+    throttle_burst_disabled: NotRequired[bool]
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttle request rate limit is set."""
+    dynamic_headers_field: NotRequired[str]
+    r"""The metadata in this field will be included with the Destination metadata and used to batch events"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
     use_round_robin_dns: NotRequired[bool]
@@ -132,6 +150,7 @@ class OutputXsiamTypedDict(TypedDict):
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[OutputXsiamURLTypedDict]]
+    r"""XSIAM Endpoints"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -155,7 +174,7 @@ class OutputXsiamTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -163,6 +182,7 @@ class OutputXsiamTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputXsiamPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -175,9 +195,10 @@ class OutputXsiamTypedDict(TypedDict):
 
 class OutputXsiam(BaseModel):
     type: OutputXsiamType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -191,7 +212,13 @@ class OutputXsiam(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -218,12 +245,18 @@ class OutputXsiam(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -261,6 +294,7 @@ class OutputXsiam(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -271,6 +305,16 @@ class OutputXsiam(BaseModel):
         Optional[int], pydantic.Field(alias="throttleRateReqPerSec")
     ] = None
     r"""Maximum number of requests to limit to per second"""
+
+    throttle_burst_disabled: Annotated[
+        Optional[bool], pydantic.Field(alias="throttleBurstDisabled")
+    ] = None
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttle request rate limit is set."""
+
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""The metadata in this field will be included with the Destination metadata and used to batch events"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -283,6 +327,7 @@ class OutputXsiam(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
@@ -296,6 +341,7 @@ class OutputXsiam(BaseModel):
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[OutputXsiamURL]] = None
+    r"""XSIAM Endpoints"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -345,7 +391,7 @@ class OutputXsiam(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -365,6 +411,7 @@ class OutputXsiam(BaseModel):
     pq_controls: Annotated[
         Optional[OutputXsiamPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -449,6 +496,7 @@ class OutputXsiam(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "loadBalanced",
                 "concurrency",
                 "maxPayloadSizeKB",
@@ -456,6 +504,7 @@ class OutputXsiam(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -465,6 +514,8 @@ class OutputXsiam(BaseModel):
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "throttleRateReqPerSec",
+                "throttleBurstDisabled",
+                "dynamicHeadersField",
                 "onBackpressure",
                 "totalMemoryLimitKB",
                 "description",

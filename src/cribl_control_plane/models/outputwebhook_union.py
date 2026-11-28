@@ -19,9 +19,17 @@ from .oauthparamconfinputservicenowtable import (
     OauthParamConfInputServicenowTableTypedDict,
 )
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
+)
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
 )
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
@@ -41,6 +49,8 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class OutputWebhookType2(str, Enum):
+    r"""Connector type identifier."""
+
     WEBHOOK = "webhook"
 
 
@@ -75,11 +85,11 @@ class OutputWebhookAuthenticationType2(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputWebhookPqControls2TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookPqControls2(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookURL2TypedDict(TypedDict):
@@ -122,9 +132,11 @@ class OutputWebhookURL2(BaseModel):
 
 class OutputWebhookWebhook2TypedDict(TypedDict):
     type: OutputWebhookType2
+    r"""Connector type identifier."""
     urls: List[OutputWebhookURL2TypedDict]
+    r"""Webhook URLs"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -132,7 +144,9 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
     format_: NotRequired[OutputWebhookFormat2]
@@ -149,11 +163,14 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -169,6 +186,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -176,11 +194,15 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     auth_type: NotRequired[OutputWebhookAuthenticationType2]
     r"""Authentication method to use for the HTTP request"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
     custom_drop_when_null: NotRequired[bool]
@@ -212,7 +234,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -220,8 +242,11 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWebhookPqControls2TypedDict]
+    r"""Persistent queue controls."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -244,6 +269,16 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     exclude_self: NotRequired[bool]
@@ -262,17 +297,21 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     template_secret: NotRequired[str]
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhookWebhook2(BaseModel):
     type: OutputWebhookType2
+    r"""Connector type identifier."""
 
     urls: List[OutputWebhookURL2]
+    r"""Webhook URLs"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -286,7 +325,13 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
@@ -319,12 +364,18 @@ class OutputWebhookWebhook2(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -362,6 +413,7 @@ class OutputWebhookWebhook2(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -379,6 +431,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Authentication method to use for the HTTP request"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -390,7 +443,13 @@ class OutputWebhookWebhook2(BaseModel):
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
@@ -464,7 +523,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -484,10 +543,13 @@ class OutputWebhookWebhook2(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWebhookPqControls2], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -538,6 +600,25 @@ class OutputWebhookWebhook2(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+
     url: Optional[str] = None
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
@@ -578,6 +659,11 @@ class OutputWebhookWebhook2(BaseModel):
         Optional[str], pydantic.Field(alias="__template_secret")
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -665,6 +751,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "method",
                 "format",
                 "keepAlive",
@@ -674,6 +761,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",
@@ -687,6 +775,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "tls",
                 "totalMemoryLimitKB",
                 "loadBalanced",
+                "dynamicHeadersField",
                 "description",
                 "customSourceExpression",
                 "customDropWhenNull",
@@ -721,6 +810,10 @@ class OutputWebhookWebhook2(BaseModel):
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "refreshRequestParams",
                 "url",
                 "excludeSelf",
                 "dnsResolvePeriodSec",
@@ -730,6 +823,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "__template_onBackpressure",
                 "__template_loginUrl",
                 "__template_secret",
+                "__template_refreshUrl",
                 "__template_url",
             ]
         )
@@ -748,6 +842,8 @@ class OutputWebhookWebhook2(BaseModel):
 
 
 class OutputWebhookType1(str, Enum):
+    r"""Connector type identifier."""
+
     WEBHOOK = "webhook"
 
 
@@ -782,11 +878,11 @@ class OutputWebhookAuthenticationType1(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputWebhookPqControls1TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookPqControls1(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookURL1TypedDict(TypedDict):
@@ -829,10 +925,11 @@ class OutputWebhookURL1(BaseModel):
 
 class OutputWebhookWebhook1TypedDict(TypedDict):
     type: OutputWebhookType1
+    r"""Connector type identifier."""
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -840,7 +937,9 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
     format_: NotRequired[OutputWebhookFormat1]
@@ -857,11 +956,14 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -877,6 +979,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -884,11 +987,15 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     auth_type: NotRequired[OutputWebhookAuthenticationType1]
     r"""Authentication method to use for the HTTP request"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
     custom_drop_when_null: NotRequired[bool]
@@ -920,7 +1027,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -928,8 +1035,11 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWebhookPqControls1TypedDict]
+    r"""Persistent queue controls."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -952,9 +1062,20 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[OutputWebhookURL1TypedDict]]
+    r"""Webhook URLs"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -969,18 +1090,21 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     template_secret: NotRequired[str]
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhookWebhook1(BaseModel):
     type: OutputWebhookType1
+    r"""Connector type identifier."""
 
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -994,7 +1118,13 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
@@ -1027,12 +1157,18 @@ class OutputWebhookWebhook1(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -1070,6 +1206,7 @@ class OutputWebhookWebhook1(BaseModel):
     timeout_retry_settings: Annotated[
         Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
     ] = None
+    r"""Retry settings for HTTP requests that exceed the request timeout."""
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
@@ -1087,6 +1224,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Authentication method to use for the HTTP request"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -1098,7 +1236,13 @@ class OutputWebhookWebhook1(BaseModel):
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
@@ -1172,7 +1316,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -1192,10 +1336,13 @@ class OutputWebhookWebhook1(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWebhookPqControls1], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -1246,10 +1393,30 @@ class OutputWebhookWebhook1(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[OutputWebhookURL1]] = None
+    r"""Webhook URLs"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -1285,6 +1452,11 @@ class OutputWebhookWebhook1(BaseModel):
         Optional[str], pydantic.Field(alias="__template_secret")
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -1372,6 +1544,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "method",
                 "format",
                 "keepAlive",
@@ -1381,6 +1554,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",
@@ -1394,6 +1568,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "tls",
                 "totalMemoryLimitKB",
                 "loadBalanced",
+                "dynamicHeadersField",
                 "description",
                 "customSourceExpression",
                 "customDropWhenNull",
@@ -1428,6 +1603,10 @@ class OutputWebhookWebhook1(BaseModel):
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "refreshRequestParams",
                 "excludeSelf",
                 "urls",
                 "dnsResolvePeriodSec",
@@ -1437,6 +1616,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "__template_onBackpressure",
                 "__template_loginUrl",
                 "__template_secret",
+                "__template_refreshUrl",
                 "__template_url",
             ]
         )

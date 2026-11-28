@@ -1,5 +1,7 @@
 # InputWindowsMetricsNetwork
 
+Select the level of details for network metrics
+
 
 ## Fields
 

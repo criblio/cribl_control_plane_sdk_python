@@ -1,5 +1,7 @@
 # RestCollectMethodGetStateTracking
 
+Settings for tracking collection state between consecutive scheduled executions.
+
 
 ## Fields
 

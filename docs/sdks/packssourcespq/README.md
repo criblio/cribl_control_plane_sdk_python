@@ -9,11 +9,11 @@
 
 ## clear
 
-Clear the persistent queue (PQ) for the specified Source within the specified Pack.
+Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteInputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}/pq" -->
+<!-- UsageSnippet language="python" operationID="deleteInputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/inputs/{id}/pq" example="ClearPQResponseExamplesClearPQJob" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -47,10 +47,12 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 400, 404                | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## get
 
@@ -58,7 +60,7 @@ Get information about the latest job to clear the persistent queue (PQ) for the 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getInputSystemPqByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}/pq" -->
+<!-- UsageSnippet language="python" operationID="getInputSystemPqByPackAndId" method="get" path="/p/{pack}/system/inputs/{id}/pq" example="PQStatusResponseExamplesCompletedJob" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -94,5 +96,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

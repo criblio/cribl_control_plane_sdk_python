@@ -1,5 +1,7 @@
 # FunctionLocalSearchDatatypeParserID
 
+Identifier of the Function. Always <code>local_search_datatype_parser</code>
+
 ## Example Usage
 
 ```python

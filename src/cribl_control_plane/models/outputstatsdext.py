@@ -6,6 +6,10 @@ from .compressionoptionspq import CompressionOptionsPq
 from .destinationprotocoloptions import DestinationProtocolOptions
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -16,19 +20,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputStatsdExtType(str, Enum):
+    r"""Connector type identifier."""
+
     STATSD_EXT = "statsd_ext"
 
 
 class OutputStatsdExtPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputStatsdExtPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputStatsdExtTypedDict(TypedDict):
     type: OutputStatsdExtType
+    r"""Connector type identifier."""
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -36,7 +43,7 @@ class OutputStatsdExtTypedDict(TypedDict):
     port: float
     r"""Destination port."""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -44,7 +51,9 @@ class OutputStatsdExtTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -52,8 +61,11 @@ class OutputStatsdExtTypedDict(TypedDict):
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    throttle_burst_disabled: NotRequired[bool]
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -75,7 +87,7 @@ class OutputStatsdExtTypedDict(TypedDict):
     pq_max_size: NotRequired[str]
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
     pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
     pq_compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
@@ -83,6 +95,7 @@ class OutputStatsdExtTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputStatsdExtPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -91,6 +104,7 @@ class OutputStatsdExtTypedDict(TypedDict):
 
 class OutputStatsdExt(BaseModel):
     type: OutputStatsdExtType
+    r"""Connector type identifier."""
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -102,7 +116,7 @@ class OutputStatsdExt(BaseModel):
     r"""Destination port."""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -116,7 +130,13 @@ class OutputStatsdExt(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
@@ -132,11 +152,17 @@ class OutputStatsdExt(BaseModel):
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+
+    throttle_burst_disabled: Annotated[
+        Optional[bool], pydantic.Field(alias="throttleBurstDisabled")
+    ] = None
+    r"""When bursts are disabled, the throttle rate is a hard limit and applies immediately. Otherwise, the throttle rate is an average over 1 hour and traffic may temporarily exceed the limit (bursts). Bursts are allowed by default. Applies only when Throttling is set."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -185,7 +211,7 @@ class OutputStatsdExt(BaseModel):
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
     pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Defaults to $CRIBL_HOME/state/queues."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
@@ -205,6 +231,7 @@ class OutputStatsdExt(BaseModel):
     pq_controls: Annotated[
         Optional[OutputStatsdExtPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -270,11 +297,13 @@ class OutputStatsdExt(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "mtu",
                 "flushPeriodSec",
                 "dnsResolvePeriodSec",
                 "description",
                 "throttleRatePerSec",
+                "throttleBurstDisabled",
                 "connectionTimeout",
                 "writeTimeout",
                 "onBackpressure",

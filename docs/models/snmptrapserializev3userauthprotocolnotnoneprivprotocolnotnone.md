@@ -1,12 +1,17 @@
 # SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
-| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `priv_protocol`                                                                                          | *Optional[str]*                                                                                          | :heavy_minus_sign:                                                                                       | N/A                                                                                                      |
-| `priv_key`                                                                                               | *str*                                                                                                    | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
-| `auth_protocol`                                                                                          | [Optional[models.AuthenticationProtocolOptionsV3User]](../models/authenticationprotocoloptionsv3user.md) | :heavy_minus_sign:                                                                                       | N/A                                                                                                      |
-| `auth_key`                                                                                               | *str*                                                                                                    | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
-| `name`                                                                                                   | *str*                                                                                                    | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeManual`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeManual = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeSecret`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNonePrivKeyTypeSecret = /* values here */
+```
+

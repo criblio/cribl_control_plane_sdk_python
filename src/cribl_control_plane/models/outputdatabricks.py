@@ -17,6 +17,10 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .schemamonitorsettingstypeoptional import (
+    SchemaMonitorSettingsTypeOptional,
+    SchemaMonitorSettingsTypeOptionalTypedDict,
+)
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -27,11 +31,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDatabricksType(str, Enum):
+    r"""Connector type identifier."""
+
     DATABRICKS = "databricks"
 
 
 class OutputDatabricksTypedDict(TypedDict):
     type: OutputDatabricksType
+    r"""Connector type identifier."""
     workspace_id: str
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
@@ -47,7 +54,7 @@ class OutputDatabricksTypedDict(TypedDict):
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     id: NotRequired[str]
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -55,7 +62,9 @@ class OutputDatabricksTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+    schema_monitor_settings: NotRequired[SchemaMonitorSettingsTypeOptionalTypedDict]
+    r"""Configuration for Schema Monitor on this Destination."""
     dest_path: NotRequired[str]
     r"""Optional path to prepend to files before uploading."""
     stage_path: NotRequired[str]
@@ -93,12 +102,15 @@ class OutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    r"""Retry settings for failed file uploads."""
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     workspace_host: NotRequired[str]
     r"""Hostname for the Databricks workspace. Override this to connect to government or secure cloud environments (e.g. cloud.databricks.us, cloud.databricks.mil, azuredatabricks.net)."""
     timeout_sec: NotRequired[int]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -153,6 +165,7 @@ class OutputDatabricksTypedDict(TypedDict):
 
 class OutputDatabricks(BaseModel):
     type: OutputDatabricksType
+    r"""Connector type identifier."""
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
@@ -176,7 +189,7 @@ class OutputDatabricks(BaseModel):
     r"""OAuth client secret for Unity Catalog authentication"""
 
     id: Optional[str] = None
-    r"""Unique ID for this output"""
+    r"""Unique name for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -190,7 +203,13 @@ class OutputDatabricks(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
+
+    schema_monitor_settings: Annotated[
+        Optional[SchemaMonitorSettingsTypeOptional],
+        pydantic.Field(alias="schemaMonitorSettings"),
+    ] = None
+    r"""Configuration for Schema Monitor on this Destination."""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Optional path to prepend to files before uploading."""
@@ -281,8 +300,10 @@ class OutputDatabricks(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+    r"""Retry settings for failed file uploads."""
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     workspace_host: Annotated[Optional[str], pydantic.Field(alias="workspaceHost")] = (
         None
@@ -293,6 +314,7 @@ class OutputDatabricks(BaseModel):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -490,6 +512,7 @@ class OutputDatabricks(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "schemaMonitorSettings",
                 "destPath",
                 "stagePath",
                 "addIdToStagePath",

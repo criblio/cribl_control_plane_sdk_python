@@ -1,6 +1,6 @@
 # PipelineFunctionCodeID
 
-Function ID
+Identifier of the Function. Always <code>code</code>
 
 ## Example Usage
 

@@ -95,7 +95,7 @@ class Cribl(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -189,7 +189,7 @@ class Cribl(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -201,18 +201,19 @@ class Cribl(BaseSDK):
     def update(
         self,
         *,
-        api: Optional[
-            Union[
-                models.SystemSettingsConfUpdateAPI,
-                models.SystemSettingsConfUpdateAPITypedDict,
-            ]
-        ] = None,
+        api: Optional[Union[models.API, models.APITypedDict]] = None,
         apps: Optional[Union[models.Apps, models.AppsTypedDict]] = None,
         backups: Optional[
             Union[models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict]
         ] = None,
         custom_logo: Optional[
             Union[models.CustomLogo, models.CustomLogoTypedDict]
+        ] = None,
+        personal_access_tokens: Optional[
+            Union[
+                models.PersonalAccessTokensTypeSystemSettingsConf,
+                models.PersonalAccessTokensTypeSystemSettingsConfTypedDict,
+            ]
         ] = None,
         pii: Optional[
             Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict]
@@ -260,12 +261,13 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConfResponse:
         r"""Update system settings
 
-        Update the specified Cribl system settings.<br/><br/>Provide only the top-level sections (<code>api</code>, <code>workers</code>, <code>tls</code>, <code>proxy</code>, etc.) you want to change. Omitted sections stay unchanged. Each provided section fully replaces the existing one — send the complete section object, not only the changed fields.
+        Update the specified Cribl system settings.<br/><br/>Provide only the top-level sections (<code>api</code>, <code>workers</code>, <code>tls</code>, <code>proxy</code>, etc.) you want to change. Omitted sections stay unchanged. Each provided section fully replaces the existing one — send the complete section object, not only the changed fields.<br/><br/><code>api.loginRateLimit</code> and <code>api.ssoRateLimit</code> are deprecated. A new value is still applied, but it is stored as <code>rateLimits</code> in the API limits configuration. Use <code>PATCH /system/api-limits</code> instead.
 
         :param api: API server configuration for the Cribl instance.
         :param apps: App configuration.
         :param backups:
         :param custom_logo: Custom logo configuration for the Cribl UI login page and navigation bar.
+        :param personal_access_tokens: Leader policy for Personal Access Tokens (PATs). When this section is omitted, PATs are disabled.
         :param pii:
         :param proxy: HTTP proxy configuration for outbound connections.
         :param rollback:
@@ -294,15 +296,17 @@ class Cribl(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.SystemSettingsConfUpdate(
-            api=utils.get_pydantic_model(
-                api, Optional[models.SystemSettingsConfUpdateAPI]
-            ),
+            api=utils.get_pydantic_model(api, Optional[models.API]),
             apps=utils.get_pydantic_model(apps, Optional[models.Apps]),
             backups=utils.get_pydantic_model(
                 backups, Optional[models.BackupsSettingsUnion]
             ),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.CustomLogo]
+            ),
+            personal_access_tokens=utils.get_pydantic_model(
+                personal_access_tokens,
+                Optional[models.PersonalAccessTokensTypeSystemSettingsConf],
             ),
             pii=utils.get_pydantic_model(pii, Optional[models.PiiSettingsUnion]),
             proxy=utils.get_pydantic_model(proxy, Optional[models.Proxy]),
@@ -406,18 +410,19 @@ class Cribl(BaseSDK):
     async def update_async(
         self,
         *,
-        api: Optional[
-            Union[
-                models.SystemSettingsConfUpdateAPI,
-                models.SystemSettingsConfUpdateAPITypedDict,
-            ]
-        ] = None,
+        api: Optional[Union[models.API, models.APITypedDict]] = None,
         apps: Optional[Union[models.Apps, models.AppsTypedDict]] = None,
         backups: Optional[
             Union[models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict]
         ] = None,
         custom_logo: Optional[
             Union[models.CustomLogo, models.CustomLogoTypedDict]
+        ] = None,
+        personal_access_tokens: Optional[
+            Union[
+                models.PersonalAccessTokensTypeSystemSettingsConf,
+                models.PersonalAccessTokensTypeSystemSettingsConfTypedDict,
+            ]
         ] = None,
         pii: Optional[
             Union[models.PiiSettingsUnion, models.PiiSettingsUnionTypedDict]
@@ -465,12 +470,13 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConfResponse:
         r"""Update system settings
 
-        Update the specified Cribl system settings.<br/><br/>Provide only the top-level sections (<code>api</code>, <code>workers</code>, <code>tls</code>, <code>proxy</code>, etc.) you want to change. Omitted sections stay unchanged. Each provided section fully replaces the existing one — send the complete section object, not only the changed fields.
+        Update the specified Cribl system settings.<br/><br/>Provide only the top-level sections (<code>api</code>, <code>workers</code>, <code>tls</code>, <code>proxy</code>, etc.) you want to change. Omitted sections stay unchanged. Each provided section fully replaces the existing one — send the complete section object, not only the changed fields.<br/><br/><code>api.loginRateLimit</code> and <code>api.ssoRateLimit</code> are deprecated. A new value is still applied, but it is stored as <code>rateLimits</code> in the API limits configuration. Use <code>PATCH /system/api-limits</code> instead.
 
         :param api: API server configuration for the Cribl instance.
         :param apps: App configuration.
         :param backups:
         :param custom_logo: Custom logo configuration for the Cribl UI login page and navigation bar.
+        :param personal_access_tokens: Leader policy for Personal Access Tokens (PATs). When this section is omitted, PATs are disabled.
         :param pii:
         :param proxy: HTTP proxy configuration for outbound connections.
         :param rollback:
@@ -499,15 +505,17 @@ class Cribl(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.SystemSettingsConfUpdate(
-            api=utils.get_pydantic_model(
-                api, Optional[models.SystemSettingsConfUpdateAPI]
-            ),
+            api=utils.get_pydantic_model(api, Optional[models.API]),
             apps=utils.get_pydantic_model(apps, Optional[models.Apps]),
             backups=utils.get_pydantic_model(
                 backups, Optional[models.BackupsSettingsUnion]
             ),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.CustomLogo]
+            ),
+            personal_access_tokens=utils.get_pydantic_model(
+                personal_access_tokens,
+                Optional[models.PersonalAccessTokensTypeSystemSettingsConf],
             ),
             pii=utils.get_pydantic_model(pii, Optional[models.PiiSettingsUnion]),
             proxy=utils.get_pydantic_model(proxy, Optional[models.Proxy]),

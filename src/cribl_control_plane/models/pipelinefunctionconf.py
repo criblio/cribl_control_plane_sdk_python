@@ -91,6 +91,10 @@ from .pipelinefunctionlocalsearchdatatypeparser import (
     PipelineFunctionLocalSearchDatatypeParser,
     PipelineFunctionLocalSearchDatatypeParserTypedDict,
 )
+from .pipelinefunctionlocalsearchdatatypeschemamapper import (
+    PipelineFunctionLocalSearchDatatypeSchemaMapper,
+    PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
+)
 from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
@@ -115,6 +119,10 @@ from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskType
 from .pipelinefunctionmetricsexport import (
     PipelineFunctionMetricsExport,
     PipelineFunctionMetricsExportTypedDict,
+)
+from .pipelinefunctionmetricstimerangegate import (
+    PipelineFunctionMetricsTimeRangeGate,
+    PipelineFunctionMetricsTimeRangeGateTypedDict,
 )
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
@@ -267,6 +275,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLakehouseEngineMetricsNormalizerTypedDict,
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
+        PipelineFunctionLocalSearchDatatypeSchemaMapperTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
         PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
@@ -274,6 +283,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMetricsExportTypedDict,
+        PipelineFunctionMetricsTimeRangeGateTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -353,6 +363,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lakehouse_engine_metrics_normalizer": PipelineFunctionLakehouseEngineMetricsNormalizer,
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
+    "local_search_datatype_schema_mapper": PipelineFunctionLocalSearchDatatypeSchemaMapper,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": PipelineFunctionLocalSearchSchemaMapper,
     "local_search_time_range_normalizer": PipelineFunctionLocalSearchTimeRangeNormalizer,
@@ -360,6 +371,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "metrics_export": PipelineFunctionMetricsExport,
+    "metrics_time_range_gate": PipelineFunctionMetricsTimeRangeGate,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -429,6 +441,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLakehouseEngineMetricsNormalizer,
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
+        PipelineFunctionLocalSearchDatatypeSchemaMapper,
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchSchemaMapper,
         PipelineFunctionLocalSearchTimeRangeNormalizer,
@@ -436,6 +449,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMetricsExport,
+        PipelineFunctionMetricsTimeRangeGate,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

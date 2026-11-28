@@ -9,7 +9,7 @@
 
 ## clear
 
-Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+Asynchronously clears the persistent queue (PQ) for the specified Destination. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
 ### Example Usage: OutputClearPQResponseExamplesClearPQJobId
 
@@ -110,16 +110,38 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 400, 404                | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## get
 
 Get information about the latest job to clear the persistent queue (PQ) for the specified Destination within the specified Pack.
 
+### Example Usage: OutputPQStatusResponseExamplesCompletedClearJob
+
+<!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" example="OutputPQStatusResponseExamplesCompletedClearJob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.pq.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputResponseExamplesS3Destination
 
 <!-- UsageSnippet language="python" operationID="getOutputSystemPqByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/pq" example="OutputResponseExamplesS3Destination" -->

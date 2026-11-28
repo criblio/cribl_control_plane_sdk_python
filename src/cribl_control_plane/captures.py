@@ -31,7 +31,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
-        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination <br><code>4</code> == Before the event breaker, i.e. raw incoming data (TCP Sources only).
         :param max_events: Maximum number of events to capture. If not provided, the default is 100.
         :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer. If not provided, the default is 5 seconds.
         :param worker_id: Unique ID of the Worker.
@@ -134,10 +134,10 @@ class Captures(BaseSDK):
                 errors.ErrorData, http_res, http_res_text
             )
             raise errors.Error(response_data, http_res, http_res_text)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -165,7 +165,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
-        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination <br><code>4</code> == Before the event breaker, i.e. raw incoming data (TCP Sources only).
         :param max_events: Maximum number of events to capture. If not provided, the default is 100.
         :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer. If not provided, the default is 5 seconds.
         :param worker_id: Unique ID of the Worker.
@@ -268,10 +268,10 @@ class Captures(BaseSDK):
                 errors.ErrorData, http_res, http_res_text
             )
             raise errors.Error(response_data, http_res, http_res_text)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 

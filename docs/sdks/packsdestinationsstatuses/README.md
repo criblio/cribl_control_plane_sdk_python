@@ -34,9 +34,55 @@ with CriblControlPlane(
         res = res.next()
 
 ```
+### Example Usage: OutputStatusResponseExamplesGreenDestination2
+
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" example="OutputStatusResponseExamplesGreenDestination2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.statuses.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
 ### Example Usage: OutputStatusResponseExamplesYellowDestination
 
 <!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" example="OutputStatusResponseExamplesYellowDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.statuses.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputStatusResponseExamplesYellowDestination2
+
+<!-- UsageSnippet language="python" operationID="getOutputStatusSystemOutputsByPack" method="get" path="/p/{pack}/system/status/outputs" example="OutputStatusResponseExamplesYellowDestination2" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -144,8 +190,9 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 404                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |

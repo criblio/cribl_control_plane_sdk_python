@@ -59,6 +59,8 @@ class NotifyConfigurationTypedDict(TypedDict):
     r"""Auth token for sending notification messages"""
     messages_endpoint: str
     r"""System messages api endpoint"""
+    saved_query_name: NotRequired[str]
+    r"""Display name of the saved query when the run was scheduled"""
     trigger: NotRequired[str]
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
     trigger_type: NotRequired[TriggerType]
@@ -70,7 +72,7 @@ class NotifyConfigurationTypedDict(TypedDict):
     results_limit: NotRequired[float]
     r"""Number of results to include in the notification event"""
     message: NotRequired[str]
-    r"""Message content template, available fields: searchId, resultSet, savedQueryId, notificationId, searchResultsUrl"""
+    r"""Message content template, available fields: searchId, resultSet, savedQueryId, savedQueryName, notificationId, searchResultsUrl"""
     tenant_id: NotRequired[str]
     r"""Current tenant id"""
 
@@ -99,6 +101,11 @@ class NotifyConfiguration(BaseModel):
     messages_endpoint: Annotated[str, pydantic.Field(alias="messagesEndpoint")]
     r"""System messages api endpoint"""
 
+    saved_query_name: Annotated[
+        Optional[str], pydantic.Field(alias="savedQueryName")
+    ] = None
+    r"""Display name of the saved query when the run was scheduled"""
+
     trigger: Optional[str] = None
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
 
@@ -123,7 +130,7 @@ class NotifyConfiguration(BaseModel):
     r"""Number of results to include in the notification event"""
 
     message: Optional[str] = None
-    r"""Message content template, available fields: searchId, resultSet, savedQueryId, notificationId, searchResultsUrl"""
+    r"""Message content template, available fields: searchId, resultSet, savedQueryId, savedQueryName, notificationId, searchResultsUrl"""
 
     tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
     r"""Current tenant id"""
@@ -150,6 +157,7 @@ class NotifyConfiguration(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "savedQueryName",
                 "trigger",
                 "triggerType",
                 "triggerComparator",

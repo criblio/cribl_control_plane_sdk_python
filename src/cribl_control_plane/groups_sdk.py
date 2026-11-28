@@ -160,7 +160,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -304,7 +304,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -318,6 +318,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -333,6 +335,9 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        size: Optional[
+            Union[models.ConfigGroupSize, models.ConfigGroupSizeTypedDict]
+        ] = None,
         source_group_id: Optional[str] = None,
         streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
@@ -350,6 +355,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -361,6 +368,7 @@ class GroupsSDK(BaseSDK):
         :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
         :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param size:
         :param source_group_id: The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet.
         :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
@@ -385,6 +393,8 @@ class GroupsSDK(BaseSDK):
         request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -399,6 +409,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                size=utils.get_pydantic_model(size, Optional[models.ConfigGroupSize]),
                 source_group_id=source_group_id,
                 streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
@@ -482,7 +493,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -496,6 +507,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -511,6 +524,9 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        size: Optional[
+            Union[models.ConfigGroupSize, models.ConfigGroupSizeTypedDict]
+        ] = None,
         source_group_id: Optional[str] = None,
         streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
@@ -528,6 +544,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -539,6 +557,7 @@ class GroupsSDK(BaseSDK):
         :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
         :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param size:
         :param source_group_id: The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet.
         :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
@@ -563,6 +582,8 @@ class GroupsSDK(BaseSDK):
         request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -577,6 +598,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                size=utils.get_pydantic_model(size, Optional[models.ConfigGroupSize]),
                 source_group_id=source_group_id,
                 streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
@@ -660,7 +682,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -767,7 +789,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["404", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -874,7 +896,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["404", "4XX"], "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -889,6 +911,8 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id_param: str,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -896,10 +920,13 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
+        ephemeral_count: Optional[int] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        git: Optional[
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[int] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -914,6 +941,10 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        provisioned_worker_process_count: Optional[int] = None,
+        size: Optional[
+            Union[models.ConfigGroupSize, models.ConfigGroupSizeTypedDict]
+        ] = None,
         streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
@@ -927,16 +958,19 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: The following parameters are read-only and managed by Cribl. Do not change their values in a PATCH request.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>ephemeralCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param ephemeral_count: Number of Workers or Nodes in the Worker Group, Outpost Group, or Edge Fleet that are connected, plus those that are away: disconnected, but still within the reconnect window their ephemeral connection mode allows. Excludes Nodes disconnected beyond that window. Equals <code>workerCount</code> wherever no Node uses an ephemeral connection mode.<br/><br/> **Warning**: Do not change the value of <code>ephemeralCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param git: Git status of the Worker Group, Outpost Group, or Edge Fleet configuration. Automatically populated and returned in responses.
         :param incompatible_worker_count: Number of Workers or Nodes running a Cribl version that is incompatible with the current upgrade target.<br/><br/> **Warning**: Do not change the value of <code>incompatibleWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -948,6 +982,8 @@ class GroupsSDK(BaseSDK):
         :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
         :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param provisioned_worker_process_count: Number of Worker Processes currently provisioned for a Cribl.Cloud Worker Group sized via <code>size</code>. Owned by Cribl.Cloud: the value is ignored in request bodies and is preserved across updates. Applies only to Cribl.Cloud Worker Groups.
+        :param size:
         :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
         :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
@@ -973,6 +1009,8 @@ class GroupsSDK(BaseSDK):
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -980,8 +1018,9 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
+                ephemeral_count=ephemeral_count,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -994,6 +1033,8 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                provisioned_worker_process_count=provisioned_worker_process_count,
+                size=utils.get_pydantic_model(size, Optional[models.ConfigGroupSize]),
                 streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
@@ -1065,7 +1106,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1080,6 +1121,8 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id_param: str,
         id: str,
+        src_group: Optional[str] = None,
+        src_overridden: Optional[bool] = None,
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
@@ -1087,10 +1130,13 @@ class GroupsSDK(BaseSDK):
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
+        ephemeral_count: Optional[int] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        git: Optional[
+            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
+        ] = None,
         incompatible_worker_count: Optional[int] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
@@ -1105,6 +1151,10 @@ class GroupsSDK(BaseSDK):
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
+        provisioned_worker_process_count: Optional[int] = None,
+        size: Optional[
+            Union[models.ConfigGroupSize, models.ConfigGroupSizeTypedDict]
+        ] = None,
         streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
@@ -1118,16 +1168,19 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: The following parameters are read-only and managed by Cribl. Do not change their values in a PATCH request.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>ephemeralCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
+        :param src_group: Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted.
+        :param src_overridden: If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted.
         :param cloud:
         :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param ephemeral_count: Number of Workers or Nodes in the Worker Group, Outpost Group, or Edge Fleet that are connected, plus those that are away: disconnected, but still within the reconnect window their ephemeral connection mode allows. Excludes Nodes disconnected beyond that window. Equals <code>workerCount</code> wherever no Node uses an ephemeral connection mode.<br/><br/> **Warning**: Do not change the value of <code>ephemeralCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param git: Git status of the Worker Group, Outpost Group, or Edge Fleet configuration. Automatically populated and returned in responses.
         :param incompatible_worker_count: Number of Workers or Nodes running a Cribl version that is incompatible with the current upgrade target.<br/><br/> **Warning**: Do not change the value of <code>incompatibleWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -1139,6 +1192,8 @@ class GroupsSDK(BaseSDK):
         :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
         :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param provisioned_worker_process_count: Number of Worker Processes currently provisioned for a Cribl.Cloud Worker Group sized via <code>size</code>. Owned by Cribl.Cloud: the value is ignored in request bodies and is preserved across updates. Applies only to Cribl.Cloud Worker Groups.
+        :param size:
         :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
         :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
@@ -1164,6 +1219,8 @@ class GroupsSDK(BaseSDK):
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
+                src_group=src_group,
+                src_overridden=src_overridden,
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
@@ -1171,8 +1228,9 @@ class GroupsSDK(BaseSDK):
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
+                ephemeral_count=ephemeral_count,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.Git]),
+                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -1185,6 +1243,8 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
+                provisioned_worker_process_count=provisioned_worker_process_count,
+                size=utils.get_pydantic_model(size, Optional[models.ConfigGroupSize]),
                 streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
@@ -1256,7 +1316,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1360,7 +1420,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1464,7 +1524,7 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1479,12 +1539,7 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id: str,
         version: str,
-        lookups: Optional[
-            Union[
-                Iterable[models.DeployRequestLookups],
-                Iterable[models.DeployRequestLookupsTypedDict],
-            ]
-        ] = None,
+        lookups: Optional[Iterable[Any]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1513,19 +1568,17 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateProductsGroupsDeployByProductAndIDRequest(
+        request = models.CreateProductsGroupsDeployByProductAndIDRequest(
             product=product,
             id=id,
             deploy_request=models.DeployRequest(
-                lookups=utils.get_pydantic_model(
-                    lookups, Optional[List[models.DeployRequestLookups]]
-                ),
+                lookups=utils.unmarshal(lookups, Optional[List[Any]]),
                 version=version,
             ),
         )
 
         req = self._build_request(
-            method="PATCH",
+            method="POST",
             path="/products/{product}/groups/{id}/deploy",
             base_url=base_url,
             url_variables=url_variables,
@@ -1560,7 +1613,7 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateProductsGroupsDeployByProductAndId",
+                operation_id="createProductsGroupsDeployByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1586,10 +1639,10 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 
@@ -1601,12 +1654,7 @@ class GroupsSDK(BaseSDK):
         product: models.ProductsCore,
         id: str,
         version: str,
-        lookups: Optional[
-            Union[
-                Iterable[models.DeployRequestLookups],
-                Iterable[models.DeployRequestLookupsTypedDict],
-            ]
-        ] = None,
+        lookups: Optional[Iterable[Any]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1635,19 +1683,17 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateProductsGroupsDeployByProductAndIDRequest(
+        request = models.CreateProductsGroupsDeployByProductAndIDRequest(
             product=product,
             id=id,
             deploy_request=models.DeployRequest(
-                lookups=utils.get_pydantic_model(
-                    lookups, Optional[List[models.DeployRequestLookups]]
-                ),
+                lookups=utils.unmarshal(lookups, Optional[List[Any]]),
                 version=version,
             ),
         )
 
         req = self._build_request_async(
-            method="PATCH",
+            method="POST",
             path="/products/{product}/groups/{id}/deploy",
             base_url=base_url,
             url_variables=url_variables,
@@ -1682,7 +1728,7 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateProductsGroupsDeployByProductAndId",
+                operation_id="createProductsGroupsDeployByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1708,10 +1754,10 @@ class GroupsSDK(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
+        if utils.match_response(http_res, ["503", "5XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
 

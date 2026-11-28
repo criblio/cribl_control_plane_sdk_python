@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
+from .configgroupsize import ConfigGroupSize, ConfigGroupSizeTypedDict
 from .estimatedingestrateoptionsconfiggroup import EstimatedIngestRateOptionsConfigGroup
 from .typeoptionsconfiggroup import TypeOptionsConfigGroup
 from cribl_control_plane import models
@@ -17,6 +18,10 @@ class GroupCreateRequestTypedDict(TypedDict):
 
     id: str
     r"""Unique identifier."""
+    src_group: NotRequired[str]
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+    src_overridden: NotRequired[bool]
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
     collectors_ha_enabled: NotRequired[bool]
     r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
@@ -38,6 +43,7 @@ class GroupCreateRequestTypedDict(TypedDict):
     r"""If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud."""
     provisioned: NotRequired[bool]
     r"""If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups."""
+    size: NotRequired[ConfigGroupSizeTypedDict]
     source_group_id: NotRequired[str]
     r"""The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet."""
     streamtags: NotRequired[List[str]]
@@ -57,6 +63,14 @@ class GroupCreateRequest(BaseModel):
 
     id: str
     r"""Unique identifier."""
+
+    src_group: Annotated[Optional[str], pydantic.Field(alias="__srcGroup")] = None
+    r"""Fleet or group id this entity was inherited from when served by a Config Helper for a child fleet. Present when inherited from parent, including when the child has a local overlay. Omitted when the entity is local and not inherited. Display-only; never persisted."""
+
+    src_overridden: Annotated[
+        Optional[bool], pydantic.Field(alias="__srcOverridden")
+    ] = None
+    r"""If true, the child fleet has a local overlay on an inherited entity. Omitted when inherited and unmodified, or when local and not inherited. Display-only; never persisted."""
 
     cloud: Optional[ConfigGroupCloud] = None
 
@@ -109,6 +123,8 @@ class GroupCreateRequest(BaseModel):
     provisioned: Optional[bool] = None
     r"""If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups."""
 
+    size: Optional[ConfigGroupSize] = None
+
     source_group_id: Annotated[Optional[str], pydantic.Field(alias="sourceGroupId")] = (
         None
     )
@@ -160,6 +176,8 @@ class GroupCreateRequest(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__srcGroup",
+                "__srcOverridden",
                 "cloud",
                 "collectorsHaEnabled",
                 "description",
@@ -171,6 +189,7 @@ class GroupCreateRequest(BaseModel):
                 "name",
                 "onPrem",
                 "provisioned",
+                "size",
                 "sourceGroupId",
                 "streamtags",
                 "tags",

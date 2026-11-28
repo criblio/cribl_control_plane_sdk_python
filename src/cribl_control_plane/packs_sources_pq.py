@@ -22,7 +22,7 @@ class PacksSourcesPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Source within a Pack
 
-        Clear the persistent queue (PQ) for the specified Source within the specified Pack.
+        Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
         :param pack: The <code>id</code> of the Pack.
@@ -102,10 +102,15 @@ class PacksSourcesPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -126,7 +131,7 @@ class PacksSourcesPq(BaseSDK):
     ) -> models.CountedString:
         r"""Clear the persistent queue for a Source within a Pack
 
-        Clear the persistent queue (PQ) for the specified Source within the specified Pack.
+        Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
         :param pack: The <code>id</code> of the Pack.
@@ -206,10 +211,15 @@ class PacksSourcesPq(BaseSDK):
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -313,7 +323,7 @@ class PacksSourcesPq(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -417,7 +427,7 @@ class PacksSourcesPq(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["403", "404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

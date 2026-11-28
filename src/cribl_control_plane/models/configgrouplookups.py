@@ -17,7 +17,7 @@ class DeployMode(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class ConfigGroupLookupsLookupTypedDict(TypedDict):
+class LookupTypedDict(TypedDict):
     file: str
     r"""File name of the deployed lookup."""
     deploy_mode: NotRequired[DeployMode]
@@ -28,7 +28,7 @@ class ConfigGroupLookupsLookupTypedDict(TypedDict):
     r"""Version of the lookup file currently staged for deployment."""
 
 
-class ConfigGroupLookupsLookup(BaseModel):
+class Lookup(BaseModel):
     file: str
     r"""File name of the deployed lookup."""
 
@@ -74,7 +74,7 @@ class ConfigGroupLookupsLookup(BaseModel):
 class ConfigGroupLookupsTypedDict(TypedDict):
     context: str
     r"""The Worker or Node context for the lookup deployment."""
-    lookups: List[ConfigGroupLookupsLookupTypedDict]
+    lookups: List[LookupTypedDict]
     r"""List of lookup files deployed to this context."""
 
 
@@ -82,11 +82,11 @@ class ConfigGroupLookups(BaseModel):
     context: str
     r"""The Worker or Node context for the lookup deployment."""
 
-    lookups: List[ConfigGroupLookupsLookup]
+    lookups: List[Lookup]
     r"""List of lookup files deployed to this context."""
 
 
 try:
-    ConfigGroupLookupsLookup.model_rebuild()
+    Lookup.model_rebuild()
 except NameError:
     pass

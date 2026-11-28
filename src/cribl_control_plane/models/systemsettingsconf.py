@@ -14,6 +14,10 @@ from .customlogotypesystemsettingsconf import (
     CustomLogoTypeSystemSettingsConf,
     CustomLogoTypeSystemSettingsConfTypedDict,
 )
+from .personalaccesstokenstypesystemsettingsconf import (
+    PersonalAccessTokensTypeSystemSettingsConf,
+    PersonalAccessTokensTypeSystemSettingsConfTypedDict,
+)
 from .piisettings_union import PiiSettingsUnion, PiiSettingsUnionTypedDict
 from .proxytypesystemsettingsconf import (
     ProxyTypeSystemSettingsConf,
@@ -76,6 +80,10 @@ class SystemSettingsConfTypedDict(TypedDict):
     r"""App configuration."""
     custom_logo: NotRequired[CustomLogoTypeSystemSettingsConfTypedDict]
     r"""Custom logo configuration for the Cribl UI login page and navigation bar."""
+    personal_access_tokens: NotRequired[
+        PersonalAccessTokensTypeSystemSettingsConfTypedDict
+    ]
+    r"""Leader policy for Personal Access Tokens (PATs). When this section is omitted, PATs are disabled."""
     sockets: NotRequired[SocketsTypeSystemSettingsConfTypedDict]
     r"""Unix domain socket configuration."""
     support: NotRequired[SupportTypeSystemSettingsConfTypedDict]
@@ -124,6 +132,12 @@ class SystemSettingsConf(BaseModel):
     ] = None
     r"""Custom logo configuration for the Cribl UI login page and navigation bar."""
 
+    personal_access_tokens: Annotated[
+        Optional[PersonalAccessTokensTypeSystemSettingsConf],
+        pydantic.Field(alias="personalAccessTokens"),
+    ] = None
+    r"""Leader policy for Personal Access Tokens (PATs). When this section is omitted, PATs are disabled."""
+
     sockets: Optional[SocketsTypeSystemSettingsConf] = None
     r"""Unix domain socket configuration."""
 
@@ -132,7 +146,9 @@ class SystemSettingsConf(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["apps", "customLogo", "sockets", "support"])
+        optional_fields = set(
+            ["apps", "customLogo", "personalAccessTokens", "sockets", "support"]
+        )
         serialized = handler(self)
         m = {}
 

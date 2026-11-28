@@ -117,7 +117,7 @@ with CriblControlPlane(
 
 ## clear
 
-Clear the persistent queue (PQ) for the specified Source.
+Asynchronously clears the persistent queue (PQ) for the specified Source. Returns a background job ID that can be used to track the operation's progress.
 
 ### Example Usage: ClearPQResponseExamplesClearPQJob
 
@@ -217,8 +217,9 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 400, 404                | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
